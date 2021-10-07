@@ -10,7 +10,7 @@ namespace Targil0
     {
         static partial void Welcome4909()
         {
-            Console.WriteLine("I am also here :) ");
+            Console.WriteLine("Haim is also here :) ");
         }
     }
 }
