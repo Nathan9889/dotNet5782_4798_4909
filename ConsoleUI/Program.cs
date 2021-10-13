@@ -15,9 +15,8 @@ namespace ConsoleUI
                 Longitude = 29.654321
             };
             Console.WriteLine($"Name is {client.Name}, ID = {client.ID}");
-            
 
-            Console.WriteLine("Hello World!");
+           
         }
     }
 }
