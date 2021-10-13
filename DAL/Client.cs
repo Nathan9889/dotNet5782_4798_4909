@@ -9,9 +9,23 @@ namespace IDAL
         {
             public int ID { get; set; }
             public string Name { get; set; }
-            public long Phone { get; set; }
+            public string Phone { get; set; }
             public double Latitude { get; set; }
             public double Longitude { get; set; }
+
+
+            public override string ToString()
+            {
+                string result = "";
+                result += $"Name is {Name},\n";
+                result += $"ID is {ID}, \n";
+                result += $"Phone is {Phone.Substring(0,3) + '-' + Phone.Substring(3)}, \n";
+                result += $"Latitude is {Latitude}, \n";
+                result += $"Longitude is {Longitude}, \n";
+
+                return result;
+            }
+
         }
 
     }
