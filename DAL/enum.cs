@@ -16,11 +16,5 @@ namespace IDAL
             standard, fast, urgent
         }
 
-        public enum datetime
-        {
-
-        }
-
-
     }
 }
