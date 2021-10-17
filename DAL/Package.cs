@@ -10,7 +10,7 @@ namespace IDAL
     {
         public struct Package
         {
-           
+
             public int ID { get; set; }
             public int SenderId { get; set; }
             public int TargetId { get; set; }
@@ -22,7 +22,7 @@ namespace IDAL
             public DateTime PickedUp { get; set; }
             public DateTime Delivered { get; set; }
 
-          
+            
         }
 
     }

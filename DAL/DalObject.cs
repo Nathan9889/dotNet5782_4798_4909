@@ -20,12 +20,6 @@ namespace DalObject
 
 
 
-
-
-
-
-
-
         internal class Config
         {
 
@@ -35,7 +29,7 @@ namespace DalObject
 
         public static void Initialize()
         {
-            
+            package[0]
 
         }
 
