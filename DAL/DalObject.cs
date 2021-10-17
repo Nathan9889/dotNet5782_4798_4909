@@ -10,20 +10,10 @@ namespace DalObject
 {
     public class DataSource
     {
-        //Drone
-        //Base STation
-        internal Client[] clients = new Client[100];
-        internal Package[] package = new Package[1000];
-
-
-
-
-
-
-
-
-
-
+        static internal Drone[] Drones = new Drone[10];
+        static internal Station[] Stations = new Station[5];
+        static internal Client[] clients = new Client[100];
+        static internal Package[] package = new Package[1000];
 
 
         internal class Config
