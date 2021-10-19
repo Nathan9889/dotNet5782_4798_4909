@@ -7,13 +7,13 @@ namespace IDAL
 
         public enum WeightCategories
         {
-            light = 0, medium, heavy
+            Light, Medium, Heavy
         }
 
 
         public enum Priorities
         {
-            standard, fast, urgent
+            Standard, Fast, Urgent
         }
 
         public enum DroneStatus
