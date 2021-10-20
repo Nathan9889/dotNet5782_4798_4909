@@ -22,7 +22,25 @@ namespace IDAL
             public DateTime PickedUp { get; set; }
             public DateTime Delivered { get; set; }
 
-            
+
+
+            public override string ToString()
+            {
+                string result = "";
+                result += $"ID is {ID}, \n";
+                result += $"SenderId is {SenderId},\n";
+                result += $"TargetId is {TargetId}, \n";
+                result += $"DroneId is {DroneId}, \n";
+                result += $"Weight is {Weight}, \n";
+                result += $"Priority is {Priority}, \n";
+                result += $"Requested :  {Requested}, \n";
+                result += $"Scheduled at {Scheduled}, \n";
+                result += $"PickedUp at {PickedUp}, \n";
+                result += $"Delivered at {Delivered}, \n";
+
+
+                return result;
+            }
         }
 
     }

@@ -27,7 +27,7 @@ namespace DalObject
         }
 
         
-        public void Initialize()
+        public static void Initialize()
         {
             ////initialize Drone, 
             //for (int i = 0; i < 5; i++)
@@ -47,7 +47,7 @@ namespace DalObject
 
             Stations[Config.IndexStations] = new Station()
             {
-                ID = rand.Next(10, 50),
+                ID = rand.Next(10, 99),
                 Name = "Base A",
                 ChargeSlots = 3,
                 Latitude = 29.12345,
@@ -56,7 +56,7 @@ namespace DalObject
             Config.IndexStations++;
             Stations[Config.IndexStations] = new Station()
             {
-                ID = rand.Next(10, 50),
+                ID = rand.Next(10, 99),
                 Name = "Base A",
                 ChargeSlots = 3,
                 Latitude = 29.12345,
@@ -249,6 +249,15 @@ namespace DalObject
 
             //init Package
 
+            Packages[Config.IndexPackage] = new Package()
+            {
+                ID = rand.Next(100, 999),
+
+
+
+
+
+            };
 
 
 
@@ -276,7 +285,19 @@ namespace DalObject
     public class DalObject
     {
 
+        public DalObject() { DataSource.Initialize(); }
 
+
+
+        public static void AddStation()
+        {
+           DataSource.Stations[DataSource.Config.IndexStations] = new Station()
+           {
+
+
+           }
+
+        }
 
         
         
