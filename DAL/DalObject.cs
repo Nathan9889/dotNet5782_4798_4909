@@ -41,91 +41,110 @@ namespace DalObject
         }
         static void InitializeClient()
         {
-            ClientList = new List<Client>
+            //ClientList = new List<Client>
+            //{
+
+            //    new Client
+            //    {
+            //    ID = rand.Next(100000, 1000000),
+            //    Name = $"Client {Config.IndexClients}",
+            //    Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
+            //    Latitude = GetRandCoordinate(29.5),
+            //    Longitude = GetRandCoordinate(30.5)
+            //    },
+
+            //     new Client
+            //    {
+            //    ID = rand.Next(100000, 1000000),
+            //    Name = $"Client {Config.IndexClients}",
+            //    Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
+            //    Latitude = GetRandCoordinate(25.2),
+            //    Longitude = GetRandCoordinate(28.3)
+            //     },
+
+            //      new Client
+            //    {
+            //      ID = rand.Next(100000, 1000000),
+            //    Name = $"Client {Config.IndexClients}",
+            //    Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
+            //    Latitude = GetRandCoordinate(22.3),
+            //    Longitude = GetRandCoordinate(36.5)
+            //    },
+
+            //       new Client
+            //    {
+            //        ID = rand.Next(100000, 1000000),
+            //        Name = $"Client {Config.IndexClients}",
+            //        Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
+            //        Latitude = GetRandCoordinate(20.5),
+            //        Longitude = GetRandCoordinate(23.2)
+            //    },
+
+            //        new Client
+            //    {
+            //         ID = rand.Next(100000, 1000000),
+            //        Name = $"Client {Config.IndexClients}",
+            //        Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
+            //        Latitude = GetRandCoordinate(23.6),
+            //        Longitude = GetRandCoordinate(25.6)
+            //    },
+
+            //         new Client
+            //    {
+            //        ID = rand.Next(100000, 1000000),
+            //        Name = $"Client {Config.IndexClients}",
+            //        Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
+            //        Latitude = GetRandCoordinate(28.6),
+            //        Longitude = GetRandCoordinate(27.8)
+            //    },
+
+            //          new Client
+            //    {
+            //     ID = rand.Next(100000, 1000000),
+            //    Name = $"Client {Config.IndexClients}",
+            //    Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
+            //    Latitude = GetRandCoordinate(23.6),
+            //    Longitude = GetRandCoordinate(25.4)
+            //    },
+
+            //    new Client
+            //    {
+            //    ID = rand.Next(100000, 1000000),
+            //    Name = $"Client {Config.IndexClients}",
+            //    Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
+            //    Latitude = GetRandCoordinate(26.4),
+            //    Longitude = GetRandCoordinate(29.5)
+            //    },
+
+            //    new Client
+            //    {
+            //         ID = rand.Next(100000, 1000000),
+            //        Name = $"Client {Config.IndexClients}",
+            //        Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
+            //        Latitude = GetRandCoordinate(30.2),
+            //        Longitude = GetRandCoordinate(22.5)
+            //    }
+
+
+
+
+
+            //};
+
+            ClientList = new List<Client>();
+            for (int i = 0; i < 10; i++)
             {
-
-                new Client
+                ClientList.Add(new Client()
                 {
-                ID = rand.Next(100000, 1000000),
-                Name = $"Client {Config.IndexClients}",
-                Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-                Latitude = GetRandCoordinate(29.5),
-                Longitude = GetRandCoordinate(30.5)
-                },
-
-                 new Client
-                {
-                ID = rand.Next(100000, 1000000),
-                Name = $"Client {Config.IndexClients}",
-                Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-                Latitude = GetRandCoordinate(25.2),
-                Longitude = GetRandCoordinate(28.3)
-                 },
-
-                  new Client
-                {
-                  ID = rand.Next(100000, 1000000),
-                Name = $"Client {Config.IndexClients}",
-                Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-                Latitude = GetRandCoordinate(22.3),
-                Longitude = GetRandCoordinate(36.5)
-                },
-
-                   new Client
-                {
-                 ID = rand.Next(100000, 1000000),
-                Name = $"Client {Config.IndexClients}",
-                Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-                Latitude = GetRandCoordinate(20.5),
-                Longitude = GetRandCoordinate(23.2)
-                },
-
-                    new Client
-                {
-                 ID = rand.Next(100000, 1000000),
-                Name = $"Client {Config.IndexClients}",
-                Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-                Latitude = GetRandCoordinate(23.6),
-                Longitude = GetRandCoordinate(25.6)
-                },
-
-                     new Client
-                {
-                ID = rand.Next(100000, 1000000),
-                Name = $"Client {Config.IndexClients}",
-                Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-                Latitude = GetRandCoordinate(28.6),
-                Longitude = GetRandCoordinate(27.8)
-                },
-
-                      new Client
-                {
-                 ID = rand.Next(100000, 1000000),
-                Name = $"Client {Config.IndexClients}",
-                Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-                Latitude = GetRandCoordinate(23.6),
-                Longitude = GetRandCoordinate(25.4)
-                },
-
-                new Client
-                {
-                ID = rand.Next(100000, 1000000),
-                Name = $"Client {Config.IndexClients}",
-                Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-                Latitude = GetRandCoordinate(26.4),
-                Longitude = GetRandCoordinate(29.5)
-                },
-
-                new Client
-                {
-                     ID = rand.Next(100000, 1000000),
+                    ID = rand.Next(100000, 1000000),
                     Name = $"Client {Config.IndexClients}",
-                    Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-                    Latitude = GetRandCoordinate(30.2),
-                    Longitude = GetRandCoordinate(22.5)
-                }
+                    Phone = $"0{rand.Next(50, 58)} - {rand.Next(1000000, 9999999)}",
+                    Latitude = GetRandCoordinate(29.5),
+                    Longitude = GetRandCoordinate(30.5)
 
-            };
+                });
+
+            }
 
         }
 
@@ -159,57 +178,72 @@ namespace DalObject
         static void InitializeDrone()
         {
 
-            DroneList = new List<Drone>
+            //DroneList = new List<Drone>
+            //{
+            //    new Drone
+            //    {
+            //        ID = Config.IndexDrone++,
+            //        Model = "Mavic",
+            //        MaxWeight = (WeightCategories)rand.Next(3),
+            //        Status = (DroneStatus)rand.Next(3),
+            //        Battery = rand.Next(0,10)
+            //    },
+
+            //    new Drone
+            //    {
+            //        ID = Config.IndexDrone++,
+            //        Model = "Mavic",
+            //        MaxWeight = (WeightCategories)rand.Next(3),
+            //        Status = (DroneStatus)rand.Next(3),
+            //        Battery = rand.Next(0, 10)
+
+            //    },
+
+
+            //    new Drone
+            //    {
+            //        ID = Config.IndexDrone++,
+            //        Model = "Mavic",
+            //        MaxWeight = (WeightCategories)rand.Next(3),
+            //        Status = (DroneStatus)rand.Next(3),
+            //        Battery = rand.Next(0, 10)
+
+            //    },
+
+            //    new Drone
+            //    {
+            //        ID = Config.IndexDrone++,
+            //        Model = "Mavic",
+            //        MaxWeight = (WeightCategories)rand.Next(3),
+            //        Status = (DroneStatus)rand.Next(3),
+            //        Battery = rand.Next(0, 10)
+            //    },
+
+            //    new Drone
+            //    {
+            //        ID = Config.IndexDrone++,
+            //        Model = "Mavic",
+            //        MaxWeight = (WeightCategories)rand.Next(3),
+            //        Status = (DroneStatus)rand.Next(3),
+            //        Battery = rand.Next(0, 10)
+            //    },
+
+            //};
+
+            DroneList = new List<Drone>();
+            for (int i = 0; i < 10; i++)
             {
-                new Drone
+                DroneList.Add(new Drone()
                 {
                     ID = Config.IndexDrone++,
-                    Model = "Mavic",
+                    Model = $"Drone {i}" ,
                     MaxWeight = (WeightCategories)rand.Next(3),
                     Status = (DroneStatus)rand.Next(3),
-                    Battery = rand.Next(0,10)
-                },
-                
-                new Drone
-                {
-                    ID = Config.IndexDrone++,
-                    Model = "Mavic",
-                    MaxWeight = (WeightCategories)rand.Next(3),
-                    Status = (DroneStatus)rand.Next(3),
-                    Battery = rand.Next(0, 10)
+                    Battery = rand.Next(0,101)
+                });
 
-                },
+            }
 
-
-                new Drone
-                {
-                    ID = Config.IndexDrone++,
-                    Model = "Mavic",
-                    MaxWeight = (WeightCategories)rand.Next(3),
-                    Status = (DroneStatus)rand.Next(3),
-                    Battery = rand.Next(0, 10)
-
-                },
-
-                new Drone
-                {
-                    ID = Config.IndexDrone++,
-                    Model = "Mavic",
-                    MaxWeight = (WeightCategories)rand.Next(3),
-                    Status = (DroneStatus)rand.Next(3),
-                    Battery = rand.Next(0, 10)
-                },
-
-                new Drone
-                {
-                    ID = Config.IndexDrone++,
-                    Model = "Mavic",
-                    MaxWeight = (WeightCategories)rand.Next(3),
-                    Status = (DroneStatus)rand.Next(3),
-                    Battery = rand.Next(0, 10)
-                },
-
-            };
         }
 
 
@@ -453,22 +487,38 @@ namespace DalObject
         public DalObject() { DataSource.Initialize(); }
 
 
-        public void addStation(Station station)
+        public static void AddStation(Station station)
         {
             DataSource.StationList.Add(station);
         }
 
-        public void addDrone(Drone drone)
+        public static void AddDrone(Drone drone)
         {
             DataSource.DroneList.Add(drone);
         }
 
-        public void addClient(Client client)
+        public static void AddClient()
         {
-            DataSource.ClientList.Add(client);
+            Console.WriteLine("Enter Client Data\n");
+            int clientId = Convert.ToInt32(Console.ReadLine());
+            string clientName= Console.ReadLine();
+            string clientPhone = Console.ReadLine();
+            double clientLatitude = Convert.ToInt32(Console.ReadLine());
+            double clientLongitude = Convert.ToInt32(Console.ReadLine());
+
+            DataSource.ClientList.Add(
+                new Client()
+                {
+                    ID = clientId,
+                    Name = clientName,
+                    Phone = clientPhone,
+                    Latitude = clientLatitude,
+                    Longitude = clientLongitude
+
+                }                                   );
         }
 
-        public void addPackage(Package package)
+        public static void AddPackage(Package package)
         {
             DataSource.PackageList.Add(package);
         }
