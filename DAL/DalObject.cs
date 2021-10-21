@@ -46,7 +46,7 @@ namespace DalObject
 
                 new Client
                 {
-                ID = rand.Next(100000, 999999),
+                ID = rand.Next(100000, 1000000),
                 Name = $"Client {Config.IndexClients}",
                 Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
                 Latitude = GetRandCoordinate(29.5),
@@ -55,7 +55,7 @@ namespace DalObject
 
                  new Client
                 {
-                ID = rand.Next(100000, 999999),
+                ID = rand.Next(100000, 1000000),
                 Name = $"Client {Config.IndexClients}",
                 Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
                 Latitude = GetRandCoordinate(25.2),
@@ -64,7 +64,7 @@ namespace DalObject
 
                   new Client
                 {
-                  ID = rand.Next(100000, 999999),
+                  ID = rand.Next(100000, 1000000),
                 Name = $"Client {Config.IndexClients}",
                 Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
                 Latitude = GetRandCoordinate(22.3),
@@ -73,7 +73,7 @@ namespace DalObject
 
                    new Client
                 {
-                 ID = rand.Next(100000, 999999),
+                 ID = rand.Next(100000, 1000000),
                 Name = $"Client {Config.IndexClients}",
                 Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
                 Latitude = GetRandCoordinate(20.5),
@@ -82,7 +82,7 @@ namespace DalObject
 
                     new Client
                 {
-                 ID = rand.Next(100000, 999999),
+                 ID = rand.Next(100000, 1000000),
                 Name = $"Client {Config.IndexClients}",
                 Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
                 Latitude = GetRandCoordinate(23.6),
@@ -91,7 +91,7 @@ namespace DalObject
 
                      new Client
                 {
-                ID = rand.Next(100000, 999999),
+                ID = rand.Next(100000, 1000000),
                 Name = $"Client {Config.IndexClients}",
                 Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
                 Latitude = GetRandCoordinate(28.6),
@@ -100,7 +100,7 @@ namespace DalObject
 
                       new Client
                 {
-                 ID = rand.Next(100000, 999999),
+                 ID = rand.Next(100000, 1000000),
                 Name = $"Client {Config.IndexClients}",
                 Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
                 Latitude = GetRandCoordinate(23.6),
@@ -109,7 +109,7 @@ namespace DalObject
 
                 new Client
                 {
-                ID = rand.Next(100000, 999999),
+                ID = rand.Next(100000, 1000000),
                 Name = $"Client {Config.IndexClients}",
                 Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
                 Latitude = GetRandCoordinate(26.4),
@@ -118,7 +118,7 @@ namespace DalObject
 
                 new Client
                 {
-                     ID = rand.Next(100000, 999999),
+                     ID = rand.Next(100000, 1000000),
                     Name = $"Client {Config.IndexClients}",
                     Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
                     Latitude = GetRandCoordinate(30.2),
@@ -163,16 +163,16 @@ namespace DalObject
             {
                 new Drone
                 {
-                    ID = Config.IndexDrone,
+                    ID = Config.IndexDrone++,
                     Model = "Mavic",
                     MaxWeight = (WeightCategories)rand.Next(3),
                     Status = (DroneStatus)rand.Next(3),
                     Battery = rand.Next(0,10)
                 },
-
+                
                 new Drone
                 {
-                    ID = Config.IndexDrone,
+                    ID = Config.IndexDrone++,
                     Model = "Mavic",
                     MaxWeight = (WeightCategories)rand.Next(3),
                     Status = (DroneStatus)rand.Next(3),
@@ -183,7 +183,7 @@ namespace DalObject
 
                 new Drone
                 {
-                    ID = Config.IndexDrone,
+                    ID = Config.IndexDrone++,
                     Model = "Mavic",
                     MaxWeight = (WeightCategories)rand.Next(3),
                     Status = (DroneStatus)rand.Next(3),
@@ -193,7 +193,7 @@ namespace DalObject
 
                 new Drone
                 {
-                    ID = Config.IndexDrone,
+                    ID = Config.IndexDrone++,
                     Model = "Mavic",
                     MaxWeight = (WeightCategories)rand.Next(3),
                     Status = (DroneStatus)rand.Next(3),
@@ -202,7 +202,7 @@ namespace DalObject
 
                 new Drone
                 {
-                    ID = Config.IndexDrone,
+                    ID = Config.IndexDrone++,
                     Model = "Mavic",
                     MaxWeight = (WeightCategories)rand.Next(3),
                     Status = (DroneStatus)rand.Next(3),
@@ -211,9 +211,6 @@ namespace DalObject
 
             };
         }
-
-
-
 
 
         public static void Initialize()
@@ -444,33 +441,10 @@ namespace DalObject
             //{
             //    ID = rand.Next(100, 999),
 
-
-
-
-
             //};
 
-
-
-
-
-
-
-
-
-
-
-
-
         }
-
-
     }
-
-
-
-
-
 
 
     public class DalObject
@@ -479,19 +453,24 @@ namespace DalObject
         public DalObject() { DataSource.Initialize(); }
 
 
-
-
-
-
-
-        public static void AddStation()
+        public void addStation(Station station)
         {
-            DataSource.Stations[DataSource.Config.IndexStations] = new Station()
-            {
+            DataSource.StationList.Add(station);
+        }
 
+        public void addDrone(Drone drone)
+        {
+            DataSource.DroneList.Add(drone);
+        }
 
-            }
+        public void addClient(Client client)
+        {
+            DataSource.ClientList.Add(client);
+        }
 
+        public void addPackage(Package package)
+        {
+            DataSource.PackageList.Add(package);
         }
 
 
