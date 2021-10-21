@@ -6,27 +6,49 @@ namespace ConsoleUI
 {
     class Program
     {
-        
-        private static void Display()
+        enum Menu { Add, Update, DisplayItem, DisplayList };
+        enum MenuObject { Exit, Client, Drone, Station, Package }
+        public static void Display()
         {
-           
-             int num = 1;
 
-           
+            int num = 1;
+            Menu menu;
+            MenuObject menuObject;
 
-            while(num != 0)
+            while (num != 0)
             {
                 Console.WriteLine("Choose an Option: \n");
-                Console.WriteLine("1: Add \n 2: Update \n 3: Display Item: \n 4:Display List \n");
+                Console.WriteLine(" 1: Add \n 2: Update \n 3: Display Item: \n 4: Display List \n 0: Exit");
                 int choice = int.Parse(Console.ReadLine());
                 const int f = 0;
 
                 switch (choice)
                 {
-                    
+
                     case 1:
+                        Console.WriteLine("Choose an Adding Option: \n 1 : Client \n 2 : Drone \n 3 : Station: \n 4 : Package \n ");
+                        menuObject = (MenuObject)int.Parse(Console.ReadLine());
+                        switch (menuObject)
+                        {
+                            case MenuObject.Client:
+                                DalObject.DalObject.AddClient();
+
+                                break;
+                            case MenuObject.Drone:
 
 
+                                break;
+                            case MenuObject.Station:
+
+
+                                break;
+                            case MenuObject.Package:
+
+
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     case 2:
 
@@ -47,14 +69,15 @@ namespace ConsoleUI
                         num = 0;
                         break;
 
-                    default: Console.WriteLine("Invalid \n");
+                    default:
+                        Console.WriteLine("Invalid \n");
                         break;
 
                 }
 
 
             }
-            
+
 
 
 

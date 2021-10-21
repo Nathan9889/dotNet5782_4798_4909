@@ -487,22 +487,38 @@ namespace DalObject
         public DalObject() { DataSource.Initialize(); }
 
 
-        public void addStation(Station station)
+        public static void AddStation(Station station)
         {
             DataSource.StationList.Add(station);
         }
 
-        public void addDrone(Drone drone)
+        public static void AddDrone(Drone drone)
         {
             DataSource.DroneList.Add(drone);
         }
 
-        public void addClient(Client client)
+        public static void AddClient()
         {
-            DataSource.ClientList.Add(client);
+            Console.WriteLine("Enter Client Data\n");
+            int clientId = Convert.ToInt32(Console.ReadLine());
+            string clientName= Console.ReadLine();
+            string clientPhone = Console.ReadLine();
+            double clientLatitude = Convert.ToInt32(Console.ReadLine());
+            double clientLongitude = Convert.ToInt32(Console.ReadLine());
+
+            DataSource.ClientList.Add(
+                new Client()
+                {
+                    ID = clientId,
+                    Name = clientName,
+                    Phone = clientPhone,
+                    Latitude = clientLatitude,
+                    Longitude = clientLongitude
+
+                }                                   );
         }
 
-        public void addPackage(Package package)
+        public static void AddPackage(Package package)
         {
             DataSource.PackageList.Add(package);
         }
