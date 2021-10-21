@@ -473,6 +473,28 @@ namespace DalObject
             DataSource.PackageList.Add(package);
         }
 
+        public void packageToDrone(Package package)
+        {
+            int idDrone = 0;
+            foreach (var item in DataSource.DroneList)
+            {
+                if (item.Status == DroneStatus.Available)
+                {
+                    idDrone = item.ID;
+                    Drone temp = item;
+                    temp.Status = DroneStatus.Shipping;
+                    DataSource.DroneList.Add(temp);
+                    DataSource.DroneList.Remove(item);
+                    break;
+                }
+            }
+            if (idDrone == 0) throw new Exception("There are no drones available.");
+            Package packageTemp = package;
+            packageTemp.DroneId = idDrone;
+            packageTemp.Scheduled = DateTime.Now;
+            DataSource.PackageList.Add(packageTemp);
+            DataSource.PackageList.Remove(package);
+        }
 
 
     }
