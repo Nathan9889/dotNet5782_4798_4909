@@ -601,52 +601,52 @@ namespace DalObject
 
         }
 
-        public Station chargingStation() // The user has to select a charging station. And update the station. And reduce charging positions
-        {
+        //public Station chargingStation() // The user has to select a charging station. And update the station. And reduce charging positions
+        //{
 
-            return
-        }
+        //    return;
+        //}
 
-        public void DroneCharge(Drone drone)
-        {
-            Station station = chargingStation(); // The station that the user choose
-            Station stationTemp = station;
-            Drone droneTemp = drone;
-            droneTemp.Status = DroneStatus.Maintenance; // Updates in temp of drone
-            DroneCharge droneCharg = new DroneCharge() // Initialization of a new instance for DroneCharge
-            {
-                DroneId = droneTemp.ID,
-                StationId = stationTemp.ID
-            };
-            DataSource.droneCharge.Add(droneCharg); // Add the instance to the list
+        //public void DroneCharge(Drone drone)
+        //{
+        //    Station station = chargingStation(); // The station that the user choose
+        //    Station stationTemp = station;
+        //    Drone droneTemp = drone;
+        //    droneTemp.Status = DroneStatus.Maintenance; // Updates in temp of drone
+        //    DroneCharge droneCharg = new DroneCharge() // Initialization of a new instance for DroneCharge
+        //    {
+        //        DroneId = droneTemp.ID,
+        //        StationId = stationTemp.ID
+        //    };
+        //    DataSource.droneCharge.Add(droneCharg); // Add the instance to the list
 
-            DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
-            DataSource.DroneList.Remove(drone);
+        //    DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
+        //    DataSource.DroneList.Remove(drone);
 
-            stationTemp.ChargeSlots--;
-            DataSource.StationList.Add(stationTemp);
-            DataSource.StationList.Remove(station);
-        }
-
-
-        public void finishCharging(DroneCharge droneCharge) // Finish drone Chargeing, update drone status and update station
-        {
-            Drone drone = droneById(droneCharge.DroneId);
-            Drone droneTemp = drone; //   Updates in temp of drone
-            droneTemp.Status = DroneStatus.Available; //    Updates in temp of drone
-            droneTemp.Battery = 100; //    Updates in temp of drone
-            DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
-            DataSource.DroneList.Remove(drone);
+        //    stationTemp.ChargeSlots--;
+        //    DataSource.StationList.Add(stationTemp);
+        //    DataSource.StationList.Remove(station);
+        //}
 
 
-            Station station = stationById(droneCharge.StationId); // The station that Charged the drone
-            Station stationTemp = station;
-            stationTemp.ChargeSlots--; // Updates in temp of station 
-            DataSource.StationList.Add(stationTemp); // Add temp to list and delete old
-            DataSource.StationList.Remove(station);
+        //public void finishCharging(DroneCharge droneCharge) // Finish drone Chargeing, update drone status and update station
+        //{
+        //    Drone drone = droneById(droneCharge.DroneId);
+        //    Drone droneTemp = drone; //   Updates in temp of drone
+        //    droneTemp.Status = DroneStatus.Available; //    Updates in temp of drone
+        //    droneTemp.Battery = 100; //    Updates in temp of drone
+        //    DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
+        //    DataSource.DroneList.Remove(drone);
 
-            DataSource.droneCharge.Remove(droneCharge); // Deleting the instance from the list
-        }
+
+        //    Station station = stationById(droneCharge.StationId); // The station that Charged the drone
+        //    Station stationTemp = station;
+        //    stationTemp.ChargeSlots--; // Updates in temp of station 
+        //    DataSource.StationList.Add(stationTemp); // Add temp to list and delete old
+        //    DataSource.StationList.Remove(station);
+
+        //    DataSource.droneCharge.Remove(droneCharge); // Deleting the instance from the list
+        //}
 
 
 
