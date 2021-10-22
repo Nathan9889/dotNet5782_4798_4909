@@ -31,10 +31,10 @@ namespace DalObject
 
         internal class Config
         {
-            internal static int IndexDrone = 0;
-            internal static int IndexStations = 0;
-            internal static int IndexClients = 0;
-            internal static int IndexPackage = 0;
+            //internal static int IndexDrone = 0;
+            //internal static int IndexStations = 0;
+            //internal static int IndexClients = 0;
+            //internal static int IndexPackage = 0;
 
 
             internal static int PackageId = 1000;
@@ -259,7 +259,11 @@ namespace DalObject
                     Weight = (WeightCategories)rand.Next(3),
                     Priority = (Priorities)rand.Next(3),
                     DroneId = 0,
-                });
+                    Requested = new DateTime(0, 0, 0),
+                    Scheduled = new DateTime(0, 0, 0),
+                    PickedUp = new DateTime(0, 0, 0),
+                    Delivered = new DateTime(0, 0, 0),
+                }) ;
             }
         }
 
@@ -269,6 +273,7 @@ namespace DalObject
             InitializeClient();
             InitializeDrone();
             InitializeStation();
+            InitializePackage();
 
 
             ////initialize Drone, 
@@ -570,58 +575,51 @@ namespace DalObject
         }
 
 
-        public void packageToDrone(Package package)
+        public void packageToDrone(Package package) // Link the package to the drone
         {
             int idDrone = 0;
             foreach (var item in DataSource.DroneList)
             {
-                if (item.Status == DroneStatus.Available)
+                if (item.Status == DroneStatus.Available) // If there is a drone available
                 {
                     idDrone = item.ID;
-                    Drone temp = item;
-                    temp.Status = DroneStatus.Shipping;
-                    DataSource.DroneList.Add(temp);
+                    Drone temp = item; // Updates in temp of drone
+                    temp.Status = DroneStatus.Shipping; // Updates in temp of drone
+                    DataSource.DroneList.Add(temp); // Add temp to list and delete old
                     DataSource.DroneList.Remove(item);
                     break;
                 }
             }
             if (idDrone == 0) throw new Exception("There are no drones available.");
-            Package packageTemp = package;
-            packageTemp.DroneId = idDrone;
-            packageTemp.Scheduled = DateTime.Now;
-            DataSource.PackageList.Add(packageTemp);
+            Package packageTemp = package; 
+            packageTemp.DroneId = idDrone; //  Updates in temp of  package
+            packageTemp.Scheduled = DateTime.Now;//  package
+            DataSource.PackageList.Add(packageTemp); // Add temp to list and delete old
             DataSource.PackageList.Remove(package);
         }
 
-        public void PickedUpByDrone(Package package)
+        public void PickedUpByDrone(Package package)// Package collection by drone
         {
             Package packageTemp = package;
-            packageTemp.PickedUp = DateTime.Now;
-            DataSource.PackageList.Add(packageTemp);
+            packageTemp.PickedUp = DateTime.Now; // Updates in temp of drone
+            DataSource.PackageList.Add(packageTemp); // Add temp to list and delete old
             DataSource.PackageList.Remove(package);
         }
 
-        public void DeliveredToClient(Package package)
+        public void DeliveredToClient(Package package) // The package was delivered to the client
         {
-            Package packageTemp = package;
-            packageTemp.Delivered = DateTime.Now;
-            DataSource.PackageList.Add(packageTemp);
-            DataSource.PackageList.Remove(package);
-        }
 
-        public void DroneCharge(Drone drone)
-        {
-            Station stationTemp = chargingStation();
+            Drone drone = droneById(package.DroneId);
             Drone droneTemp = drone;
-            droneTemp.Status = DroneStatus.Maintenance;
-            DroneCharge droneCharg = new DroneCharge()
-            {
-                DroneId = droneTemp.ID, StationId = stationTemp.ID 
-            };
-            DataSource.droneCharge.Add(droneCharg);
-
-            DataSource.DroneList.Add(droneTemp);
+            droneTemp.Status = DroneStatus.Available; // Updates in temp of drone
+            DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
             DataSource.DroneList.Remove(drone);
+
+            Package packageTemp = package;
+            packageTemp.Delivered = DateTime.Now; // Updates in temp of  package
+            DataSource.PackageList.Add(packageTemp); //Add temp to list and delete old
+            DataSource.PackageList.Remove(package);
+
         }
 
         public Station chargingStation() // The user has to select a charging station. And update the station. And reduce charging positions
@@ -630,23 +628,39 @@ namespace DalObject
             return
         }
 
-        public void finishCharging(DroneCharge droneCharge)
+        public void DroneCharge(Drone drone)
+        {
+            Station stationTemp = chargingStation(); // The station that the user choose
+            Drone droneTemp = drone;
+            droneTemp.Status = DroneStatus.Maintenance; // Updates in temp of drone
+            DroneCharge droneCharg = new DroneCharge() // Initialization of a new instance for DroneCharge
+            {
+                DroneId = droneTemp.ID, StationId = stationTemp.ID 
+            };
+            DataSource.droneCharge.Add(droneCharg); // Add the instance to the list
+
+            DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
+            DataSource.DroneList.Remove(drone);
+        }
+
+
+        public void finishCharging(DroneCharge droneCharge) // Finish drone Chargeing, update drone status and update station
         {
             Drone drone = droneById(droneCharge.DroneId);
-            Drone droneTemp = drone;
-            droneTemp.Status = DroneStatus.Available;
-            droneTemp.Battery = 100;
-            DataSource.DroneList.Add(droneTemp);
+            Drone droneTemp = drone; //   Updates in temp of drone
+            droneTemp.Status = DroneStatus.Available; //    Updates in temp of drone
+            droneTemp.Battery = 100; //    Updates in temp of drone
+            DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
             DataSource.DroneList.Remove(drone);
 
 
-            Station station = stationById(droneCharge.StationId);
+            Station station = stationById(droneCharge.StationId); // The station that Charged the drone
             Station stationTemp = station;
-            stationTemp.ChargeSlots--;
-            DataSource.StationList.Add(stationTemp);
+            stationTemp.ChargeSlots--; // Updates in temp of station 
+            DataSource.StationList.Add(stationTemp); // Add temp to list and delete old
             DataSource.StationList.Remove(station);
 
-            DataSource.droneCharge.Remove(droneCharge);
+            DataSource.droneCharge.Remove(droneCharge); // Deleting the instance from the list
         }
 
 
