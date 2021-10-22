@@ -31,10 +31,10 @@ namespace DalObject
 
         internal class Config
         {
-            //internal static int IndexDrone = 0;
-            //internal static int IndexStations = 0;
-            //internal static int IndexClients = 0;
-            //internal static int IndexPackage = 0;
+            internal static int IndexDrone = 0;
+            internal static int IndexStations = 0;
+            internal static int IndexClients = 0;
+            internal static int IndexPackage = 0;
 
 
             internal static int PackageId = 1000;
@@ -259,11 +259,7 @@ namespace DalObject
                     Weight = (WeightCategories)rand.Next(3),
                     Priority = (Priorities)rand.Next(3),
                     DroneId = 0,
-                    Requested = new DateTime(0, 0, 0),
-                    Scheduled = new DateTime(0, 0, 0),
-                    PickedUp = new DateTime(0, 0, 0),
-                    Delivered = new DateTime(0, 0, 0),
-                }) ;
+                });
             }
         }
 
@@ -273,7 +269,6 @@ namespace DalObject
             InitializeClient();
             InitializeDrone();
             InitializeStation();
-            InitializePackage();
 
 
             ////initialize Drone, 
@@ -521,24 +516,7 @@ namespace DalObject
 
         public static void AddClient(Client client)
         {
-            //Console.WriteLine("Enter Client Data\n");
-            //int clientId = Convert.ToInt32(Console.ReadLine());
-            //string clientName= Console.ReadLine();
-            //string clientPhone = Console.ReadLine();
-            //double clientLatitude = Convert.ToInt32(Console.ReadLine());
-            //double clientLongitude = Convert.ToInt32(Console.ReadLine());
-
-            DataSource.ClientList.Add(
-                //new Client()
-                //{
-                //    ID = clientId,
-                //    Name = clientName,
-                //    Phone = clientPhone,
-                //    Latitude = clientLatitude,
-                //    Longitude = clientLongitude
-
-                //}
-                client);
+            DataSource.ClientList.Add(client);
         }
 
         public static void AddPackage(Package package)
@@ -575,92 +553,83 @@ namespace DalObject
         }
 
 
-        public void packageToDrone(Package package) // Link the package to the drone
+        public void packageToDrone(Package package)
         {
             int idDrone = 0;
             foreach (var item in DataSource.DroneList)
             {
-                if (item.Status == DroneStatus.Available) // If there is a drone available
+                if (item.Status == DroneStatus.Available)
                 {
                     idDrone = item.ID;
-                    Drone temp = item; // Updates in temp of drone
-                    temp.Status = DroneStatus.Shipping; // Updates in temp of drone
-                    DataSource.DroneList.Add(temp); // Add temp to list and delete old
+                    Drone temp = item;
+                    temp.Status = DroneStatus.Shipping;
+                    DataSource.DroneList.Add(temp);
                     DataSource.DroneList.Remove(item);
                     break;
                 }
             }
             if (idDrone == 0) throw new Exception("There are no drones available.");
-            Package packageTemp = package; 
-            packageTemp.DroneId = idDrone; //  Updates in temp of  package
-            packageTemp.Scheduled = DateTime.Now;//  package
-            DataSource.PackageList.Add(packageTemp); // Add temp to list and delete old
+            Package packageTemp = package;
+            packageTemp.DroneId = idDrone;
+            packageTemp.Scheduled = DateTime.Now;
+            DataSource.PackageList.Add(packageTemp);
             DataSource.PackageList.Remove(package);
         }
 
-        public void PickedUpByDrone(Package package)// Package collection by drone
+        public void PickedUpByDrone(Package package)
         {
             Package packageTemp = package;
-            packageTemp.PickedUp = DateTime.Now; // Updates in temp of drone
-            DataSource.PackageList.Add(packageTemp); // Add temp to list and delete old
+            packageTemp.PickedUp = DateTime.Now;
+            DataSource.PackageList.Add(packageTemp);
             DataSource.PackageList.Remove(package);
         }
 
-        public void DeliveredToClient(Package package) // The package was delivered to the client
+        public void DeliveredToClient(Package package)
         {
+            Package packageTemp = package;
+            packageTemp.Delivered = DateTime.Now;
+            DataSource.PackageList.Add(packageTemp);
+            DataSource.PackageList.Remove(package);
+        }
 
-            Drone drone = droneById(package.DroneId);
+        public void DroneCharge(Drone drone)
+        {
+            Station stationTemp = chargingStation();
             Drone droneTemp = drone;
-            droneTemp.Status = DroneStatus.Available; // Updates in temp of drone
-            DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
+            droneTemp.Status = DroneStatus.Maintenance;
+            DroneCharge droneCharg = new DroneCharge()
+            {
+                DroneId = droneTemp.ID, StationId = stationTemp.ID 
+            };
+            DataSource.droneCharge.Add(droneCharg);
+
+            DataSource.DroneList.Add(droneTemp);
             DataSource.DroneList.Remove(drone);
-
-            Package packageTemp = package;
-            packageTemp.Delivered = DateTime.Now; // Updates in temp of  package
-            DataSource.PackageList.Add(packageTemp); //Add temp to list and delete old
-            DataSource.PackageList.Remove(package);
-
         }
 
         public Station chargingStation() // The user has to select a charging station. And update the station. And reduce charging positions
         {
 
             return
-        }
+        } 
 
-        public void DroneCharge(Drone drone)
-        {
-            Station stationTemp = chargingStation(); // The station that the user choose
-            Drone droneTemp = drone;
-            droneTemp.Status = DroneStatus.Maintenance; // Updates in temp of drone
-            DroneCharge droneCharg = new DroneCharge() // Initialization of a new instance for DroneCharge
-            {
-                DroneId = droneTemp.ID, StationId = stationTemp.ID 
-            };
-            DataSource.droneCharge.Add(droneCharg); // Add the instance to the list
-
-            DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
-            DataSource.DroneList.Remove(drone);
-        }
-
-
-        public void finishCharging(DroneCharge droneCharge) // Finish drone Chargeing, update drone status and update station
+        public void finishCharging(DroneCharge droneCharge)
         {
             Drone drone = droneById(droneCharge.DroneId);
-            Drone droneTemp = drone; //   Updates in temp of drone
-            droneTemp.Status = DroneStatus.Available; //    Updates in temp of drone
-            droneTemp.Battery = 100; //    Updates in temp of drone
-            DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
+            Drone droneTemp = drone;
+            droneTemp.Status = DroneStatus.Available;
+            droneTemp.Battery = 100;
+            DataSource.DroneList.Add(droneTemp);
             DataSource.DroneList.Remove(drone);
 
 
-            Station station = stationById(droneCharge.StationId); // The station that Charged the drone
+            Station station = stationById(droneCharge.StationId);
             Station stationTemp = station;
-            stationTemp.ChargeSlots--; // Updates in temp of station 
-            DataSource.StationList.Add(stationTemp); // Add temp to list and delete old
+            stationTemp.ChargeSlots--;
+            DataSource.StationList.Add(stationTemp);
             DataSource.StationList.Remove(station);
 
-            DataSource.droneCharge.Remove(droneCharge); // Deleting the instance from the list
+            DataSource.droneCharge.Remove(droneCharge);
         }
 
 
