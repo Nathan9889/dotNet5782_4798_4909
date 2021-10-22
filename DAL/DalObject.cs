@@ -20,6 +20,7 @@ namespace DalObject
         internal static List<Drone> DroneList = new List<Drone>();
         internal static List<Station> StationList = new List<Station>();
         internal static List<Package> PackageList = new List<Package>();
+        internal static List<DroneCharge> droneCharge = new List<DroneCharge>();
 
         static Random rand = new Random();
         public static double GetRandCoordinate(double num)
@@ -36,7 +37,7 @@ namespace DalObject
             internal static int IndexPackage = 0;
 
 
-            internal static int PackageId = 0;
+            internal static int PackageId = 1000;
 
         }
         static void InitializeClient()
@@ -244,6 +245,22 @@ namespace DalObject
 
             }
 
+        }
+
+        public static void InitializePackage()
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                PackageList.Add(new Package()
+                {
+                    ID = Config.PackageId++,
+                    SenderId = rand.Next(2000, 30000),
+                    TargetId = rand.Next(3001, 4000),
+                    Weight = (WeightCategories)rand.Next(3),
+                    Priority = (Priorities)rand.Next(3),
+                    DroneId = 0,
+                });
+            }
         }
 
 
@@ -525,10 +542,116 @@ namespace DalObject
         }
 
 
+        public Package packageById(int id) // Search for a package by id
+        {
+            foreach (var item in DataSource.PackageList)
+            {
+                if (item.ID == id) return item;
+            }
+            throw new Exception("There is no package with such an id");
+        }
+
+        public Drone droneById(int id) // Search for a drone by id
+        {
+            foreach (var item in DataSource.DroneList)
+            {
+                if (item.ID == id) return item;
+            }
+            throw new Exception("There is no drone with such an id");
+        }
+
+        public Station stationById(int id) // Search for a station by id
+        {
+            foreach (var item in DataSource.StationList)
+            {
+                if (item.ID == id) return item;
+            }
+            throw new Exception("There is no station with such an id");
+        }
+
+
+        public void packageToDrone(Package package)
+        {
+            int idDrone = 0;
+            foreach (var item in DataSource.DroneList)
+            {
+                if (item.Status == DroneStatus.Available)
+                {
+                    idDrone = item.ID;
+                    Drone temp = item;
+                    temp.Status = DroneStatus.Shipping;
+                    DataSource.DroneList.Add(temp);
+                    DataSource.DroneList.Remove(item);
+                    break;
+                }
+            }
+            if (idDrone == 0) throw new Exception("There are no drones available.");
+            Package packageTemp = package;
+            packageTemp.DroneId = idDrone;
+            packageTemp.Scheduled = DateTime.Now;
+            DataSource.PackageList.Add(packageTemp);
+            DataSource.PackageList.Remove(package);
+        }
+
+        public void PickedUpByDrone(Package package)
+        {
+            Package packageTemp = package;
+            packageTemp.PickedUp = DateTime.Now;
+            DataSource.PackageList.Add(packageTemp);
+            DataSource.PackageList.Remove(package);
+        }
+
+        public void DeliveredToClient(Package package)
+        {
+            Package packageTemp = package;
+            packageTemp.Delivered = DateTime.Now;
+            DataSource.PackageList.Add(packageTemp);
+            DataSource.PackageList.Remove(package);
+        }
+
+        public void DroneCharge(Drone drone)
+        {
+            Station stationTemp = chargingStation();
+            Drone droneTemp = drone;
+            droneTemp.Status = DroneStatus.Maintenance;
+            DroneCharge droneCharg = new DroneCharge()
+            {
+                DroneId = droneTemp.ID, StationId = stationTemp.ID 
+            };
+            DataSource.droneCharge.Add(droneCharg);
+
+            DataSource.DroneList.Add(droneTemp);
+            DataSource.DroneList.Remove(drone);
+        }
+
+        public Station chargingStation() // The user has to select a charging station. And update the station. And reduce charging positions
+        {
+
+            return
+        }
+
+        public void finishCharging(DroneCharge droneCharge)
+        {
+            Drone drone = droneById(droneCharge.DroneId);
+            Drone droneTemp = drone;
+            droneTemp.Status = DroneStatus.Available;
+            droneTemp.Battery = 100;
+            DataSource.DroneList.Add(droneTemp);
+            DataSource.DroneList.Remove(drone);
+
+
+            Station station = stationById(droneCharge.StationId);
+            Station stationTemp = station;
+            stationTemp.ChargeSlots--;
+            DataSource.StationList.Add(stationTemp);
+            DataSource.StationList.Remove(station);
+
+            DataSource.droneCharge.Remove(droneCharge);
+        }
+
+
+
+
 
     }
-
-
-
-
 }
