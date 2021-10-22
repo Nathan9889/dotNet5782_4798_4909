@@ -1,4 +1,5 @@
 ﻿using System;
+using IDAL.DO;
 using DalObject;
 
 
@@ -7,13 +8,13 @@ namespace ConsoleUI
     class Program
     {
         enum Menu { Add, Update, DisplayItem, DisplayList };
-        enum MenuObject { Exit, Client, Drone, Station, Package }
+        enum ObjectMenu { Exit, Client, Drone, Station, Package }
         public static void Display()
         {
 
             int num = 1;
             Menu menu;
-            MenuObject menuObject;
+            ObjectMenu objectMenu;
 
             while (num != 0)
             {
@@ -27,22 +28,39 @@ namespace ConsoleUI
 
                     case 1:
                         Console.WriteLine("Choose an Adding Option: \n 1 : Client \n 2 : Drone \n 3 : Station: \n 4 : Package \n ");
-                        menuObject = (MenuObject)int.Parse(Console.ReadLine());
-                        switch (menuObject)
+                        objectMenu = (ObjectMenu)int.Parse(Console.ReadLine());
+
+                        switch (objectMenu)
                         {
-                            case MenuObject.Client:
-                                DalObject.DalObject.AddClient();
+                            case ObjectMenu.Client:
+                                
+                                Console.WriteLine("Enter Client Data\n");
+                                int clientId = Convert.ToInt32(Console.ReadLine());
+                                string clientName = Console.ReadLine();
+                                string clientPhone = Console.ReadLine();
+                                double clientLatitude = Convert.ToInt32(Console.ReadLine());
+                                double clientLongitude = Convert.ToInt32(Console.ReadLine());
+
+                                Client client = new Client();
+
+                                client.ID = clientId;
+                                client.Name = clientName;
+                                client.Phone = clientPhone;
+                                client.Latitude = clientLatitude;
+                                client.Longitude = clientLongitude;
+
+                                DalObject.DalObject.AddClient(client);
 
                                 break;
-                            case MenuObject.Drone:
+                            case ObjectMenu.Drone:
 
 
                                 break;
-                            case MenuObject.Station:
+                            case ObjectMenu.Station:
 
 
                                 break;
-                            case MenuObject.Package:
+                            case ObjectMenu.Package:
 
 
                                 break;

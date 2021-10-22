@@ -497,25 +497,26 @@ namespace DalObject
             DataSource.DroneList.Add(drone);
         }
 
-        public static void AddClient()
+        public static void AddClient(Client client)
         {
-            Console.WriteLine("Enter Client Data\n");
-            int clientId = Convert.ToInt32(Console.ReadLine());
-            string clientName= Console.ReadLine();
-            string clientPhone = Console.ReadLine();
-            double clientLatitude = Convert.ToInt32(Console.ReadLine());
-            double clientLongitude = Convert.ToInt32(Console.ReadLine());
+            //Console.WriteLine("Enter Client Data\n");
+            //int clientId = Convert.ToInt32(Console.ReadLine());
+            //string clientName= Console.ReadLine();
+            //string clientPhone = Console.ReadLine();
+            //double clientLatitude = Convert.ToInt32(Console.ReadLine());
+            //double clientLongitude = Convert.ToInt32(Console.ReadLine());
 
             DataSource.ClientList.Add(
-                new Client()
-                {
-                    ID = clientId,
-                    Name = clientName,
-                    Phone = clientPhone,
-                    Latitude = clientLatitude,
-                    Longitude = clientLongitude
+                //new Client()
+                //{
+                //    ID = clientId,
+                //    Name = clientName,
+                //    Phone = clientPhone,
+                //    Latitude = clientLatitude,
+                //    Longitude = clientLongitude
 
-                }                                   );
+                //}
+                client);
         }
 
         public static void AddPackage(Package package)
