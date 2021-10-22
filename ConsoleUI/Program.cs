@@ -41,13 +41,13 @@ namespace ConsoleUI
                                 double clientLongitude = Convert.ToInt32(Console.ReadLine());
 
                                 Client client = new Client();
-
+                                
                                 client.ID = clientId;
                                 client.Name = clientName;
                                 client.Phone = clientPhone;
                                 client.Latitude = clientLatitude;
                                 client.Longitude = clientLongitude;
-
+                               
                                 DalObject.DalObject.AddClient(client);
 
                                 break;

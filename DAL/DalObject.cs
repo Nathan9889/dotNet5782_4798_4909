@@ -31,10 +31,10 @@ namespace DalObject
 
         internal class Config
         {
-            internal static int IndexDrone = 0;
-            internal static int IndexStations = 0;
-            internal static int IndexClients = 0;
-            internal static int IndexPackage = 0;
+            //internal static int IndexDrone = 0;
+            //internal static int IndexStations = 0;
+            //internal static int IndexClients = 0;
+            //internal static int IndexPackage = 0;
 
 
             internal static int PackageId = 1000;
@@ -138,7 +138,7 @@ namespace DalObject
                 ClientList.Add(new Client()
                 {
                     ID = rand.Next(100000, 1000000),
-                    Name = $"Client {Config.IndexClients}",
+                    Name = $"Client {i}",
                     Phone = $"0{rand.Next(50, 58)} - {rand.Next(1000000, 9999999)}",
                     Latitude = GetRandCoordinate(29.5),
                     Longitude = GetRandCoordinate(30.5)
@@ -236,7 +236,7 @@ namespace DalObject
             {
                 DroneList.Add(new Drone()
                 {
-                    ID = Config.IndexDrone++,
+                    ID = rand.Next(1000000,10000000),
                     Model = $"Drone {i}" ,
                     MaxWeight = (WeightCategories)rand.Next(3),
                     Status = (DroneStatus)rand.Next(3),
@@ -254,11 +254,12 @@ namespace DalObject
                 PackageList.Add(new Package()
                 {
                     ID = Config.PackageId++,
-                    SenderId = rand.Next(2000, 30000),
+                    SenderId = rand.Next(2000, 3000),
                     TargetId = rand.Next(3001, 4000),
                     Weight = (WeightCategories)rand.Next(3),
                     Priority = (Priorities)rand.Next(3),
                     DroneId = 0,
+
                 });
             }
         }
@@ -609,16 +610,15 @@ namespace DalObject
                 DroneId = droneTemp.ID, StationId = stationTemp.ID 
             };
             DataSource.droneCharge.Add(droneCharg);
+            stationTemp.ChargeSlots--;
+            DataSource.StationList.Add(stationTemp);
+            DataSource.StationList.Remove()
 
             DataSource.DroneList.Add(droneTemp);
             DataSource.DroneList.Remove(drone);
         }
 
-        public Station chargingStation() // The user has to select a charging station. And update the station. And reduce charging positions
-        {
-
-            return
-        } 
+   
 
         public void finishCharging(DroneCharge droneCharge)
         {
@@ -632,7 +632,7 @@ namespace DalObject
 
             Station station = stationById(droneCharge.StationId);
             Station stationTemp = station;
-            stationTemp.ChargeSlots--;
+            stationTemp.ChargeSlots++;
             DataSource.StationList.Add(stationTemp);
             DataSource.StationList.Remove(station);
 
