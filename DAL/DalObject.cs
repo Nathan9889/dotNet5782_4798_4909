@@ -546,6 +546,21 @@ namespace DalObject
             DataSource.PackageList.Remove(package);
         }
 
+        public Package packageToDrone(int id) // Search for a package by id
+        {
+            foreach (var item in DataSource.PackageList)
+            {
+                if (item.ID == id) return item;
+            }
+            throw new Exception("There is no package with such an id");
+        }
+
+        public void PickedUpByDrone(Package package)
+        {
+            Package packageTemp = package;
+            packageTemp.PickedUp = DateTime.Now;
+        }
+
 
     }
 
