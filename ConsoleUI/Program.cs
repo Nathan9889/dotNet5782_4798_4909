@@ -52,6 +52,8 @@ namespace ConsoleUI
 
                                 break;
                             case ObjectMenu.Drone:
+                                Console.WriteLine("Enter Drone Data\n");
+
 
 
                                 break;
