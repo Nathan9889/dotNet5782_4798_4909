@@ -628,7 +628,7 @@ namespace DalObject
         {
 
             return
-        }
+        } 
 
         public void finishCharging(DroneCharge droneCharge)
         {
