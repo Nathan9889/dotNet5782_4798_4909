@@ -11,7 +11,6 @@ namespace ConsoleUI
         enum ObjectMenu { Exit, Client, Drone, Station, Package }
         public static void Display()
         {
-
             int num = 1;
             Menu menu;
             ObjectMenu objectMenu;

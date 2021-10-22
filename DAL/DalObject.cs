@@ -643,6 +643,11 @@ namespace DalObject
             DataSource.DroneList.Remove(drone);
         }
 
+        public Station chargingStation() // The user has to select a charging station. And update the station. And reduce charging positions
+        {
+
+            return
+        }
 
         public void finishCharging(DroneCharge droneCharge) // Finish drone Chargeing, update drone status and update station
         {
