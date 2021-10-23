@@ -420,7 +420,7 @@ namespace DalObject
         /// The function creates and returns a list of stations with available charging slots
         /// </summary>
         /// <returns></returns>
-        public static List<Station> StationWithCharging()
+        public static List<Station> StationWithCharging() 
         {
             List<Station> stationWithCharging = new List<Station>();
             foreach (var item in DataSource.StationList)
