@@ -8,8 +8,9 @@ namespace ConsoleUI
     class Program
     {
         enum Menu {Exit, Add, Update, DisplayItem, DisplayList };
-        enum ObjectMenu { Exit, Client, Drone, Station, Package }
-        enum UpdateOptions { Exit, Assignment, PickedUp, Delivered, Charging, FinishCharging }
+        enum UpdateOptions { Exit, Assignment, PickedUp, Delivered, Charging, FinishCharging };
+        enum ObjectMenu { Exit, Client, Drone, Station, Package };
+        
         enum ObjectList { Exit, ClientList, DroneList, StationList, PackageList, PackageWithoutDrone, StationWithCharging };
 
         public static void Display()
