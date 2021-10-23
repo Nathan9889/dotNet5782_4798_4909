@@ -405,7 +405,7 @@ namespace DalObject
         /// The function creates and returns a list of packages that have not yet been assigned to the glider
         /// </summary>
         /// <returns></returns>
-        public static List<Package> PackageWithoutDrone()
+        public static List<Package> PackageWithoutDrone() 
         {
             List<Package> packagesWithoutDrone = new List<Package>();
             foreach (var item in DataSource.PackageList)
