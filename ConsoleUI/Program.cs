@@ -23,7 +23,7 @@ namespace ConsoleUI
             while (num != 0)
             {
                 Console.WriteLine("Choose an Option: \n");
-                Console.WriteLine(" 1: Add \n 2: Update \n 3: Display Item \n 4: Display List \n 0: Exit");
+                Console.WriteLine(" 1: Add \n 2: Update \n 3: Display specific Item \n 4: Display Item List \n 0: Exit");
                 choice = (Menu)int.Parse(Console.ReadLine());
             
 
@@ -31,6 +31,7 @@ namespace ConsoleUI
                 {
 
                     case Menu.Add:
+
                         Console.WriteLine("Choose an Adding Option: \n 1 : Client \n 2 : Drone \n 3 : Station: \n 4 : Package \n ");
                         objectMenu = (ObjectMenu)int.Parse(Console.ReadLine());
 
@@ -38,7 +39,7 @@ namespace ConsoleUI
                         {
                             case ObjectMenu.Client:
                                 
-                                Console.WriteLine("Enter Client Data: Name, Phone, Latitude, Longitude  \n");
+                                Console.WriteLine("Enter Client Data: ID, Name, Phone, Latitude, Longitude  \n");
                                 int clientId = Convert.ToInt32(Console.ReadLine());
                                 string clientName = Console.ReadLine();
                                 string clientPhone = Console.ReadLine();
@@ -57,13 +58,14 @@ namespace ConsoleUI
 
                                 break;
                             case ObjectMenu.Drone:
-                                Console.WriteLine("Enter Drone Data\n");
+
+                                Console.WriteLine("Enter Drone Data: ID, Model, Weight, Status, Battery \n");
                                 int droneId = int.Parse(Console.ReadLine());
                                 string droneModel = Console.ReadLine();
-                                Console.WriteLine("Choose Drone Weight: 0- Light, 1- Medium, 2- Heavy :\n");
+                                Console.WriteLine("Choose Drone Weight: 0 : Light, 1 : Medium, 2 : Heavy :\n");
                                 string chosen = (Console.ReadLine());
                                 WeightCategories droneWeight = (WeightCategories)Convert.ToInt32(chosen);
-                                Console.WriteLine("Choose Drone Status: 0- Available, 1- Maintenance, 2- Shipping :\n");
+                                Console.WriteLine("Choose Drone Status: 0 : Available, 1 : Maintenance, 2 : Shipping :\n");
                                 chosen = (Console.ReadLine());
                                 DroneStatus droneStatus = (DroneStatus)Convert.ToInt32(chosen);
                                 double droneBattery = double.Parse(Console.ReadLine());
@@ -79,7 +81,8 @@ namespace ConsoleUI
                                 break;
 
                             case ObjectMenu.Station:
-                                Console.WriteLine("Enter Station Data\n");
+
+                                Console.WriteLine("Enter Station Data: ID, Name, Num of ChargingSlot, Longitude, Latitude\n");
                                 int stationId = int.Parse(Console.ReadLine());
                                 string stationName = Console.ReadLine();
                                 int stationChargeSlot = int.Parse(Console.ReadLine());
@@ -93,25 +96,22 @@ namespace ConsoleUI
                                 station.Longitude = stationLongitude;
                                 station.Latitude = stationLatitude;
 
-
                                 DalObject.DalObject.AddStation(station);
-
-
-
 
                                 break;
                             case ObjectMenu.Package:
-                                Console.WriteLine("Enter All Package Data\n");
+                                Console.WriteLine("Enter All Package Data: ID, SenderId, TargetId, DroneId, MaxWeight, Priority\n");
                                 int packageId = int.Parse(Console.ReadLine());
                                 int packageSenderId = int.Parse(Console.ReadLine());
                                 int packageTargetId = int.Parse(Console.ReadLine());
                                 int packageDroneId = int.Parse(Console.ReadLine());
-                                Console.WriteLine("Choose package Weight: 0- Light, 1- Medium, 2- Heavy :\n");
+                                Console.WriteLine("Choose package Weight: 0 : Light, 1 : Medium, 2 : Heavy :\n");
                                 chosen = (Console.ReadLine());
                                 WeightCategories packageWeight = (WeightCategories)Convert.ToInt32(chosen);
-                                Console.WriteLine("Choose package Priority: 0- Standard, 1- Fast, 2- Urgent :\n");
+                                Console.WriteLine("Choose package Priority: 0 :  Standard, 1 : Fast, 2 : Urgent :\n");
                                 chosen = (Console.ReadLine());
                                 Priorities packagePriority = (Priorities)Convert.ToInt32(chosen);
+                                
 
                                 Package package = new Package();
 
@@ -121,19 +121,19 @@ namespace ConsoleUI
                                 package.DroneId = packageDroneId;
                                 package.Weight = packageWeight;
                                 package.Priority = packagePriority;
+                                package.Created = DateTime.Now;
 
                                 DalObject.DalObject.AddPackage(package);
-
-
 
                                 break;
                             default:
                                 break;
                         }
                         break;
+
                     case Menu.Update:
                         Console.WriteLine("Choose an Option: \n");
-                        Console.WriteLine(" 1: Assigning a package to a drone \n 2: pick Up Package by Drone \n 3: Delivery of a package to the client: \n 4: Charging drone \n 5: Finish charging drone \n 0: Exit");
+                        Console.WriteLine(" 1: Assigning a package to a drone \n 2: Pick Up Package by Drone \n 3: Delivery of a package to the client: \n 4: Charging drone \n 5: Finish charging drone \n 0: Exit");
                         updateOptions = (UpdateOptions)int.Parse(Console.ReadLine());
 
                         switch (updateOptions)
@@ -186,6 +186,7 @@ namespace ConsoleUI
                         break;
 
                     case Menu.DisplayItem:
+
                         Console.WriteLine("Choose the show option: \n 1: Client \n 2: Drone \n 3: Station \n 4: Package \n 0: Exit ");
                         objectMenu = (ObjectMenu)int.Parse(Console.ReadLine());
                         switch (objectMenu)
@@ -223,6 +224,7 @@ namespace ConsoleUI
                         break;
 
                     case Menu.DisplayList:
+
                         Console.WriteLine("Choose the show option: \n 1: Clients list \n 2: Drones list\n 3: Stations list \n 4: Packages list\n 5: List of packages that do not belong to the drone \n 6: List of stations with available charging slots \n 0: Exit ");
                         objectList = (ObjectList)int.Parse(Console.ReadLine());
                         switch (objectList)
@@ -278,38 +280,17 @@ namespace ConsoleUI
                         break;
 
                     default:
-                       // Console.WriteLine("Invalid \n");
                         break;
 
                 }
-
-
             }
-
         }
-
 
         static void Main(string[] args)
         {
-
-            //Console.WriteLine($"Name is {client.Name}, ID = {client.ID}");
             new DalObject.DalObject();
             Display();
-            
-
         }
 
-        //private static void myClient()
-        //{
-        //    IDAL.DO.Client client = new IDAL.DO.Client
-        //    {
-        //        ID = 113,
-        //        Name = "David",
-        //        Latitude = 36.123456,
-        //        Longitude = 29.654321,
-        //        Phone = "0526137053"
-        //    };
-        //    Console.WriteLine(client);
-        //}
     }
 }

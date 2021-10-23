@@ -17,11 +17,10 @@ namespace IDAL
             public int DroneId { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
-            public DateTime Ceated { get; set; }
+            public DateTime Created { get; set; }
             public DateTime Associated { get; set; }
             public DateTime PickedUp { get; set; }
             public DateTime Delivered { get; set; }
-
 
 
             public override string ToString()
@@ -33,11 +32,10 @@ namespace IDAL
                 result += $"DroneId is {DroneId}, \n";
                 result += $"Weight is {Weight}, \n";
                 result += $"Priority is {Priority}, \n";
-                result += $"Ceated at {Ceated}, \n";
+                result += $"Ceated at {Created}, \n";
                 result += $"Associated at  {Associated}, \n";
                 result += $"PickedUp at {PickedUp}, \n";
                 result += $"Delivered at {Delivered}, \n";
-
 
                 return result;
             }
