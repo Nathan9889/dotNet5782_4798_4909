@@ -24,7 +24,7 @@ namespace ConsoleUI
             ObjectList objectList;
             int num = 1;
              
-            while (num != 0)
+            while (num != 0) 
             {
                 Console.WriteLine("Choose an Option: \n");
                 Console.WriteLine(" 1: Add \n 2: Update \n 3: Display specific Item \n 4: Display Item List \n 0: Exit");
