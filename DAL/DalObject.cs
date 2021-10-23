@@ -11,13 +11,13 @@ namespace DalObject
     public class DataSource
     {
         internal static List<Client> ClientList = new List<Client>();    //Creating List of Clients
-        internal static List<Drone> DroneList = new List<Drone>();
+        internal static List<Drone> DroneList = new List<Drone>();      
         internal static List<Station> StationList = new List<Station>();
         internal static List<Package> PackageList = new List<Package>();
         internal static List<DroneCharge> droneCharge = new List<DroneCharge>();
 
         static Random rand = new Random();
-        public static double GetRandCoordinate(double num)
+        public static double GetRandCoordinate(double num) //return Coordinate
         {
             double res = num + rand.NextDouble() / 10;
             return Math.Round(res, 6);
