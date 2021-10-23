@@ -32,7 +32,7 @@ namespace IDAL
                 result += $"DroneId is {DroneId}, \n";
                 result += $"Weight is {Weight}, \n";
                 result += $"Priority is {Priority}, \n";
-                result += $"Ceated at {Created}, \n";
+                result += $"Created at {Created}, \n";
                 result += $"Associated at  {Associated}, \n";
                 result += $"PickedUp at {PickedUp}, \n";
                 result += $"Delivered at {Delivered}, \n";
