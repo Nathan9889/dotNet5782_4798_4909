@@ -23,7 +23,7 @@ namespace ConsoleUI
             UpdateOptions updateOptions;
             ObjectList objectList;
             int num = 1;
-
+             
             while (num != 0)
             {
                 Console.WriteLine("Choose an Option: \n");
