@@ -521,13 +521,13 @@ namespace DalObject
             };
             DataSource.droneCharge.Add(droneCharg); // Add the instance to the list
 
-        //    DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
-        //    DataSource.DroneList.Remove(drone);
+            DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
+            DataSource.DroneList.Remove(drone);
 
-        //    stationTemp.ChargeSlots--;
-        //    DataSource.StationList.Add(stationTemp);
-        //    DataSource.StationList.Remove(station);
-        //}
+            stationTemp.ChargeSlots--;
+            DataSource.StationList.Add(stationTemp);
+            DataSource.StationList.Remove(station);
+        }
 
 
         public static void FinishCharging(DroneCharge droneCharge) // Finish drone Chargeing, update drone status and update station
@@ -546,8 +546,8 @@ namespace DalObject
             DataSource.StationList.Add(stationTemp); // Add temp to list and delete old
             DataSource.StationList.Remove(station);
 
-        //    DataSource.droneCharge.Remove(droneCharge); // Deleting the instance from the list
-        //}
+            DataSource.droneCharge.Remove(droneCharge); // Deleting the instance from the list
+        }
 
 
         public static List<Station> StationsList()
