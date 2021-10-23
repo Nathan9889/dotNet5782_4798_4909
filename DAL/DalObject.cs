@@ -10,12 +10,6 @@ namespace DalObject
 {
     public class DataSource
     {
-        //static internal Drone[] Drones = new Drone[10];
-        //static internal Station[] Stations = new Station[5];
-        //static internal Client[] Clients = new Client[100];
-        //static internal Package[] Packages = new Package[1000];
-
-
         internal static List<Client> ClientList = new List<Client>();
         internal static List<Drone> DroneList = new List<Drone>();
         internal static List<Station> StationList = new List<Station>();
@@ -26,159 +20,60 @@ namespace DalObject
         public static double GetRandCoordinate(double num)
         {
             double res = num + rand.NextDouble() / 10;
-            return res;
+            return Math.Round(res, 6);
         }
 
         internal class Config
         {
-            //internal static int IndexDrone = 0;
-            //internal static int IndexStations = 0;
-            //internal static int IndexClients = 0;
-            //internal static int IndexPackage = 0;
-
-
             internal static int PackageId = 1000;
-
         }
+
         static void InitializeClient()
         {
-            //ClientList = new List<Client>
-            //{
-
-            //    new Client
-            //    {
-            //    ID = rand.Next(100000, 1000000),
-            //    Name = $"Client {Config.IndexClients}",
-            //    Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-            //    Latitude = GetRandCoordinate(29.5),
-            //    Longitude = GetRandCoordinate(30.5)
-            //    },
-
-            //     new Client
-            //    {
-            //    ID = rand.Next(100000, 1000000),
-            //    Name = $"Client {Config.IndexClients}",
-            //    Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-            //    Latitude = GetRandCoordinate(25.2),
-            //    Longitude = GetRandCoordinate(28.3)
-            //     },
-
-            //      new Client
-            //    {
-            //      ID = rand.Next(100000, 1000000),
-            //    Name = $"Client {Config.IndexClients}",
-            //    Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-            //    Latitude = GetRandCoordinate(22.3),
-            //    Longitude = GetRandCoordinate(36.5)
-            //    },
-
-            //       new Client
-            //    {
-            //        ID = rand.Next(100000, 1000000),
-            //        Name = $"Client {Config.IndexClients}",
-            //        Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-            //        Latitude = GetRandCoordinate(20.5),
-            //        Longitude = GetRandCoordinate(23.2)
-            //    },
-
-            //        new Client
-            //    {
-            //         ID = rand.Next(100000, 1000000),
-            //        Name = $"Client {Config.IndexClients}",
-            //        Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-            //        Latitude = GetRandCoordinate(23.6),
-            //        Longitude = GetRandCoordinate(25.6)
-            //    },
-
-            //         new Client
-            //    {
-            //        ID = rand.Next(100000, 1000000),
-            //        Name = $"Client {Config.IndexClients}",
-            //        Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-            //        Latitude = GetRandCoordinate(28.6),
-            //        Longitude = GetRandCoordinate(27.8)
-            //    },
-
-            //          new Client
-            //    {
-            //     ID = rand.Next(100000, 1000000),
-            //    Name = $"Client {Config.IndexClients}",
-            //    Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-            //    Latitude = GetRandCoordinate(23.6),
-            //    Longitude = GetRandCoordinate(25.4)
-            //    },
-
-            //    new Client
-            //    {
-            //    ID = rand.Next(100000, 1000000),
-            //    Name = $"Client {Config.IndexClients}",
-            //    Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-            //    Latitude = GetRandCoordinate(26.4),
-            //    Longitude = GetRandCoordinate(29.5)
-            //    },
-
-            //    new Client
-            //    {
-            //         ID = rand.Next(100000, 1000000),
-            //        Name = $"Client {Config.IndexClients}",
-            //        Phone = $"0{rand.Next(50,58)} - {rand.Next(1000000,9999999)}",
-            //        Latitude = GetRandCoordinate(30.2),
-            //        Longitude = GetRandCoordinate(22.5)
-            //    }
-
-
-
-
-
-            //};
-
-            ClientList = new List<Client>();
             for (int i = 0; i < 10; i++)
             {
                 ClientList.Add(new Client()
                 {
                     ID = rand.Next(100000, 1000000),
                     Name = $"Client {i}",
-                    Phone = $"0{rand.Next(50, 58)} - {rand.Next(1000000, 9999999)}",
-                    Latitude = GetRandCoordinate(29.5),
-                    Longitude = GetRandCoordinate(30.5)
-
-                });
-
+                    Phone = $"0{rand.Next(51, 58)}{rand.Next(1000000, 9999999)}",
+                    Latitude = GetRandCoordinate(31.73),
+                    Longitude = GetRandCoordinate(35.16)
+                }) ;
             }
-
         }
-
         static void InitializeStation()
         {
 
-            StationList = new List<Station>
+            StationList.Add(new Station()
             {
-                new Station
-                {
-                    ID = rand.Next(10, 99),
-                    Name = "Malha",
-                    ChargeSlots = rand.Next(10),
-                    Latitude = 29.12345,
-                    Longitude = -32.654
-                },
+                ID = rand.Next(10, 99),
+                Name = "Malcha Mall",
+                ChargeSlots = rand.Next(10),
+                Latitude = 31.7515163,
+                Longitude = 35.1872451
+            });
 
-                new Station
-                {
-                    ID = rand.Next(10, 99),
-                    Name = "Central",
-                    ChargeSlots = rand.Next(10),
-                    Latitude = 29.12345,
-                    Longitude = -32.654
-                },
+            StationList.Add(new Station()
+            {
+                ID = rand.Next(10, 99),
+                Name = "Central Station",
+                ChargeSlots = rand.Next(10),
+                Latitude = 31.7888727,
+                Longitude = 35.2031491
+            });
 
-              };
+            StationList.Add(new Station()
+            {
+                ID = rand.Next(10, 99),
+                Name = "Mount Scopus",
+                ChargeSlots = rand.Next(10),
+                Latitude = 31.7930604,
+                Longitude = 35.2449342
+            });
         }
-
-
         static void InitializeDrone()
         {
-
             //DroneList = new List<Drone>
             //{
             //    new Drone
@@ -230,47 +125,40 @@ namespace DalObject
             //    },
 
             //};
-
-            DroneList = new List<Drone>();
             for (int i = 0; i < 10; i++)
             {
                 DroneList.Add(new Drone()
                 {
                     ID = rand.Next(1000000,10000000),
-                    Model = $"Drone {i}" ,
+                    Model = $"{(DroneModel)rand.Next(4)}" ,
                     MaxWeight = (WeightCategories)rand.Next(3),
                     Status = (DroneStatus)rand.Next(3),
                     Battery = rand.Next(0,101)
                 });
-
             }
-
         }
-
         public static void InitializePackage()
         {
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 10; i++)
             {
                 PackageList.Add(new Package()
                 {
                     ID = Config.PackageId++,
-                    SenderId = rand.Next(2000, 3000),
-                    TargetId = rand.Next(3001, 4000),
+                    SenderId = rand.Next(20000, 30000),
+                    TargetId = rand.Next(30000, 40000),
                     Weight = (WeightCategories)rand.Next(3),
                     Priority = (Priorities)rand.Next(3),
                     DroneId = 0,
-
-                });
+                    Ceated = DateTime.Now
+                }) ;
             }
         }
-
-
         public static void Initialize()
         {
             InitializeClient();
             InitializeDrone();
             InitializeStation();
-
+            InitializePackage();
 
             ////initialize Drone, 
             //for (int i = 0; i < 5; i++)
@@ -494,7 +382,6 @@ namespace DalObject
             //    ID = rand.Next(100, 999),
 
             //};
-
         }
     }
 
@@ -525,8 +412,16 @@ namespace DalObject
             DataSource.PackageList.Add(package);
         }
 
+        public static Client ClientById(int id) // Search for a client by id
+        {
+            foreach (var item in DataSource.ClientList)
+            {
+                if (item.ID == id) return item;
+            }
+            throw new Exception("There is no client with such an id");
+        }
 
-        public Package packageById(int id) // Search for a package by id
+        public static Package PackageById(int id) // Search for a package by id
         {
             foreach (var item in DataSource.PackageList)
             {
@@ -535,7 +430,7 @@ namespace DalObject
             throw new Exception("There is no package with such an id");
         }
 
-        public Drone droneById(int id) // Search for a drone by id
+        public static Drone DroneById(int id) // Search for a drone by id
         {
             foreach (var item in DataSource.DroneList)
             {
@@ -544,7 +439,7 @@ namespace DalObject
             throw new Exception("There is no drone with such an id");
         }
 
-        public Station stationById(int id) // Search for a station by id
+        public static Station StationById(int id) // Search for a station by id
         {
             foreach (var item in DataSource.StationList)
             {
@@ -553,31 +448,33 @@ namespace DalObject
             throw new Exception("There is no station with such an id");
         }
 
-
-        public void packageToDrone(Package package) // Link the package to the drone
+        public static DroneCharge DroneChargeByIdDrone(int id) // Search for a  DroneCharge by id of drone
         {
-            int idDrone = 0;
-            foreach (var item in DataSource.DroneList)
+            foreach (var item in DataSource.droneCharge)
             {
-                if (item.Status == DroneStatus.Available) // If there is a drone available
-                {
-                    idDrone = item.ID;
-                    Drone temp = item; // Updates in temp of drone
-                    temp.Status = DroneStatus.Shipping; // Updates in temp of drone
-                    DataSource.DroneList.Add(temp); // Add temp to list and delete old
-                    DataSource.DroneList.Remove(item);
-                    break;
-                }
+                if (item.DroneId == id) return item;
             }
-            if (idDrone == 0) throw new Exception("There are no drones available.");
+            throw new Exception("There is no  drone in charging with such an id");
+        }
+
+
+        public static void packageToDrone(Package package, Drone drone) // Link the package to the drone
+        {
+            //Drone drone = DroneById(droneId);
+            Drone temp = drone;  // Updates in temp of drone
+            temp.Status = DroneStatus.Shipping; // Updates in temp of drone
+            DataSource.DroneList.Add(temp); // Add temp to list and delete old
+            DataSource.DroneList.Remove(drone);
+
+
             Package packageTemp = package;
-            packageTemp.DroneId = idDrone; //  Updates in temp of  package
-            packageTemp.Scheduled = DateTime.Now;//  package
+            packageTemp.DroneId = temp.ID; //  Updates in temp of  package
+            packageTemp.Associated = DateTime.Now;//  package
             DataSource.PackageList.Add(packageTemp); // Add temp to list and delete old
             DataSource.PackageList.Remove(package);
         }
 
-        public void PickedUpByDrone(Package package)// Package collection by drone
+        public static void PickedUpByDrone(Package package)// Package collection by drone
         {
             Package packageTemp = package;
             packageTemp.PickedUp = DateTime.Now; // Updates in temp of drone
@@ -585,10 +482,10 @@ namespace DalObject
             DataSource.PackageList.Remove(package);
         }
 
-        public void DeliveredToClient(Package package) // The package was delivered to the client
+        public static void DeliveredToClient(Package package) // The package was delivered to the client
         {
 
-            Drone drone = droneById(package.DroneId);
+            Drone drone = DroneById(package.DroneId);
             Drone droneTemp = drone;
             droneTemp.Status = DroneStatus.Available; // Updates in temp of drone
             DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
@@ -601,15 +498,19 @@ namespace DalObject
 
         }
 
-        public Station chargingStation() // The user has to select a charging station. And update the station. And reduce charging positions
+        public static Station ChargingStation(int stationID) // The function handles the station
         {
-
-            return
+            Station station = StationById(stationID);
+            Station stationTemp = station;
+            stationTemp.ChargeSlots--;
+            DataSource.StationList.Add(stationTemp);
+            DataSource.StationList.Remove(station);
+            return stationTemp;
         }
 
-        public void DroneCharge(Drone drone)
+        public static void DroneCharge(Drone drone,int stationID)
         {
-            Station station = chargingStation(); // The station that the user choose
+            Station station = ChargingStation(stationID); // The station that the user choose
             Station stationTemp = station;
             Drone droneTemp = drone;
             droneTemp.Status = DroneStatus.Maintenance; // Updates in temp of drone
@@ -629,9 +530,9 @@ namespace DalObject
         }
 
 
-        public void finishCharging(DroneCharge droneCharge) // Finish drone Chargeing, update drone status and update station
+        public static void FinishCharging(DroneCharge droneCharge) // Finish drone Chargeing, update drone status and update station
         {
-            Drone drone = droneById(droneCharge.DroneId);
+            Drone drone = DroneById(droneCharge.DroneId);
             Drone droneTemp = drone; //   Updates in temp of drone
             droneTemp.Status = DroneStatus.Available; //    Updates in temp of drone
             droneTemp.Battery = 100; //    Updates in temp of drone
@@ -639,7 +540,7 @@ namespace DalObject
             DataSource.DroneList.Remove(drone);
 
 
-            Station station = stationById(droneCharge.StationId); // The station that Charged the drone
+            Station station = StationById(droneCharge.StationId); // The station that Charged the drone
             Station stationTemp = station;
             stationTemp.ChargeSlots--; // Updates in temp of station 
             DataSource.StationList.Add(stationTemp); // Add temp to list and delete old
@@ -649,9 +550,44 @@ namespace DalObject
         }
 
 
+        public static List<Station> StationsList()
+        {
+            return DataSource.StationList;
+        }
 
+        public static List<Drone> DroneList()
+        {
+            return DataSource.DroneList;
+        }
 
+        public static List<Client> ClientsList()
+        {
+            return DataSource.ClientList;
+        }
 
+        public static List<Package> PackageList()
+        {
+            return DataSource.PackageList;
+        }
 
+        public static List<Package> PackageWithoutDrone()
+        {
+            List<Package> packagesWithoutDrone = new List<Package>();
+            foreach (var item in DataSource.PackageList)
+            {
+                if (item.DroneId == 0) packagesWithoutDrone.Add(item);
+            }
+            return packagesWithoutDrone;
+        }
+
+        public static List<Station> StationWithCharging()
+        {
+            List<Station> stationWithCharging = new List<Station>();
+            foreach (var item in DataSource.StationList)
+            {
+                if (item.ChargeSlots > 0) stationWithCharging.Add(item);
+            }
+            return stationWithCharging;
+        }
     }
 }

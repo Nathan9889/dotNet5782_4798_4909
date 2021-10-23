@@ -21,5 +21,10 @@ namespace IDAL
             Available, Maintenance, Shipping
         }
 
+        public enum DroneModel
+        {
+            Dji_Mavic_2_Pro ,Dji_Mavic_2_Air, Dji_Mavic_2_Zoom, Dji_FPV_Combo
+        }
+
     }
 }

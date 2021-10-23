@@ -17,8 +17,8 @@ namespace IDAL
             public int DroneId { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
-            public DateTime Requested { get; set; }
-            public DateTime Scheduled { get; set; }
+            public DateTime Ceated { get; set; }
+            public DateTime Associated { get; set; }
             public DateTime PickedUp { get; set; }
             public DateTime Delivered { get; set; }
 
@@ -33,8 +33,8 @@ namespace IDAL
                 result += $"DroneId is {DroneId}, \n";
                 result += $"Weight is {Weight}, \n";
                 result += $"Priority is {Priority}, \n";
-                result += $"Requested :  {Requested}, \n";
-                result += $"Scheduled at {Scheduled}, \n";
+                result += $"Ceated at {Ceated}, \n";
+                result += $"Associated at  {Associated}, \n";
                 result += $"PickedUp at {PickedUp}, \n";
                 result += $"Delivered at {Delivered}, \n";
 
