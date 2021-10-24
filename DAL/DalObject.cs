@@ -53,6 +53,8 @@ namespace DalObject
                 }) ;
             }
         }
+
+
         /// <summary>
         /// Initialize 3 stations
         /// </summary>
@@ -86,6 +88,8 @@ namespace DalObject
                 Longitude = 35.2449342
             });
         }
+
+
         /// <summary>
         /// Initialize 10 drones
         /// </summary>
@@ -104,6 +108,8 @@ namespace DalObject
                 });
             }
         }
+
+
         /// <summary>
         /// Initialize 10 Packages
         /// </summary>
