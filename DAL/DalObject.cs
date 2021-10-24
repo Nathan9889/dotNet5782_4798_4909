@@ -114,8 +114,8 @@ namespace DalObject
                 PackageList.Add(new Package()
                 {
                     ID = Config.PackageId++,
-                    SenderId = ClientList[i].ID,
-                    TargetId = rand.Next(100000, 1000000),
+                    SenderId = ClientList[rand.Next(0,10)].ID,
+                    TargetId = ClientList[rand.Next(0, 10)].ID,
                     Weight = (WeightCategories)rand.Next(3),
                     Priority = (Priorities)rand.Next(3),
                     DroneId = 0,
@@ -182,10 +182,11 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new Exception("There is no client with such an id");
+            Client null1 = new Client { };
+            return null1;
         }
 
-
+        
         /// <summary>
         /// The function receives a packet ID and returns the object whose ID it is
         /// </summary>
@@ -197,7 +198,8 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new Exception("There is no package with such an id");
+            Package null1 = new Package { };
+            return null1;
         }
 
 
@@ -212,7 +214,8 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new Exception("There is no drone with such an id");
+            Drone null1 = new Drone { };
+            return null1;
         }
 
 
@@ -227,7 +230,8 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new Exception("There is no station with such an id");
+            Station null1 = new Station { };
+            return null1;
         }
 
 
@@ -242,7 +246,8 @@ namespace DalObject
             {
                 if (item.DroneId == id) return item;
             }
-            throw new Exception("There is no  drone in charging with such an id");
+            DroneCharge null1 = new DroneCharge { };
+            return null1;
         }
 
 
