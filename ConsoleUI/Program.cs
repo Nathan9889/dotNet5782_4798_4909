@@ -1,4 +1,6 @@
-﻿using System;
+﻿//Name: Nathan Sayag, TZ: 328944798
+//    : Haim 
+using System;
 using IDAL.DO;
 using DalObject;
 
@@ -26,7 +28,7 @@ namespace ConsoleUI
              
             while (num != 0) 
             {
-                Console.WriteLine("Choose an Option: \n");
+                Console.WriteLine("Choose an Option:");
                 Console.WriteLine(" 1: Add \n 2: Update \n 3: Display specific Item \n 4: Display Item List \n 0: Exit");
                 choice = (Menu)int.Parse(Console.ReadLine());    //User input to go through the menu
 
@@ -42,11 +44,13 @@ namespace ConsoleUI
                                 case ObjectMenu.Client:
 
                                     Console.WriteLine("Enter Client Data: ID, Name, Phone, Latitude, Longitude  \n");  // Getting Client data from user
-                                    int clientId = int.Parse(Console.ReadLine());
+                                    int clientId;
+                                    int.TryParse(Console.ReadLine(), out clientId);
                                     string clientName = Console.ReadLine();
                                     string clientPhone = Console.ReadLine();
-                                    double clientLatitude = double.Parse(Console.ReadLine());
-                                    double clientLongitude = double.Parse(Console.ReadLine());
+                                    double clientLatitude, clientLongitude;
+                                    double.TryParse(Console.ReadLine(),out clientLatitude);
+                                    double.TryParse(Console.ReadLine(), out clientLongitude);
 
                                     Client client = new Client();   //creating new object then assigning user input to that object
 
@@ -62,7 +66,8 @@ namespace ConsoleUI
                                 case ObjectMenu.Drone:
 
                                     Console.WriteLine("Enter Drone Data: ID, Model, Weight, Status, Battery \n");  // Getting Drone data from user
-                                    int droneId = int.Parse(Console.ReadLine());
+                                    int droneId;
+                                    int.TryParse(Console.ReadLine(), out droneId);
                                     string droneModel = Console.ReadLine();
                                     Console.WriteLine("Choose Drone Weight: 0 : Light, 1 : Medium, 2 : Heavy :\n");  //getting different type of weight from user
                                     string chosen = (Console.ReadLine());  //used to get the num from user and chose with it different enum option
@@ -70,7 +75,8 @@ namespace ConsoleUI
                                     Console.WriteLine("Choose Drone Status: 0 : Available, 1 : Maintenance, 2 : Shipping :\n"); // For different type of status from user
                                     chosen = (Console.ReadLine());
                                     DroneStatus droneStatus = (DroneStatus)Convert.ToInt32(chosen);
-                                    double droneBattery = double.Parse(Console.ReadLine());
+                                    double droneBattery;
+                                    double.TryParse(Console.ReadLine(),out droneBattery);
 
                                     Drone drone = new Drone();      //creating new object then assigning user input to that object
 
@@ -86,11 +92,13 @@ namespace ConsoleUI
                                 case ObjectMenu.Station:
 
                                     Console.WriteLine("Enter Station Data: ID, Name, Num of ChargingSlot, Longitude, Latitude\n");   // Getting Station data from user
-                                    int stationId = int.Parse(Console.ReadLine());
+                                    int stationId;
+                                    int.TryParse(Console.ReadLine(), out stationId);
                                     string stationName = Console.ReadLine();
                                     int stationChargeSlot = int.Parse(Console.ReadLine());
-                                    double stationLatitude = double.Parse(Console.ReadLine());
-                                    double stationLongitude = double.Parse(Console.ReadLine());
+                                    double stationLatitude, stationLongitude;
+                                    double.TryParse(Console.ReadLine(), out stationLatitude);
+                                    double.TryParse(Console.ReadLine(), out stationLongitude);
 
                                     Station station = new Station();  //creating new object then assigning user input to that object
 
@@ -105,10 +113,12 @@ namespace ConsoleUI
 
                                 case ObjectMenu.Package:
                                     Console.WriteLine("Enter All Package Data: ID, SenderId, TargetId, DroneId, MaxWeight, Priority\n");  // Getting Package data from user
-                                    int packageId = int.Parse(Console.ReadLine());
-                                    int packageSenderId = int.Parse(Console.ReadLine());
-                                    int packageTargetId = int.Parse(Console.ReadLine());
-                                    int packageDroneId = int.Parse(Console.ReadLine());
+                                    int packageId, packageSenderId, packageTargetId,packageDroneId ;
+                                    int.TryParse(Console.ReadLine(), out packageId);
+                                    int.TryParse(Console.ReadLine(), out packageSenderId);
+                                    int.TryParse(Console.ReadLine(), out packageTargetId);
+                                    int.TryParse(Console.ReadLine(), out packageDroneId);
+
                                     Console.WriteLine("Choose package Weight: 0 : Light, 1 : Medium, 2 : Heavy :\n");
                                     chosen = (Console.ReadLine());
                                     WeightCategories packageWeight = (WeightCategories)Convert.ToInt32(chosen);
@@ -132,7 +142,6 @@ namespace ConsoleUI
                                 default:
                                     break;
                             }
-
                             break;
                         }
 
@@ -149,40 +158,41 @@ namespace ConsoleUI
                                 case UpdateOptions.Assignment:  //Assign Package to a drone using Drone and package ID.
                                     int droneId, packageId;
                                     Console.WriteLine("What is the drone's ID?");
-                                    droneId = int.Parse(Console.ReadLine());
+                                    int.TryParse(Console.ReadLine(), out droneId);
                                     Console.WriteLine("What is the package's ID?");
-                                    packageId = int.Parse(Console.ReadLine());
+                                    int.TryParse(Console.ReadLine(), out packageId);
                                     DalObject.DalObject.packageToDrone(DalObject.DalObject.PackageById(packageId), DalObject.DalObject.DroneById(droneId));  //Getting ID input then sending the ID inputed to Dalobject method packagebyId and droneById that return the items who match the Id's then put both items in packageToDrone method
                                     break;
 
                                 case UpdateOptions.PickedUp:    //Getting a drone to pick up a package 
                                     Console.WriteLine("What is the package's ID?");
-                                    packageId = int.Parse(Console.ReadLine());
+                                    int.TryParse(Console.ReadLine(), out packageId);
                                     DalObject.DalObject.PickedUpByDrone(DalObject.DalObject.PackageById(packageId));  // Same as previous
                                     break;
 
                                 case UpdateOptions.Delivered:   //Deliver a Package to a client
                                     Console.WriteLine("What is the package's ID?");
-                                    packageId = int.Parse(Console.ReadLine());
+                                    int.TryParse(Console.ReadLine(), out packageId);
                                     DalObject.DalObject.DeliveredToClient(DalObject.DalObject.PackageById(packageId));  
                                     break;
 
                                 case UpdateOptions.Charging:    //sending a drone to a station to get it charged
                                     Console.WriteLine("What is the drone's ID?");
-                                    droneId = int.Parse(Console.ReadLine());
+                                    int.TryParse(Console.ReadLine(), out droneId);
                                     Console.WriteLine("At which station do you want to recharge the drone?\n");
                                     foreach (var station in (DalObject.DalObject.StationWithCharging()))  // Display the stations list who have places to charge
                                     {
                                         Console.WriteLine(station);
                                     }
                                     Console.WriteLine("What is the station ID ?\n");
-                                    int stationID = int.Parse(Console.ReadLine());
-                                    DalObject.DalObject.DroneCharge(DalObject.DalObject.DroneById(droneId), stationID);
+                                    int stationId;
+                                    int.TryParse(Console.ReadLine(), out stationId);
+                                    DalObject.DalObject.DroneCharge(DalObject.DalObject.DroneById(droneId), stationId);
                                     break;
 
                                 case UpdateOptions.FinishCharging:  //Getting a drone back from charging
                                     Console.WriteLine("What is the drone's ID?");
-                                    droneId = int.Parse(Console.ReadLine());
+                                    int.TryParse(Console.ReadLine(), out droneId);
                                     DalObject.DalObject.FinishCharging(DalObject.DalObject.DroneChargeByIdDrone(droneId));
                                     break;
 
@@ -202,26 +212,30 @@ namespace ConsoleUI
 
                                 case ObjectMenu.Client:
                                     Console.WriteLine("What is the client's ID?");
-                                    int clientID = int.Parse(Console.ReadLine());
-                                    Console.WriteLine(DalObject.DalObject.ClientById(clientID));  //output the tostring func of client object that match the id user inputed
+                                    int clientId;
+                                    int.TryParse(Console.ReadLine(), out clientId);
+                                    Console.WriteLine(DalObject.DalObject.ClientById(clientId));  //output the tostring func of client object that match the id user inputed
                                     break;
 
                                 case ObjectMenu.Drone:
                                     Console.WriteLine("What is the drone's ID?");
-                                    int droneID = int.Parse(Console.ReadLine());
-                                    Console.WriteLine(DalObject.DalObject.DroneById(droneID));   //same for rest
+                                    int droneId;
+                                    int.TryParse(Console.ReadLine(), out droneId);
+                                    Console.WriteLine(DalObject.DalObject.DroneById(droneId));   //same for rest
                                     break;
 
                                 case ObjectMenu.Station:
                                     Console.WriteLine("What is the station's ID?");
-                                    int stationID = int.Parse(Console.ReadLine());
-                                    Console.WriteLine(DalObject.DalObject.StationById(stationID));
+                                    int stationId;
+                                    int.TryParse(Console.ReadLine(), out stationId);
+                                    Console.WriteLine(DalObject.DalObject.StationById(stationId));
                                     break;
 
                                 case ObjectMenu.Package:
                                     Console.WriteLine("What is the package's ID?");
-                                    int packageID = int.Parse(Console.ReadLine());
-                                    Console.WriteLine(DalObject.DalObject.PackageById(packageID));
+                                    int packageId;
+                                    int.TryParse(Console.ReadLine(), out packageId);
+                                    Console.WriteLine(DalObject.DalObject.PackageById(packageId));
                                     break;
 
                                 default:
