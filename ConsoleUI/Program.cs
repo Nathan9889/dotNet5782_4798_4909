@@ -147,7 +147,7 @@ namespace ConsoleUI
 
                     case Menu.Update:   //Update item
                         {
-                            Console.WriteLine("Choose an Option: \n");
+                            Console.WriteLine("Choose an Option:");
                             Console.WriteLine(" 1: Assigning a package to a drone \n 2: Pick Up Package by Drone \n 3: Delivery of a package to the client: \n 4: Charging drone \n 5: Finish charging drone \n 0: Exit");  ///User Choose Different type of Update
                             updateOptions = (UpdateOptions)int.Parse(Console.ReadLine());
 
@@ -203,7 +203,7 @@ namespace ConsoleUI
                         }
                     case Menu.DisplayItem:   // Output Specific item Data
                         {
-                            Console.WriteLine("Choose Which Item data to display: \n 1: Client \n 2: Drone \n 3: Station \n 4: Package \n 0: Exit ");
+                            Console.WriteLine("Choose which Item to display: \n 1: Client \n 2: Drone \n 3: Station \n 4: Package \n 0: Exit ");
                             objectMenu = (ObjectMenu)int.Parse(Console.ReadLine());
                             switch (objectMenu)
                             {
@@ -245,7 +245,7 @@ namespace ConsoleUI
                         }
                     case Menu.DisplayList:   // Output all list of different object
                         {
-                            Console.WriteLine("Choose the show option: \n 1: Clients list \n 2: Drones list\n 3: Stations list \n 4: Packages list\n 5: List of packages that do not belong to the drone \n 6: List of stations with available charging slots \n 0: Exit ");
+                            Console.WriteLine("Choose Which Item list to display: \n 1: Clients list \n 2: Drones list\n 3: Stations list \n 4: Packages list\n 5: List of packages that do not belong to the drone \n 6: List of stations with available charging slots \n 0: Exit ");
                             objectList = (ObjectList)int.Parse(Console.ReadLine());
                             switch (objectList)
                             {
