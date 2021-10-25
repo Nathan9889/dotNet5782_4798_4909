@@ -34,12 +34,14 @@ namespace DAL
         public static string ConvertLongitude(double longitude)
         {
             string str = ConvertCoordinates(longitude);
-            return (str += "S");
+            if (longitude < 0) return (str += "W");
+            return (str += "E");
         }
         public static string ConvertLatitude(double Latitude)
         {
             string str = ConvertCoordinates(Latitude);
-            return (str += "E");
+            if (Latitude < 0) return (str += "S");
+            return (str += "N");
         }
 
 
