@@ -16,7 +16,7 @@ namespace DalObject
         internal static List<Package> PackageList = new List<Package>(); // Creating List of Package
         internal static List<DroneCharge> droneCharge = new List<DroneCharge>(); // Creating List of droneCharge
 
-        internal static List<string> Names = new List<string>() { "Smith","Johnson","Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez","Martinez",}; // Random list of names
+        internal static List<string> Names = new List<string>() { "Smith","Johnson","Williams", "Brown", "Lee", "Garcia", "Miller", "Davis", "Rodriguez","Martinez",}; // Random list of names
 
         static Random rand = new Random();
 
