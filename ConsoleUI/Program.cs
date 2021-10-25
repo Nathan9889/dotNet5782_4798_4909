@@ -1,6 +1,6 @@
 ﻿//Mini Project Targil 1:
 //Name: Nathan Sayag, TZ: 328944798
-//Name: Haim Goren, TZ: 207214909
+//Name: Haim Goren, TZ: 207214909 
 using System;
 using IDAL.DO;
 using DalObject;
