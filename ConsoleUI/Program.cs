@@ -113,9 +113,8 @@ namespace ConsoleUI
                                     break;
 
                                 case ObjectMenu.Package:
-                                    Console.WriteLine("Enter All Package Data: ID, SenderId, TargetId, DroneId, MaxWeight, Priority\n");  // Getting Package data from user
-                                    int packageId, packageSenderId, packageTargetId,packageDroneId ;
-                                    int.TryParse(Console.ReadLine(), out packageId);
+                                    Console.WriteLine("Enter All Package Data: SenderId, TargetId, DroneId, MaxWeight, Priority\n");  // Getting Package data from user
+                                    int packageSenderId, packageTargetId,packageDroneId ;
                                     int.TryParse(Console.ReadLine(), out packageSenderId);
                                     int.TryParse(Console.ReadLine(), out packageTargetId);
                                     int.TryParse(Console.ReadLine(), out packageDroneId);
@@ -129,7 +128,7 @@ namespace ConsoleUI
 
                                     Package package = new Package();   //creating new object then assigning user input to that object
 
-                                    package.ID = packageId;
+                                    package.ID = 0;
                                     package.SenderId = packageSenderId;
                                     package.TargetId = packageTargetId;
                                     package.DroneId = packageDroneId;

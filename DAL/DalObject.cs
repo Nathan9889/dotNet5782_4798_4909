@@ -173,6 +173,7 @@ namespace DalObject
         /// <param name="package"></param>
         public static void AddPackage(Package package)
         {
+            package.ID = DataSource.Config.PackageId++;
             DataSource.PackageList.Add(package);
         }
 
