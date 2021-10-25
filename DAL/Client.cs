@@ -28,10 +28,6 @@ namespace IDAL
 
                 return result;
             }
-
         }
-
     }
-
-
 }
