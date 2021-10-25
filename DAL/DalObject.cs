@@ -16,7 +16,16 @@ namespace DalObject
         internal static List<Package> PackageList = new List<Package>(); // Creating List of Package
         internal static List<DroneCharge> droneCharge = new List<DroneCharge>(); // Creating List of droneCharge
 
+        internal static List<string> Names = new List<string>() { "Smith","Johnson","Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez","Martinez",}; // Random list of names
+
         static Random rand = new Random();
+
+        /// <summary>
+        /// The function gets a range of coordinates and adds to them up to one point, so that the new random position will be in the range of the range that the function has received.
+        ///The function returns the new position
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
         public static double GetRandCoordinate(double num) //return Coordinate
         {
             double res = num + rand.NextDouble() / 10;
@@ -46,7 +55,7 @@ namespace DalObject
                 ClientList.Add(new Client()
                 {
                     ID = rand.Next(100000, 1000000),
-                    Name = $"Client {i}",
+                    Name = $"{Names[i]}",
                     Phone = $"0{rand.Next(51, 58)}{rand.Next(1000000, 10000000)}",
                     Latitude = GetRandCoordinate(31.73),
                     Longitude = GetRandCoordinate(35.16)
