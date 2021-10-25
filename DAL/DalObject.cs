@@ -32,6 +32,7 @@ namespace DalObject
             return Math.Round(res, 6);
         }
 
+
         internal class Config
         {
             internal static int PackageId = 1000; 
@@ -84,7 +85,7 @@ namespace DalObject
                 ID = rand.Next(10, 99),
                 Name = "Central Station",
                 ChargeSlots = rand.Next(10),
-                Latitude = 31.7888727,
+                Latitude =31.7888727,
                 Longitude = 35.2031491
             });
 
@@ -180,10 +181,11 @@ namespace DalObject
         /// The function receives a package type object and adds it to the list of packages
         /// </summary>
         /// <param name="package"></param>
-        public static void AddPackage(Package package)
+        public static int AddPackage(Package package)
         {
             package.ID = DataSource.Config.PackageId++;
             DataSource.PackageList.Add(package);
+            return DataSource.Config.PackageId;
         }
 
 

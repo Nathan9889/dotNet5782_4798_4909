@@ -1,0 +1,47 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DAL
+{
+    public static class Coordinates
+    {
+        private static string ConvertCoordinates(double cor)
+        {
+
+            cor = Math.Abs(cor);
+            string str = Convert.ToString((int)cor) + "°";
+            cor -= (int)cor;
+            cor *= 60;
+            str += Convert.ToString((int)cor) + "'";
+            cor -= (int)cor;
+            cor *= 60;
+            str += Convert.ToString((int)cor) + ".";
+            cor -= (int)cor;
+            cor *= 1000;
+            str += Convert.ToString((int)cor) + "''";
+            return str;
+        }
+
+        public static double distance(double x1, double y1, double x2, double y2)
+        {
+            double m = Math.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+            return m * 100;
+        }
+
+        public static string ConvertLongitude(double longitude)
+        {
+            string str = ConvertCoordinates(longitude);
+            return (str += "S");
+        }
+        public static string ConvertLatitude(double Latitude)
+        {
+            string str = ConvertCoordinates(Latitude);
+            return (str += "E");
+        }
+
+
+    }
+}

@@ -23,6 +23,8 @@ namespace IDAL
                 result += $"Name is {Name},\n";
                 result += $"ID is {ID}, \n";
                 result += $"Phone is {Phone.Substring(0,3) + '-' + Phone.Substring(3)}, \n";
+                result += $"Latitude is {DAL.Coordinates.ConvertLatitude(Latitude)}, \n";
+                result += $"Longitude is {DAL.Coordinates.ConvertLongitude(Longitude)}, \n";
                 result += $"Latitude is {Latitude}, \n";
                 result += $"Longitude is {Longitude}, \n";
 

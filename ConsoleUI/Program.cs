@@ -11,10 +11,11 @@ namespace ConsoleUI
     class Program
     {
         ///Enum for for User Option
-        enum Menu { Exit, Add, Update, DisplayItem, DisplayList };
+        enum Menu { Exit, Add, Update, DisplayItem, DisplayList, Distance };
         enum UpdateOptions { Exit, Assignment, PickedUp, Delivered, Charging, FinishCharging };
         enum ObjectMenu { Exit, Client, Drone, Station, Package };
         enum ObjectList { Exit, ClientList, DroneList, StationList, PackageList, PackageWithoutDrone, StationWithCharging };
+        enum DistanceOptions {Exit, Client, Station};
 
         /// <summary>
         /// Main function to run the program, the program get user input and display the relevant application from user choice, User can: Add An object, Update different type of information, Display specific object and Display every element from different list.
@@ -25,12 +26,13 @@ namespace ConsoleUI
             ObjectMenu objectMenu;
             UpdateOptions updateOptions;
             ObjectList objectList;
+            DistanceOptions distanceOptions;
             int num = 1;
              
             while (num != 0) 
             {
                 Console.WriteLine("Choose an Option:");
-                Console.WriteLine(" 1: Add \n 2: Update \n 3: Display specific Item \n 4: Display Item List \n 0: Exit");
+                Console.WriteLine(" 1: Add \n 2: Update \n 3: Display specific Item \n 4: Display Item List \n 5: Distance \n 0: Exit");
                 choice = (Menu)int.Parse(Console.ReadLine());    //User input to go through the menu
 
                 switch (choice)
@@ -113,16 +115,16 @@ namespace ConsoleUI
                                     break;
 
                                 case ObjectMenu.Package:
-                                    Console.WriteLine("Enter All Package Data: SenderId, TargetId, DroneId, MaxWeight, Priority\n");  // Getting Package data from user
+                                    Console.WriteLine("Enter All Package Data: SenderId, TargetId, DroneId, MaxWeight, Priority");  // Getting Package data from user
                                     int packageSenderId, packageTargetId,packageDroneId ;
                                     int.TryParse(Console.ReadLine(), out packageSenderId);
                                     int.TryParse(Console.ReadLine(), out packageTargetId);
                                     int.TryParse(Console.ReadLine(), out packageDroneId);
 
-                                    Console.WriteLine("Choose package Weight: 0 : Light, 1 : Medium, 2 : Heavy :\n");
+                                    Console.WriteLine("Choose package Weight: 0 : Light, 1 : Medium, 2 : Heavy :");
                                     chosen = (Console.ReadLine());
                                     WeightCategories packageWeight = (WeightCategories)Convert.ToInt32(chosen);
-                                    Console.WriteLine("Choose package Priority: 0 :  Standard, 1 : Fast, 2 : Urgent :\n");
+                                    Console.WriteLine("Choose package Priority: 0 :  Standard, 1 : Fast, 2 : Urgent :");
                                     chosen = (Console.ReadLine());
                                     Priorities packagePriority = (Priorities)Convert.ToInt32(chosen);
 
@@ -136,7 +138,7 @@ namespace ConsoleUI
                                     package.Priority = packagePriority;
                                     package.Created = DateTime.Now;
 
-                                    DalObject.DalObject.AddPackage(package); // Adding the new object to the list of that object
+                                    Console.WriteLine($"Your package ID number is {DalObject.DalObject.AddPackage(package)}\n"); // Adding the new object to the list of that object
                                     break;
 
                                 default:
@@ -297,6 +299,42 @@ namespace ConsoleUI
                                 default:
                                     break;
                             }
+                            break;
+                        }
+                    case Menu.Distance:
+                        {
+                            double latitude, longitude;
+                            int ID;
+                            Console.WriteLine("What is the Latitude?");
+                            double.TryParse(Console.ReadLine(), out latitude);
+                            Console.WriteLine("What is the Longitude?");
+                            double.TryParse(Console.ReadLine(), out longitude);
+
+                            Console.WriteLine("To where do you want to check distance ? client - 1 Station - 2");
+                            distanceOptions = (DistanceOptions)int.Parse(Console.ReadLine());
+                            switch (distanceOptions)
+                            {
+                                case DistanceOptions.Exit:
+                                    break;
+
+                                case DistanceOptions.Client:
+                                    Console.WriteLine("What is the client ID ?");
+                                    int.TryParse(Console.ReadLine(), out ID);
+                                    Client client = DalObject.DalObject.ClientById(ID);
+                                    Console.WriteLine($"The distance is: {Math.Round( DAL.Coordinates.distance(latitude, longitude, client.Latitude, client.Longitude),3)}");
+                                    break;
+
+                                case DistanceOptions.Station:
+                                    Console.WriteLine("What is the station ID ?");
+                                    int.TryParse(Console.ReadLine(), out ID);
+                                    Station station = DalObject.DalObject.StationById(ID);
+                                    Console.WriteLine($"The distance is: {Math.Round(DAL.Coordinates.distance(latitude, longitude, station.Latitude, station.Longitude), 3)}");
+                                    break;
+
+                                default:
+                                    break;
+                            }
+
                             break;
                         }
 
