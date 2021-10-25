@@ -302,7 +302,7 @@ namespace ConsoleUI
 
                     case Menu.Exit:
                         num = 0;
-                        break;
+                        break               ;
 
                     default:
                         break                ;
