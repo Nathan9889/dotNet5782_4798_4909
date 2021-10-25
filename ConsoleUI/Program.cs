@@ -305,6 +305,7 @@ namespace ConsoleUI
                         {
                             double latitude, longitude;
                             int ID;
+                            
                             Console.WriteLine("What is the Latitude?");
                             double.TryParse(Console.ReadLine(), out latitude);
                             Console.WriteLine("What is the Longitude?");
