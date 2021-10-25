@@ -293,7 +293,7 @@ namespace ConsoleUI
                                         Console.WriteLine(station);
                                     }
                                     break;
-
+                                     
                                 default:
                                     break;
                             }
@@ -305,7 +305,7 @@ namespace ConsoleUI
                         break;
 
                     default:
-                        break;
+                        break                ;
 
                 }
             }
