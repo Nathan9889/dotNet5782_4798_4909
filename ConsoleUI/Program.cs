@@ -1,5 +1,5 @@
 ﻿//Name: Nathan Sayag, TZ: 328944798
-//    : Haim 
+//Name: Haim Goren, TZ: 207214909
 using System;
 using IDAL.DO;
 using DalObject;
@@ -293,7 +293,7 @@ namespace ConsoleUI
                                         Console.WriteLine(station);
                                     }
                                     break;
-
+                                     
                                 default:
                                     break;
                             }
@@ -302,7 +302,7 @@ namespace ConsoleUI
 
                     case Menu.Exit:
                         num = 0;
-                        break               ;
+                        break;
 
                     default:
                         break;
