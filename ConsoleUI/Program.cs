@@ -313,7 +313,7 @@ namespace ConsoleUI
 
         static void Main(string[] args)
         {
-            new DalObject.DalObject();
+            new DalObject.DalObject(); 
             Display();
         }
 
