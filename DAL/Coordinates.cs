@@ -8,6 +8,11 @@ namespace DAL
 {
     public static class Coordinates
     {
+        /// <summary>
+        /// The function Convert from Decimal to Sexagesimal and returns the result
+        /// </summary>
+        /// <param name="cor"></param>
+        /// <returns></returns>
         private static string ConvertCoordinates(double cor)
         {
 
@@ -25,6 +30,9 @@ namespace DAL
             return str;
         }
 
+        /// <summary>
+        /// The func Calculate the distance between Two Coordination and returns it
+        /// </summary>
         public static double distance(double x1, double y1, double x2, double y2)
         {
             double m = Math.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));

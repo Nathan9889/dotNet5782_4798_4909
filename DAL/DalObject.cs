@@ -73,7 +73,7 @@ namespace DalObject
 
             StationList.Add(new Station() 
             {
-                ID = rand.Next(10, 99),
+                ID = rand.Next(10, 100),
                 Name = "Malcha Mall",
                 ChargeSlots = rand.Next(10),
                 Latitude = 31.7515163,
@@ -82,7 +82,7 @@ namespace DalObject
 
             StationList.Add(new Station()
             {
-                ID = rand.Next(10, 99),
+                ID = rand.Next(10, 100),
                 Name = "Central Station",
                 ChargeSlots = rand.Next(10),
                 Latitude =31.7888727,
@@ -91,7 +91,7 @@ namespace DalObject
 
             StationList.Add(new Station()
             {
-                ID = rand.Next(10, 99),
+                ID = rand.Next(10, 100),
                 Name = "Mount Scopus",
                 ChargeSlots = rand.Next(10),
                 Latitude = 31.7930604,
