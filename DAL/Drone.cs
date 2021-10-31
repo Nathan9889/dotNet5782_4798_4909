@@ -17,7 +17,6 @@ namespace IDAL
             //public double Battery { get; set; }
 
 
-
             public override string ToString()
             {
                 string result = "";
