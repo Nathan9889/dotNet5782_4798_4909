@@ -35,7 +35,14 @@ namespace DalObject
 
         internal class Config
         {
-            internal static int PackageId = 1000; 
+            internal static int PackageId = 1000;
+
+            public static int VacantDrone = 0;
+            public static int LightDrone = 0;
+            public static int MediumDrone = 0;
+            public static int HeavyDrone = 0;
+
+            public static int ChargeRate = 0;
         }
 
         public static void Initialize()
@@ -113,8 +120,8 @@ namespace DalObject
                     ID = rand.Next(1000000,10000000),
                     Model = $"{(DroneModel)rand.Next(4)}" ,
                     MaxWeight = (WeightCategories)rand.Next(3),
-                    Status = (DroneStatus)rand.Next(3),
-                    Battery = rand.Next(0,101)
+                    //Status = (DroneStatus)rand.Next(3),
+                    //Battery = rand.Next(0,101)
                 });
             }
         }
@@ -274,7 +281,7 @@ namespace DalObject
         public static void packageToDrone(Package package, Drone drone) // Link the package to the drone
         {
             Drone temp = drone;  // Updates in temp of drone
-            temp.Status = DroneStatus.Shipping; // Updates in temp of drone
+            //temp.Status = DroneStatus.Shipping; // Updates in temp of drone
             DataSource.DroneList.Add(temp); // Add temp to list and delete old
             DataSource.DroneList.Remove(drone);
 
@@ -309,7 +316,7 @@ namespace DalObject
 
             Drone drone = DroneById(package.DroneId);
             Drone droneTemp = drone;
-            droneTemp.Status = DroneStatus.Available; // Updates in temp of drone
+           // droneTemp.Status = DroneStatus.Available; // Updates in temp of drone
             DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
             DataSource.DroneList.Remove(drone);
 
@@ -319,7 +326,7 @@ namespace DalObject
             DataSource.PackageList.Remove(package);
 
         }
-
+          
 
         /// <summary>
         /// The function receives a station ID, updates on one occupied charging station. And returns the object
@@ -347,7 +354,7 @@ namespace DalObject
         {
             Station station = ChargingStation(stationID); // The station that the user choose
             Drone droneTemp = drone;
-            droneTemp.Status = DroneStatus.Maintenance; // Updates in temp of drone
+   //droneTemp.Status = DroneStatus.Maintenance; // Updates in temp of drone
             DroneCharge droneCharg = new DroneCharge() // Initialization of a new instance for DroneCharge
             {
                 DroneId = droneTemp.ID,
@@ -368,8 +375,8 @@ namespace DalObject
         {
             Drone drone = DroneById(droneCharge.DroneId);
             Drone droneTemp = drone; //   Updates in temp of drone
-            droneTemp.Status = DroneStatus.Available; //    Updates in temp of drone
-            droneTemp.Battery = 100; //    Updates in temp of drone
+            //droneTemp.Status = DroneStatus.Available; //    Updates in temp of drone
+            //droneTemp.Battery = 100; //    Updates in temp of drone
             DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
             DataSource.DroneList.Remove(drone);
 

@@ -16,10 +16,10 @@ namespace IDAL
             Standard, Fast, Urgent
         }
 
-        public enum DroneStatus
-        {
-            Available, Maintenance, Shipping
-        }
+        //public enum DroneStatus
+        //{
+        //    Available, Maintenance, Shipping
+        //}
 
         public enum DroneModel
         {

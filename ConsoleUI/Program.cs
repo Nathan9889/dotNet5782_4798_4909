@@ -75,9 +75,9 @@ namespace ConsoleUI
                                     Console.WriteLine("Choose Drone Weight: 0 : Light, 1 : Medium, 2 : Heavy :\n");  //getting different type of weight from user
                                     string chosen = (Console.ReadLine());  //used to get the num from user and chose with it different enum option
                                     WeightCategories droneWeight = (WeightCategories)Convert.ToInt32(chosen);
-                                    Console.WriteLine("Choose Drone Status: 0 : Available, 1 : Maintenance, 2 : Shipping :\n"); // For different type of status from user
-                                    chosen = (Console.ReadLine());
-                                    DroneStatus droneStatus = (DroneStatus)Convert.ToInt32(chosen);
+                                        //Console.WriteLine("Choose Drone Status: 0 : Available, 1 : Maintenance, 2 : Shipping :\n"); // For different type of status from user
+                                        //chosen = (Console.ReadLine());
+                                        //DroneStatus droneStatus = (DroneStatus)Convert.ToInt32(chosen);
                                     double droneBattery;
                                     double.TryParse(Console.ReadLine(),out droneBattery);
 
@@ -86,8 +86,6 @@ namespace ConsoleUI
                                     drone.ID = droneId;
                                     drone.Model = droneModel;
                                     drone.MaxWeight = droneWeight;
-                                    drone.Status = droneStatus;
-                                    drone.Battery = droneBattery;
 
                                     DalObject.DalObject.AddDrone(drone);   // Adding the new object to the list of that object
                                     break;
@@ -298,7 +296,7 @@ namespace ConsoleUI
                                      
                                 default:
                                     break;
-                            }
+                            } 
                             break;
                         }
                     case Menu.Distance:

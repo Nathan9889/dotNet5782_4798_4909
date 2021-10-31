@@ -13,8 +13,8 @@ namespace IDAL
             public int ID { get; set; }
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }
-            public DroneStatus Status { get; set; }
-            public double Battery { get; set; }
+            //public DroneStatus Status { get; set; }
+            //public double Battery { get; set; }
 
 
 
@@ -24,8 +24,8 @@ namespace IDAL
                 result += $"ID is {ID}, \n";
                 result += $"Model name is {Model},\n";
                 result += $"MaxWeight is {MaxWeight}, \n";
-                result += $"Status is {Status}, \n";
-                result += $"Battery is {Battery}, \n";
+                //result += $"Status is {Status}, \n";
+                //result += $"Battery is {Battery}, \n";
 
                 return result;
             }
