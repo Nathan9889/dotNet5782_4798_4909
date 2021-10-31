@@ -37,10 +37,10 @@ namespace DalObject
         {
             internal static int PackageId = 1000;
 
-            public static int VacantDrone = 0;
-            public static int LightDrone = 0;
-            public static int MediumDrone = 0;
-            public static int HeavyDrone = 0;
+            public static int PoewrVacantDrone = 0;
+            public static int PoewrLightDrone = 0;
+            public static int PoewrMediumDrone = 0;
+            public static int PoewrHeavyDrone = 0;
 
             public static int ChargeRate = 0;
         }
@@ -148,7 +148,7 @@ namespace DalObject
         }
         
     }
-    public class DalObject
+    public class DalObject : IDAL.IDAL
     {
 
         public DalObject() { DataSource.Initialize(); }
@@ -158,8 +158,9 @@ namespace DalObject
         /// The function receives an object Station and adds it to the list
         /// </summary>
         /// <param name="station"></param>
-        public static void AddStation(Station station)
+        public void AddStation(Station station)
         {
+            if (DataSource.StationList.FindIndex(x => x.ID == station.ID) != -1) throw new IDAL.DO.Exceptions.StationIDAlreadyExists("A Station with such an ID already exists");
             DataSource.StationList.Add(station);
         }
 
@@ -168,8 +169,9 @@ namespace DalObject
         /// The function gets a drone object and adds it to the list
         /// </summary>
         /// <param name="drone"></param>
-        public static void AddDrone(Drone drone)
+        public void AddDrone(Drone drone)
         {
+            if (DataSource.DroneList.FindIndex(x => x.ID == drone.ID) != -1) throw new IDAL.DO.Exceptions.DroneIDAlreadyExists("A Drone with such an ID already exists");
             DataSource.DroneList.Add(drone);
         }
 
@@ -178,8 +180,9 @@ namespace DalObject
         /// The function accepts a client-type object and adds it to the list of clients
         /// </summary>
         /// <param name="client"></param>
-        public static void AddClient(Client client)
+        public void AddClient(Client client)
         {
+            if (DataSource.ClientList.FindIndex(x => x.ID == client.ID) != -1) throw new IDAL.DO.Exceptions.ClientIDAlreadyExists("A Client with such an ID already exists");
             DataSource.ClientList.Add(client);
         }
 
@@ -188,7 +191,7 @@ namespace DalObject
         /// The function receives a package type object and adds it to the list of packages
         /// </summary>
         /// <param name="package"></param>
-        public static int AddPackage(Package package)
+        public int AddPackage(Package package)
         {
             package.ID = DataSource.Config.PackageId++;
             DataSource.PackageList.Add(package);
@@ -201,30 +204,28 @@ namespace DalObject
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Client ClientById(int id) 
+        public Client ClientById(int id)
         {
             foreach (var item in DataSource.ClientList)
             {
                 if (item.ID == id) return item;
             }
-            Client null1 = new Client { };
-            return null1;
+            throw new IDAL.DO.Exceptions.ThereIsNoIDClient("There is no Client with such an ID");
         }
 
-        
+
         /// <summary>
         /// The function receives a packet ID and returns the object whose ID it is
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Package PackageById(int id) 
+        public Package PackageById(int id)
         {
             foreach (var item in DataSource.PackageList)
             {
                 if (item.ID == id) return item;
             }
-            Package null1 = new Package { };
-            return null1;
+            throw new IDAL.DO.Exceptions.ThereIsNoIDPackage("There is no Package with such an ID");
         }
 
 
@@ -233,14 +234,13 @@ namespace DalObject
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Drone DroneById(int id) 
+        public Drone DroneById(int id)
         {
             foreach (var item in DataSource.DroneList)
             {
                 if (item.ID == id) return item;
             }
-            Drone null1 = new Drone { };
-            return null1;
+            throw new IDAL.DO.Exceptions.ThereIsNoIDDrone("There is no Drone with such an ID");
         }
 
 
@@ -249,14 +249,13 @@ namespace DalObject
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Station StationById(int id) 
+        public Station StationById(int id)
         {
             foreach (var item in DataSource.StationList)
             {
                 if (item.ID == id) return item;
             }
-            Station null1 = new Station { };
-            return null1;
+            throw new IDAL.DO.Exceptions.ThereIsNoIDStation("There is no Station with such an ID");
         }
 
 
@@ -265,29 +264,29 @@ namespace DalObject
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static DroneCharge DroneChargeByIdDrone(int id) 
+        public DroneCharge DroneChargeByIdDrone(int id)
         {
             foreach (var item in DataSource.droneCharge)
             {
                 if (item.DroneId == id) return item;
             }
-            DroneCharge null1 = new DroneCharge { };
-            return null1;
+            throw new IDAL.DO.Exceptions.ThereIsNoIDDroneCharge("There is no DroneCharge with such an ID drone");
         }
 
 
         /// <summary>
         /// The function receives a Drone object and a Package object and assigns the packet to the drone
-        public static void packageToDrone(Package package, Drone drone) // Link the package to the drone
+        //public void packageToDrone(Drone drone) // Link the package to the drone
+        //{
+        //    Drone temp = drone;  // Updates in temp of drone
+        //    //temp.Status = DroneStatus.Shipping; // Updates in temp of drone
+        //    DataSource.DroneList.Add(temp); // Add temp to list and delete old
+        //    DataSource.DroneList.Remove(drone);
+        //}
+        public void packageToDrone(Package package, int DroneID)
         {
-            Drone temp = drone;  // Updates in temp of drone
-            //temp.Status = DroneStatus.Shipping; // Updates in temp of drone
-            DataSource.DroneList.Add(temp); // Add temp to list and delete old
-            DataSource.DroneList.Remove(drone);
-
-
             Package packageTemp = package;
-            packageTemp.DroneId = temp.ID; //  Updates in temp of  package
+            packageTemp.DroneId = DroneID; //  Updates in temp of  package
             packageTemp.Associated = DateTime.Now;//  package
             DataSource.PackageList.Add(packageTemp); // Add temp to list and delete old
             DataSource.PackageList.Remove(package);
@@ -297,7 +296,7 @@ namespace DalObject
         /// The function receives a Package object and updates the pick-up time by the drone
         /// </summary>
         /// <param name="package"></param>
-        public static void PickedUpByDrone(Package package)// Package collection by drone
+        public void PickedUpByDrone(Package package)// Package collection by drone
         {
             Package packageTemp = package;
             packageTemp.PickedUp = DateTime.Now; // Updates in temp of drone
@@ -311,12 +310,12 @@ namespace DalObject
         ///Updates the delivery time and the drone is available
         /// </summary>
         /// <param name="package"></param>
-        public static void DeliveredToClient(Package package) // The package was delivered to the client
+        public void DeliveredToClient(Package package) // The package was delivered to the client
         {
 
             Drone drone = DroneById(package.DroneId);
             Drone droneTemp = drone;
-           // droneTemp.Status = DroneStatus.Available; // Updates in temp of drone
+            // droneTemp.Status = DroneStatus.Available; // Updates in temp of drone
             DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
             DataSource.DroneList.Remove(drone);
 
@@ -326,14 +325,14 @@ namespace DalObject
             DataSource.PackageList.Remove(package);
 
         }
-          
+
 
         /// <summary>
         /// The function receives a station ID, updates on one occupied charging station. And returns the object
         /// </summary>
         /// <param name="stationID"></param>
         /// <returns></returns>
-        public static Station ChargingStation(int stationID) // The function handles the station
+        public Station ChargingStation(int stationID) // The function handles the station
         {
             Station station = StationById(stationID);
             Station stationTemp = station;
@@ -350,11 +349,11 @@ namespace DalObject
         /// </summary>
         /// <param name="drone"></param>
         /// <param name="stationID"></param>
-        public static void DroneCharge(Drone drone,int stationID)
+        public void DroneCharge(Drone drone, int stationID)
         {
             Station station = ChargingStation(stationID); // The station that the user choose
             Drone droneTemp = drone;
-   //droneTemp.Status = DroneStatus.Maintenance; // Updates in temp of drone
+            //droneTemp.Status = DroneStatus.Maintenance; // Updates in temp of drone
             DroneCharge droneCharg = new DroneCharge() // Initialization of a new instance for DroneCharge
             {
                 DroneId = droneTemp.ID,
@@ -371,7 +370,7 @@ namespace DalObject
         /// The function receives a DroneCharge instance and updates the station and drone upon completion of charging
         /// </summary>
         /// <param name="droneCharge"></param>
-        public static void FinishCharging(DroneCharge droneCharge) // Finish drone Chargeing, update drone status and update station
+        public void FinishCharging(DroneCharge droneCharge) // Finish drone Chargeing, update drone status and update station
         {
             Drone drone = DroneById(droneCharge.DroneId);
             Drone droneTemp = drone; //   Updates in temp of drone
@@ -395,7 +394,7 @@ namespace DalObject
         /// The function returns the list of stations
         /// </summary>
         /// <returns></returns>
-        public static List<Station> StationsList()
+        public IEnumerable<Station> StationsList()
         {
             return DataSource.StationList;
         }
@@ -405,7 +404,7 @@ namespace DalObject
         /// The function returns the list of drones
         /// </summary>
         /// <returns></returns>
-        public static List<Drone> DroneList()
+        public IEnumerable<Drone> DroneList()
         {
             return DataSource.DroneList;
         }
@@ -415,7 +414,7 @@ namespace DalObject
         /// The function returns the list of clients
         /// </summary>
         /// <returns></returns>
-        public static List<Client> ClientsList()
+        public IEnumerable<Client> ClientsList()
         {
             return DataSource.ClientList;
         }
@@ -425,7 +424,7 @@ namespace DalObject
         /// The function returns the list of packages
         /// </summary>
         /// <returns></returns>
-        public static List<Package> PackageList()
+        public IEnumerable<Package> PackageList()
         {
             return DataSource.PackageList;
         }
@@ -435,7 +434,7 @@ namespace DalObject
         /// The function creates and returns a list of packages that have not yet been assigned to the glider
         /// </summary>
         /// <returns></returns>
-        public static List<Package> PackageWithoutDrone() 
+        public IEnumerable<Package> PackageWithoutDrone()
         {
             List<Package> packagesWithoutDrone = new List<Package>();
             foreach (var item in DataSource.PackageList)
@@ -450,7 +449,7 @@ namespace DalObject
         /// The function creates and returns a list of stations with available charging slots
         /// </summary>
         /// <returns></returns>
-        public static List<Station> StationWithCharging() 
+        public IEnumerable<Station> StationWithCharging()
         {
             List<Station> stationWithCharging = new List<Station>();
             foreach (var item in DataSource.StationList)
@@ -458,6 +457,18 @@ namespace DalObject
                 if (item.ChargeSlots > 0) stationWithCharging.Add(item);
             }
             return stationWithCharging;
+        }
+
+
+        public double[] PowerConsumptionByDrone()
+        {
+            double [] arr = new double[5];
+            arr[0] = DataSource.Config.PoewrVacantDrone;
+            arr[1] = DataSource.Config.PoewrLightDrone;
+            arr[2] = DataSource.Config.PoewrMediumDrone;
+            arr[3] = DataSource.Config.PoewrHeavyDrone;
+            arr[4] = DataSource.Config.ChargeRate;
+            return arr;
         }
     }
 }
