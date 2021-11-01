@@ -20,7 +20,7 @@ namespace ConsoleUI
         /// <summary>
         /// Main function to run the program, the program get user input and display the relevant application from user choice, User can: Add An object, Update different type of information, Display specific object and Display every element from different list.
         /// </summary>
-        public static void Display(DalObject.DalObject dal)
+        public static void Display(IDAL.IDAL dal)
         {
             Menu choice;
             ObjectMenu objectMenu;
@@ -350,7 +350,7 @@ namespace ConsoleUI
 
         static void Main(string[] args)
         {
-             DalObject.DalObject dal = new DalObject.DalObject(); 
+             IDAL.IDAL dal = new DalObject.DalObject(); 
             
 
             Display(dal);
