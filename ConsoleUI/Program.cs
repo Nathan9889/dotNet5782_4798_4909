@@ -351,7 +351,7 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
              DalObject.DalObject dal = new DalObject.DalObject(); 
-
+            
 
             Display(dal);
         }

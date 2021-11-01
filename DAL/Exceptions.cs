@@ -12,162 +12,162 @@ namespace IDAL
         class Exceptions : Exception
         {
             [Serializable]
-            internal class ThereIsNoIDClient : Exception
+            internal class ClientException : Exception
             {
-                public ThereIsNoIDClient()
+                public ClientException()
                 {
                 }
 
-                public ThereIsNoIDClient(string message) : base(message)
+                public ClientException(string message) : base(message)
                 {
                 }
 
-                public ThereIsNoIDClient(string message, Exception innerException) : base(message, innerException)
+                public ClientException(string message, Exception innerException) : base(message, innerException)
                 {
                 }
 
-                protected ThereIsNoIDClient(SerializationInfo info, StreamingContext context) : base(info, context)
+                protected ClientException(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
                 }
             }
 
             [Serializable]
-            internal class ThereIsNoIDPackage : Exception
+            internal class PackageException : Exception
             {
-                public ThereIsNoIDPackage()
+                public PackageException()
                 {
                 }
 
-                public ThereIsNoIDPackage(string message) : base(message)
+                public PackageException(string message) : base(message)
                 {
                 }
 
-                public ThereIsNoIDPackage(string message, Exception innerException) : base(message, innerException)
+                public PackageException(string message, Exception innerException) : base(message, innerException)
                 {
                 }
 
-                protected ThereIsNoIDPackage(SerializationInfo info, StreamingContext context) : base(info, context)
+                protected PackageException(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
                 }
             }
 
             [Serializable]
-            internal class ThereIsNoIDDrone : Exception
+            internal class DroneException : Exception
             {
-                public ThereIsNoIDDrone()
+                public DroneException()
                 {
                 }
 
-                public ThereIsNoIDDrone(string message) : base(message)
+                public DroneException(string message) : base(message)
                 {
                 }
 
-                public ThereIsNoIDDrone(string message, Exception innerException) : base(message, innerException)
+                public DroneException(string message, Exception innerException) : base(message, innerException)
                 {
                 }
 
-                protected ThereIsNoIDDrone(SerializationInfo info, StreamingContext context) : base(info, context)
+                protected DroneException(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
                 }
             }
 
             [Serializable]
-            internal class ThereIsNoIDStation : Exception
+            internal class StationException : Exception
             {
-                public ThereIsNoIDStation()
+                public StationException()
                 {
                 }
 
-                public ThereIsNoIDStation(string message) : base(message)
+                public StationException(string message) : base(message)
                 {
                 }
 
-                public ThereIsNoIDStation(string message, Exception innerException) : base(message, innerException)
+                public StationException(string message, Exception innerException) : base(message, innerException)
                 {
                 }
 
-                protected ThereIsNoIDStation(SerializationInfo info, StreamingContext context) : base(info, context)
+                protected StationException(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
                 }
             }
 
             [Serializable]
-            internal class ThereIsNoIDDroneCharge : Exception
+            internal class DroneChargeException : Exception
             {
-                public ThereIsNoIDDroneCharge()
+                public DroneChargeException()
                 {
                 }
 
-                public ThereIsNoIDDroneCharge(string message) : base(message)
+                public DroneChargeException(string message) : base(message)
                 {
 
                 }
 
-                public ThereIsNoIDDroneCharge(string message, Exception innerException) : base(message, innerException)
+                public DroneChargeException(string message, Exception innerException) : base(message, innerException)
                 {
                 }
 
-                protected ThereIsNoIDDroneCharge(SerializationInfo info, StreamingContext context) : base(info, context)
+                protected DroneChargeException(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
                 }
             }
 
             [Serializable]
-            internal class StationIDAlreadyExists : Exception
+            internal class ExistingStationId : Exception
             {
-                public StationIDAlreadyExists()
+                public ExistingStationId()
                 {
                 }
 
-                public StationIDAlreadyExists(string message) : base(message)
+                public ExistingStationId(string message) : base(message)
                 {
                 }
 
-                public StationIDAlreadyExists(string message, Exception innerException) : base(message, innerException)
+                public ExistingStationId(string message, Exception innerException) : base(message, innerException)
                 {
                 }
 
-                protected StationIDAlreadyExists(SerializationInfo info, StreamingContext context) : base(info, context)
+                protected ExistingStationId(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
                 }
             }
 
             [Serializable]
-            internal class DroneIDAlreadyExists : Exception
+            internal class ExistingDroneId : Exception
             {
-                public DroneIDAlreadyExists()
+                public ExistingDroneId()
                 {
                 }
 
-                public DroneIDAlreadyExists(string message) : base(message)
+                public ExistingDroneId(string message) : base(message)
                 {
                 }
 
-                public DroneIDAlreadyExists(string message, Exception innerException) : base(message, innerException)
+                public ExistingDroneId(string message, Exception innerException) : base(message, innerException)
                 {
                 }
 
-                protected DroneIDAlreadyExists(SerializationInfo info, StreamingContext context) : base(info, context)
+                protected ExistingDroneId(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
                 }
             }
 
             [Serializable]
-            internal class ClientIDAlreadyExists : Exception
+            internal class ExistingClientId : Exception
             {
-                public ClientIDAlreadyExists()
+                public ExistingClientId()
                 {
                 }
 
-                public ClientIDAlreadyExists(string message) : base(message)
+                public ExistingClientId(string message) : base(message)
                 {
                 }
 
-                public ClientIDAlreadyExists(string message, Exception innerException) : base(message, innerException)
+                public ExistingClientId(string message, Exception innerException) : base(message, innerException)
                 {
                 }
 
-                protected ClientIDAlreadyExists(SerializationInfo info, StreamingContext context) : base(info, context)
+                protected ExistingClientId(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
                 }
             }

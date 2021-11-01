@@ -37,10 +37,10 @@ namespace DalObject
         {
             internal static int PackageId = 1000;
 
-            public static int PoewrVacantDrone = 0;
-            public static int PoewrLightDrone = 0;
-            public static int PoewrMediumDrone = 0;
-            public static int PoewrHeavyDrone = 0;
+            public static int PowerVacantDrone = 0;
+            public static int PowerLightDrone = 0;
+            public static int PowerMediumDrone = 0;
+            public static int PowerHeavyDrone = 0;
 
             public static int ChargeRate = 0;
         }
@@ -160,7 +160,8 @@ namespace DalObject
         /// <param name="station"></param>
         public void AddStation(Station station)
         {
-            if (DataSource.StationList.FindIndex(x => x.ID == station.ID) != -1) throw new IDAL.DO.Exceptions.StationIDAlreadyExists("A Station with such an ID already exists");
+            if (DataSource.StationList.FindIndex(x => x.ID == station.ID) != -1) 
+                throw new IDAL.DO.Exceptions.ExistingStationId("A Station this ID already exists");
             DataSource.StationList.Add(station);
         }
 
@@ -171,7 +172,8 @@ namespace DalObject
         /// <param name="drone"></param>
         public void AddDrone(Drone drone)
         {
-            if (DataSource.DroneList.FindIndex(x => x.ID == drone.ID) != -1) throw new IDAL.DO.Exceptions.DroneIDAlreadyExists("A Drone with such an ID already exists");
+            if (DataSource.DroneList.FindIndex(x => x.ID == drone.ID) != -1) 
+                throw new IDAL.DO.Exceptions.ExistingDroneId("A Drone with this ID already exists");
             DataSource.DroneList.Add(drone);
         }
 
@@ -182,7 +184,8 @@ namespace DalObject
         /// <param name="client"></param>
         public void AddClient(Client client)
         {
-            if (DataSource.ClientList.FindIndex(x => x.ID == client.ID) != -1) throw new IDAL.DO.Exceptions.ClientIDAlreadyExists("A Client with such an ID already exists");
+            if (DataSource.ClientList.FindIndex(x => x.ID == client.ID) != -1)
+                throw new IDAL.DO.Exceptions.ExistingClientId("A Client with this ID already exists");
             DataSource.ClientList.Add(client);
         }
 
@@ -210,7 +213,7 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new IDAL.DO.Exceptions.ThereIsNoIDClient("There is no Client with such an ID");
+            throw new IDAL.DO.Exceptions.ClientException("Client ID not found");
         }
 
 
@@ -225,7 +228,7 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new IDAL.DO.Exceptions.ThereIsNoIDPackage("There is no Package with such an ID");
+            throw new IDAL.DO.Exceptions.PackageException("There is no Package with such an ID");
         }
 
 
@@ -240,7 +243,7 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new IDAL.DO.Exceptions.ThereIsNoIDDrone("There is no Drone with such an ID");
+            throw new IDAL.DO.Exceptions.DroneException("There is no Drone with such an ID");
         }
 
 
@@ -255,7 +258,7 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new IDAL.DO.Exceptions.ThereIsNoIDStation("There is no Station with such an ID");
+            throw new IDAL.DO.Exceptions.StationException("There is no Station with such an ID");
         }
 
 
@@ -270,7 +273,7 @@ namespace DalObject
             {
                 if (item.DroneId == id) return item;
             }
-            throw new IDAL.DO.Exceptions.ThereIsNoIDDroneCharge("There is no DroneCharge with such an ID drone");
+            throw new IDAL.DO.Exceptions.DroneChargeException("There is no DroneCharge with such an ID drone");
         }
 
 
@@ -463,10 +466,10 @@ namespace DalObject
         public double[] PowerConsumptionByDrone()
         {
             double [] arr = new double[5];
-            arr[0] = DataSource.Config.PoewrVacantDrone;
-            arr[1] = DataSource.Config.PoewrLightDrone;
-            arr[2] = DataSource.Config.PoewrMediumDrone;
-            arr[3] = DataSource.Config.PoewrHeavyDrone;
+            arr[0] = DataSource.Config.PowerVacantDrone;
+            arr[1] = DataSource.Config.PowerLightDrone;
+            arr[2] = DataSource.Config.PowerMediumDrone;
+            arr[3] = DataSource.Config.PowerHeavyDrone;
             arr[4] = DataSource.Config.ChargeRate;
             return arr;
         }
