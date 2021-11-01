@@ -8,7 +8,7 @@ using DalObject;
 
 namespace IDAL
 {
-    interface IDAL
+    public interface IDAL
     {
         void AddStation(Station station);
         void AddDrone(Drone drone);

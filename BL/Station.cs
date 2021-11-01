@@ -9,13 +9,13 @@ namespace IBL
 {
     namespace BO
     {
-        public struct Station
+        public class Station
         {
             public int ID { get; set; }
             public string Name { get; set; }
             public int ChargeSlots { get; set; }
-            public double Latitude { get; set; }
-            public double Longitude { get; set; }
+
+            public IBL.BO.Position 
 
 
             public override string ToString()
