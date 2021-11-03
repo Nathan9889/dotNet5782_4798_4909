@@ -31,7 +31,7 @@ namespace IBL
             //    protected ExistingClientId(SerializationInfo info, StreamingContext context) : base(info, context)
             //    {
             //    }
-            }
+          //  }
         }
     }
 
