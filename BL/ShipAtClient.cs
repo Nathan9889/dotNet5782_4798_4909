@@ -9,15 +9,14 @@ namespace IBL
 {
     namespace BO
     {
-        public class ShipToClient  //משלוח אצל לקוח 
+        public class ShipAtClient  //משלוח אצל לקוח 
         {
             public int Id { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
 
-            public ShipmentStatus ShipmentStat { get; set; }
-
-            //      לקוח במשלוח   
+            public InClientShipmentStatus ShipmentStat { get; set; }
+            public ClientShip Source_Destination { get; set; }
 
             public override string ToString()
             {
@@ -26,7 +25,7 @@ namespace IBL
                 result += $"ShipToClientWeight is {Weight},\n";
                 result += $"ShipToClientPriority is {Priority},\n";
                 result += $"ShipToClientStatus is {ShipmentStat},\n";
-                //result += $"////    is {     },\n";
+                result += $"Source_Destination is {Source_Destination},\n";
                 return result;
             }
         }

@@ -9,40 +9,40 @@ namespace IBL
 {
     interface IBL
     {
-        //adding
-        void AddStation(Station station);
-        void AddDrone(Drone drone);
-        void AddClient(Client client);
-        int AddPackage(Package package);
+        ////adding
+        //void AddStation(Station station);
+        //void AddDrone(Drone drone);
+        //void AddClient(Client client);
+        //int AddPackage(Package package);
 
-        //updating
+        ////updating
 
-        void UpdateName(Drone drone);
-        void UpdateStation(Station station);
-        void UpdateClient(Client client);
-        void ChargeDrone(/*Drone drone);*/);
-        void FinishCharging(/*DroneCharge droneCharge*/);
-        void packageToDrone(/*Package package, int DroneID*/);
-        void PickedUpByDrone(/*Package package*/);
-        void DeliveredToClient(/*Package package*/);
-
-
-        //Diplays
-
-        //
-        //
-        //
-        //
-        IEnumerable<Station> StationsList();
-        IEnumerable<Drone> DroneList();
-        IEnumerable<Client> ClientsList();
-        IEnumerable<Package> PackageList();
-        IEnumerable<Package> PackageWithoutDrone();
-        IEnumerable<Station> StationWithCharging();
+        //void UpdateDroneName(Drone drone);
+        //void UpdateStation(Station station);
+        //void UpdateClient(Client client);
+        //void ChargeDrone(/*Drone drone);*/);
+        //void FinishCharging(/*DroneCharge droneCharge*/);
+        //void packageToDrone(/*Package package, int DroneID*/);
+        //void PickedUpByDrone(/*Package package*/);
+        //void DeliveredToClient(/*Package package*/);
 
 
+        ////Diplays
 
-        //Exit
+        ////
+        ////
+        ////
+        ////
+        //IEnumerable<Station> StationsList();
+        //IEnumerable<Drone> DroneList();
+        //IEnumerable<Client> ClientsList();
+        //IEnumerable<Package> PackageList();
+        //IEnumerable<Package> PackageWithoutDrone();
+        //IEnumerable<Station> StationWithCharging();
+
+
+
+        ////Exit
 
 
 

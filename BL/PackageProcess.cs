@@ -14,18 +14,17 @@ namespace IBL
             public int Id { get; set; }
             public Priorities Priority { get; set; }
 
+            public ClientShip Sender { get; set; }
+            public ClientShip Receiver { get; set; }
 
-            //      לקוח במשלוח
-            //      מקבל
 
             public override string ToString()
             {
                 string result = "";
                 result += $"PackagProcessId is {Id},\n";
                 result += $"PackagProcessPriority is {Priority},\n";
-                //result += $"////    is {     },\n";
-                //result += $"////    is {     },\n";
-
+                result += $"ClientSource is {Source},\n";
+                result += $"ClientDestination is {Destination},\n";
                 return result;
             }
         }

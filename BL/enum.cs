@@ -30,6 +30,10 @@ namespace IBL
             Waiting , OnGoing
         }
 
+        public enum InClientShipmentStatus
+        {
+            Created, Associated, PickedUp, Delivered
+        }
 
         public enum DroneModel
         {

@@ -13,15 +13,10 @@ namespace IBL
             public int Id { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
-
             public ShipmentStatus Status { get; set; }
-
             public Location CollectingPosition { get; set; }
-
             public Location DestinationPosition { get; set; }
-
-            public int DistanceShipping { get; set; }
-
+            public double DistanceShipping { get; set; }
 
             public override string ToString()
             {

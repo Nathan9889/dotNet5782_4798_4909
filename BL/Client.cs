@@ -14,9 +14,10 @@ namespace IBL
             public int ID { get; set; }
             public string Name { get; set; }
             public string Phone { get; set; }
-             public Location ClientLocation { get; set; }
-            // רשימת משלוחים אצל לקוח - מהלקוח
-            // רשימת משלוחים אצל לקוח - אל הלקוח 
+            public Location ClientLocation { get; set; }
+            List<ShipAtClient> ClientsSender;
+            List<ShipAtClient> ClientsReceiver;
+
 
 
             public override string ToString()
@@ -26,9 +27,8 @@ namespace IBL
                 result += $"ID is {ID}, \n";
                 result += $"Phone is {Phone.Substring(0, 3) + '-' + Phone.Substring(3)}, \n";
                 result += $"ClientLocation is {ClientLocation}, \n";
-
-                //
-                //
+                //result += $"ClientsSource is {ClientsSender}, \n";
+                //result += $"ClientsDestination is {ClientsReceiver}, \n";
 
                 return result;
             }
