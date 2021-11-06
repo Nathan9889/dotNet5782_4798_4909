@@ -132,19 +132,124 @@ namespace DalObject
         /// </summary>
         public static void InitializePackage()
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 3; i++)
             {
                 PackageList.Add(new Package()
                 {
                     ID = Config.PackageId++,
-                    SenderId = ClientList[rand.Next(0,10)].ID,
+                    SenderId = ClientList[rand.Next(0, 10)].ID,
                     TargetId = ClientList[rand.Next(0, 10)].ID,
                     Weight = (WeightCategories)rand.Next(3),
                     Priority = (Priorities)rand.Next(3),
                     DroneId = 0,
-                    Created = DateTime.Now
-                }) ;
+                    Created = DateTime.Now,
+                    Associated = DateTime.MinValue,
+                    PickedUp = DateTime.MinValue,
+                    Delivered = DateTime.MinValue,
+
+                });
             }
+
+            PackageList.Add(new Package()
+            {
+                ID = Config.PackageId++,
+                SenderId = ClientList[rand.Next(0, 10)].ID,
+                TargetId = ClientList[rand.Next(0, 10)].ID,
+                Weight = (WeightCategories)rand.Next(3),
+                Priority = (Priorities)rand.Next(3),
+                DroneId = DroneList[3].ID,
+                Created = DateTime.Now.AddMinutes(-30),
+                Associated = DateTime.Now.AddMinutes(-20),
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue,
+
+            }); ;
+
+            PackageList.Add(new Package()
+            {
+                ID = Config.PackageId++,
+                SenderId = ClientList[rand.Next(0, 10)].ID,
+                TargetId = ClientList[rand.Next(0, 10)].ID,
+                Weight = (WeightCategories)rand.Next(3),
+                Priority = (Priorities)rand.Next(3),
+                DroneId = DroneList[4].ID,
+                Created = DateTime.Now.AddMinutes(-30),
+                Associated = DateTime.Now.AddMinutes(-20),
+                PickedUp = DateTime.MinValue,
+                Delivered = DateTime.MinValue,
+            });
+
+            PackageList.Add(new Package()
+            {
+                ID = Config.PackageId++,
+                SenderId = ClientList[rand.Next(0, 10)].ID,
+                TargetId = ClientList[rand.Next(0, 10)].ID,
+                Weight = (WeightCategories)rand.Next(3),
+                Priority = (Priorities)rand.Next(3),
+                DroneId = DroneList[5].ID,
+                Created = DateTime.Now.AddMinutes(-50),
+                Associated = DateTime.Now.AddMinutes(-40),
+                PickedUp = DateTime.Now.AddMinutes(-10),
+                Delivered = DateTime.MinValue,
+            });
+
+            PackageList.Add(new Package()
+            {
+                ID = Config.PackageId++,
+                SenderId = ClientList[rand.Next(0, 10)].ID,
+                TargetId = ClientList[rand.Next(0, 10)].ID,
+                Weight = (WeightCategories)rand.Next(3),
+                Priority = (Priorities)rand.Next(3),
+                DroneId = DroneList[6].ID,
+                Created = DateTime.Now.AddMinutes(-45),
+                Associated = DateTime.Now.AddMinutes(-43),
+                PickedUp = DateTime.Now.AddMinutes(-8),
+                Delivered = DateTime.MinValue,
+            });
+
+            PackageList.Add(new Package()
+            {
+                ID = Config.PackageId++,
+                SenderId = ClientList[rand.Next(0, 10)].ID,
+                TargetId = ClientList[rand.Next(0, 10)].ID,
+                Weight = (WeightCategories)rand.Next(3),
+                Priority = (Priorities)rand.Next(3),
+                DroneId = DroneList[7].ID,
+                Created = DateTime.Now.AddMinutes(-60),
+                Associated = DateTime.Now.AddMinutes(-50),
+                PickedUp = DateTime.Now.AddMinutes(-40),
+                Delivered = DateTime.Now.AddMinutes(-30),
+            });
+
+            PackageList.Add(new Package()
+            {
+                ID = Config.PackageId++,
+                SenderId = ClientList[rand.Next(0, 10)].ID,
+                TargetId = ClientList[rand.Next(0, 10)].ID,
+                Weight = (WeightCategories)rand.Next(3),
+                Priority = (Priorities)rand.Next(3),
+                DroneId = DroneList[8].ID,
+                Created = DateTime.Now.AddMinutes(-30),
+                Associated = DateTime.Now.AddMinutes(-20),
+                PickedUp = DateTime.Now.AddMinutes(-15),
+                Delivered = DateTime.Now.AddMinutes(-5),
+            });
+
+            PackageList.Add(new Package()
+            {
+                ID = Config.PackageId++,
+                SenderId = ClientList[rand.Next(0, 10)].ID,
+                TargetId = ClientList[rand.Next(0, 10)].ID,
+                Weight = (WeightCategories)rand.Next(3),
+                Priority = (Priorities)rand.Next(3),
+                DroneId = DroneList[9].ID,
+                Created = DateTime.Now.AddMinutes(-120),
+                Associated = DateTime.Now.AddMinutes(-100),
+                PickedUp = DateTime.Now.AddMinutes(-80),
+                Delivered = DateTime.Now.AddMinutes(-60),
+            });
+
+
         }
         
     }
