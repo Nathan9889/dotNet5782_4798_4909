@@ -23,8 +23,8 @@ namespace IDAL
                 result += $"ID is {ID}, \n";
                 result += $"Name is {Name},\n";
                 result += $"ChargeSlots is {ChargeSlots}, \n";
-                result += $"Latitude is {Coordinates.ConvertLatitude(Latitude)}, \n";
-                result += $"Longitude is {Coordinates.ConvertLongitude(Longitude)}, \n";
+                result += $"Latitude is {DalObject.ConvertLatitude(Latitude)}, \n";
+                result += $"Longitude is {DalObject.ConvertLongitude(Longitude)}, \n";
 
                 return result;
             }

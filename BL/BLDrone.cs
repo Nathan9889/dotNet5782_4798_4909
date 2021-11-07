@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using IBL.BO;
 using IDAL;
 
-namespace IBL
+namespace BL
 {
-    public partial class BL : IBL
+    public partial class BL : IBL.IBL
     {
         static Random rand = new Random();
         public List<DroneToList> DroneList;
@@ -65,11 +65,11 @@ namespace IBL
                         targetLocation.Longitude = dal.ClientById(dal.PackageById(droneToList.PackageID).TargetId).Longitude;
 
                         int minBattery;
-                        double KM = IDAL.Coordinates.distance(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, targetLocation.Latitude, targetLocation.Longitude);
+                        double KM = DalObject.DalObject.distance(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, targetLocation.Latitude, targetLocation.Longitude);
                         minBattery = BatteryByKM((int)package.Weight, KM);
 
                         Location stationLocation = NearestStationToClient(package.TargetId);
-                        KM = IDAL.Coordinates.distance(targetLocation.Latitude, targetLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude);
+                        KM = DalObject.DalObject.distance(targetLocation.Latitude, targetLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude);
                         minBattery += BatteryByKM(3, KM);
 
                         if (minBattery > 100) throw new Exception ();
@@ -104,7 +104,7 @@ namespace IBL
 
                         int minBattery;
                         Location stationLocation = NearestStationToClient(dal.ClientById(index).ID);
-                        double KM = IDAL.Coordinates.distance(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude);
+                        double KM = DalObject.DalObject.distance(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude);
                         minBattery = BatteryByKM(3, KM);
                         droneToList.Battery = rand.Next(minBattery, 101);
                     }
@@ -129,23 +129,6 @@ namespace IBL
             return temp;
         }
 
-        Location NearestStationToClient(int ClientID) //  חישוב התחנה הקרובה ללקוח
-        {
-            Location tempLocation = new Location();
-            double distance = int.MaxValue;
-            foreach (var station in dal.StationsList())
-            {
-                double tempDistance = IDAL.Coordinates.distance(dal.ClientById(ClientID).Latitude, dal.ClientById(ClientID).Longitude, station.Latitude, station.Longitude);
-                if (tempDistance < distance)
-                {
-                    distance = tempDistance;
-                    tempLocation.Latitude = station.Latitude;
-                    tempLocation.Longitude = station.Longitude;
-                }
-                
-            }
-            return tempLocation;
-        }
 
 
 

@@ -253,7 +253,7 @@ namespace DalObject
         }
         
     }
-    public class DalObject : IDAL.IDAL
+    public partial class DalObject : IDAL.IDAL
     {
 
         public DalObject() { DataSource.Initialize(); }
@@ -266,7 +266,7 @@ namespace DalObject
         public void AddStation(Station station)
         {
             if (DataSource.StationList.FindIndex(x => x.ID == station.ID) != -1) 
-                throw new IDAL.DO.Exceptions.ExistingStationId("A Station this ID already exists");
+                throw new IDAL.DO.Exceptions.IDException($"A Station ID {station.ID} already exists",station.ID);
             DataSource.StationList.Add(station);
         }
 
@@ -278,7 +278,7 @@ namespace DalObject
         public void AddDrone(Drone drone)
         {
             if (DataSource.DroneList.FindIndex(x => x.ID == drone.ID) != -1) 
-                throw new IDAL.DO.Exceptions.ExistingDroneId("A Drone with this ID already exists");
+                throw new IDAL.DO.Exceptions.IDException($"A Drone with ID {drone.ID} already exists", drone.ID);
             DataSource.DroneList.Add(drone);
         }
 
@@ -290,7 +290,7 @@ namespace DalObject
         public void AddClient(Client client)
         {
             if (DataSource.ClientList.FindIndex(x => x.ID == client.ID) != -1)
-                throw new IDAL.DO.Exceptions.ExistingClientId("A Client with this ID already exists");
+                throw new IDAL.DO.Exceptions.IDException($"A Client with ID {client.ID} already exists", client.ID);
             DataSource.ClientList.Add(client);
         }
 
@@ -318,7 +318,7 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new IDAL.DO.Exceptions.ClientException("Client ID not found");
+            throw new IDAL.DO.Exceptions.IDException($"Client ID {id} not found", id);
         }
 
 
@@ -333,7 +333,7 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new IDAL.DO.Exceptions.PackageException("There is no Package with such an ID");
+            throw new IDAL.DO.Exceptions.IDException($"Package ID {id} not found", id);                                                                                                                                                                                                                                                                                                                                                           
         }
 
 
@@ -348,7 +348,7 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new IDAL.DO.Exceptions.DroneException("There is no Drone with such an ID");
+            throw new IDAL.DO.Exceptions.IDException($"Drone id {id} not found", id);
         }
 
 
@@ -363,7 +363,7 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new IDAL.DO.Exceptions.StationException("There is no Station with such an ID");
+            throw new IDAL.DO.Exceptions.IDException($"Station ID {id} not found", id);
         }
 
 
@@ -378,7 +378,7 @@ namespace DalObject
             {
                 if (item.DroneId == id) return item;
             }
-            throw new IDAL.DO.Exceptions.DroneChargeException("There is no DroneCharge with such an ID drone");
+            throw new IDAL.DO.Exceptions.IDException($"DroneCharge ID {id} not found", id);
         }
 
 

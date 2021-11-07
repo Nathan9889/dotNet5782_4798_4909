@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IDAL
+namespace DalObject
 {
-    public static class Coordinates
+    public partial class DalObject
     {
         /// <summary>
         /// The function Convert from Decimal to Sexagesimal and returns the result
