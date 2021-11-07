@@ -11,8 +11,8 @@ namespace IBL
         public class DroneToList
         {
             public int ID { get; set; }
-            public DroneModel Model { get; set; }
-            public WeightCategories MaxWeight { get; set; }
+            public IDAL.DO.DroneModel Model { get; set; }
+            public IDAL.DO.WeightCategories MaxWeight { get; set; }
             public double Battery { get; set; }
             public DroneStatus Status { get; set; }
             public Location DroneLocation { get; set; }

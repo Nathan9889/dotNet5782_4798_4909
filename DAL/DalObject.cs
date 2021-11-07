@@ -37,12 +37,12 @@ namespace DalObject
         {
             internal static int PackageId = 1000;
 
-            public static int PowerVacantDrone = 0;
-            public static int PowerLightDrone = 0;
-            public static int PowerMediumDrone = 0;
-            public static int PowerHeavyDrone = 0;
+            public static int PowerVacantDrone = 1;
+            public static int PowerLightDrone = 2;
+            public static int PowerMediumDrone = 3;
+            public static int PowerHeavyDrone = 4;
 
-            public static int ChargeRate = 0;
+            public static int ChargeRate = 100;
         }
 
         public static void Initialize()
@@ -118,7 +118,7 @@ namespace DalObject
                 DroneList.Add(new Drone()
                 {
                     ID = rand.Next(1000000,10000000),
-                    Model = $"{(DroneModel)rand.Next(4)}" ,
+                    Model = (DroneModel)rand.Next(0,3) ,
                     MaxWeight = (WeightCategories)rand.Next(3),
                     //Status = (DroneStatus)rand.Next(3),
                     //Battery = rand.Next(0,101)
@@ -514,7 +514,8 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Drone> DroneList()
         {
-            return DataSource.DroneList;
+            List<Drone> temp = DataSource.DroneList;
+            return temp;
         }
 
 
