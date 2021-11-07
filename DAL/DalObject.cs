@@ -113,15 +113,36 @@ namespace DalObject
         static void InitializeDrone()
         {
             
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 4; i++)
             {
                 DroneList.Add(new Drone()
                 {
                     ID = rand.Next(1000000,10000000),
                     Model = (DroneModel)rand.Next(0,3) ,
-                    MaxWeight = (WeightCategories)rand.Next(3),
-                    //Status = (DroneStatus)rand.Next(3),
-                    //Battery = rand.Next(0,101)
+                    MaxWeight = WeightCategories.Heavy,
+                   
+                });
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                DroneList.Add(new Drone()
+                {
+                    ID = rand.Next(1000000, 10000000),
+                    Model = (DroneModel)rand.Next(0, 3),
+                    MaxWeight = WeightCategories.Medium,
+                 
+                });
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                DroneList.Add(new Drone()
+                {
+                    ID = rand.Next(1000000, 10000000),
+                    Model = (DroneModel)rand.Next(0, 3),
+                    MaxWeight = WeightCategories.Light,
+                    
                 });
             }
         }
@@ -155,9 +176,9 @@ namespace DalObject
                 ID = Config.PackageId++,
                 SenderId = ClientList[rand.Next(0, 10)].ID,
                 TargetId = ClientList[rand.Next(0, 10)].ID,
-                Weight = (WeightCategories)rand.Next(3),
+                Weight = WeightCategories.Heavy,
                 Priority = (Priorities)rand.Next(3),
-                DroneId = DroneList[3].ID,
+                DroneId = DroneList[0].ID,
                 Created = DateTime.Now.AddMinutes(-30),
                 Associated = DateTime.Now.AddMinutes(-20),
                 PickedUp = DateTime.MinValue,
@@ -170,9 +191,9 @@ namespace DalObject
                 ID = Config.PackageId++,
                 SenderId = ClientList[rand.Next(0, 10)].ID,
                 TargetId = ClientList[rand.Next(0, 10)].ID,
-                Weight = (WeightCategories)rand.Next(3),
+                Weight = WeightCategories.Heavy,
                 Priority = (Priorities)rand.Next(3),
-                DroneId = DroneList[4].ID,
+                DroneId = DroneList[1].ID,
                 Created = DateTime.Now.AddMinutes(-30),
                 Associated = DateTime.Now.AddMinutes(-20),
                 PickedUp = DateTime.MinValue,
@@ -184,9 +205,9 @@ namespace DalObject
                 ID = Config.PackageId++,
                 SenderId = ClientList[rand.Next(0, 10)].ID,
                 TargetId = ClientList[rand.Next(0, 10)].ID,
-                Weight = (WeightCategories)rand.Next(3),
+                Weight = WeightCategories.Medium,
                 Priority = (Priorities)rand.Next(3),
-                DroneId = DroneList[5].ID,
+                DroneId = DroneList[4].ID,
                 Created = DateTime.Now.AddMinutes(-50),
                 Associated = DateTime.Now.AddMinutes(-40),
                 PickedUp = DateTime.Now.AddMinutes(-10),
@@ -198,9 +219,9 @@ namespace DalObject
                 ID = Config.PackageId++,
                 SenderId = ClientList[rand.Next(0, 10)].ID,
                 TargetId = ClientList[rand.Next(0, 10)].ID,
-                Weight = (WeightCategories)rand.Next(3),
+                Weight = WeightCategories.Medium,
                 Priority = (Priorities)rand.Next(3),
-                DroneId = DroneList[6].ID,
+                DroneId = DroneList[5].ID,
                 Created = DateTime.Now.AddMinutes(-45),
                 Associated = DateTime.Now.AddMinutes(-43),
                 PickedUp = DateTime.Now.AddMinutes(-8),
@@ -212,7 +233,7 @@ namespace DalObject
                 ID = Config.PackageId++,
                 SenderId = ClientList[rand.Next(0, 10)].ID,
                 TargetId = ClientList[rand.Next(0, 10)].ID,
-                Weight = (WeightCategories)rand.Next(3),
+                Weight = WeightCategories.Light,
                 Priority = (Priorities)rand.Next(3),
                 DroneId = DroneList[7].ID,
                 Created = DateTime.Now.AddMinutes(-60),
@@ -226,7 +247,7 @@ namespace DalObject
                 ID = Config.PackageId++,
                 SenderId = ClientList[rand.Next(0, 10)].ID,
                 TargetId = ClientList[rand.Next(0, 10)].ID,
-                Weight = (WeightCategories)rand.Next(3),
+                Weight = WeightCategories.Light,
                 Priority = (Priorities)rand.Next(3),
                 DroneId = DroneList[8].ID,
                 Created = DateTime.Now.AddMinutes(-30),
@@ -240,9 +261,9 @@ namespace DalObject
                 ID = Config.PackageId++,
                 SenderId = ClientList[rand.Next(0, 10)].ID,
                 TargetId = ClientList[rand.Next(0, 10)].ID,
-                Weight = (WeightCategories)rand.Next(3),
+                Weight = WeightCategories.Light,
                 Priority = (Priorities)rand.Next(3),
-                DroneId = DroneList[9].ID,
+                DroneId = DroneList[2].ID,
                 Created = DateTime.Now.AddMinutes(-120),
                 Associated = DateTime.Now.AddMinutes(-100),
                 PickedUp = DateTime.Now.AddMinutes(-80),
