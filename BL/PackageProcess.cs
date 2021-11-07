@@ -9,22 +9,34 @@ namespace IBL
 {
     namespace BO
     {
-        public class PackagProcess  //חבילה בהעברה 
+        public class PackageProcess  //חבילה בהעברה 
         {
             public int Id { get; set; }
+            public ShipmentStatus PackageShipmentStatus { get; set; }
             public Priorities Priority { get; set; }
+            public WeightCategories Weight { get; set; }
+            public ClientPackage Sender { get; set; }
+            public ClientPackage Receiver { get; set; }
 
-            public ClientShip Sender { get; set; }
-            public ClientShip Receiver { get; set; }
+            public Location CollectLocation { get; set; }
+            public Location DestinationLocation { get; set; }
+
+            public int Distance { get; set; }  //check
 
 
             public override string ToString()
             {
                 string result = "";
                 result += $"PackagProcessId is {Id},\n";
-                result += $"PackagProcessPriority is {Priority},\n";
-                result += $"ClientSource is {Source},\n";
-                result += $"ClientDestination is {Destination},\n";
+                result += $"ShipmentStatus is {PackageShipmentStatus},\n";
+                result += $"Priority is {Priority},\n";
+                result += $"Weight is {Weight},\n";
+                result += $"Sender is {Sender},\n";
+                result += $"Receiver is {Receiver},\n";
+                result += $"Collect Location is {CollectLocation},\n";
+                result += $"Destination Location is {DestinationLocation},\n";
+                result += $"Distance is {Distance},\n";
+
                 return result;
             }
         }

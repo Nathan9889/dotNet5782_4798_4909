@@ -15,8 +15,8 @@ namespace IBL
             public string Name { get; set; }
             public string Phone { get; set; }
             public Location ClientLocation { get; set; }
-            List<ShipAtClient> ClientsSender;
-            List<ShipAtClient> ClientsReceiver;
+            List<PackageAtClient> ClientsSender;
+            List<PackageAtClient> ClientsReceiver;
 
 
 

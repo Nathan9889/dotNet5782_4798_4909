@@ -68,12 +68,17 @@ namespace ConsoleUI
 
                                 case ObjectMenu.Drone:
 
-                                    Console.WriteLine("Enter Drone Data: ID, Model, Weight, Status, Battery \n");  // Getting Drone data from user
+                                    Console.WriteLine("Enter Drone Data: ID, Model, Weight, Status, Battery \n");  // Getting Drone data from user    Dji_Mavic_2_Zoom, Dji_FPV_Combo
                                     int droneId;
                                     int.TryParse(Console.ReadLine(), out droneId);
-                                    string droneModel = Console.ReadLine();
+                                    
+
+                                    Console.WriteLine("Choose Drone Model: 0 :  Dji_Mavic_2_Pro, 1 : Dji_Mavic_2_Air, 2 : Dji_Mavic_2_Zoom, 3 :  Dji_FPV_Combo :\n");  //getting different type of Model from user
+                                    string chosen = Console.ReadLine();  //used to get the num from user and chose with it different enum option
+                                    DroneModel droneModel = (DroneModel)Convert.ToInt32(chosen);
+
                                     Console.WriteLine("Choose Drone Weight: 0 : Light, 1 : Medium, 2 : Heavy :\n");  //getting different type of weight from user
-                                    string chosen = (Console.ReadLine());  //used to get the num from user and chose with it different enum option
+                                    chosen = (Console.ReadLine());  //used to get the num from user and chose with it different enum option
                                     WeightCategories droneWeight = (WeightCategories)Convert.ToInt32(chosen);
                                         //Console.WriteLine("Choose Drone Status: 0 : Available, 1 : Maintenance, 2 : Shipping :\n"); // For different type of status from user
                                         //chosen = (Console.ReadLine());

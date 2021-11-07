@@ -9,7 +9,7 @@ namespace IBL
 {
     namespace BO
     {
-       public class ClientShip //לקוח במשלוח 
+       public class ClientPackage //לקוח בחבילה  
         {
             public string Name { get; set; }
             public int Id { get; set; }

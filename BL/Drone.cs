@@ -16,7 +16,7 @@ namespace IBL
             public WeightCategories MaxWeight { get; set; }
             public double Battery { get; set; }
             public DroneStatus Status { get; set; }
-            public ShipmentProcess ShipProcess { get; set; }
+            public PackageProcess DronePackageProcess { get; set; }
             public Location DroneLocation { get; set; }
 
 
@@ -28,7 +28,7 @@ namespace IBL
                 result += $"MaxWeight is {MaxWeight}, \n";
                 result += $"Battery is {Battery}, \n";
                 result += $"Status is {Status}, \n";
-                result += $"ShipProcess of drone is {ShipProcess}, \n";
+                result += $"PackageProcess of drone is {DronePackageProcess}, \n";
                 result += $"DroneLocation is {DroneLocation}, \n";
 
                 return result;

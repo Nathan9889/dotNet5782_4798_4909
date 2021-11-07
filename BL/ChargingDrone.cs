@@ -9,7 +9,7 @@ namespace IBL
 {
     namespace BO
     {
-        public class ChargingDrone  //משלוח אצל לקוח 
+        public class ChargingDrone  //רחפן בטעינה
         {
             public int Id { get; set; }
             public int Battery { get; set; }

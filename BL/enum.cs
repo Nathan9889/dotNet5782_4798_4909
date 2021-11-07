@@ -30,7 +30,7 @@ namespace IBL
             Waiting , OnGoing
         }
 
-        public enum InClientShipmentStatus
+        public enum PackageStatus
         {
             Created, Associated, PickedUp, Delivered
         }

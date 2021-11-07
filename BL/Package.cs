@@ -14,8 +14,8 @@ namespace IBL
         {
 
             public int ID { get; set; }
-            public Client SenderClient { get; set; }
-            public Client ReceiverClient { get; set; }
+            public ClientPackage SenderClient { get; set; }
+            public ClientPackage ReceiverClient { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
             public Drone DroneOfPackage { get; set; }
