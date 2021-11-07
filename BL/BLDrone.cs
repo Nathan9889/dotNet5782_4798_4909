@@ -36,8 +36,8 @@ namespace IBL
                 droneToList.ID = drone.ID;
                 droneToList.Model = drone.Model;
                 droneToList.MaxWeight =  drone.MaxWeight;
-                bool flag = false;
 
+                bool flag = false;
                 foreach (var package in dal.PackageList())
                 {
 

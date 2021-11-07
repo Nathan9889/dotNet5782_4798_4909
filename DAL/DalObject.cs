@@ -504,7 +504,8 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Station> StationsList()
         {
-            return DataSource.StationList;
+            List<Station> temp = DataSource.StationList;
+            return temp;
         }
 
 
@@ -525,7 +526,8 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Client> ClientsList()
         {
-            return DataSource.ClientList;
+            List <Client> temp = DataSource.ClientList;
+            return temp;
         }
 
 
@@ -535,7 +537,8 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Package> PackageList()
         {
-            return DataSource.PackageList;
+            List<Package> temp = DataSource.PackageList;
+            return temp;
         }
 
 
