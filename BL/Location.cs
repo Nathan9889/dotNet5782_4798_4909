@@ -14,6 +14,15 @@ namespace IBL
             public double Latitude { get; set; }
             public double Longitude { get; set; }
 
+            public override string ToString()
+            {
+                string result = "";
+                result += $"Latitude is {Latitude}, \n";
+                result += $"Longitude is {Longitude},\n";
+                
+
+                return result;
+            }
         }
     }
 

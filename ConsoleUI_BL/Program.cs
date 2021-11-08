@@ -7,7 +7,7 @@
 
 
 
-using IDAL.DO;
+using IBL.BO;
 using DalObject;
 
 namespace ConsoleUI_BL
@@ -16,6 +16,11 @@ namespace ConsoleUI_BL
 
     class Program
     {
+
+       
+
+
+
         ///Enum for for User Option
         enum Menu { Exit, Add, Update, DisplayItem, DisplayList, Distance };
         enum UpdateOptions { Exit, Assignment, PickedUp, Delivered, Charging, FinishCharging };
@@ -26,7 +31,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// Main function to run the program, the program get user input and display the relevant application from user choice, User can: Add An object, Update different type of information, Display specific object and Display every element from different list.
         /// </summary>
-        public static void Display(IDAL.IDAL dal)
+        public static void Display(BL.BL bl)
         {
             Menu choice;
             ObjectMenu objectMenu;
@@ -53,14 +58,36 @@ namespace ConsoleUI_BL
                                 case ObjectMenu.Station:
 
                                     Console.WriteLine("Enter Station Data: Station ID, Station Name, Station location, Num of Vacant Stand  \n");  // Getting Station data from user
-                                   
+
+                                    Station station = new Station();
 
 
+                                    int stationId;//
+                                    int.TryParse(Console.ReadLine(), out stationId);
+                                    string stationName = Console.ReadLine();//
+                                    Location location = new Location();
+                                    double myLatitude, myLongitude;
+                                    double.TryParse(Console.ReadLine(), out myLatitude);
+                                    double.TryParse(Console.ReadLine(), out myLongitude);
+                                    location.Latitude = myLatitude;
+                                    location.Longitude = myLongitude;
+                                    int stationChargeSlot;
+                                    int.TryParse(Console.ReadLine(), out stationChargeSlot);
+
+                                    station.ID = stationId;
+                                    station.Name = stationName;
+                                    station.StationLocation = location;
+                                    station.VacantChargeSlots = stationChargeSlot;
+
+                                    station.ChargingDronesList = new System.Collections.Generic.List<ChargingDrone>();////have to checkk
+
+                                    bl.AddStation(station);
+                                    
                                     break;
 
                                 case ObjectMenu.Drone:
 
-                                    Console.WriteLine("Enter Drone Data: ID, Model, Weight, Status, Battery \n");  // Getting Drone data from user    Dji_Mavic_2_Zoom, Dji_FPV_Combo
+                                    Console.WriteLine("Enter Drone Data: ID, Model, Weight, Status, Battery \n");  // Getting Drone data from user   
                                     
                                     break;
 
@@ -133,17 +160,20 @@ namespace ConsoleUI_BL
 
                 }
             }
+
         }
-
-
-
-
 
         static void Main(string[] args)
         {
 
-            IBL.IBL bl = new BL.BL();
+            BL.BL bl = new BL.BL();
+            Display(bl);
+
             Console.WriteLine("Hello World!");
         }
+
+
+
+
     }
 }

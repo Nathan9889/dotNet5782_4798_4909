@@ -68,7 +68,7 @@ namespace ConsoleUI
 
                                 case ObjectMenu.Drone:
 
-                                    Console.WriteLine("Enter Drone Data: ID, Model, Weight, Status, Battery \n");  // Getting Drone data from user    Dji_Mavic_2_Zoom, Dji_FPV_Combo
+                                    Console.WriteLine("Enter Drone Data: ID, Model, Weight, Status, Battery \n");  // Getting Drone data from user  
                                     int droneId;
                                     int.TryParse(Console.ReadLine(), out droneId);
                                     

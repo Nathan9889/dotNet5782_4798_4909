@@ -19,7 +19,7 @@ namespace BL
         public double PowerHeavyDrone;
         public double ChargeRate;
 
-        BL()
+        public BL()
         { 
             dal = new DalObject.DalObject();
 
@@ -118,7 +118,7 @@ namespace BL
 
 
 
-        int BatteryByKM(int weight, double KM) // חישוב צריכת חשמל לקילומטר
+        public int BatteryByKM(int weight, double KM) // חישוב צריכת חשמל לקילומטר
         {
             double power;
             if (weight == 0) power = PowerLightDrone;
