@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IBL.BO;
+using IDAL;
 
 namespace BL
 {
-    public partial class BL
+    public partial class BL : IBL.IBL
     {
+        BL()
+        {
+            
 
+
+
+        }
 
     }
 

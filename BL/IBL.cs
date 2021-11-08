@@ -7,7 +7,7 @@ using IBL.BO;
 
 namespace IBL
 {
-    interface IBL
+    public interface IBL
     {
         ////adding
         //void AddStation(Station station);

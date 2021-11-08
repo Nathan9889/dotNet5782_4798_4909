@@ -13,10 +13,10 @@ namespace BL
         static Random rand = new Random();
         public List<DroneToList> DroneList;
         public IDAL.IDAL dal;
-        public double PowerVacantDrone ;
+        public double PowerVacantDrone;
         public double PowerLightDrone;
-        public double PowerMediumDrone ;
-        public double PowerHeavyDrone ;
+        public double PowerMediumDrone;
+        public double PowerHeavyDrone;
         public double ChargeRate;
 
         BL()
@@ -34,8 +34,8 @@ namespace BL
             {
                 DroneToList droneToList = new DroneToList();
                 droneToList.ID = drone.ID;
-                droneToList.Model = drone.Model;
-                droneToList.MaxWeight =  drone.MaxWeight;
+                droneToList.Model = (DroneModel)drone.Model;
+                droneToList.MaxWeight = (WeightCategories)drone.MaxWeight;
 
                 bool flag = false;
                 foreach (var package in dal.PackageList())
