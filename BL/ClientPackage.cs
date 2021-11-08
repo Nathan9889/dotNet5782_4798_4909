@@ -12,12 +12,12 @@ namespace IBL
        public class ClientPackage //לקוח בחבילה  
         {
             public string Name { get; set; }
-            public int Id { get; set; }
+            public int ID { get; set; }
 
             public override string ToString()
             {
                 string result = "";
-                result += $"ClientShipId is {Id},\n";
+                result += $"ClientShipId is {ID},\n";
                 result += $"ClientName is {Name},\n";
                 
                 return result;
