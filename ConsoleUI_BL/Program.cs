@@ -25,7 +25,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// Main function to run the program, the program get user input and display the relevant application from user choice, User can: Add An object, Update different type of information, Display specific object and Display every element from different list.
         /// </summary>
-        public static void Display(BL.BL bl)
+        public static void Display(IBL.IBL bl)
         {
             Menu choice;
             ObjectMenu objectMenu;
@@ -108,15 +108,15 @@ namespace ConsoleUI_BL
                                     drone.ID = droneId;
                                     drone.Model = droneModel;
                                     drone.MaxWeight = droneMaxWeight;
-                                    drone.Battery = rand.Next(20, 40);
 
+                                    
 
                                     //BL
                                     //יוסף כשנמצא בתחזוקה???
 
 
 
-
+                                    bl.AddDrone(drone, stationNumToCharge);
 
                                     //adding (drone) in bl
 
@@ -243,7 +243,7 @@ namespace ConsoleUI_BL
         static void Main(string[] args)
         {
 
-            BL.BL bl = new BL.BL();
+            IBL.IBL bl = new BL.BL();
             Display(bl);
 
             Console.WriteLine("Hello World!");

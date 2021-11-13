@@ -10,8 +10,8 @@ namespace IBL
     public interface IBL
     {
         ////adding
-        //void AddStation(Station station);
-        //void AddDrone(Drone drone);
+        void AddStation(Station station);
+        void AddDrone(Drone drone, int );
         //void AddClient(Client client);
         //int AddPackage(Package package);
 

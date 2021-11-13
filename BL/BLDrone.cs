@@ -19,6 +19,7 @@ namespace BL
         public double PowerHeavyDrone;
         public double ChargeRate;
 
+
         public BL()
         { 
             dal = new DalObject.DalObject();
@@ -107,6 +108,7 @@ namespace BL
                         double KM = DalObject.DalObject.distance(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude);
                         minBattery = BatteryByKM(3, KM);
                         droneToList.Battery = rand.Next(minBattery, 101);
+                      
                     }
                 }
 
@@ -116,10 +118,55 @@ namespace BL
         }
 
 
+        void AddDrone(Drone drone, int stationNumToCharge)
+        {
+            try // חריגה מהשכבה הלוגית
+            {
+                if (drone.ID < 0) throw new IBL.BO.Exceptions.IDException("Drone ID can not be negative", drone.ID);
+                if (!dal.StationsList().Any(x => x.ID == stationNumToCharge)) throw new IBL.BO.Exceptions.IDException("Station ID not found", stationNumToCharge);
+                if (dal.StationById(stationNumToCharge).ChargeSlots <= 0) throw new IBL.BO.Exceptions.StationException("There are no charging slots available at the station", stationNumToCharge);
+            }
+            catch (IBL.BO.Exceptions.IDException ex)
+            {
+                if(ex.Message == "Drone ID can not be negative") {throw ;}
+                else if (ex.Message == "Station ID not found") { throw; }
+            }
+            catch(IBL.BO.Exceptions.StationException ex) {throw; }
+
+
+            IDAL.DO.Drone droneDAL = new IDAL.DO.Drone(); // הוספה לרשימה ב DAL
+            droneDAL.ID = drone.ID;
+            droneDAL.Model = (IDAL.DO.DroneModel)(int)(drone.Model);
+            droneDAL.MaxWeight = (IDAL.DO.WeightCategories)(int)(drone.MaxWeight);
+            try // חריגה משכבת הנתונם
+            {
+                dal.AddDrone(droneDAL);
+            }
+            catch ( IDAL.DO.Exceptions.IDException ex )
+            {
+                throw new Exceptions.IDException("A Drone ID already exists", ex , droneDAL.ID);
+            }
+          
+
+            DroneToList droneToList = new DroneToList();
+            droneToList.ID = drone.ID;
+            droneToList.Model = drone.Model;
+            droneToList.MaxWeight = drone.MaxWeight;
+            droneToList.Battery = rand.Next(20, 41);
+            droneToList.Status = DroneStatus.Maintenance;
+            droneToList.DroneLocation.Latitude = dal.StationById(stationNumToCharge).Latitude;
+            droneToList.DroneLocation.Longitude = dal.StationById(stationNumToCharge).Longitude;
+            droneToList.PackageID = 0;
+            DroneList.Add(droneToList);
+
+
+        }
+
 
 
         public int BatteryByKM(int weight, double KM) // חישוב צריכת חשמל לקילומטר
         {
+            
             double power;
             if (weight == 0) power = PowerLightDrone;
             if (weight == 1) power = PowerMediumDrone;

@@ -12,6 +12,8 @@ namespace IDAL
         {
             public int DroneId { get; set; }
             public int StationId { get; set; }
+            public int ChargingStartTime { get; set; }
+
 
 
             public override string ToString()
@@ -19,6 +21,7 @@ namespace IDAL
                 string result = "";
                 result += $"DroneId is {DroneId},\n";
                 result += $"StationId is {StationId}, \n";
+                result += $"StationId is {ChargingStartTime}, \n";
 
                 return result;
             }

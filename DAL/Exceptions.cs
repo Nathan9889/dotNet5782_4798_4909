@@ -9,12 +9,20 @@ namespace IDAL
 {
     namespace DO
     {
-        class Exceptions : Exception
-        {
+        public class Exceptions : Exception
+
+        { /// <summary>
+          /// A ... ID already exists
+          /// ... ID not found
+          /// </summary>
+          /// 
+            
             [Serializable]
-            internal class IDException : Exception
+            public class IDException : Exception
             {
-                int ID;
+                
+                public int iD;
+
                 public IDException()
                 {
                 }
@@ -23,9 +31,10 @@ namespace IDAL
                 {
                 }
 
-                public IDException(string message,int id) 
+                public IDException(string v, int iD):base(v)
                 {
-                    ID = id;
+                    
+                    this.iD = iD;
                 }
 
                 public IDException(string message, Exception innerException) : base(message, innerException)
@@ -35,17 +44,14 @@ namespace IDAL
                 protected IDException(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
                 }
+
+                public override string ToString()
+                {
+                    return Message + "ID: {iD}";
+                }
             }
 
             
-           
-
-           
-
-           
-
-
-           
             
         }
     }
