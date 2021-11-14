@@ -118,7 +118,7 @@ namespace BL
         }
 
 
-        void AddDrone(Drone drone, int stationNumToCharge)
+         public void AddDrone(Drone drone, int stationNumToCharge)
         {
             try // חריגה מהשכבה הלוגית
             {
@@ -146,7 +146,7 @@ namespace BL
             {
                 throw new Exceptions.IDException("A Drone ID already exists", ex , droneDAL.ID);
             }
-          
+            
 
             DroneToList droneToList = new DroneToList();
             droneToList.ID = drone.ID;
@@ -158,15 +158,13 @@ namespace BL
             droneToList.DroneLocation.Longitude = dal.StationById(stationNumToCharge).Longitude;
             droneToList.PackageID = 0;
             DroneList.Add(droneToList);
-        }
+         }
+    
 
-
-        void UpdateDroneName(Drone drone)
+        public void UpdateDroneName(Drone drone)
         {
             
         }
-
-
 
         public int BatteryByKM(int weight, double KM) // חישוב צריכת חשמל לקילומטר
         {
@@ -179,7 +177,6 @@ namespace BL
             int temp = (int) (KM * power);
             return temp;
         }
-
 
 
 

@@ -17,7 +17,7 @@ namespace ConsoleUI_BL
 
         ///Enum for for User Option
         enum Menu { Exit, Add, Update, DisplayItem, DisplayList, Distance };
-        enum UpdateOptions { Exit, Assignment, PickedUp, Delivered, Charging, FinishCharging };
+        enum UpdateOptions { Exit, UpdateDronedata, UpdateStationData, UpdateClientData, Charging, FinishCharging, Assignment, PickedUp, Delivered };
         enum ObjectMenu { Exit, Client, Drone, Station, Package };
         enum ObjectList { Exit, ClientList, DroneList, StationList, PackageList, PackageWithoutDrone, StationWithCharging };
         enum DistanceOptions { Exit, Client, Station };
@@ -182,6 +182,7 @@ namespace ConsoleUI_BL
                                     package.Priority = packagePriority;
 
                                     //adding package in BL
+                                    bl.addPackage(package);
                                     //BL
                                     break;
 
@@ -197,10 +198,56 @@ namespace ConsoleUI_BL
 
                     case Menu.Update:   //Update item
                         {
-                           
 
+                            Console.WriteLine("Choose an Option:");
+                            Console.WriteLine(" 1: Update Drone Model \n 2: Update Station Data \n 3: Update Client Data : \n 4: Send Drone to Charge \n 5: Finish charging drone \n 6: Assigning a package to a drone \n 7: Pick Up Package by Drone \n 8: Delivery of a package to the client: \n  0: Exit");  ///User Choose Different type of Update
+                            updateOptions = (UpdateOptions)int.Parse(Console.ReadLine());
 
+                            switch (updateOptions)
+                            {
+                                case UpdateOptions.Exit:
+                                    break;
+                                case UpdateOptions.UpdateDronedata:      //New Model name
 
+                                    Console.WriteLine("Enter Drone Id and New Drone Model name");
+                                    int droneIdUp;
+                                    int.TryParse(Console.ReadLine(), out droneIdUp);
+                                    ///
+                                    ///
+                                    ///
+
+                                    break;
+
+                                case UpdateOptions.UpdateStationData:  //
+                                    
+                                    break;
+
+                                case UpdateOptions.UpdateClientData:   //
+                                    
+                                    break;
+
+                                case UpdateOptions.Charging:    //sending a drone to a station to get it charged
+                                   
+                                    break;
+
+                                case UpdateOptions.FinishCharging:  //Getting a drone back from charging
+                                   
+                                    break;
+                                case UpdateOptions.Assignment:  //Assign Package to a drone using Drone and package ID.
+
+                                    break;
+
+                                case UpdateOptions.PickedUp:    //Getting a drone to pick up a package 
+                                   
+                                    break;
+
+                                case UpdateOptions.Delivered:   //Deliver a Package to a client
+                                   
+                                    break;
+
+                                default:
+                                    break;
+                            }
                             break;
                         }
                     case Menu.DisplayItem:   // Output Specific item Data

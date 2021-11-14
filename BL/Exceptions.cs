@@ -91,6 +91,35 @@ namespace IBL
                 }
 
             }
+
+            [Serializable]
+            internal class PackageIdException : Exception
+            {
+                private string v;
+                private int iD;
+
+                public PackageIdException()
+                {
+                }
+
+                public PackageIdException(string message) : base(message)
+                {
+                }
+
+                public PackageIdException(string v, int iD)
+                {
+                    this.v = v;
+                    this.iD = iD;
+                }
+
+                public PackageIdException(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected PackageIdException(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
         }
     }
 

@@ -12,13 +12,6 @@ namespace BL
 
 
 
-
-
-
-
-
-
-
         Location NearestStationToClient(int ClientID) //  חישוב התחנה הקרובה ללקוח
         {
             Location tempLocation = new Location();
@@ -49,6 +42,4 @@ namespace BL
         }
 
     }
-
-
 }

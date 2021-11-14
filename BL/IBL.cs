@@ -13,7 +13,7 @@ namespace IBL
         void AddStation(Station station);
         void AddDrone(Drone drone, int stationNumToCharge);
         //void AddClient(Client client);
-        //int AddPackage(Package package);
+        void addPackage(Package package);
 
         ////updating
 
