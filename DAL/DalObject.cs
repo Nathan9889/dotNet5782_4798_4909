@@ -83,7 +83,7 @@ namespace DalObject
             {
                 ID = rand.Next(10, 100),
                 Name = "Malcha Mall",
-                ChargeSlots = rand.Next(10),
+                ChargeSlots = rand.Next(4,10),
                 Latitude = 31.7515163,
                 Longitude = 35.1872451
             });
@@ -92,7 +92,7 @@ namespace DalObject
             {
                 ID = rand.Next(10, 100),
                 Name = "Central Station",
-                ChargeSlots = rand.Next(10),
+                ChargeSlots = rand.Next(3,10),
                 Latitude =31.7888727,
                 Longitude = 35.2031491
             });
@@ -101,7 +101,7 @@ namespace DalObject
             {
                 ID = rand.Next(10, 100),
                 Name = "Mount Scopus",
-                ChargeSlots = rand.Next(10),
+                ChargeSlots = rand.Next(3,10),
                 Latitude = 31.7930604,
                 Longitude = 35.2449342
             });
@@ -484,11 +484,12 @@ namespace DalObject
         {
             Station station = ChargingStation(stationID); // The station that the user choose
             Drone droneTemp = drone;
-            //droneTemp.Status = DroneStatus.Maintenance; // Updates in temp of drone
+            
             DroneCharge droneCharg = new DroneCharge() // Initialization of a new instance for DroneCharge
             {
                 DroneId = droneTemp.ID,
-                StationId = station.ID
+                StationId = station.ID,
+                ChargingStartTime = DateTime.Now
             };
             DataSource.droneCharge.Add(droneCharg); // Add the instance to the list
 
@@ -594,6 +595,32 @@ namespace DalObject
             return stationWithCharging;
         }
 
+
+        public void DeleteDrone(Drone drone)
+        {
+            if (! DataSource.DroneList.Any(x=> x.ID == drone.ID)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", drone.ID); }
+            DataSource.DroneList.Remove(drone);
+        }
+
+        void DeleteStation()
+        {
+
+        }
+
+        void DeletePackage()
+        {
+
+        }
+
+        void DeleteClient()
+        {
+
+        }
+
+        void DeleteDroneCharge()
+        {
+
+        }
 
         public double[] PowerConsumptionByDrone()
         {

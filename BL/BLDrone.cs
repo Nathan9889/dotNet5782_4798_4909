@@ -21,7 +21,7 @@ namespace BL
 
 
         public BL()
-        { 
+        {
             dal = new DalObject.DalObject();
 
             PowerVacantDrone = (dal.PowerConsumptionByDrone())[0];
@@ -30,6 +30,13 @@ namespace BL
             PowerHeavyDrone = (dal.PowerConsumptionByDrone())[3];
             ChargeRate = (dal.PowerConsumptionByDrone())[4];
 
+            initializeDrone();
+
+        }
+
+
+        private void initializeDrone()
+        {
 
             foreach (var drone in dal.DroneList())
             {
@@ -50,7 +57,7 @@ namespace BL
 
                         if (package.PickedUp == DateTime.MinValue) // מיקום הרחפן אם עדיין לא נאסף
                         {
-                            Location location = NearestStationToClient(package.SenderId);
+                            IDAL.DO.Station location = NearestStationToClient(package.SenderId);
                             droneToList.DroneLocation.Latitude = location.Latitude;
                             droneToList.DroneLocation.Longitude = location.Longitude;
                         }
@@ -61,7 +68,7 @@ namespace BL
                         }
 
                         // מצב סוללת הרחפן אם שוייך אך לא נמסר
-                        Location targetLocation = new Location(); 
+                        Location targetLocation = new Location();
                         targetLocation.Latitude = dal.ClientById(dal.PackageById(droneToList.PackageID).TargetId).Latitude;
                         targetLocation.Longitude = dal.ClientById(dal.PackageById(droneToList.PackageID).TargetId).Longitude;
 
@@ -69,11 +76,11 @@ namespace BL
                         double KM = DalObject.DalObject.distance(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, targetLocation.Latitude, targetLocation.Longitude);
                         minBattery = BatteryByKM((int)package.Weight, KM);
 
-                        Location stationLocation = NearestStationToClient(package.TargetId);
+                        IDAL.DO.Station stationLocation = NearestStationToClient(package.TargetId);
                         KM = DalObject.DalObject.distance(targetLocation.Latitude, targetLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude);
                         minBattery += BatteryByKM(3, KM);
 
-                        if (minBattery > 100) throw new Exception ();
+                        if (minBattery > 100) throw new Exception();
                         droneToList.Battery = rand.Next(minBattery, 101); // בין הצריכה המינמלית ל100
 
                         break;
@@ -85,10 +92,12 @@ namespace BL
                     droneToList.Status = (DroneStatus)(rand.Next(1, 3));
                     if (droneToList.Status == DroneStatus.Maintenance)
                     {
-                        IDAL.DO.Station station = dal.StationsList().ElementAt(rand.Next(0, dal.StationsList().Count()));
+                        IDAL.DO.Station station = dal.StationWithCharging().ElementAt(rand.Next(0, dal.StationsList().Count()));
                         droneToList.DroneLocation.Latitude = station.Latitude;
                         droneToList.DroneLocation.Longitude = station.Longitude;
                         droneToList.Battery = rand.Next(0, 21);
+
+                        dal.DroneCharge(drone, station.ID); // הוספה לטעינה
                     }
                     else
                     {
@@ -104,21 +113,20 @@ namespace BL
 
 
                         int minBattery;
-                        Location stationLocation = NearestStationToClient(dal.ClientById(index).ID);
+                        IDAL.DO.Station stationLocation = NearestStationToClient(dal.ClientById(index).ID);
                         double KM = DalObject.DalObject.distance(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude);
                         minBattery = BatteryByKM(3, KM);
                         droneToList.Battery = rand.Next(minBattery, 101);
-                      
+
                     }
                 }
 
                 DroneList.Add(droneToList);
             }
-
         }
 
 
-        void AddDrone(Drone drone, int stationNumToCharge)
+        void IBL.IBL.AddDrone(Drone drone, int stationNumToCharge)
         {
             try // חריגה מהשכבה הלוגית
             {
@@ -128,10 +136,10 @@ namespace BL
             }
             catch (IBL.BO.Exceptions.IDException ex)
             {
-                if(ex.Message == "Drone ID can not be negative") {throw ;}
+                if (ex.Message == "Drone ID can not be negative") { throw; }
                 else if (ex.Message == "Station ID not found") { throw; }
             }
-            catch(IBL.BO.Exceptions.StationException ex) {throw; }
+            catch (IBL.BO.Exceptions.StationException ex) { throw; }
 
 
             IDAL.DO.Drone droneDAL = new IDAL.DO.Drone(); // הוספה לרשימה ב DAL
@@ -142,11 +150,11 @@ namespace BL
             {
                 dal.AddDrone(droneDAL);
             }
-            catch ( IDAL.DO.Exceptions.IDException ex )
+            catch (IDAL.DO.Exceptions.IDException ex)
             {
-                throw new Exceptions.IDException("A Drone ID already exists", ex , droneDAL.ID);
+                throw new Exceptions.IDException("A Drone ID already exists", ex, droneDAL.ID);
             }
-          
+
 
             DroneToList droneToList = new DroneToList();
             droneToList.ID = drone.ID;
@@ -161,34 +169,127 @@ namespace BL
         }
 
 
-        void UpdateDroneName(Drone drone)
+
+        void IBL.IBL.UpdateDroneName(Drone drone)
         {
-            
+            IDAL.DO.Drone droneDAL;
+            try
+            {
+                if (!DroneList.Any(x => x.ID == drone.ID)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", drone.ID); // // חריגה משהכבה הלוגית
+                droneDAL = dal.DroneById(drone.ID); // חריגה משכבת הנתונים
+            }
+            catch (IBL.BO.Exceptions.IDException ex) { throw; }
+            catch (IDAL.DO.Exceptions.IDException ex) { throw; }
+
+            foreach (var droneBL in DroneList) // עדכון ברשימה ב BL
+            {
+                if (droneBL.ID == drone.ID)
+                {
+                    droneBL.Model = drone.Model;
+                    break;
+                }
+            }
+
+
+            IDAL.DO.Drone droneDalTemp = droneDAL; // עדכון ברשימה בשכבת התונים
+            droneDalTemp.Model = drone.Model;
+            try // לא אמור להיות חריגה כי כבר בדקנו בתחילת הפונקציה שזה קיים
+            {
+                dal.DeleteDrone(droneDAL);
+                dal.AddDrone(droneDAL);
+            }
+            catch (IDAL.DO.Exceptions.IDException ex) { throw new IBL.BO.Exceptions.IDException("Fault in drone update. Was not supposed to be an exception because we have already checked before", ex, drone.ID); }
         }
 
 
 
-        public int BatteryByKM(int weight, double KM) // חישוב צריכת חשמל לקילומטר
+        void IBL.IBL.ChargeDrone(int ID)
         {
-            
+            DroneToList drone = DroneList.Find(drone => drone.ID == ID);
+            if (drone == null) {throw new IBL.BO.Exceptions.IDException("Drone ID not found", ID);}
+
+            if (drone.Status == DroneStatus.Available)
+            {
+                IDAL.DO.Station station = NearestStationToDrone(drone.ID);
+                double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, station.Latitude, station.Longitude,4); // כמות הסוללה הנדרשת כדי שהרחפן יוכל לטוס ממיקומו ועד התחנה
+
+                if (drone.Battery < minBattery) throw new IBL.BO.Exceptions.SendingDroneToCharging("The drone can not reach the station, Not enough battery");
+
+                // ניתן לשלוח לטעינה
+                DroneToList tempDrone = drone;
+
+                tempDrone.Battery = tempDrone.Battery - minBattery ; // הרחפן כביכול נסע לתחנה ולכן צריך להוריד ממנו את הסוללה של הנסיעה מהמיקום שלו לתחנה
+                tempDrone.DroneLocation.Latitude = station.Latitude;
+                tempDrone.DroneLocation.Longitude = station.Longitude;
+                tempDrone.Status = DroneStatus.Maintenance;
+
+                DroneList.Add(tempDrone); // עדכון ברשימה בשכבה 2
+                DroneList.Remove(drone);
+
+                dal.DroneCharge(dal.DroneById(drone.ID) , station.ID); // יצירת מופע של רחפן בטעינה והקטנת מספר עמדות הטעינה
+
+            }
+
+
+        }
+
+
+      
+
+
+        private IDAL.DO.Station NearestStationToDrone(int DroneID) // חישוב התחנה הקרובה לרחפן עם עמדות פנויות והחזרה שלה
+        {
+            DroneToList drone = DroneList.Find(x => x.ID == DroneID);
+            IDAL.DO.Station tempLocation = new IDAL.DO.Station();
+            double distance = int.MaxValue;
+
+            if (dal.StationWithCharging().Count() == 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station"); // אם אין עמדות טעינה פנויות באף תחנה
+            foreach (var station in dal.StationWithCharging())
+            {
+
+                double tempDistance = DalObject.DalObject.distance(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, station.Latitude, station.Longitude);
+                if (tempDistance < distance )
+                {
+                    distance = tempDistance;
+                    tempLocation.Latitude = station.Latitude;
+                    tempLocation.Longitude = station.Longitude;
+                }
+
+            }
+            return tempLocation;
+        }
+
+
+        private double batteryConsumption(double lat1, double long1, double lat2, double long2, int weight) // חישוב צריכת סוללה בין 2 נקודות ולפי משקל החבילה
+        {
+            double KM = DalObject.DalObject.distance(lat1, long1, lat2, long2);
+            double battery = BatteryByKM(weight, KM);
+
+            return battery;
+        }
+
+        int BatteryByKM(int weight, double KM) // חישוב צריכת חשמל לקילומטר
+        {
+
             double power;
             if (weight == 0) power = PowerLightDrone;
             if (weight == 1) power = PowerMediumDrone;
             if (weight == 2) power = PowerHeavyDrone;
-            else  power = PowerVacantDrone;
-            int temp = (int) (KM * power);
+            else power = PowerVacantDrone;
+            int temp = (int)(KM * power);
             return temp;
         }
-
-
-
-
-
-
     }
 
 
 
 
 
+
 }
+
+
+
+
+
+

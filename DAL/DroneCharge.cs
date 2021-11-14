@@ -12,7 +12,7 @@ namespace IDAL
         {
             public int DroneId { get; set; }
             public int StationId { get; set; }
-            public int ChargingStartTime { get; set; }
+            public DateTime ChargingStartTime { get; set; }
 
 
 

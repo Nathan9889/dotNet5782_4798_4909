@@ -20,7 +20,7 @@ namespace IBL
         void UpdateDroneName(Drone drone);
         //void UpdateStation(Station station);
         //void UpdateClient(Client client);
-        //void ChargeDrone(/*Drone drone);*/);
+        void ChargeDrone(int ID);
         //void FinishCharging(/*DroneCharge droneCharge*/);
         //void packageToDrone(/*Package package, int DroneID*/);
         //void PickedUpByDrone(/*Package package*/);

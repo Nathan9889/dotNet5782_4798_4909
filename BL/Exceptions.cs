@@ -91,6 +91,33 @@ namespace IBL
                 }
 
             }
+
+
+            [Serializable]
+            internal class SendingDroneToCharging : Exception
+            {
+                public SendingDroneToCharging()
+                {
+                }
+
+                public SendingDroneToCharging(string message) : base(message)
+                {
+                }
+
+                public SendingDroneToCharging(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected SendingDroneToCharging(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+
+                public override string ToString()
+                {
+
+                    return Message;
+                }
+            }
         }
     }
 
