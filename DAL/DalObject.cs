@@ -43,6 +43,7 @@ namespace DalObject
             public static int PowerHeavyDrone = 4;
 
             public static int ChargeRate = 100;
+            
         }
 
         public static void Initialize()
@@ -112,13 +113,14 @@ namespace DalObject
         /// </summary>
         static void InitializeDrone()
         {
-            
+        
+
             for (int i = 0; i < 4; i++)
             {
                 DroneList.Add(new Drone()
                 {
                     ID = rand.Next(1000000,10000000),
-                    Model = (DroneModel)rand.Next(0,3) ,
+                    Model = "Dji_Mavic_2_Pro",
                     MaxWeight = WeightCategories.Heavy,
                    
                 });
@@ -129,7 +131,7 @@ namespace DalObject
                 DroneList.Add(new Drone()
                 {
                     ID = rand.Next(1000000, 10000000),
-                    Model = (DroneModel)rand.Next(0, 3),
+                    Model = "Dji_Mavic_2_Air",
                     MaxWeight = WeightCategories.Medium,
                  
                 });
@@ -140,7 +142,7 @@ namespace DalObject
                 DroneList.Add(new Drone()
                 {
                     ID = rand.Next(1000000, 10000000),
-                    Model = (DroneModel)rand.Next(0, 3),
+                    Model = "Dji_Mavic_2_Zoom",
                     MaxWeight = WeightCategories.Light,
                     
                 });

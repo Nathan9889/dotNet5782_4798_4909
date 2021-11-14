@@ -35,7 +35,7 @@ namespace BL
             {
                 DroneToList droneToList = new DroneToList();
                 droneToList.ID = drone.ID;
-                droneToList.Model = (DroneModel)drone.Model;
+                droneToList.Model = drone.Model;
                 droneToList.MaxWeight = (WeightCategories)drone.MaxWeight;
 
                 bool flag = false;
@@ -136,7 +136,7 @@ namespace BL
 
             IDAL.DO.Drone droneDAL = new IDAL.DO.Drone(); // הוספה לרשימה ב DAL
             droneDAL.ID = drone.ID;
-            droneDAL.Model = (IDAL.DO.DroneModel)(int)(drone.Model);
+            droneDAL.Model = drone.Model;
             droneDAL.MaxWeight = (IDAL.DO.WeightCategories)(int)(drone.MaxWeight);
             try // חריגה משכבת הנתונם
             {
@@ -158,8 +158,12 @@ namespace BL
             droneToList.DroneLocation.Longitude = dal.StationById(stationNumToCharge).Longitude;
             droneToList.PackageID = 0;
             DroneList.Add(droneToList);
+        }
 
 
+        void UpdateDroneName(Drone drone)
+        {
+            
         }
 
 
