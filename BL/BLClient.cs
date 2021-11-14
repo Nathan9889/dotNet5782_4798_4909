@@ -12,33 +12,32 @@ namespace BL
 
 
 
-        Location NearestStationToClient(int ClientID) //  חישוב התחנה הקרובה ללקוח
+
+
+
+
+
+
+
+        IDAL.DO.Station NearestStationToClient(int ClientID) //  חישוב התחנה הקרובה ללקוח
         {
-            Location tempLocation = new Location();
+            IDAL.DO.Station tempStation = new IDAL.DO.Station();
             double distance = int.MaxValue;
-            foreach (var station in dal.StationsList())
+            if (dal.StationWithCharging().Count() == 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station"); // אם אין עמדות טעינה פנויות באף תחנה
+
+            foreach (var station in dal.StationWithCharging()) 
             {
                 double tempDistance = DalObject.DalObject.distance(dal.ClientById(ClientID).Latitude, dal.ClientById(ClientID).Longitude, station.Latitude, station.Longitude);
-                if (tempDistance < distance && station.ChargeSlots > 0)
+                if (tempDistance < distance)
                 {
                     distance = tempDistance;
-                    tempLocation.Latitude = station.Latitude;
-                    tempLocation.Longitude = station.Longitude;
+                    tempStation.Latitude = station.Latitude;
+                    tempStation.Longitude = station.Longitude;
                 }
 
             }
-            // אם אין לאף אחד עמדות פנויות לזרוק חריגה ולהוסיף עמדות פנויות בתפיסה
-            try
-            {
-                if (distance == int.MaxValue) throw new IBL.BO.Exceptions.StationException("There are no charging slots available at any station");
-            }
-            catch (Exception ex)
-            {
-                // הוספת עמדות פנויות בכל התחנות
-            }
-            
 
-            return tempLocation;
+            return tempStation;
         }
 
     }

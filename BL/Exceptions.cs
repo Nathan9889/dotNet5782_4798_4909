@@ -92,32 +92,30 @@ namespace IBL
 
             }
 
+
             [Serializable]
-            internal class PackageIdException : Exception
+            internal class SendingDroneToCharging : Exception
             {
-                private string v;
-                private int iD;
-
-                public PackageIdException()
+                public SendingDroneToCharging()
                 {
                 }
 
-                public PackageIdException(string message) : base(message)
+                public SendingDroneToCharging(string message) : base(message)
                 {
                 }
 
-                public PackageIdException(string v, int iD)
-                {
-                    this.v = v;
-                    this.iD = iD;
-                }
-
-                public PackageIdException(string message, Exception innerException) : base(message, innerException)
+                public SendingDroneToCharging(string message, Exception innerException) : base(message, innerException)
                 {
                 }
 
-                protected PackageIdException(SerializationInfo info, StreamingContext context) : base(info, context)
+                protected SendingDroneToCharging(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
+                }
+
+                public override string ToString()
+                {
+
+                    return Message;
                 }
             }
         }

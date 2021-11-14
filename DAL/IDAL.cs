@@ -31,6 +31,7 @@ namespace IDAL
         IEnumerable<Package> PackageList();
         IEnumerable<Package> PackageWithoutDrone();
         IEnumerable<Station> StationWithCharging();
+        void DeleteDrone(Drone drone);
         double[] PowerConsumptionByDrone();
 
 
