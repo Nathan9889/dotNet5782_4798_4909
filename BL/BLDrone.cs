@@ -173,7 +173,7 @@ namespace BL
         { 
             
         }
-
+         
 
 
         int BatteryByKM(int weight, double KM) // חישוב צריכת חשמל לקילומטר
