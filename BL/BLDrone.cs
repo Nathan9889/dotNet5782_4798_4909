@@ -170,7 +170,7 @@ namespace BL
     
 
         void UpdateDroneName(Drone drone)
-        {
+        { 
             
         }
 
