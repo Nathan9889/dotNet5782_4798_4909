@@ -213,7 +213,7 @@ namespace BL
                 IDAL.DO.Station station = NearestStationToDrone(drone.ID);
                 double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, station.Latitude, station.Longitude, 4); // כמות הסוללה הנדרשת כדי שהרחפן יוכל לטוס ממיקומו ועד התחנה
 
-                if (drone.Battery < minBattery) throw new IBL.BO.Exceptions.SendingDroneToCharging("The drone can not reach the station, Not enough battery");
+                if (drone.Battery < minBattery) throw new IBL.BO.Exceptions.SendingDroneToCharging("The drone can not reach the station, Not enough battery",drone.ID);
 
                 // ניתן לשלוח לטעינה
                 DroneToList tempDrone = drone;
@@ -229,7 +229,7 @@ namespace BL
                 dal.DroneCharge(dal.DroneById(drone.ID), station.ID); // יצירת מופע של רחפן בטעינה והקטנת מספר עמדות הטעינה
 
             }
-
+            else { throw new IBL.BO.Exceptions.SendingDroneToCharging("Drone status is not Available", drone.ID); }
 
         }
 
@@ -243,7 +243,7 @@ namespace BL
             IDAL.DO.Station tempLocation = new IDAL.DO.Station();
             double distance = int.MaxValue;
 
-            if (dal.StationWithCharging().Count() == 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station"); // אם אין עמדות טעינה פנויות באף תחנה
+            if (dal.StationWithCharging().Count() == 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station",DroneID); // אם אין עמדות טעינה פנויות באף תחנה
             foreach (var station in dal.StationWithCharging())
             {
 
