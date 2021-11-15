@@ -183,7 +183,7 @@ namespace BL
             if (weight == 0) power = PowerLightDrone;
             if (weight == 1) power = PowerMediumDrone;
             if (weight == 2) power = PowerHeavyDrone;
-            else power = PowerVacantDrone;
+            else power = PowerVacantDrone; 
             int temp = (int)(KM * power);
             return temp;
         }
