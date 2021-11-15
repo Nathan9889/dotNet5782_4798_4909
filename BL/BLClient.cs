@@ -25,7 +25,7 @@ namespace BL
             double distance = int.MaxValue;
             if (dal.StationWithCharging().Count() == 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station"); // אם אין עמדות טעינה פנויות באף תחנה
 
-            foreach (var station in dal.StationWithCharging()) 
+            foreach (var station in dal.StationWithCharging())
             {
                 double tempDistance = DalObject.DalObject.distance(dal.ClientById(ClientID).Latitude, dal.ClientById(ClientID).Longitude, station.Latitude, station.Longitude);
                 if (tempDistance < distance)

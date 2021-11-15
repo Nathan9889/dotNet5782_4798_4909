@@ -93,6 +93,8 @@ namespace IBL
             }
 
 
+
+
             [Serializable]
             internal class SendingDroneToCharging : Exception
             {
