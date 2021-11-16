@@ -233,7 +233,16 @@ namespace BL
 
         }
 
+        void IBL.IBL.FinishCharging(int DroneID, int minutesCharging)
+        {
+            
+            if (!DroneList.Any(drone => drone.ID == DroneID)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", DroneID);
+            int indexDroneToList = DroneList.FindIndex(d => d.ID == DroneID);
+            if (DroneList.Find(drone => drone.ID == DroneID).Status != DroneStatus.Maintenance) throw new IBL.BO.Exceptions.EndDroneCharging("Drone status is not Maintenance", DroneID);
 
+            int battary;
+            DroneList[indexDroneToList]
+        }
 
 
 

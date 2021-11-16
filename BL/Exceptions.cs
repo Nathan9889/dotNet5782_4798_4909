@@ -93,23 +93,15 @@ namespace IBL
             }
 
 
-
-            /// <summary>
-            /// Drone status is not Available
-            /// There are no charging slots available at any station
-            /// The drone can not reach the station, Not enough battery
-            /// </summary>
             [Serializable]
             internal class SendingDroneToCharging : Exception
             {
-                int id;
                 public SendingDroneToCharging()
                 {
                 }
 
-                public SendingDroneToCharging(string message, int iD) : base(message)
+                public SendingDroneToCharging(string message) : base(message)
                 {
-                    this.id = iD;
                 }
 
                 public SendingDroneToCharging(string message, Exception innerException) : base(message, innerException)
@@ -123,7 +115,7 @@ namespace IBL
                 public override string ToString()
                 {
 
-                    return Message + $"The Drone ID is: {id}";
+                    return Message;
                 }
             }
         }
