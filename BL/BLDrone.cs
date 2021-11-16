@@ -240,8 +240,15 @@ namespace BL
             int indexDroneToList = DroneList.FindIndex(d => d.ID == DroneID);
             if (DroneList.Find(drone => drone.ID == DroneID).Status != DroneStatus.Maintenance) throw new IBL.BO.Exceptions.EndDroneCharging("Drone status is not Maintenance", DroneID);
 
-            int battary;
-            DroneList[indexDroneToList]
+            int battary = (minutesCharging / 60) * 100;
+            if (battary > 100) battary = 100;
+            DroneList[indexDroneToList].Battery = battary;
+            DroneList[indexDroneToList].Status = DroneStatus.Available;
+
+            IDAL.DO.DroneCharge droneCharge = dal.
+                // אם שווה לNULL
+            dal.FinishCharging()
+
         }
 
 

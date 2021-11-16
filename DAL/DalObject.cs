@@ -37,11 +37,11 @@ namespace DalObject
         {
             public static int PackageId = 1000;
 
-            internal static double PowerAvailableDrone { get => 0; } //נושא משקל 0
-            internal static double PowerLightDrone { get => 10; }
-            internal static double PowerMediumDrone { get => 50; }
-            internal static double PowerHeavyDrone { get => 150; }
-            public static double ChargeRate { get => 10.25; }
+            internal static double PowerAvailableDrone { get =>1; } //נושא משקל 0
+            internal static double PowerLightDrone { get => 2; }
+            internal static double PowerMediumDrone { get => 3; }
+            internal static double PowerHeavyDrone { get => 4; }
+            public static double ChargeRate { get => 100; }
 
         }
 
@@ -513,11 +513,17 @@ namespace DalObject
 
             Station station = StationById(droneCharge.StationId); // The station that Charged the drone
             Station stationTemp = station;
-            stationTemp.ChargeSlots--; // Updates in temp of station 
+            stationTemp.ChargeSlots++; // Updates in temp of station 
             DataSource.StationList.Add(stationTemp); // Add temp to list and delete old
             DataSource.StationList.Remove(station);
 
             DataSource.droneCharge.Remove(droneCharge); // Deleting the instance from the list
+        }
+
+        public IEnumerable<DroneCharge> droneChargesList()
+        {
+            List< DroneCharge> droneChargeTemp = DataSource.droneCharge;
+            return droneChargeTemp;
         }
 
 
