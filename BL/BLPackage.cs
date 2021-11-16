@@ -10,6 +10,24 @@ namespace BL
 {
     public partial class BL : IBL.IBL
     {
+
+
+        public Package GetPackage(int id)
+        {
+            Package package = default;
+            try
+            {
+                IDAL.DO.Package dalPackage = dal.PackageById(id);
+
+            }
+            catch (IDAL.DO.Exceptions.IDException pex)
+            {
+                throw new IBL.BO.Exceptions.BLPackageException($"Package ID {id} not found",pex);
+            }
+
+            return package;
+        }
+
         public void addPackage(Package package)
         {
 

@@ -94,7 +94,7 @@ namespace IBL
 
 
             [Serializable]
-            internal class SendingDroneToCharging : Exception
+            public class SendingDroneToCharging : Exception
             {
                 public SendingDroneToCharging()
                 {
@@ -116,6 +116,104 @@ namespace IBL
                 {
 
                     return Message;
+                }
+            }
+
+            [Serializable]
+            public class PackageIdException : Exception
+            {
+                private string v;
+                private int iD;
+
+                public PackageIdException()
+                {
+                }
+
+                public PackageIdException(string message) : base(message)
+                {
+                }
+
+                public PackageIdException(string v, int iD)
+                {
+                    this.v = v;
+                    this.iD = iD;
+                }
+
+                public PackageIdException(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected PackageIdException(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+
+                public override string ToString()
+                {
+                    return Message + $"ID: {iD}";
+                }
+            }
+
+
+
+            [Serializable]
+            public class BLPackageException : Exception
+            {
+                public BLPackageException()
+                {
+                }
+
+                public BLPackageException(string message) : base(message)
+                {
+                }
+
+                public BLPackageException(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected BLPackageException(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
+
+            [Serializable]
+            public class BLStationException : Exception
+            {
+                public BLStationException()
+                {
+                }
+
+                public BLStationException(string message) : base(message)
+                {
+                }
+
+                public BLStationException(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                
+
+                protected BLStationException(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
+
+            [Serializable]
+            internal class BLClientException : Exception
+            {
+                public BLClientException()
+                {
+                }
+
+                public BLClientException(string message) : base(message)
+                {
+                }
+
+                public BLClientException(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected BLClientException(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
                 }
             }
         }
