@@ -253,6 +253,57 @@ namespace BL
 
         }
 
+        Drone DroneItem(int ID)
+        {
+            if (!DroneList.Any(d => d.ID == ID)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", ID);
+            DroneToList droneToList = DroneList.Find(d => d.ID == ID);
+
+            Drone drone = new Drone();
+            drone.DronePackageProcess = new PackageProcess();
+
+            drone.ID = droneToList.ID;
+            drone.Battery = droneToList.Battery;
+            drone.DroneLocation = droneToList.DroneLocation;
+            drone.MaxWeight = droneToList.MaxWeight;
+            drone.Model = droneToList.Model;
+            drone.Status = droneToList.Status;
+
+            if(drone.Status == DroneStatus.Shipping) //  אם הוא מעביר חבילה מאתחלים את מופע משלוח החבילה
+            {
+                IDAL.DO.Package package = dal.PackageList().First(x => x.DroneId == drone.ID);
+                drone.DronePackageProcess.Id = package.ID;
+                drone.DronePackageProcess.Priority = (Priorities)(package.Priority);
+                drone.DronePackageProcess.Weight = (WeightCategories)(package.Weight);
+                if (package.PickedUp == DateTime.MinValue) drone.DronePackageProcess.PackageShipmentStatus = ShipmentStatus.Waiting;
+                else drone.DronePackageProcess.PackageShipmentStatus = ShipmentStatus.OnGoing;
+
+                ClientPackage sender = new ClientPackage();
+                ClientPackage receiver = new ClientPackage();
+                Location collectLocation = new Location();
+                Location destinationLocation = new Location();
+
+                sender.ID = package.SenderId; // איתחולי לקוח בחבילה
+                sender.Name = dal.ClientById(sender.ID).Name;
+                receiver.ID = package.TargetId;
+                receiver.Name = dal.ClientById(receiver.ID).Name;
+                drone.DronePackageProcess.Sender = sender;
+                drone.DronePackageProcess.Receiver = receiver;
+
+                collectLocation.Latitude = dal.ClientById(sender.ID).Latitude; // איתחולי מיקומים של המקור ויעד
+                collectLocation.Longitude = dal.ClientById(sender.ID).Longitude;
+                destinationLocation.Latitude = dal.ClientById(receiver.ID).Latitude;
+                destinationLocation.Longitude = dal.ClientById(receiver.ID).Longitude;
+                drone.DronePackageProcess.CollectLocation = collectLocation;
+                drone.DronePackageProcess.DestinationLocation = destinationLocation;
+
+                drone.DronePackageProcess.Distance = DalObject.DalObject.distance(drone.DronePackageProcess.CollectLocation.Latitude, drone.DronePackageProcess.CollectLocation.Longitude,
+                    drone.DronePackageProcess.DestinationLocation.Latitude, drone.DronePackageProcess.DestinationLocation.Longitude);
+
+            }
+
+            return drone;
+        }
+
 
 
         private IDAL.DO.Station NearestStationToDrone(int DroneID) // חישוב התחנה הקרובה לרחפן עם עמדות פנויות והחזרה שלה

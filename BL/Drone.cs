@@ -28,9 +28,9 @@ namespace IBL
                 result += $"MaxWeight is {MaxWeight}, \n";
                 result += $"Battery is {Battery}, \n";
                 result += $"Status is {Status}, \n";
-                result += $"PackageProcess of drone is {DronePackageProcess}, \n";
+                if(DronePackageProcess != null) result += $"PackageProcess of drone is {DronePackageProcess}, \n";
                 result += $"DroneLocation is {DroneLocation}, \n";
-
+     
                 return result;
             }
         }

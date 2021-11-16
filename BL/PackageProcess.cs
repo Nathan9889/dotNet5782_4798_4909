@@ -21,7 +21,7 @@ namespace IBL
             public Location CollectLocation { get; set; }
             public Location DestinationLocation { get; set; }
 
-            public int Distance { get; set; }  //check
+            public Double Distance { get; set; }  //check
 
 
             public override string ToString()
