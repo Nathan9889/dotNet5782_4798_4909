@@ -121,7 +121,6 @@ namespace BL
 
                     }
                 }
-
                 DroneList.Add(droneToList);
             }
         }
@@ -298,7 +297,6 @@ namespace BL
 
                 drone.DronePackageProcess.Distance = DalObject.DalObject.distance(drone.DronePackageProcess.CollectLocation.Latitude, drone.DronePackageProcess.CollectLocation.Longitude,
                     drone.DronePackageProcess.DestinationLocation.Latitude, drone.DronePackageProcess.DestinationLocation.Longitude);
-
             }
 
             return drone;

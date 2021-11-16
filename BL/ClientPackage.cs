@@ -11,9 +11,8 @@ namespace IBL
     {
        public class ClientPackage //לקוח בחבילה  
         {
-            public string Name { get; set; }
             public int ID { get; set; }
-
+            public string Name { get; set; }
             public override string ToString()
             {
                 string result = "";

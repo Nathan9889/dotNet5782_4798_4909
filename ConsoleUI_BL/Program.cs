@@ -51,10 +51,7 @@ namespace ConsoleUI_BL
                             {
                                 case ObjectMenu.Station:
 
-                                    Console.WriteLine("Enter Station Data: Station ID, Station Name, Station location, Num of Vacant Stand  \n");  // Getting Station data from user
-
-                                    
-
+                                    Console.WriteLine("Enter Station Data: Station ID, Station Name, Station location, Num of Available Stand  \n");  // Getting Station data from user
 
                                     int stationId;//
                                     int.TryParse(Console.ReadLine(), out stationId);
@@ -183,7 +180,7 @@ namespace ConsoleUI_BL
 
                                     //adding package in BL
                                     bl.addPackage(package);
-                                    //BL
+                                    
                                     break;
 
                                 default:

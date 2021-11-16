@@ -28,12 +28,8 @@ namespace IBL
                 result += $"UndeliveredPackage is {UndeliveredPackage},\n";
                 result += $"DroneWithPackageCurrentLocation is {ReceivedPackage},\n";
                 result += $"OnGoingPackage is {OnGoingPackage},\n";
-               
-
                 return result;
             }
-
-
         }
 
     }

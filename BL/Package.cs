@@ -12,18 +12,16 @@ namespace IBL
     {
         public class Package
         {
-
             public int ID { get; set; }
             public ClientPackage SenderClient { get; set; }
             public ClientPackage ReceiverClient { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
-            public Drone DroneOfPackage { get; set; }
+            public DroneWithPackage DroneOfPackage { get; set; }
             public DateTime Created { get; set; }
             public DateTime Associated { get; set; }
             public DateTime PickedUp { get; set; }
             public DateTime Delivered { get; set; }
-
 
             public override string ToString()
             {

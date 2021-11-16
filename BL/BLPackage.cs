@@ -37,10 +37,11 @@ namespace BL
             }
             catch(IBL.BO.Exceptions.PackageIdException ex)
             {
-                if (ex.Message == "Package Id cannot be negative") { throw; }
+                //if (ex.Message == "Package Id cannot be negative") { throw; }
             }
 
-            if (!dal.ClientsList().Any(client => client.ID == package.ReceiverClient.ID)) throw new ;
+            if (!dal.ClientsList().Any(client => client.ID == package.ReceiverClient.ID)) throw new Exceptions.IdNotFoundException("Receiver Id not found", package.ReceiverClient.ID);
+            if (!dal.ClientsList().Any(client => client.ID == package.SenderClient.ID)) throw new Exceptions.IdNotFoundException("Sender Id not found", package.ReceiverClient.ID);
 
             IDAL.DO.Package dalPackage = new IDAL.DO.Package();
 
@@ -62,10 +63,33 @@ namespace BL
             {
                 throw new Exceptions.IDException("Package ID already exists", ex, dalPackage.ID);
             }
+        }
+
+
+
+        public void packageToDrone(/*Package package,*/ int id)
+        {
+            //IDAL.DO.Drone dalDrone = dal.DroneById(id); //no exception?
+
+            DroneToList drone = DroneList.First(x => x.ID == id);
+            if(!(drone.Status == DroneStatus.Available))
+            {
+                throw new Exception.DroneTaken("Drone is not Available");
+            }
+
+            if(drone.Status == DroneStatus.Available)
+            {
+                double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, )
+
+
+
+
+
+
+            }
+
 
 
         }
-
     }
-
 }

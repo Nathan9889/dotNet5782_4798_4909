@@ -18,8 +18,6 @@ namespace IBL
             List<PackageAtClient> ClientsSender;
             List<PackageAtClient> ClientsReceiver;
 
-
-
             public override string ToString()
             {
                 string result = "";

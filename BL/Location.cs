@@ -19,8 +19,6 @@ namespace IBL
                 string result = "";
                 result += $"Latitude is {Latitude}, \n";
                 result += $"Longitude is {Longitude},\n";
-                
-
                 return result;
             }
         }

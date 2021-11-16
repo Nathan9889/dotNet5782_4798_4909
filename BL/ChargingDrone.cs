@@ -13,8 +13,6 @@ namespace IBL
         {
             public int Id { get; set; }
             public int Battery { get; set; }
-
-
             public override string ToString()
             {
                 string result = "";

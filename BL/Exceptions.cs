@@ -255,6 +255,35 @@ namespace IBL
                     return Message + $"ID: {droneID}";
                 }
             }
+
+            [Serializable]
+            internal class IdNotFoundException : Exception
+            {
+                private string v;
+                private int iD;
+
+                public IdNotFoundException()
+                {
+                }
+
+                public IdNotFoundException(string message) : base(message)
+                {
+                }
+
+                public IdNotFoundException(string v, int iD)
+                {
+                    this.v = v;
+                    this.iD = iD;
+                }
+
+                public IdNotFoundException(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected IdNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
         }
     }
 

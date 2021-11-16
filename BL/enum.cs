@@ -9,7 +9,6 @@ namespace IBL
 {
     namespace BO
     {
-
         public enum WeightCategories
         {
             Light, Medium, Heavy
