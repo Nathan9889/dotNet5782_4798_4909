@@ -219,6 +219,9 @@ namespace IBL
                 }
             }
 
+            /// <summary>
+            /// The status of the drone is charging but it is not in the droneCharges list
+            /// </summary>
             [Serializable]
             internal class EndDroneCharging : Exception
             {
@@ -245,6 +248,11 @@ namespace IBL
 
                 protected EndDroneCharging(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
+                }
+
+                public override string ToString()
+                {
+                    return Message + $"ID: {iD}";
                 }
             }
         }

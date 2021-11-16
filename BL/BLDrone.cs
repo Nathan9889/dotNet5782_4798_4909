@@ -18,7 +18,7 @@ namespace BL
         public double PowerMediumDrone;
         public double PowerHeavyDrone;
         public double ChargeRate;
-
+        private int droneID;
 
         public BL()
         {
@@ -41,6 +41,7 @@ namespace BL
             foreach (var drone in dal.DroneList())
             {
                 DroneToList droneToList = new DroneToList();
+                droneToList.DroneLocation = new Location();
                 droneToList.ID = drone.ID;
                 droneToList.Model = drone.Model;
                 droneToList.MaxWeight = (WeightCategories)drone.MaxWeight;
@@ -245,9 +246,10 @@ namespace BL
             DroneList[indexDroneToList].Battery = battary;
             DroneList[indexDroneToList].Status = DroneStatus.Available;
 
-            IDAL.DO.DroneCharge droneCharge = dal.
-                // אם שווה לNULL
-            dal.FinishCharging()
+            if (!dal.droneChargesList().Any(d => d.DroneId == DroneID)) throw new IBL.BO.Exceptions.EndDroneCharging("The status of the drone is charging but it is not in the droneCharges list", droneID);
+            IDAL.DO.DroneCharge droneCharge = dal.droneChargesList().First(d => d.DroneId == DroneID);
+
+            dal.FinishCharging(droneCharge); // שליחה לפונקציה שתקטין עמדות טעינה ותמחוק מופע של רחפן בטעינה
 
         }
 
