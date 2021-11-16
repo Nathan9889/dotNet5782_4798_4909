@@ -133,7 +133,7 @@ namespace BL
             {
                 if (drone.ID < 0) throw new IBL.BO.Exceptions.IDException("Drone ID can not be negative", drone.ID);
                 if (!dal.StationsList().Any(x => x.ID == stationNumToCharge)) throw new IBL.BO.Exceptions.IDException("Station ID not found", stationNumToCharge);
-                if (dal.StationById(stationNumToCharge).ChargeSlots <= 0) throw new IBL.BO.Exceptions.StationException("There are no charging slots available at the station", stationNumToCharge);
+                if (dal.StationById(stationNumToCharge).ChargeSlots <= 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at the station", stationNumToCharge);
             }
             catch (IBL.BO.Exceptions.IDException ex)
             {

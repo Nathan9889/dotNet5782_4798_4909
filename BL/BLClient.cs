@@ -26,11 +26,11 @@ namespace BL
             return client;
         }
 
-        IDAL.DO.Station NearestStationToClient(int ClientID) //  חישוב התחנה הקרובה ללקוח
+        IDAL.DO.Station NearestStationToClient(int ClientID) //  חישוב התחנה הקרובה ללקוח עם עמדות טעינה פנויות
         {
             IDAL.DO.Station tempStation = new IDAL.DO.Station();
             double distance = int.MaxValue;
-            if (dal.StationWithCharging().Count() == 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station"); // אם אין עמדות טעינה פנויות באף תחנה
+            if (dal.StationWithCharging().Count() == 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station",0); // אם אין עמדות טעינה פנויות באף תחנה
 
             foreach (var station in dal.StationWithCharging())
             {

@@ -37,11 +37,11 @@ namespace DalObject
         {
             public static int PackageId = 1000;
 
-            internal static double PowerAvailableDrone { get =>1; } //נושא משקל 0
-            internal static double PowerLightDrone { get => 2; }
-            internal static double PowerMediumDrone { get => 3; }
-            internal static double PowerHeavyDrone { get => 4; }
-            public static double ChargeRate { get => 100; }
+            internal static double PowerAvailableDrone = 1;  //נושא משקל 0
+            internal static double PowerLightDrone = 2; 
+            internal static double PowerMediumDrone  = 3; 
+            internal static double PowerHeavyDrone  = 4; 
+            public static double ChargeRate  = 100; 
 
         }
 

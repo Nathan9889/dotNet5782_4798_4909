@@ -11,7 +11,7 @@ namespace IBL
     {
         ////adding
         void AddStation(Station station);
-        void AddDrone(Drone drone, int stationNumToCharge);
+        public void AddDrone(Drone drone, int stationNumToCharge);
         //void AddClient(Client client);
         void addPackage(Package package);
 

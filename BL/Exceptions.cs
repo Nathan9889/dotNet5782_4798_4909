@@ -117,7 +117,7 @@ namespace IBL
                 public override string ToString()
                 {
 
-                    return Message;
+                    return Message + $"id: {ID}";
                 }
             }
 
@@ -252,7 +252,7 @@ namespace IBL
 
                 public override string ToString()
                 {
-                    return Message + $"ID: {iD}";
+                    return Message + $"ID: {droneID}";
                 }
             }
         }

@@ -40,6 +40,8 @@ namespace BL
                 if (ex.Message == "Package Id cannot be negative") { throw; }
             }
 
+            if (!dal.ClientsList().Any(client => client.ID == package.ReceiverClient.ID)) throw new ;
+
             IDAL.DO.Package dalPackage = new IDAL.DO.Package();
 
             dalPackage.ID = package.ID;
