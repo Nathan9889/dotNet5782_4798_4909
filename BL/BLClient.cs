@@ -10,7 +10,21 @@ namespace BL
     public partial class BL :IBL.IBL
     {
 
+        public Client GetClient(int id)
+        {
+            Client client = default;
+            try
+            {
+                IDAL.DO.Client dalClient = dal.ClientById(id);
 
+            }
+            catch (IDAL.DO.Exceptions.IDException ClientEx)
+            {
+                throw new IBL.BO.Exceptions.BLClientException($"Client ID {id} not found", ClientEx);
+            }
+
+            return client;
+        }
 
         IDAL.DO.Station NearestStationToClient(int ClientID) //  חישוב התחנה הקרובה ללקוח
         {

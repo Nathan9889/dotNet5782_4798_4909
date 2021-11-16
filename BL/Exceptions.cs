@@ -100,7 +100,7 @@ namespace IBL
             /// The drone can not reach the station, Not enough battery
             /// </summary>
             [Serializable]
-            internal class SendingDroneToCharging : Exception
+            public class SendingDroneToCharging : Exception
             {
                 int id;
                 public SendingDroneToCharging()
@@ -179,6 +179,48 @@ namespace IBL
                 }
 
                 protected BLPackageException(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
+
+            [Serializable]
+            public class BLStationException : Exception
+            {
+                public BLStationException()
+                {
+                }
+
+                public BLStationException(string message) : base(message)
+                {
+                }
+
+                public BLStationException(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                
+
+                protected BLStationException(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
+
+            [Serializable]
+            internal class BLClientException : Exception
+            {
+                public BLClientException()
+                {
+                }
+
+                public BLClientException(string message) : base(message)
+                {
+                }
+
+                public BLClientException(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected BLClientException(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
                 }
             }
