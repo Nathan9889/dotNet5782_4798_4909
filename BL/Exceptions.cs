@@ -126,6 +126,62 @@ namespace IBL
                     return Message + $"The Drone ID is: {id}";
                 }
             }
+
+            [Serializable]
+            public class PackageIdException : Exception
+            {
+                private string v;
+                private int iD;
+
+                public PackageIdException()
+                {
+                }
+
+                public PackageIdException(string message) : base(message)
+                {
+                }
+
+                public PackageIdException(string v, int iD)
+                {
+                    this.v = v;
+                    this.iD = iD;
+                }
+
+                public PackageIdException(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected PackageIdException(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+
+                public override string ToString()
+                {
+                    return Message + $"ID: {iD}";
+                }
+            }
+
+
+
+            [Serializable]
+            public class BLPackageException : Exception
+            {
+                public BLPackageException()
+                {
+                }
+
+                public BLPackageException(string message) : base(message)
+                {
+                }
+
+                public BLPackageException(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected BLPackageException(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
         }
     }
 

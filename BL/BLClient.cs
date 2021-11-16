@@ -12,13 +12,6 @@ namespace BL
 
 
 
-
-
-
-
-
-
-
         IDAL.DO.Station NearestStationToClient(int ClientID) //  חישוב התחנה הקרובה ללקוח
         {
             IDAL.DO.Station tempStation = new IDAL.DO.Station();

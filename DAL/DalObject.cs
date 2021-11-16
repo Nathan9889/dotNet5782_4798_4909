@@ -35,15 +35,14 @@ namespace DalObject
 
         internal class Config
         {
-            internal static int PackageId = 1000;
+            public static int PackageId = 1000;
 
-            public static int PowerVacantDrone = 1;
-            public static int PowerLightDrone = 2;
-            public static int PowerMediumDrone = 3;
-            public static int PowerHeavyDrone = 4;
+            internal static double PowerAvailableDrone { get => 0; } //נושא משקל 0
+            internal static double PowerLightDrone { get => 10; }
+            internal static double PowerMediumDrone { get => 50; }
+            internal static double PowerHeavyDrone { get => 150; }
+            public static double ChargeRate { get => 10.25; }
 
-            public static int ChargeRate = 100;
-            
         }
 
         public static void Initialize()
@@ -625,7 +624,7 @@ namespace DalObject
         public double[] PowerConsumptionByDrone()
         {
             double [] arr = new double[5];
-            arr[0] = DataSource.Config.PowerVacantDrone;
+            arr[0] = DataSource.Config.PowerAvailableDrone;
             arr[1] = DataSource.Config.PowerLightDrone;
             arr[2] = DataSource.Config.PowerMediumDrone;
             arr[3] = DataSource.Config.PowerHeavyDrone;
