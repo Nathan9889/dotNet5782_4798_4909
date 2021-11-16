@@ -96,12 +96,14 @@ namespace IBL
             [Serializable]
             public class SendingDroneToCharging : Exception
             {
+                int ID;
                 public SendingDroneToCharging()
                 {
                 }
 
-                public SendingDroneToCharging(string message) : base(message)
+                public SendingDroneToCharging(string message, int iD) : base(message)
                 {
+                    this.ID = iD;
                 }
 
                 public SendingDroneToCharging(string message, Exception innerException) : base(message, innerException)
@@ -213,6 +215,35 @@ namespace IBL
                 }
 
                 protected BLClientException(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
+
+            [Serializable]
+            internal class EndDroneCharging : Exception
+            {
+                
+                private int droneID;
+
+                public EndDroneCharging()
+                {
+                }
+
+                public EndDroneCharging(string message) : base(message)
+                {
+                }
+
+                public EndDroneCharging(string v, int droneID):base(v)
+                {
+                    
+                    this.droneID = droneID;
+                }
+
+                public EndDroneCharging(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected EndDroneCharging(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
                 }
             }
