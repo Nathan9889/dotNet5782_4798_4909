@@ -64,9 +64,16 @@ namespace BL
             //}
 
             IDAL.DO.Client dalClient = new IDAL.DO.Client();
+            if(client.ID <  )
+
             dalClient.ID = client.ID;
             dalClient.Name = client.Name;
             dalClient.Phone = client.Phone;
+            if (((client.ClientLocation.Latitude <= 31.73) && (client.ClientLocation.Latitude >= 31.83)) ||
+                ((client.ClientLocation.Longitude <= 35.16) && (client.ClientLocation.Longitude >= 35.26)))
+            {
+                throw new Exceptions.LocationOutofRange("Client Location entered is out of shipping range", client.ID);
+            }
             dalClient.Latitude = client.ClientLocation.Latitude;
             dalClient.Longitude = client.ClientLocation.Longitude;
 
@@ -78,9 +85,6 @@ namespace BL
             {
                 throw new Exceptions.IDException("Client with this ID already exists", ex, dalClient.ID);
             }
-
-
-
         }
 
         public void UpdateClient(int id, string name, string phone)

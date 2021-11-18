@@ -333,6 +333,35 @@ namespace IBL
                 {
                 }
             }
+
+            [Serializable]
+            internal class LocationOutOfRange : Exception
+            {
+                private string v;
+                private int iD;
+
+                public LocationOutOfRange()
+                {
+                }
+
+                public LocationOutOfRange(string message) : base(message)
+                {
+                }
+
+                public LocationOutOfRange(string v, int iD)
+                {
+                    this.v = v;
+                    this.iD = iD;
+                }
+
+                public LocationOutOfRange(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected LocationOutOfRange(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
         }
     }
 
