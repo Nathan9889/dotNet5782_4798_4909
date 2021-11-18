@@ -112,7 +112,6 @@ namespace BL
                         droneToList.DroneLocation.Latitude = dal.ClientById(clientID).Latitude;
                         droneToList.DroneLocation.Longitude = dal.ClientById(clientID).Longitude;
 
-
                         int minBattery;
                         IDAL.DO.Station stationLocation = NearestStationToClient(dal.ClientById(index).ID);
                         double KM = DalObject.DalObject.distance(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude);
@@ -189,8 +188,6 @@ namespace BL
                     break;
                 }
             }
-
-
             IDAL.DO.Drone droneDalTemp = droneDAL; // עדכון ברשימה בשכבת התונים
             droneDalTemp.Model = name;
             try // לא אמור להיות חריגה כי כבר בדקנו בתחילת הפונקציה שזה קיים
@@ -201,10 +198,10 @@ namespace BL
             catch (IDAL.DO.Exceptions.IDException ex) { throw new IBL.BO.Exceptions.IDException("Fault in drone update. Was not supposed to be an exception because we have already checked before", ex, id); }
         }
 
-        void IBL.IBL.ChargeDrone(int ID)
+        void IBL.IBL.ChargeDrone(int id)
         {
-            DroneToList drone = DroneList.Find(drone => drone.ID == ID);
-            if (drone == null) { throw new IBL.BO.Exceptions.IDException("Drone ID not found", ID); }
+            DroneToList drone = DroneList.Find(drone => drone.ID == id);
+            if (drone == null) { throw new IBL.BO.Exceptions.IDException("Drone ID not found", id); }
 
             if (drone.Status == DroneStatus.Available)
             {
@@ -231,7 +228,7 @@ namespace BL
 
         }
 
-        void IBL.IBL.FinishCharging(int DroneID, int minutesCharging)
+        void IBL.IBL.FinishCharging(int DroneID, int minutesCharging)   //why cant be public?//////////////////////////////////////////////////////////////////////////////////////////////////////////
         {
             
             if (!DroneList.Any(drone => drone.ID == DroneID)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", DroneID);
@@ -250,10 +247,11 @@ namespace BL
 
         }
 
-        Drone DroneItem(int ID)
+        public Drone DroneItem(int id)
         {
-            if (!DroneList.Any(d => d.ID == ID)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", ID);
-            DroneToList droneToList = DroneList.Find(d => d.ID == ID);
+            if (!DroneList.Any(d => d.ID == id))
+                throw new IBL.BO.Exceptions.IDException("Drone ID not found", id);
+            DroneToList droneToList = DroneList.Find(d => d.ID == id);
 
             Drone drone = new Drone();
             drone.DronePackageProcess = new PackageProcess();
@@ -294,7 +292,7 @@ namespace BL
                 drone.DronePackageProcess.DestinationLocation = destinationLocation;
 
                 drone.DronePackageProcess.Distance = DalObject.DalObject.distance(drone.DronePackageProcess.CollectLocation.Latitude, drone.DronePackageProcess.CollectLocation.Longitude,
-                    drone.DronePackageProcess.DestinationLocation.Latitude, drone.DronePackageProcess.DestinationLocation.Longitude);
+                drone.DronePackageProcess.DestinationLocation.Latitude, drone.DronePackageProcess.DestinationLocation.Longitude);
             }
 
             return drone;
@@ -333,7 +331,7 @@ namespace BL
             return battery;
         }
 
-        int BatteryByKM(int weight, double KM) // חישוב צריכת חשמל לקילומטר
+       public int BatteryByKM(int weight, double KM) // חישוב צריכת חשמל לקילומטר
         {
 
             double power;

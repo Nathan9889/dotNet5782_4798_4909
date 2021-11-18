@@ -10,21 +10,21 @@ namespace BL
     public partial class BL :IBL.IBL
     {
 
-        public Client GetClient(int id)
-        {
-            Client client = default;
-            try
-            {
-                IDAL.DO.Client dalClient = dal.ClientById(id);
+        //public Client GetClient(int id)
+        //{
+        //    Client client = default;
+        //    try
+        //    {
+        //        IDAL.DO.Client dalClient = dal.ClientById(id);
 
-            }
-            catch (IDAL.DO.Exceptions.IDException ClientEx)
-            {
-                throw new IBL.BO.Exceptions.BLClientException($"Client ID {id} not found", ClientEx);
-            }
+        //    }
+        //    catch (IDAL.DO.Exceptions.IDException ClientEx)
+        //    {
+        //        throw new IBL.BO.Exceptions.BLClientException($"Client ID {id} not found", ClientEx);
+        //    }
 
-            return client;
-        }
+        //    return client;
+        //}
 
         IDAL.DO.Station NearestStationToClient(int ClientID) //  חישוב התחנה הקרובה ללקוח עם עמדות טעינה פנויות
         {
@@ -72,7 +72,7 @@ namespace BL
             if (((client.ClientLocation.Latitude <= 31.73) && (client.ClientLocation.Latitude >= 31.83)) ||
                 ((client.ClientLocation.Longitude <= 35.16) && (client.ClientLocation.Longitude >= 35.26)))
             {
-                throw new Exceptions.LocationOutofRange("Client Location entered is out of shipping range", client.ID);
+                throw new Exceptions.LocationOutOfRange("Client Location entered is out of shipping range", client.ID);
             }
             dalClient.Latitude = client.ClientLocation.Latitude;
             dalClient.Longitude = client.ClientLocation.Longitude;

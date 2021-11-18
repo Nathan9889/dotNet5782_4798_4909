@@ -9,24 +9,23 @@ namespace BL
     public partial class BL : IBL.IBL
     {
 
-        public Station GetStation(int id)
-        {
-            Station station = default;
-            try
-            {
-                IDAL.DO.Station dalStation = dal.StationById(id);
+        //public Station GetStation(int id)
+        //{
+        //    Station station = default;
+        //    try
+        //    {
+        //        IDAL.DO.Station dalStation = dal.StationById(id);
 
-            }
-            catch (IDAL.DO.Exceptions.IDException SationEx)
-            {
-                throw new IBL.BO.Exceptions.BLStationException($"Sation ID {id} not found", SationEx);
-            }
+        //    }
+        //    catch (IDAL.DO.Exceptions.IDException SationEx)
+        //    {
+        //        throw new IBL.BO.Exceptions.BLStationException($"Sation ID {id} not found", SationEx);
+        //    }
 
-            return station;
-        }
+        //    return station;
+        //}
 
 
-        // public List<StationToList> StationList;
         public void AddStation(Station station)
         {
             try
@@ -84,6 +83,46 @@ namespace BL
                 
         }
 
+
+        public Station DisplayStation(int id)
+        {
+
+            if (!dal.StationsList().Any(x => x.ID == id))
+                throw new IBL.BO.Exceptions.IDException("Station ID not found", id);
+
+            IDAL.DO.Station dalStation = dal.StationsList().First(x => x.ID == id);
+
+            Station station = new Station();
+
+
+            //List<ChargingDrone> chargingDroneList = station.ChargingDronesList;
+
+            station.ID = dalStation.ID;
+            station.Name = dalStation.Name;
+            Location location = new Location(); //check
+            station.StationLocation.Latitude = dalStation.Latitude;
+            station.StationLocation.Longitude = dalStation.Longitude;
+            station.VacantChargeSlots = dalStation.ChargeSlots;
+
+            foreach (var chargingDrone in station.ChargingDronesList)
+            {
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
 
 
     }
