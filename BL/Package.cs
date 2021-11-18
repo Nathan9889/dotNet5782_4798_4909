@@ -7,7 +7,6 @@ using IBL.BO;
 
 namespace IBL
 {
-
     namespace BO
     {
         public class Package
@@ -39,7 +38,6 @@ namespace IBL
 
                 return result;
             }
-
         }
     }
 }

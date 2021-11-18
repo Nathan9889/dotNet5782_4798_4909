@@ -28,6 +28,14 @@ namespace BL
             return package;
         }
 
+        //public IDAL.DO.Package GetUrgentPackage()
+        //{
+        //    IDAL.DO.Package dalPackage = dal.PackageList().FirstOrDefault(x => x.Priority == IDAL.DO.Priorities.Urgent);
+        //    if (dalPackage.Priority == IDAL.DO.Priorities.Urgent)
+        //        return dalPackage;
+        //    return new IDAL.DO.Package();
+        //}
+
         public void addPackage(Package package)
         {
 
@@ -63,13 +71,36 @@ namespace BL
             {
                 throw new Exceptions.IDException("Package ID already exists", ex, dalPackage.ID);
             }
+
         }
 
+        public bool GetUrgentStatus()
+        {
+
+            if (dal.PackageList().Any(x => x.Priority == IDAL.DO.Priorities.Urgent))
+                return true;
+            else 
+                return false;
+        }
+        public bool GetStandardStatus()
+        {
+            if (dal.PackageList().Any(x => x.Priority == IDAL.DO.Priorities.Standard)) 
+            return true;
+            else
+                return false;
+        }
+        public bool GetFastStatus()
+        {
+            if (dal.PackageList().Any(x => x.Priority == IDAL.DO.Priorities.Fast))
+                return true;
+            else
+                return false;
+        }
 
 
         public void packageToDrone(/*Package package,*/ int id)
         {
-            //IDAL.DO.Drone dalDrone = dal.DroneById(id); //no exception?
+            //IDAL.DO.Drone dalDrone = dal.DroneById(id); //no exception
 
             DroneToList drone = DroneList.First(x => x.ID == id);
             if(!(drone.Status == DroneStatus.Available))
@@ -77,9 +108,43 @@ namespace BL
                 throw new Exception.DroneTaken("Drone is not Available");
             }
 
-            if(drone.Status == DroneStatus.Available)
+            IDAL.DO.Package packageToDrone = default;
+
+            if (GetUrgentStatus())
             {
-                double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, )
+                packageToDrone = dal.PackageList().FirstOrDefault(x => x.Priority == IDAL.DO.Priorities.Urgent);
+            }
+            else if (GetStandardStatus())
+            {
+                packageToDrone = dal.PackageList().FirstOrDefault(x => x.Priority == IDAL.DO.Priorities.Standard);
+            }
+            else if (GetFastStatus())
+            {
+                packageToDrone = dal.PackageList().FirstOrDefault(x => x.Priority == IDAL.DO.Priorities.Fast);
+            }
+            else
+                throw new Exception.NoPackageFound("No package found");
+
+            ////find client lat and long
+            ///
+            
+
+
+            double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, )
+            minBattery += batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, );
+            minBattery += batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, );
+
+            if (drone.Status == DroneStatus.Available)
+            {
+                if (drone.Battery >= minBattery)
+                {
+                    
+
+
+
+
+                }
+
 
 
 
@@ -87,6 +152,14 @@ namespace BL
 
 
             }
+
+
+
+
+
+
+
+        }
 
 
 
