@@ -44,6 +44,9 @@ namespace BL
             IDAL.DO.Station dalStation = new IDAL.DO.Station();
             dalStation.ID = station.ID;
             dalStation.Name = station.Name;
+            if(! (station.StationLocation.Latitude >= 31.73) && (station.StationLocation.Latitude <= 31.83))
+
+
             dalStation.Latitude = station.StationLocation.Latitude;
             dalStation.Longitude = station.StationLocation.Longitude;
             dalStation.ChargeSlots = station.VacantChargeSlots;

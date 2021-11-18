@@ -74,58 +74,27 @@ namespace BL
 
         }
 
-        public bool GetUrgentStatus()
-        {
+       
 
-            return (dal.PackageList().Any(x => x.Priority == IDAL.DO.Priorities.Urgent));
-          
-        }
-        public bool GetStandardStatus()
-        {
-            return (dal.PackageList().Any(x => x.Priority == IDAL.DO.Priorities.Standard));
-           
-        }
-        public bool GetFastStatus()
-        {
-            return (dal.PackageList().Any(x => x.Priority == IDAL.DO.Priorities.Fast));
-        }
-
-
-        public void packageToDrone(/*Package package,*/ int id)
+        public void packageToDrone( int Droneid)
         {
             //IDAL.DO.Drone dalDrone = dal.DroneById(id); //no exception
 
-            DroneToList drone = DroneList.First(x => x.ID == id);
+            DroneToList drone = DroneList.First(x => x.ID == Droneid);
             if(!(drone.Status == DroneStatus.Available))
             {
                 throw new Exceptions.DroneTaken("Drone is not Available");// new except
             }
 
-            IDAL.DO.Package packageToDrone = default;
-
-            if (GetUrgentStatus())
-            {
-               //   List<IDAL.DO.Package> ls = (List<IDAL.DO.Package>)dal.PackageList();    
-                packageToDrone = dal.PackageList().FirstOrDefault(x => x.Priority == IDAL.DO.Priorities.Urgent);
-            }
-            else if (GetStandardStatus())
-            {
-                packageToDrone = dal.PackageList().FirstOrDefault(x => x.Priority == IDAL.DO.Priorities.Standard);
-            }
-            else if (GetFastStatus())
-            {
-                packageToDrone = dal.PackageList().FirstOrDefault(x => x.Priority == IDAL.DO.Priorities.Fast);
-            }
-            else
-                throw new Exceptions.NotFound("No package found", id);//// new except
-
-            ////find client lat and long
-            ///
 
 
-            List<IDAL.DO.Package> dalPackageList = (List<IDAL.DO.Package>)dal.PackageList();
+            int droneWeight = (int)(drone.MaxWeight);
+
+            IEnumerable<IDAL.DO.Package> dalPackageList = dal.PackageList().Where(x => ((int)(x.Weight) <= droneWeight));
+            
 
             IDAL.DO.Package dalPackage = dalPackageList.Find(x => x.Priority == IDAL.DO.Priorities.Urgent);
+           
             if(dalPackage == null)
             {
 
@@ -141,8 +110,9 @@ namespace BL
             {
                 if (drone.Battery >= minBattery)
                 {
-                    drone.Status = DroneStatus.Shipping;
-                    dalPackage.DroneId = drone.ID;
+                    drone.Status = DroneStatus.Shipping; // לברר
+                    
+                    //dalPackage.DroneId = drone.ID;
 
                 }
 
