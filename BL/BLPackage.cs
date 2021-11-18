@@ -77,24 +77,17 @@ namespace BL
         public bool GetUrgentStatus()
         {
 
-            if (dal.PackageList().Any(x => x.Priority == IDAL.DO.Priorities.Urgent))
-                return true;
-            else 
-                return false;
+            return (dal.PackageList().Any(x => x.Priority == IDAL.DO.Priorities.Urgent));
+          
         }
         public bool GetStandardStatus()
         {
-            if (dal.PackageList().Any(x => x.Priority == IDAL.DO.Priorities.Standard)) 
-            return true;
-            else
-                return false;
+            return (dal.PackageList().Any(x => x.Priority == IDAL.DO.Priorities.Standard));
+           
         }
         public bool GetFastStatus()
         {
-            if (dal.PackageList().Any(x => x.Priority == IDAL.DO.Priorities.Fast))
-                return true;
-            else
-                return false;
+            return (dal.PackageList().Any(x => x.Priority == IDAL.DO.Priorities.Fast));
         }
 
 
