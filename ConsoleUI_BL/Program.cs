@@ -3,12 +3,7 @@
 //Name: Nathan Sayag, TZ: 328944798
 //Name: Haim Goren, TZ: 207214909 
 
-// BL CONSOLE
-
-
-
 using IBL.BO;
-using DalObject;
 
 namespace ConsoleUI_BL
 {
@@ -53,9 +48,10 @@ namespace ConsoleUI_BL
 
                                     Console.WriteLine("Enter Station Data: Station ID, Station Name, Station location, Num of Available Stand  \n");  // Getting Station data from user
 
-                                    int stationId;//
+                                    int stationId;
                                     int.TryParse(Console.ReadLine(), out stationId);
                                     string stationName = Console.ReadLine();//
+                                    Console.WriteLine("Enter Latitude and Longitude of the station\n");
                                     Location location = new Location();
                                     double myLatitude, myLongitude;
                                     double.TryParse(Console.ReadLine(), out myLatitude);
@@ -71,27 +67,22 @@ namespace ConsoleUI_BL
                                     station.Name = stationName;
                                     station.StationLocation = location;
                                     station.VacantChargeSlots = stationChargeSlot;//check
-
                                     station.ChargingDronesList = new System.Collections.Generic.List<ChargingDrone>();////have to checkk
+                                    bl.AddStation(station);
 
-                                    //need adding station in BL
-                                    bl.AddStation(station);  //check
-                                    
+                                    //if no Charigot
+                                    Console.WriteLine("Station added succesfully !");
+
                                     break;
 
                                 case ObjectMenu.Drone:
 
                                     Console.WriteLine("Enter Drone Data: Drone ID, Drone Model, Drone Max Weight, Station number \n");  // Getting Drone data from user   
-
-                                   
-
+                                 
                                     int droneId;
                                     int.TryParse(Console.ReadLine(), out droneId);
-
-                                    //Console.WriteLine("Choose Drone Model: 0 :  Dji_Mavic_2_Pro, 1 : Dji_Mavic_2_Air, 2 : Dji_Mavic_2_Zoom, 3 :  Dji_FPV_Combo :\n");  //getting different type of Model from user
-                                    string chosen = Console.ReadLine();  //used to get the num from user and chose with it different enum option
-                                    string droneModel = chosen;
-
+                                    string droneModel = Console.ReadLine();
+                                    string chosen;
                                     Console.WriteLine("Choose Drone Weight: 0 : Light, 1 : Medium, 2 : Heavy :\n");  //getting different type of weight from user
                                     chosen = (Console.ReadLine());  //used to get the num from user and chose with it different enum option
                                     WeightCategories droneMaxWeight = (WeightCategories)Convert.ToInt32(chosen);
@@ -108,6 +99,7 @@ namespace ConsoleUI_BL
 
 
                                     bl.AddDrone(drone, stationNumToCharge);
+                                    Console.WriteLine("Drone added succesfully !");
 
 
 
@@ -117,16 +109,13 @@ namespace ConsoleUI_BL
 
                                     Console.WriteLine("Enter Client Data: ID, Name, Phone, Location\n");   // Getting Client data from user
 
-                                    
 
                                     int clientId;
                                     int.TryParse(Console.ReadLine(), out clientId);
                                     string clientName = Console.ReadLine();
                                     string clientPhone = Console.ReadLine();
-
                                     Location myClientLocation = new Location();
-                                    Console.WriteLine("Enter Latitude and Longitude \n");
-
+                                    Console.WriteLine("Enter Latitude and Longitude of the client \n");
                                     double.TryParse(Console.ReadLine(), out myLatitude);
                                     double.TryParse(Console.ReadLine(), out myLongitude);
                                     myClientLocation.Latitude = myLatitude;
@@ -139,14 +128,16 @@ namespace ConsoleUI_BL
                                     client.Phone = clientPhone;
                                     client.ClientLocation = myClientLocation;
 
+                                    bl.AddClient(client); 
 
-                                    bl.AddClient(client);
+                                    
+                                    Console.WriteLine("Client added succesfully !");
 
                                     break;
 
                                 case ObjectMenu.Package:
-                                    Console.WriteLine("Enter All Package Data: SenderId, ReceiverId, MaxWeight, Priority,");  // Getting Package data from user
 
+                                    Console.WriteLine("Enter All Package Data: SenderId, ReceiverId, MaxWeight, Priority,");  // Getting Package data from user
                                     int packageSenderId, packageTargetId;
                                     int.TryParse(Console.ReadLine(), out packageSenderId);
                                     int.TryParse(Console.ReadLine(), out packageTargetId);
@@ -157,7 +148,6 @@ namespace ConsoleUI_BL
                                     Console.WriteLine("Choose package Priority: 0 :  Standard, 1 : Fast, 2 : Urgent :");
                                     chosen = (Console.ReadLine());
                                     Priorities packagePriority = (Priorities)Convert.ToInt32(chosen);
-
 
                                     Package package = new Package();
 
@@ -171,26 +161,21 @@ namespace ConsoleUI_BL
                                     package.Weight = packageWeight;
                                     package.Priority = packagePriority;
 
-                                    //adding package in BL
                                     bl.AddPackage(package);
-                                    
+                                    Console.WriteLine("Package added succesfully !");
                                     break;
 
                                 default:
                                     break;
                             }
-
-
-
-
                             break;
                         }
 
                     case Menu.Update:   //Update item
                         {
-
                             Console.WriteLine("Choose an Option:");
-                            Console.WriteLine(" 1: Update Drone Model \n 2: Update Station Data \n 3: Update Client Data : \n 4: Send Drone to Charge \n 5: Finish charging drone \n 6: Assigning a package to a drone \n 7: Pick Up Package by Drone \n 8: Delivery of a package to the client: \n  0: Exit");  ///User Choose Different type of Update
+                            Console.WriteLine(" 1: Update Drone Data \n 2: Update Station Data \n 3: Update Client Data : \n 4: Send Drone to Charge \n 5: Finish charging drone \n " +
+                                              "6: Assigning a package to a drone \n 7: Pick Up Package by Drone \n 8: Delivery of a package to the client: \n  0: Exit");  ///User Choose Different type of Update
                             updateOptions = (UpdateOptions)int.Parse(Console.ReadLine());
 
                             switch (updateOptions)
@@ -276,11 +261,47 @@ namespace ConsoleUI_BL
                         }
                     case Menu.DisplayItem:   // Output Specific item Data
                         {
+                            Console.WriteLine("Choose which Item to display: \n 1: Client \n 2: Drone \n 3: Station \n 4: Package \n 0: Exit ");
+                            objectMenu = (ObjectMenu)int.Parse(Console.ReadLine());
+                            switch (objectMenu)
+                            {
+                                case ObjectMenu.Exit:
+                                    break;
 
+                                case ObjectMenu.Client:
+                                    Console.WriteLine("What is the client's ID?");
+                                    int clientId;
+                                    int.TryParse(Console.ReadLine(), out clientId);
+                                                                                //output the tostring func of client object that match the id user inputed
+                                                                                //check charigot?
+                                    break;
 
+                                case ObjectMenu.Drone:
+                                    Console.WriteLine("Choose Drone id to display");
+                                    int droneId;
+                                    int.TryParse(Console.ReadLine(), out droneId);
+                                    Console.WriteLine(bl.DroneItem(droneId)); // output this way?
+                                    break;
 
+                                case ObjectMenu.Station:
+                                    Console.WriteLine("What is the station's ID?");
+                                    int stationId;
+                                    int.TryParse(Console.ReadLine(), out stationId);
+                                   
+                                    break;
 
+                                case ObjectMenu.Package:
+                                    Console.WriteLine("What is the package's ID?");
+                                    int packageId;
+                                    int.TryParse(Console.ReadLine(), out packageId);
+
+                                    break;
+
+                                default:
+                                    break;
+                            }
                             break;
+                            
                         }
                     case Menu.DisplayList:   // Output all list of different object
                         {
@@ -290,38 +311,21 @@ namespace ConsoleUI_BL
 
                             break;
                         }
-                    case Menu.Distance:
-                        {
-
-
-
-                            break;
-                        }
-                       
-
+                    
                     case Menu.Exit:
                         num = 0;
                         break;
 
                     default:
                         break;
-
                 }
             }
-
         }
 
         static void Main(string[] args)
         {
-
             IBL.IBL bl = new BL.BL();
             Display(bl);
-
-            Console.WriteLine("Hello World!");
         }
-
-
-
-
     }
 }
