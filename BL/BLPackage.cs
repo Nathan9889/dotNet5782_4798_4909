@@ -76,7 +76,7 @@ namespace BL
             DroneToList drone = DroneList.First(x => x.ID == droneID);
             if(!(drone.Status == DroneStatus.Available)) // רחפן לא זמין
             {
-                throw new Exceptions.DroneTaken("Drone is not Available");// new except
+                throw new Exceptions.DroneTaken("Drone is not Available", droneID);// new except
             }
             
 
@@ -87,7 +87,7 @@ namespace BL
                 dalPackageHighPriority = dal.PackageList().ToList().FindAll(x => (int)(x.Priority) == i && x.Associated == DateTime.MinValue);
                 if (dalPackageHighPriority.Count() > 0) break;
             }
-            if (dalPackageHighPriority.Count() == 0) throw new IBL.BO.Exceptions.PackageIdException("There are no packages waiting to be shipped");
+            if (dalPackageHighPriority.Count() == 0) throw new IBL.BO.Exceptions.NotFound("There are no packages waiting to be shipped");
 
 
             List<IDAL.DO.Package> PackagesSuitableWeight = dalPackageHighPriority.ToList().FindAll(x => ((int)(x.Weight) <= (int)(drone.MaxWeight))); //   מתוך הרשימה של העדיפויות זה יחזיק לי רשימה של חבילות שהרחפן יכול לקחת
@@ -118,7 +118,7 @@ namespace BL
             if (! DroneList.Any(d => d.ID == droneID)) throw new IBL.BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
             DroneToList drone = DroneList.First(x => x.ID == droneID);
             if ((drone.Status != DroneStatus.Shipping)) throw new Exceptions.DroneTaken("Drone is not Shipping", droneID); // רחפן לא מבצע משלוח
-            if (!dal.PackageList().Any(p => p.DroneId == droneID)) throw IBL.BO.Exceptions.NotFound("No package associated with the drone was found");
+            if (!dal.PackageList().Any(p => p.DroneId == droneID)) throw new IBL.BO.Exceptions.IdNotFoundException("No package associated with the drone was found",droneID);
 
             IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID);
             
