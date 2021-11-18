@@ -37,7 +37,7 @@ namespace DalObject
         {
             public static int PackageId = 1000;
 
-            internal static double PowerAvailableDrone = 1;  //נושא משקל 0
+            internal static double PowerAvailableDrone = 1;  
             internal static double PowerLightDrone = 2; 
             internal static double PowerMediumDrone  = 3; 
             internal static double PowerHeavyDrone  = 4; 
@@ -607,22 +607,26 @@ namespace DalObject
             DataSource.DroneList.Remove(drone);
         }
 
-        void DeleteStation()
+        public void DeleteStation(Station station)
         {
+            if (!DataSource.StationList.Any(x => x.ID == station.ID)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", station.ID); }
+            DataSource.StationList.Remove(station);
+        }
+
+        public void DeletePackage(Package package)
+        {
+            if (!DataSource.PackageList.Any(x => x.ID == package.ID)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", package.ID); }
+            DataSource.PackageList.Remove(package);
 
         }
 
-        void DeletePackage()
+        public void DeleteClient(Client client)
         {
-
+            if (!DataSource.ClientList.Any(x => x.ID == client.ID)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", client.ID); }
+            DataSource.ClientList.Remove(client);
         }
 
-        void DeleteClient()
-        {
-
-        }
-
-        void DeleteDroneCharge()
+        public void DeleteDroneCharge()
         {
 
         }

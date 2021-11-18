@@ -11,15 +11,15 @@ namespace IBL
     {
         ////adding
         void AddStation(Station station);
-        public void AddDrone(Drone drone, int stationNumToCharge);
-        //void AddClient(Client client);
-        void addPackage(Package package);
+        void AddDrone(Drone drone, int stationNumToCharge);
+        void AddClient(Client client);
+        void AddPackage(Package package);
 
         ////updating
 
         void UpdateDroneName(Drone drone);
-        //void UpdateStation(Station station);
-        //void UpdateClient(Client client);
+        void UpdateStation(int id, string name, int numCharge);
+        void UpdateClient(int id, string name, string phone);
         void ChargeDrone(int ID);
         void FinishCharging(int DroneID, int minutesCharging);
         //void packageToDrone(/*Package package, int DroneID*/);

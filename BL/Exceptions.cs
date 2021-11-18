@@ -284,6 +284,55 @@ namespace IBL
                 {
                 }
             }
+
+            [Serializable]
+            internal class NotFound : Exception
+            {
+                private string v;
+                private int id;
+
+                public NotFound()
+                {
+                }
+
+                public NotFound(string message) : base(message)
+                {
+                }
+
+                public NotFound(string v, int id)
+                {
+                    this.v = v;
+                    this.id = id;
+                }
+
+                public NotFound(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected NotFound(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
+
+            [Serializable]
+            internal class DroneTaken : Exception
+            {
+                public DroneTaken()
+                {
+                }
+
+                public DroneTaken(string message) : base(message)
+                {
+                }
+
+                public DroneTaken(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected DroneTaken(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
         }
     }
 

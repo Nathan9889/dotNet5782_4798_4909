@@ -70,7 +70,7 @@ namespace ConsoleUI_BL
                                     station.ID = stationId;
                                     station.Name = stationName;
                                     station.StationLocation = location;
-                                    station.VacantChargeSlots = stationChargeSlot;
+                                    station.VacantChargeSlots = stationChargeSlot;//check
 
                                     station.ChargingDronesList = new System.Collections.Generic.List<ChargingDrone>();////have to checkk
 
@@ -106,16 +106,9 @@ namespace ConsoleUI_BL
                                     drone.Model = droneModel;
                                     drone.MaxWeight = droneMaxWeight;
 
-                                    
-
-                                    //BL
-                                    //יוסף כשנמצא בתחזוקה???
-
-
 
                                     bl.AddDrone(drone, stationNumToCharge);
 
-                                    //adding (drone) in bl
 
 
                                     break;
@@ -147,7 +140,7 @@ namespace ConsoleUI_BL
                                     client.ClientLocation = myClientLocation;
 
 
-                                    //adding (client) in bl
+                                    bl.AddClient(client);
 
                                     break;
 
@@ -179,7 +172,7 @@ namespace ConsoleUI_BL
                                     package.Priority = packagePriority;
 
                                     //adding package in BL
-                                    bl.addPackage(package);
+                                    bl.AddPackage(package);
                                     
                                     break;
 
@@ -209,27 +202,61 @@ namespace ConsoleUI_BL
                                     Console.WriteLine("Enter Drone Id and New Drone Model name");
                                     int droneIdUp;
                                     int.TryParse(Console.ReadLine(), out droneIdUp);
-                                    ///
-                                    ///
-                                    ///
+                                    string name = Console.ReadLine();
+
+                                    bl.UpdateDroneName(droneIdUp, name);
 
                                     break;
 
                                 case UpdateOptions.UpdateStationData:  //
-                                    
+                                    Console.WriteLine("Enter Station Id");
+                                    int stationId;
+                                    int.TryParse(Console.ReadLine(), out stationId);
+
+                                    Console.WriteLine("Enter station name and number of charge stand to update");
+                                    string stationName = Console.ReadLine();
+                                    Console.WriteLine("Enter number of charge stand (optional)");
+                                    int numOfCharge;
+                                    int.TryParse(Console.ReadLine(), out numOfCharge);
+
+                                    bl.UpdateStation(stationId, stationName, numOfCharge);
+
                                     break;
 
                                 case UpdateOptions.UpdateClientData:   //
-                                    
+
+                                    Console.WriteLine("Enter Client Id");
+                                    int clientId;
+                                    int.TryParse(Console.ReadLine(), out clientId);
+                                    Console.WriteLine("Enter Client Name or phone to update ");
+                                    string clientName = Console.ReadLine();
+                                    string clientPhone = Console.ReadLine();
+                                    //int.TryParse(Console.ReadLine(), out clientPhone);
+
+                                    bl.UpdateClient(clientId, clientName,clientPhone);
                                     break;
 
                                 case UpdateOptions.Charging:    //sending a drone to a station to get it charged
-                                   
+
+                                    Console.WriteLine("Enter Drone Id to charge");
+                                    int droneIdToCharge;
+                                    int.TryParse(Console.ReadLine(), out droneIdToCharge);
+
+                                    bl.ChargeDrone(droneIdToCharge);
                                     break;
 
                                 case UpdateOptions.FinishCharging:  //Getting a drone back from charging
-                                   
+
+                                    Console.WriteLine("Enter Drone Id to finish Charging");
+                                    int droneIdToFinish;
+                                    int.TryParse(Console.ReadLine(), out droneIdToFinish);
+                                    Console.WriteLine("Enter time of charging (minutes) ");
+                                    int timeCharge;
+                                    int.TryParse(Console.ReadLine(), out timeCharge);
+
+                                    bl.FinishCharging(droneIdToFinish, timeCharge);
                                     break;
+
                                 case UpdateOptions.Assignment:  //Assign Package to a drone using Drone and package ID.
 
                                     break;

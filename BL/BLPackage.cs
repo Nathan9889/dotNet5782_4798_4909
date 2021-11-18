@@ -36,7 +36,7 @@ namespace BL
         //    return new IDAL.DO.Package();
         //}
 
-        public void addPackage(Package package)
+        public void AddPackage(Package package)
         {
 
             try
@@ -98,13 +98,14 @@ namespace BL
             DroneToList drone = DroneList.First(x => x.ID == id);
             if(!(drone.Status == DroneStatus.Available))
             {
-                throw new Exception.DroneTaken("Drone is not Available");
+                throw new Exceptions.DroneTaken("Drone is not Available");// new except
             }
 
             IDAL.DO.Package packageToDrone = default;
 
             if (GetUrgentStatus())
             {
+               //   List<IDAL.DO.Package> ls = (List<IDAL.DO.Package>)dal.PackageList();    
                 packageToDrone = dal.PackageList().FirstOrDefault(x => x.Priority == IDAL.DO.Priorities.Urgent);
             }
             else if (GetStandardStatus())
@@ -116,11 +117,20 @@ namespace BL
                 packageToDrone = dal.PackageList().FirstOrDefault(x => x.Priority == IDAL.DO.Priorities.Fast);
             }
             else
-                throw new Exception.NoPackageFound("No package found");
+                throw new Exceptions.NotFound("No package found", id);//// new except
 
             ////find client lat and long
             ///
-            
+
+
+            List<IDAL.DO.Package> dalPackageList = (List<IDAL.DO.Package>)dal.PackageList();
+
+            IDAL.DO.Package dalPackage = dalPackageList.Find(x => x.Priority == IDAL.DO.Priorities.Urgent);
+            if(dalPackage == null)
+            {
+
+
+            }
 
 
             double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, )
@@ -131,10 +141,8 @@ namespace BL
             {
                 if (drone.Battery >= minBattery)
                 {
-                    
-
-
-
+                    drone.Status = DroneStatus.Shipping;
+                    dalPackage.DroneId = drone.ID;
 
                 }
 

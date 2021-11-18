@@ -33,6 +33,10 @@ namespace IDAL
         IEnumerable<Station> StationWithCharging();
         IEnumerable<DroneCharge> droneChargesList();
         void DeleteDrone(Drone drone);
+        void DeleteStation(Station station);
+        void DeleteClient(Client client);
+        void DeletePackage(Package package);
+        void DeleteDroneCharge(DroneCharge droneCharge);
         double[] PowerConsumptionByDrone();
 
 
