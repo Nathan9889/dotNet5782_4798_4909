@@ -17,7 +17,7 @@ namespace IBL
 
         ////updating
 
-        void UpdateDroneName(Drone drone);
+        void UpdateDroneName(int id, string name);
         void UpdateStation(int id, string name, int numCharge);
         void UpdateClient(int id, string name, string phone);
         void ChargeDrone(int ID);

@@ -170,52 +170,20 @@ namespace BL
 
 
 
-        void IBL.IBL.UpdateDroneName(Drone drone)
+        void IBL.IBL.UpdateDroneName(int id, string name)
         {
             IDAL.DO.Drone droneDAL;
             try
             {
-                if (!DroneList.Any(x => x.ID == drone.ID)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", drone.ID); // // חריגה משהכבה הלוגית
-                droneDAL = dal.DroneById(drone.ID); // חריגה משכבת הנתונים
+                if (!DroneList.Any(x => x.ID == id)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", id); // // חריגה משהכבה הלוגית
+                droneDAL = dal.DroneById(id); // חריגה משכבת הנתונים
             }
             catch (IBL.BO.Exceptions.IDException ex) { throw; }
             catch (IDAL.DO.Exceptions.IDException ex) { throw; }
 
             foreach (var droneBL in DroneList) // עדכון ברשימה ב BL
             {
-                if (droneBL.ID == drone.ID)
-                {
-                    droneBL.Model = drone.Model;
-                    break;
-                }
-            }
-
-
-            IDAL.DO.Drone droneDalTemp = droneDAL; // עדכון ברשימה בשכבת התונים
-            droneDalTemp.Model = drone.Model;
-            try // לא אמור להיות חריגה כי כבר בדקנו בתחילת הפונקציה שזה קיים
-            {
-                dal.DeleteDrone(droneDAL);
-                dal.AddDrone(droneDAL);
-            }
-            catch (IDAL.DO.Exceptions.IDException ex) { throw new IBL.BO.Exceptions.IDException("Fault in drone update. Was not supposed to be an exception because we have already checked before", ex, drone.ID); }
-        }
-
-        /*
-          void IBL.IBL.UpdateDroneName(int droneId, string name)
-        {
-            IDAL.DO.Drone droneDAL;
-            try
-            {
-                if (!DroneList.Any(x => x.ID == droneId)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", droneId); // // חריגה משהכבה הלוגית
-                droneDAL = dal.DroneById(droneId); // חריגה משכבת הנתונים
-            }
-            catch (IBL.BO.Exceptions.IDException ex) { throw; }
-            catch (IDAL.DO.Exceptions.IDException ex) { throw; }
-
-            foreach (var droneBL in DroneList) // עדכון ברשימה ב BL
-            {
-                if (droneBL.ID == droneId)
+                if (droneBL.ID == id)
                 {
                     droneBL.Model = name;
                     break;
@@ -224,17 +192,14 @@ namespace BL
 
 
             IDAL.DO.Drone droneDalTemp = droneDAL; // עדכון ברשימה בשכבת התונים
-            droneDalTemp.Model =name;
+            droneDalTemp.Model = name;
             try // לא אמור להיות חריגה כי כבר בדקנו בתחילת הפונקציה שזה קיים
             {
                 dal.DeleteDrone(droneDAL);
-                dal.AddDrone(droneDAL);
+                dal.AddDrone(droneDalTemp);
             }
-            catch (IDAL.DO.Exceptions.IDException ex) { throw new IBL.BO.Exceptions.IDException("Fault in drone update. Was not supposed to be an exception because we have already checked before", ex, drone.ID); }
+            catch (IDAL.DO.Exceptions.IDException ex) { throw new IBL.BO.Exceptions.IDException("Fault in drone update. Was not supposed to be an exception because we have already checked before", ex, id); }
         }
-         * */
-
-
 
         void IBL.IBL.ChargeDrone(int ID)
         {
