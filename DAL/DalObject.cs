@@ -626,9 +626,10 @@ namespace DalObject
             DataSource.ClientList.Remove(client);
         }
 
-        public void DeleteDroneCharge()
+        public void DeleteDroneCharge(DroneCharge droneCharge)
         {
-
+            if (!DataSource.droneCharge.Any(x => x.DroneId == droneCharge.DroneId)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", droneCharge.DroneId); }
+            DataSource.droneCharge.Remove(droneCharge);
         }
 
         public double[] PowerConsumptionByDrone()

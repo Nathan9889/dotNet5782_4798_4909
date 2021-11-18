@@ -44,9 +44,12 @@ namespace BL
             IDAL.DO.Station dalStation = new IDAL.DO.Station();
             dalStation.ID = station.ID;
             dalStation.Name = station.Name;
-            if(! (station.StationLocation.Latitude >= 31.73) && (station.StationLocation.Latitude <= 31.83))
 
-
+            if(!( (station.StationLocation.Latitude >= 31.73) && (station.StationLocation.Latitude <= 31.83) ||
+                (station.StationLocation.Longitude >= 35.16) && (station.StationLocation.Longitude <= 35.26)) )
+            {
+                throw new Exceptions.LocationOutOfRange("Station Location entered is out of shipping range", station.ID);
+            }
             dalStation.Latitude = station.StationLocation.Latitude;
             dalStation.Longitude = station.StationLocation.Longitude;
             dalStation.ChargeSlots = station.VacantChargeSlots;
