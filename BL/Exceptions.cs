@@ -199,9 +199,8 @@ namespace IBL
                 }
             }
 
-          
             [Serializable]
-            public class BLClientException : Exception
+            internal class BLClientException : Exception
             {
                 public BLClientException()
                 {
@@ -224,7 +223,7 @@ namespace IBL
             /// The status of the drone is charging but it is not in the droneCharges list
             /// </summary>
             [Serializable]
-            public class EndDroneCharging : Exception
+            internal class EndDroneCharging : Exception
             {
                 
                 private int droneID;
@@ -287,9 +286,9 @@ namespace IBL
             }
 
             [Serializable]
-           public class NotFound : Exception // 
+            internal class NotFound : Exception
             {
-                
+               
 
                 public NotFound()
                 {
@@ -299,7 +298,6 @@ namespace IBL
                 {
                 }
 
-               
 
                 public NotFound(string message, Exception innerException) : base(message, innerException)
                 {
@@ -313,12 +311,14 @@ namespace IBL
             [Serializable]
             internal class DroneTaken : Exception
             {
+                int droneID;
                 public DroneTaken()
                 {
                 }
 
                 public DroneTaken(string message, int droneID) : base(message)
                 {
+                    this.droneID = droneID;
                 }
 
                 public DroneTaken(string message, Exception innerException) : base(message, innerException)
