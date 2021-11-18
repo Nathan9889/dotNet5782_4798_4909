@@ -28,13 +28,6 @@ namespace BL
             return package;
         }
 
-        //public IDAL.DO.Package GetUrgentPackage()
-        //{
-        //    IDAL.DO.Package dalPackage = dal.PackageList().FirstOrDefault(x => x.Priority == IDAL.DO.Priorities.Urgent);
-        //    if (dalPackage.Priority == IDAL.DO.Priorities.Urgent)
-        //        return dalPackage;
-        //    return new IDAL.DO.Package();
-        //}
 
         public void AddPackage(Package package)
         {
@@ -76,64 +69,82 @@ namespace BL
 
        
 
-        public void packageToDrone( int Droneid)
+        public void packageToDrone( int droneID)
         {
-            //IDAL.DO.Drone dalDrone = dal.DroneById(id); //no exception
 
-            DroneToList drone = DroneList.First(x => x.ID == Droneid);
-            if(!(drone.Status == DroneStatus.Available))
+            if (!DroneList.Any(d => d.ID == droneID)) throw new IBL.BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
+            DroneToList drone = DroneList.First(x => x.ID == droneID);
+            if(!(drone.Status == DroneStatus.Available)) // רחפן לא זמין
             {
                 throw new Exceptions.DroneTaken("Drone is not Available");// new except
             }
-
-
-
-            int droneWeight = (int)(drone.MaxWeight);
-
-            IEnumerable<IDAL.DO.Package> dalPackageList = dal.PackageList().Where(x => ((int)(x.Weight) <= droneWeight));
             
 
-            IDAL.DO.Package dalPackage = dalPackageList.Find(x => x.Priority == IDAL.DO.Priorities.Urgent);
-           
-            if(dalPackage == null)
+
+            List<IDAL.DO.Package> dalPackageHighPriority = new List<IDAL.DO.Package>();
+            for (int i = 2; i >= 0; i--) //      יתן לי רשימה של החבילות שלא שויכו בעדיפות הגבוהה ביותר הקיימת
             {
-
-
+                dalPackageHighPriority = dal.PackageList().ToList().FindAll(x => (int)(x.Priority) == i && x.Associated == DateTime.MinValue);
+                if (dalPackageHighPriority.Count() > 0) break;
             }
+            if (dalPackageHighPriority.Count() == 0) throw new IBL.BO.Exceptions.PackageIdException("There are no packages waiting to be shipped");
 
 
-            double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, )
-            minBattery += batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, );
-            minBattery += batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, );
+            List<IDAL.DO.Package> PackagesSuitableWeight = dalPackageHighPriority.ToList().FindAll(x => ((int)(x.Weight) <= (int)(drone.MaxWeight))); //   מתוך הרשימה של העדיפויות זה יחזיק לי רשימה של חבילות שהרחפן יכול לקחת
 
-            if (drone.Status == DroneStatus.Available)
-            {
-                if (drone.Battery >= minBattery)
-                {
-                    drone.Status = DroneStatus.Shipping; // לברר
-                    
-                    //dalPackage.DroneId = drone.ID;
+            IDAL.DO.Package package = NearestPackageToDrone(droneID, PackagesSuitableWeight); // שליחה לפונקציה שתחזיר לי מתוך הרשימה הזאת את החבילה הקרובה לרחפן
+            IDAL.DO.Client senderClient = dal.ClientById(package.SenderId); // זה הלקוח ששולח את החבילה - מיקומו זה מיקום החבילה
+            IDAL.DO.Client targetClient = dal.ClientById(package.TargetId); // זה הלקוח שמקבל את החבילה - זה מיקום הרחפן בסיום המשלוח
 
-                }
+            double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, senderClient.Latitude, senderClient.Longitude, 3); // ממיקום הרחפן לחבילה במשקל ריק
+            minBattery += batteryConsumption(senderClient.Latitude, senderClient.Longitude,targetClient.Latitude ,targetClient.Longitude , (int)package.Weight); // ממיקום החבילה ליעד במשקל החבילה
+
+            IDAL.DO.Station station = NearestStationToClient(package.TargetId); // התחנה עם עמדות טעינה פנוות הקרובה ליעד המשלוח
+            minBattery += batteryConsumption(targetClient.Latitude, targetClient.Longitude, station.Latitude,station.Longitude,3 ); // מיעד החבילה לתחנה הקרובה במשקל ריק
 
 
+            // עדכון הנתונים אם חבילה נמצאה
+            int index = DroneList.FindIndex(d => d.ID == drone.ID);
+            DroneList[index].Status = DroneStatus.Shipping;
+
+            IDAL.DO.Package packageTemp = package;
+            packageTemp.DroneId = drone.ID;
+
+        }
 
 
+        void PickedUpByDrone(int droneID)
+        {
+            if (! DroneList.Any(d => d.ID == droneID)) throw new IBL.BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
+            DroneToList drone = DroneList.First(x => x.ID == droneID);
+            if ((drone.Status != DroneStatus.Shipping)) throw new Exceptions.DroneTaken("Drone is not Shipping", droneID); // רחפן לא מבצע משלוח
+            if (!dal.PackageList().Any(p => p.DroneId == droneID)) throw IBL.BO.Exceptions.NotFound("No package associated with the drone was found");
 
-
-
-            }
-
-
-
-
-
+            IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID);
+            
 
 
         }
 
 
+        private IDAL.DO.Package NearestPackageToDrone(int DroneID, List<IDAL.DO.Package> PackagesSuitableWeight) // חישוב החבילה הקרובה לרחפן מתוך רשימת החבילות שבדחיפות הגבוהה ושמתאימים למשקל הרחפן 
+        {
+            DroneToList drone = DroneList.Find(x => x.ID == DroneID);
+            IDAL.DO.Package tempPackage = new IDAL.DO.Package();
+            double distance = int.MaxValue;
 
-        
+            foreach (var package in PackagesSuitableWeight)
+            {
+                IDAL.DO.Client sender = dal.ClientById(package.SenderId);// הלקוח שהחבילה שלו - (מיקום השולח זה מיקום החבילה
+                double tempDistance = DalObject.DalObject.distance(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, sender.Latitude, sender.Longitude);
+                if (tempDistance < distance)
+                {
+                    distance = tempDistance;
+                    tempPackage = package;
+                }
+
+            }
+            return tempPackage;
+        }
     }
 }
