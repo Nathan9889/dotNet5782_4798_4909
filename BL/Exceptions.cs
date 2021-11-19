@@ -160,12 +160,14 @@ namespace IBL
             [Serializable]
             public class BLPackageException : Exception
             {
+                int ID;
                 public BLPackageException()
                 {
                 }
 
-                public BLPackageException(string message) : base(message)
+                public BLPackageException(string message, int iD) : base(message)
                 {
+                    this.ID = iD;
                 }
 
                 public BLPackageException(string message, Exception innerException) : base(message, innerException)
@@ -355,6 +357,55 @@ namespace IBL
                 }
 
                 protected LocationOutOfRange(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
+
+            [Serializable]
+            internal class UnablePickedUpPackage : Exception
+            {
+                private string v;
+                private int iD;
+
+                public UnablePickedUpPackage()
+                {
+                }
+
+                public UnablePickedUpPackage(string message) : base(message)
+                {
+                }
+
+                public UnablePickedUpPackage(string v, int iD)
+                {
+                    this.v = v;
+                    this.iD = iD;
+                }
+
+                public UnablePickedUpPackage(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected UnablePickedUpPackage(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
+
+            [Serializable]
+            internal class UnableAssociatPackage : Exception
+            {
+                public UnableAssociatPackage()
+                {
+                }
+
+                public UnableAssociatPackage(string message) : base(message)
+                {
+                }
+
+                public UnableAssociatPackage(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected UnableAssociatPackage(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
                 }
             }
