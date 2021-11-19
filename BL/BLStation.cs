@@ -51,7 +51,7 @@ namespace BL
             }
             dalStation.Latitude = station.StationLocation.Latitude;
             dalStation.Longitude = station.StationLocation.Longitude;
-            dalStation.ChargeSlots = station.VacantChargeSlots;
+            dalStation.ChargeSlots = station.AvailableChargeSlots;
 
             try
             {
@@ -94,38 +94,33 @@ namespace BL
 
             Station station = new Station();
 
-
-            //List<ChargingDrone> chargingDroneList = station.ChargingDronesList;
-
             station.ID = dalStation.ID;
             station.Name = dalStation.Name;
             Location location = new Location(); //check
             station.StationLocation.Latitude = dalStation.Latitude;
             station.StationLocation.Longitude = dalStation.Longitude;
-            station.VacantChargeSlots = dalStation.ChargeSlots;
-
-            foreach (var chargingDrone in station.ChargingDronesList)
+            
+            
+            foreach (var item in dal.droneChargesList())
             {
+                ChargingDrone chargingDrone = new ChargingDrone();
+                chargingDrone.ID = item.DroneId;
+                DroneToList droneBat = DroneList.Find(drone => drone.ID == id);
+                chargingDrone.Battery = droneBat.Battery;
+
+                station.ChargingDronesList.Add(chargingDrone);
 
             }
+            station.AvailableChargeSlots = dalStation.ChargeSlots - dal.droneChargesList().Count();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+            return station;
         }
 
 
+
+
+
+
+
     }
-
-
 }

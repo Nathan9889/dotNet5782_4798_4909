@@ -14,14 +14,14 @@ namespace IBL
             public int ID { get; set; }
             public string Name { get; set; }
             public Location StationLocation { get; set; }
-            public int VacantChargeSlots { get; set; }
+            public int AvailableChargeSlots { get; set; }
             public List<ChargingDrone> ChargingDronesList { get; set; }
             public override string ToString()
             {
                 string result = "";
                 result += $"ID is {ID}, \n";
                 result += $"Name is {Name},\n";
-                result += $"VacantChargeSlots num is {VacantChargeSlots}, \n";
+                result += $"Available ChargeSlots is {AvailableChargeSlots}, \n";
                 result += $"StationLocation is {StationLocation},\n";
                 result += $"ChargingDronesList is {ChargingDronesList},\n";
 

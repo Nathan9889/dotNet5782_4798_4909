@@ -52,7 +52,7 @@ namespace BL
         {
             try
             {
-                if (client.ID < 0) throw new IBL.BO.Exceptions.IDException("Client ID can not be negative", client.ID);
+                if (client.ID < 0) throw new IBL.BO.Exceptions.IDException("Client ID cannot be negative", client.ID);
                 if (!dal.ClientsList().Any(x => x.ID == client.ID)) throw new IBL.BO.Exceptions.IDException("Client ID not found", client.ID);
             }
             
@@ -64,7 +64,11 @@ namespace BL
             //}
 
             IDAL.DO.Client dalClient = new IDAL.DO.Client();
-            if(client.ID <  )
+
+            if (client.ID < 100000000 && client.ID > 1000000000)
+                throw new Exceptions.IDException("Id not valid", client.ID);
+            if (client.Phone.Length != 11)
+                throw new Exceptions.IDException("Phone number not valid");
 
             dalClient.ID = client.ID;
             dalClient.Name = client.Name;
@@ -103,6 +107,48 @@ namespace BL
 
             dal.DeleteClient(dalClient);
             dal.AddClient(clientTemp);
+
+        }
+
+        public IEnumerable<IDAL.DO.Client> RecivedCustomerList()
+        {
+            List<IDAL.DO.Client> receivedClient = new List<IDAL.DO.Client>();
+            foreach (var client in dal.ClientsList())
+            {
+                if (dal.PackageList().Any(x => x.TargetId == client.ID && x.Delivered != DateTime.MinValue))
+                    receivedClient.Add(client);
+            }
+
+            return receivedClient;
+        }
+
+
+        public Client DisplayClient(int id)
+        {
+            if (!dal.ClientsList().Any(x => x.ID == id))
+                throw new IBL.BO.Exceptions.IDException("Client ID not found", id);
+
+            IDAL.DO.Client dalClient = dal.ClientsList().First(x => x.ID == id);
+
+            Client client = new Client();
+            client.ID = dalClient.ID;
+            client.Name = dalClient.Name;
+            client.Phone = dalClient.Phone;
+            Location location = new Location(); //check
+            client.ClientLocation.Latitude = dalClient.Latitude;
+            client.ClientLocation.Longitude = dalClient.Longitude;
+
+
+
+            foreach (var item in dal.droneChargesList())
+            {
+                PackageAtClient packageAtClient = new PackageAtClient();
+
+
+              
+
+            }
+
 
         }
 

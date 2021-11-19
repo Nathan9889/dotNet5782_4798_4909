@@ -24,11 +24,12 @@ namespace IBL
         //void packageToDrone(/*Package package, int DroneID*/);
         //void PickedUpByDrone(/*Package package*/);
         //void DeliveredToClient(/*Package package*/);
-
+        IEnumerable<IDAL.DO.Client> RecivedCustomerList();
 
         //-----------Display Item------------//
         Station DisplayStation(int id);
         Drone DroneItem(int id);
+        Client DisplayClient(int id);
 
         //-----------Display Functions------------//
 
