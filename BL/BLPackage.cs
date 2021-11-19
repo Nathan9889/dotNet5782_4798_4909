@@ -152,7 +152,7 @@ namespace BL
             IDAL.DO.Client target = dal.ClientById(package.SenderId);// היעד של החבילה - מיקום הרחפן החדש
             int index = DroneList.FindIndex(d => d.ID == droneID);
 
-            // עדכון בשכבת הנתונים
+            // עדכון בשכבת הלוגיקה
             double spendBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, target.Latitude, target.Longitude, (int)package.Weight); // ממיקום הרפן (מיקום השולח) למיקום היעד במשקל החבילה
             if ((DroneList[index].Battery - spendBattery) < 0) throw new IBL.BO.Exceptions.UnablePickedUpPackage("Not enough battery");
             DroneList[index].Battery -= spendBattery;
@@ -164,6 +164,89 @@ namespace BL
             dal.DeliveredToClient(package);
 
         }
+
+
+        public Package DisplayPackage(int packageID)
+        {
+            IDAL.DO.Package dalPackage;
+            try
+            {
+                dalPackage = dal.PackageById(packageID); // אם לא נמצאת החבילה בשכבת הנתונים
+            }
+            catch (IDAL.DO.Exceptions.IDException ex)
+            {
+                throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, ID not found", ex);
+            }
+
+
+            // אתחולים מידיים
+            Package blPackage = new Package();
+            blPackage.ID = dalPackage.ID; 
+            blPackage.Weight = (IBL.BO.WeightCategories)(dalPackage.Weight);
+            blPackage.Priority = (IBL.BO.Priorities)(dalPackage.Priority);
+
+            blPackage.Created = dalPackage.Created;
+            blPackage.Associated = dalPackage.Associated;
+            blPackage.PickedUp = dalPackage.PickedUp;
+            blPackage.Delivered = dalPackage.Delivered;
+
+
+            // אתחול בחבילה של שדות השולח והמקבל 
+            IDAL.DO.Client sender, target;
+            try
+            {
+                sender = dal.ClientById(dalPackage.SenderId); // הלקוח ששלח את החבילה
+            }
+            catch (IDAL.DO.Exceptions.IDException ex)
+            {
+                throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, senderID not found",ex);
+            }
+
+            try
+            {
+                target = dal.ClientById(dalPackage.TargetId); // הלקוח שמקבל את החבילה
+            }
+            catch (IDAL.DO.Exceptions.IDException ex)
+            {
+                throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, targetID not found", ex);
+            }
+
+            blPackage.SenderClient = new ClientPackage();
+            blPackage.SenderClient = new ClientPackage();
+
+            blPackage.SenderClient.ID = sender.ID;
+            blPackage.SenderClient.Name = sender.Name;
+            blPackage.ReceiverClient.ID = target.ID;
+            blPackage.ReceiverClient.Name = target.Name;
+
+
+            if(dalPackage.Associated == DateTime.MinValue) // אם החבילה לא שויכה אפשר להחזיר אותה
+            {
+                blPackage.DroneOfPackage = null;
+                return blPackage;
+            }
+
+
+            //אתחול הרחפן שלוקח את החבילה - אם החבילה שוייכה
+            DroneWithPackage droneOfPackage = new DroneWithPackage(); // יצירת מופע רחפן של חבילה -  כמו שיש בחבילה
+            droneOfPackage.CurrentLocation = new Location();
+            if (DroneList.Any(d => d.ID == dalPackage.DroneId)) throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, The package was associated but no drone ID was found", dalPackage.DroneId);
+            DroneToList drone = DroneList.Find(d => d.ID == dalPackage.DroneId);
+
+            droneOfPackage.Id = drone.ID;
+            droneOfPackage.Battery = drone.Battery;
+            droneOfPackage.CurrentLocation = drone.DroneLocation;
+
+            blPackage.DroneOfPackage = droneOfPackage; // השמה של הרחפן לתוך חבילה
+
+            return blPackage;
+        }
+
+
+
+
+
+
 
 
         private IDAL.DO.Package NearestPackageToDrone(int DroneID, List<IDAL.DO.Package> PackagesSuitableWeight) // חישוב החבילה הקרובה לרחפן מתוך רשימת החבילות שבדחיפות הגבוהה ושמתאימים למשקל הרחפן 

@@ -12,7 +12,7 @@ namespace IBL
         public class DroneWithPackage  //  רחפן בחבילה
         {
             public int Id { get; set; }
-            public int Battery { get; set; }
+            public double Battery { get; set; }
             public Location CurrentLocation { get; set; }
 
             public override string ToString()

@@ -30,7 +30,7 @@ namespace IBL
                 result += $"ReceiverClient is {ReceiverClient}, \n";
                 result += $"Weight is {Weight}, \n";
                 result += $"Priority is {Priority}, \n";
-                result += $"DroneOfPackage is {DroneOfPackage}, \n";
+                if(DroneOfPackage != null) result += $"DroneOfPackage is {DroneOfPackage}, \n"; // רק אם החבילה שויכה אתחלנו את השדה הזה
                 result += $"Created at {Created}, \n";
                 result += $"Associated at  {Associated}, \n";
                 result += $"PickedUp at {PickedUp}, \n";
