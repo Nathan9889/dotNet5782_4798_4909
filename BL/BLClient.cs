@@ -91,6 +91,10 @@ namespace BL
             }
         }
 
+
+
+
+
         public void UpdateClient(int id, string name, string phone)
         {
             IDAL.DO.Client dalClient;
@@ -109,6 +113,12 @@ namespace BL
             dal.AddClient(clientTemp);
 
         }
+
+
+
+
+
+
 
         public IEnumerable<IDAL.DO.Client> RecivedCustomerList()
         {
@@ -138,12 +148,13 @@ namespace BL
             client.ClientLocation.Latitude = dalClient.Latitude;
             client.ClientLocation.Longitude = dalClient.Longitude;
 
+            List<PackageAtClient> ls;
+            ls.Add()
 
-
-            foreach (var item in dal.droneChargesList())
+            foreach (var item in )
             {
                 PackageAtClient packageAtClient = new PackageAtClient();
-
+                packageAtClient.Source_Destination.ID
 
               
 
@@ -151,6 +162,34 @@ namespace BL
 
 
         }
+
+
+        //public Package DisplayPackage(int id)
+        //{
+
+        //    if (!dal.PackageList().Any(x => x.ID == id))
+        //        throw new Exceptions.IDException("Package id not found", id);
+
+        //    IDAL.DO.Package dalPackage = dal.PackageList().First(x => x.ID == id);
+
+        //    Package package = new Package();
+        //    package.ID = dalPackage.ID;
+        //    ClientPackage clientPackage = new ClientPackage();
+        //    clientPackage.ID = dalPackage.ID;
+        //    clientPackage.Name = 
+
+
+
+
+
+
+        }
+
+
+
+
+
+
 
 
     }

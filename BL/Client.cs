@@ -24,8 +24,9 @@ namespace IBL
                 result += $"Name is {Name},\n";
                 result += $"ID is {ID}, \n";
                 result += $"Phone is {Phone.Substring(0, 3) + '-' + Phone.Substring(3)}, \n";
-                result += $"ClientLocation is {ClientLocation}, \n";
-                //result += $"ClientsSource is {ClientsSender}, \n";
+                result += $"Client Latitude is {ClientLocation.Latitude}, \n";
+                result += $"Client Longitude is {ClientLocation.Longitude}, \n";
+               // result += $"ClientsSource is {ClientsSender}, \n";
                 //result += $"ClientsDestination is {ClientsReceiver}, \n";
 
                 return result;
