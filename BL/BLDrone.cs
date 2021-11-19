@@ -198,6 +198,9 @@ namespace BL
             catch (IDAL.DO.Exceptions.IDException ex) { throw new IBL.BO.Exceptions.IDException("Fault in drone update. Was not supposed to be an exception because we have already checked before", ex, id); }
         }
 
+
+
+
         void IBL.IBL.ChargeDrone(int id)
         {
             DroneToList drone = DroneList.Find(drone => drone.ID == id);
