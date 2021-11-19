@@ -123,7 +123,7 @@ namespace BL
             IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID);
             if (package.PickedUp > DateTime.MinValue) throw new IBL.BO.Exceptions.UnablePickedUpPackage("The package has already been PickedUp", package.ID); // אם החבילה שמשוייכת לרחפן כבר נאספה אז תזרוק חריגה
 
-            IDAL.DO.Client sender = dal.ClientById(package.SenderId); // השולח של החבילה - מיקום הרחפן עכשיו
+            IDAL.DO.Client sender = dal.ClientById(package.SenderId); // השולח של החבילה - מיקום החדש של הרחפן 
             int index = DroneList.FindIndex(d => d.ID == droneID);
              
             // עדכון בשכבת הלוגיקה
@@ -135,6 +135,33 @@ namespace BL
 
             //עדכון בשכבת הנתונים
             dal.PickedUpByDrone(package);
+
+        }
+
+
+        void DeliveredToClient(int droneID)
+        {
+            if (!DroneList.Any(d => d.ID == droneID)) throw new IBL.BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
+            DroneToList drone = DroneList.First(x => x.ID == droneID);
+            if ((drone.Status != DroneStatus.Shipping)) throw new Exceptions.UnablePickedUpPackage("Drone is not Shipping", droneID); // רחפן לא מבצע משלוח
+            if (!dal.PackageList().Any(p => p.DroneId == droneID)) throw new IBL.BO.Exceptions.UnablePickedUpPackage("No package associated with the drone was found"); // אין חבילה ששויכה לרחפן הזה
+
+            IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID);
+            if (package.Delivered > DateTime.MinValue) throw new IBL.BO.Exceptions.UnablePickedUpPackage("The package has already been PickedUp", package.ID); // אם החבילה שמשוייכת לרחפן כבר סופקה אז תזרוק חריגה
+
+            IDAL.DO.Client target = dal.ClientById(package.SenderId);// היעד של החבילה - מיקום הרחפן החדש
+            int index = DroneList.FindIndex(d => d.ID == droneID);
+
+            // עדכון בשכבת הנתונים
+            double spendBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, target.Latitude, target.Longitude, (int)package.Weight); // ממיקום הרפן (מיקום השולח) למיקום היעד במשקל החבילה
+            if ((DroneList[index].Battery - spendBattery) < 0) throw new IBL.BO.Exceptions.UnablePickedUpPackage("Not enough battery");
+            DroneList[index].Battery -= spendBattery;
+            DroneList[index].DroneLocation.Latitude = target.Latitude;
+            DroneList[index].DroneLocation.Longitude = target.Longitude;
+            DroneList[index].Status = DroneStatus.Available;
+
+            //עדכון בשכבת הנתונים
+            dal.DeliveredToClient(package);
 
         }
 
