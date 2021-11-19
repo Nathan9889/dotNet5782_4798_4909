@@ -21,7 +21,7 @@ namespace IDAL
                 string result = "";
                 result += $"DroneId is {DroneId},\n";
                 result += $"StationId is {StationId}, \n";
-                result += $"StationId is {ChargingStartTime}, \n";
+                result += $"ChargingStartTime is {ChargingStartTime}, \n";
 
                 return result;
             }

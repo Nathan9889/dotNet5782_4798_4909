@@ -62,7 +62,7 @@ namespace DalObject
             {
                 ClientList.Add(new Client()
                 {
-                    ID = rand.Next(100000, 1000000),
+                    ID = rand.Next(100000000, 1000000000),
                     Name = $"{Names[i]}",
                     Phone = $"0{rand.Next(51, 58)}{rand.Next(1000000, 10000000)}",
                     Latitude = GetRandCoordinate(31.73),

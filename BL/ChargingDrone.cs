@@ -11,12 +11,12 @@ namespace IBL
     {
         public class ChargingDrone  //רחפן בטעינה
         {
-            public int Id { get; set; }
-            public int Battery { get; set; }
+            public int ID { get; set; }
+            public double Battery { get; set; }
             public override string ToString()
             {
                 string result = "";
-                result += $"ChargingDroneId is {Id},\n";
+                result += $"ChargingDroneId is {ID},\n";
                 result += $"ChargingDroneBattery is {Battery},\n";
 
                 return result;
