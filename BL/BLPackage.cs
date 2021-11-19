@@ -76,7 +76,7 @@ namespace BL
             DroneToList drone = DroneList.First(x => x.ID == droneID);
             if(!(drone.Status == DroneStatus.Available)) // רחפן לא זמין
             {
-                throw new Exceptions.DroneTaken("Drone is not Available", droneID);// new except
+                throw new Exceptions.UnableAssociatPackage("Drone is not Available");// new except
             }
             
 
@@ -87,7 +87,7 @@ namespace BL
                 dalPackageHighPriority = dal.PackageList().ToList().FindAll(x => (int)(x.Priority) == i && x.Associated == DateTime.MinValue);
                 if (dalPackageHighPriority.Count() > 0) break;
             }
-            if (dalPackageHighPriority.Count() == 0) throw new IBL.BO.Exceptions.NotFound("There are no packages waiting to be shipped");
+            if (dalPackageHighPriority.Count() == 0) throw new IBL.BO.Exceptions.UnableAssociatPackage("There are no packages waiting to be shipped");
 
 
             List<IDAL.DO.Package> PackagesSuitableWeight = dalPackageHighPriority.ToList().FindAll(x => ((int)(x.Weight) <= (int)(drone.MaxWeight))); //   מתוך הרשימה של העדיפויות זה יחזיק לי רשימה של חבילות שהרחפן יכול לקחת
@@ -102,13 +102,13 @@ namespace BL
             IDAL.DO.Station station = NearestStationToClient(package.TargetId); // התחנה עם עמדות טעינה פנוות הקרובה ליעד המשלוח
             minBattery += batteryConsumption(targetClient.Latitude, targetClient.Longitude, station.Latitude,station.Longitude,3 ); // מיעד החבילה לתחנה הקרובה במשקל ריק
 
+            if (minBattery > drone.Battery) throw new IBL.BO.Exceptions.UnableAssociatPackage("Not enough battery"); // אם הסוללה הנדרשת גדולה יותר מהקיים
 
             // עדכון הנתונים אם חבילה נמצאה
             int index = DroneList.FindIndex(d => d.ID == drone.ID);
-            DroneList[index].Status = DroneStatus.Shipping;
+            DroneList[index].Status = DroneStatus.Shipping; // עדכון בשכבת הלוגיקה
 
-            IDAL.DO.Package packageTemp = package;
-            packageTemp.DroneId = drone.ID;
+            dal.packageToDrone(package, droneID); // עדכון בשכבת הנתונים
 
         }
 
@@ -117,12 +117,24 @@ namespace BL
         {
             if (! DroneList.Any(d => d.ID == droneID)) throw new IBL.BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
             DroneToList drone = DroneList.First(x => x.ID == droneID);
-            if ((drone.Status != DroneStatus.Shipping)) throw new Exceptions.DroneTaken("Drone is not Shipping", droneID); // רחפן לא מבצע משלוח
-            if (!dal.PackageList().Any(p => p.DroneId == droneID)) throw new IBL.BO.Exceptions.IdNotFoundException("No package associated with the drone was found",droneID);
+            if ((drone.Status != DroneStatus.Shipping)) throw new Exceptions.UnablePickedUpPackage("Drone is not Shipping", droneID); // רחפן לא מבצע משלוח
+            if (!dal.PackageList().Any(p => p.DroneId == droneID)) throw new IBL.BO.Exceptions.UnablePickedUpPackage("No package associated with the drone was found"); // אין חבילה ששויכה לרחפן הזה
 
             IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID);
-            
+            if (package.PickedUp > DateTime.MinValue) throw new IBL.BO.Exceptions.UnablePickedUpPackage("The package has already been PickedUp", package.ID); // אם החבילה שמשוייכת לרחפן כבר נאספה אז תזרוק חריגה
 
+            IDAL.DO.Client sender = dal.ClientById(package.SenderId); // השולח של החבילה - מיקום הרחפן עכשיו
+            int index = DroneList.FindIndex(d => d.ID == droneID);
+             
+            // עדכון בשכבת הלוגיקה
+            double spendBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, sender.Latitude, sender.Longitude, 3); // ממיקום הרחפן לחבילה במשקל ריק
+            if ((DroneList[index].Battery - spendBattery) < 0) throw new IBL.BO.Exceptions.UnablePickedUpPackage("Not enough battery");
+            DroneList[index].Battery -= spendBattery;
+            DroneList[index].DroneLocation.Latitude = sender.Latitude;
+            DroneList[index].DroneLocation.Longitude = sender.Longitude;
+
+            //עדכון בשכבת הנתונים
+            dal.PickedUpByDrone(package);
 
         }
 
