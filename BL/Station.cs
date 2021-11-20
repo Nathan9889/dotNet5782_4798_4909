@@ -22,8 +22,8 @@ namespace IBL
                 result += $"ID is {ID}, \n";
                 result += $"Name is {Name},\n";
                 result += $"Available ChargeSlots is {AvailableChargeSlots}, \n";
-                result += $"StationLocation is {StationLocation},\n";
-                result += $"ChargingDronesList is {ChargingDronesList},\n";
+                result += $"Station Location:\n {StationLocation},\n";
+                result += $"Charging Drones List is {ChargingDronesList},\n";
 
                 return result;
             }

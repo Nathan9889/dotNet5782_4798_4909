@@ -9,34 +9,19 @@ namespace BL
     public partial class BL : IBL.IBL
     {
 
-        //public Station GetStation(int id)
-        //{
-        //    Station station = default;
-        //    try
-        //    {
-        //        IDAL.DO.Station dalStation = dal.StationById(id);
-
-        //    }
-        //    catch (IDAL.DO.Exceptions.IDException SationEx)
-        //    {
-        //        throw new IBL.BO.Exceptions.BLStationException($"Sation ID {id} not found", SationEx);
-        //    }
-
-        //    return station;
-        //}
-
+        
 
         public void AddStation(Station station)
         {
             try
             {
                 if (station.ID < 0) throw new IBL.BO.Exceptions.IDException("Station ID can not be negative", station.ID);
-                if (!dal.StationsList().Any(x => x.ID == station.ID)) throw new IBL.BO.Exceptions.IDException("Station ID not found", station.ID);
+                //if (!dal.StationsList().Any(x => x.ID == station.ID)) throw new IBL.BO.Exceptions.IDException("Station ID not found", station.ID);
             }
             catch (IBL.BO.Exceptions.IDException ex)
             {
                 if (ex.Message == "Station ID can not be negative") { throw; }
-                else if (ex.Message == "Station ID not found") { throw; }
+                //else if (ex.Message == "Station ID not found") { throw; }
 
             }
 
@@ -117,9 +102,34 @@ namespace BL
         }
 
 
+        public IEnumerable<StationToList> DisplayStationList()
+        {
+            List<StationToList> stations = new List<StationToList>();
+
+            foreach (var dalStation in dal.StationsList())
+            {
+                StationToList stationToList = new StationToList();
+                stationToList.ID = dalStation.ID;
+                stationToList.Name = dalStation.Name;
+                stationToList.AvailableChargingSlots = dalStation.ChargeSlots;
+
+                List<IDAL.DO.DroneCharge> dronesInCharges = dal.droneChargesList().ToList().FindAll(d => d.StationId == dalStation.ID); // רשימה של כל הרחפנים שנמצאים בטעינה בתחנה הנוכחית
+                stationToList.BusyChargingSlots = dronesInCharges.Count(); // כמות הרחפנים ברשימה הקודמת זה העמדות התפוסות
+
+                stations.Add(stationToList);
+            }
+
+            return stations;
+        }
 
 
+        public IEnumerable<StationToList> DisplayStationListWitAvailableChargingSlots()
+        {
+            IEnumerable<StationToList> StationWithChargingSlots = DisplayStationList(); // כל התחנות - שימוש בפונקציית ההצגה של כל רשימת התחנות
 
+            StationWithChargingSlots = StationWithChargingSlots.Where(s => s.AvailableChargingSlots > 0); //  על הרשימה שחזרה מהפונקציה של כל התחנות נעשה סינון ונבחר רק את התחנות עם עמדות טעינה פנויות
+            return StationWithChargingSlots;
+        }
 
 
     }

@@ -64,7 +64,7 @@ namespace DalObject
                 {
                     ID = rand.Next(100000000, 1000000000),
                     Name = $"{Names[i]}",
-                    Phone = $"0{rand.Next(51, 58)}{rand.Next(1000000, 10000000)}",
+                    Phone = $"0{rand.Next(52, 59)}{rand.Next(1000000, 10000000)}",
                     Latitude = GetRandCoordinate(31.73),
                     Longitude = GetRandCoordinate(35.16)
                 }) ;
@@ -522,7 +522,7 @@ namespace DalObject
 
         public IEnumerable<DroneCharge> droneChargesList()
         {
-            List< DroneCharge> droneChargeTemp = DataSource.droneCharge;
+            List< DroneCharge> droneChargeTemp = new List<DroneCharge>(DataSource.droneCharge);
             return droneChargeTemp;
         }
 
@@ -533,7 +533,7 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Station> StationsList()
         {
-            List<Station> temp = DataSource.StationList;
+            List<Station> temp = new List<Station>(DataSource.StationList);
             return temp;
         }
 
@@ -544,7 +544,7 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Drone> DroneList()
         {
-            List<Drone> temp = DataSource.DroneList;
+            List<Drone> temp = new List<Drone>(DataSource.DroneList);
             return temp;
         }
 
@@ -555,7 +555,7 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Client> ClientsList()
         {
-            List <Client> temp = DataSource.ClientList;
+            List <Client> temp = new List<Client>(DataSource.ClientList);
             return temp;
         }
 
@@ -566,7 +566,7 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Package> PackageList()
         {
-            List<Package> temp = DataSource.PackageList;
+            List<Package> temp = new List<Package>(DataSource.PackageList);
             return temp;
         }
 

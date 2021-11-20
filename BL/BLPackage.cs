@@ -12,23 +12,6 @@ namespace BL
     {
 
 
-        public Package GetPackage(int id)
-        {
-            Package package = default;
-            try
-            {
-                IDAL.DO.Package dalPackage = dal.PackageById(id);
-
-            }
-            catch (IDAL.DO.Exceptions.IDException pex)
-            {
-                throw new IBL.BO.Exceptions.BLPackageException($"Package ID {id} not found",pex);
-            }
-
-            return package;
-        }
-
-
         public void AddPackage(Package package)
         {
 
@@ -41,14 +24,14 @@ namespace BL
                 //if (ex.Message == "Package Id cannot be negative") { throw; }
             }
 
-            if (!dal.ClientsList().Any(client => client.ID == package.ReceiverClient.ID)) throw new Exceptions.IdNotFoundException("Receiver Id not found", package.ReceiverClient.ID);
-            if (!dal.ClientsList().Any(client => client.ID == package.SenderClient.ID)) throw new Exceptions.IdNotFoundException("Sender Id not found", package.ReceiverClient.ID);
+            if (!dal.ClientsList().Any(client => client.ID == package.TargetClient.ID)) throw new Exceptions.IdNotFoundException("Receiver Id not found", package.TargetClient.ID);
+            if (!dal.ClientsList().Any(client => client.ID == package.SenderClient.ID)) throw new Exceptions.IdNotFoundException("Sender Id not found", package.TargetClient.ID);
 
             IDAL.DO.Package dalPackage = new IDAL.DO.Package();
 
             dalPackage.ID = package.ID;
             dalPackage.SenderId = package.SenderClient.ID;
-            dalPackage.TargetId = package.ReceiverClient.ID;
+            dalPackage.TargetId = package.TargetClient.ID;
             dalPackage.Priority = (IDAL.DO.Priorities)package.Priority;
             dalPackage.Weight = (IDAL.DO.WeightCategories)package.Weight;
             dalPackage.PickedUp = DateTime.MinValue;
@@ -91,6 +74,7 @@ namespace BL
 
 
             List<IDAL.DO.Package> PackagesSuitableWeight = dalPackageHighPriority.ToList().FindAll(x => ((int)(x.Weight) <= (int)(drone.MaxWeight))); //   מתוך הרשימה של העדיפויות זה יחזיק לי רשימה של חבילות שהרחפן יכול לקחת
+            if (PackagesSuitableWeight.Count() == 0) throw new IBL.BO.Exceptions.UnableAssociatPackage("There are no packages suitable for the weight of the Drone");
 
             IDAL.DO.Package package = NearestPackageToDrone(droneID, PackagesSuitableWeight); // שליחה לפונקציה שתחזיר לי מתוך הרשימה הזאת את החבילה הקרובה לרחפן
             IDAL.DO.Client senderClient = dal.ClientById(package.SenderId); // זה הלקוח ששולח את החבילה - מיקומו זה מיקום החבילה
@@ -113,7 +97,7 @@ namespace BL
         }
 
 
-        void PickedUpByDrone(int droneID)
+        public void PickedUpByDrone(int droneID)
         {
             if (! DroneList.Any(d => d.ID == droneID)) throw new IBL.BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
             DroneToList drone = DroneList.First(x => x.ID == droneID);
@@ -121,7 +105,7 @@ namespace BL
             if (!dal.PackageList().Any(p => p.DroneId == droneID)) throw new IBL.BO.Exceptions.UnablePickedUpPackage("No package associated with the drone was found"); // אין חבילה ששויכה לרחפן הזה
 
             IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID);
-            if (package.PickedUp > DateTime.MinValue) throw new IBL.BO.Exceptions.UnablePickedUpPackage("The package has already been PickedUp", package.ID); // אם החבילה שמשוייכת לרחפן כבר נאספה אז תזרוק חריגה
+            if (package.PickedUp != DateTime.MinValue) throw new IBL.BO.Exceptions.UnablePickedUpPackage("The package has already been PickedUp", package.ID); // אם החבילה שמשוייכת לרחפן כבר נאספה אז תזרוק חריגה
 
             IDAL.DO.Client sender = dal.ClientById(package.SenderId); // השולח של החבילה - מיקום החדש של הרחפן 
             int index = DroneList.FindIndex(d => d.ID == droneID);
@@ -129,7 +113,7 @@ namespace BL
             // עדכון בשכבת הלוגיקה
             double spendBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, sender.Latitude, sender.Longitude, 3); // ממיקום הרחפן לחבילה במשקל ריק
             if ((DroneList[index].Battery - spendBattery) < 0) throw new IBL.BO.Exceptions.UnablePickedUpPackage("Not enough battery");
-            DroneList[index].Battery -= spendBattery;
+            DroneList[index].Battery -= (int)Math.Round(spendBattery);
             DroneList[index].DroneLocation.Latitude = sender.Latitude;
             DroneList[index].DroneLocation.Longitude = sender.Longitude;
 
@@ -139,7 +123,7 @@ namespace BL
         }
 
 
-        void DeliveredToClient(int droneID)
+        public void DeliveredToClient(int droneID)
         {
             if (!DroneList.Any(d => d.ID == droneID)) throw new IBL.BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
             DroneToList drone = DroneList.First(x => x.ID == droneID);
@@ -155,7 +139,7 @@ namespace BL
             // עדכון בשכבת הלוגיקה
             double spendBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, target.Latitude, target.Longitude, (int)package.Weight); // ממיקום הרפן (מיקום השולח) למיקום היעד במשקל החבילה
             if ((DroneList[index].Battery - spendBattery) < 0) throw new IBL.BO.Exceptions.UnablePickedUpPackage("Not enough battery");
-            DroneList[index].Battery -= spendBattery;
+            DroneList[index].Battery -= (int)Math.Round(spendBattery);
             DroneList[index].DroneLocation.Latitude = target.Latitude;
             DroneList[index].DroneLocation.Longitude = target.Longitude;
             DroneList[index].Status = DroneStatus.Available;
@@ -212,12 +196,12 @@ namespace BL
             }
 
             blPackage.SenderClient = new ClientPackage();
-            blPackage.SenderClient = new ClientPackage();
+            blPackage.TargetClient = new ClientPackage();
 
             blPackage.SenderClient.ID = sender.ID;
             blPackage.SenderClient.Name = sender.Name;
-            blPackage.ReceiverClient.ID = target.ID;
-            blPackage.ReceiverClient.Name = target.Name;
+            blPackage.TargetClient.ID = target.ID;
+            blPackage.TargetClient.Name = target.Name;
 
 
             if(dalPackage.Associated == DateTime.MinValue) // אם החבילה לא שויכה אפשר להחזיר אותה
@@ -228,9 +212,9 @@ namespace BL
 
 
             //אתחול הרחפן שלוקח את החבילה - אם החבילה שוייכה
-            DroneWithPackage droneOfPackage = new DroneWithPackage(); // יצירת מופע רחפן של חבילה -  כמו שיש בחבילה
+            DroneOfPackage droneOfPackage = new DroneOfPackage(); // יצירת מופע רחפן של חבילה -  כמו שיש בחבילה
             droneOfPackage.CurrentLocation = new Location();
-            if (DroneList.Any(d => d.ID == dalPackage.DroneId)) throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, The package was associated but no drone ID was found", dalPackage.DroneId);
+            if (!DroneList.Any(d => d.ID == dalPackage.DroneId)) throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, The package was associated but no drone ID was found", dalPackage.DroneId);
             DroneToList drone = DroneList.Find(d => d.ID == dalPackage.DroneId);
 
             droneOfPackage.Id = drone.ID;
@@ -243,10 +227,38 @@ namespace BL
         }
 
 
+        public IEnumerable<PackageToList> DisplayPackageList()
+        {
+             List<PackageToList> packages = new List<PackageToList>();
+
+            foreach (var dalPackage in dal.PackageList())
+            {
+                PackageToList packageToList = new PackageToList();
+                packageToList.Id = dalPackage.ID;
+                packageToList.Sender = dal.ClientById(dalPackage.SenderId).Name;
+                packageToList.Receiver = dal.ClientById(dalPackage.TargetId).Name;
+                packageToList.Weight = (WeightCategories)dalPackage.Weight;
+                packageToList.Priority = (Priorities)dalPackage.Priority;
+
+                if (dalPackage.Associated == DateTime.MinValue) packageToList.Status = PackageStatus.Created;
+                else if (dalPackage.PickedUp == DateTime.MinValue) packageToList.Status = PackageStatus.Associated;
+                else if (dalPackage.Delivered == DateTime.MinValue) packageToList.Status = PackageStatus.PickedUp;
+                else packageToList.Status = PackageStatus.Delivered;
+
+                packages.Add(packageToList);
+            }
+
+            return packages;
+        }
 
 
+        public IEnumerable<PackageToList> DisplayPackageListWithoutDrone()
+        {
+            IEnumerable<PackageToList> packagesWithoutDrone = DisplayPackageList(); // כל החבילות - שימוש בפונקציית ההצגה של כל רשימת החבילות
 
-
+            packagesWithoutDrone = packagesWithoutDrone.Where(p => p.Status == PackageStatus.Created); // על הרשימה שחזרה מהפונקציה של כל החבילות נעשה סינון ונבחר רק את החבילות שעדיין לא שויכו
+            return packagesWithoutDrone;
+        }
 
 
         private IDAL.DO.Package NearestPackageToDrone(int DroneID, List<IDAL.DO.Package> PackagesSuitableWeight) // חישוב החבילה הקרובה לרחפן מתוך רשימת החבילות שבדחיפות הגבוהה ושמתאימים למשקל הרחפן 

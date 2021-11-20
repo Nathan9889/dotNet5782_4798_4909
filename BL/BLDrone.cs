@@ -11,7 +11,7 @@ namespace BL
     public partial class BL : IBL.IBL
     {
         static Random rand = new Random();
-        public List<DroneToList> DroneList;
+        public List<DroneToList> DroneList = new List<DroneToList>();
         public IDAL.IDAL dal;
         public double PowerVacantDrone;
         public double PowerLightDrone;
@@ -73,16 +73,16 @@ namespace BL
                         targetLocation.Latitude = dal.ClientById(dal.PackageById(droneToList.PackageID).TargetId).Latitude;
                         targetLocation.Longitude = dal.ClientById(dal.PackageById(droneToList.PackageID).TargetId).Longitude;
 
-                        int minBattery;
-                        double KM = DalObject.DalObject.distance(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, targetLocation.Latitude, targetLocation.Longitude);
-                        minBattery = BatteryByKM((int)package.Weight, KM);
+                        double minBattery;
+                        minBattery = batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, targetLocation.Latitude, targetLocation.Longitude, (int)package.Weight);
+                        //minBattery = BatteryByKM((int)package.Weight, KM);
 
                         IDAL.DO.Station stationLocation = NearestStationToClient(package.TargetId);
-                        KM = DalObject.DalObject.distance(targetLocation.Latitude, targetLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude);
-                        minBattery += BatteryByKM(3, KM);
+                        minBattery += batteryConsumption(targetLocation.Latitude, targetLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude,3);
+                        //minBattery += BatteryByKM(3, KM);
 
                         if (minBattery > 100) throw new Exception();
-                        droneToList.Battery = rand.Next(minBattery, 101); // בין הצריכה המינמלית ל100
+                        droneToList.Battery = rand.Next((int)minBattery+1, 101); // בין הצריכה המינמלית ל100
 
                         break;
                     }
@@ -90,7 +90,7 @@ namespace BL
 
                 if (!flag)
                 {
-                    droneToList.Status = (DroneStatus)(rand.Next(1, 3));
+                    droneToList.Status = (DroneStatus)(rand.Next(0, 2));
                     if (droneToList.Status == DroneStatus.Maintenance)
                     {
                         IDAL.DO.Station station = dal.StationWithCharging().ElementAt(rand.Next(0, dal.StationsList().Count()));
@@ -112,11 +112,11 @@ namespace BL
                         droneToList.DroneLocation.Latitude = dal.ClientById(clientID).Latitude;
                         droneToList.DroneLocation.Longitude = dal.ClientById(clientID).Longitude;
 
-                        int minBattery;
-                        IDAL.DO.Station stationLocation = NearestStationToClient(dal.ClientById(index).ID);
-                        double KM = DalObject.DalObject.distance(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude);
-                        minBattery = BatteryByKM(3, KM);
-                        droneToList.Battery = rand.Next(minBattery, 101);
+                        double minBattery;
+                        IDAL.DO.Station stationLocation = NearestStationToClient(dal.ClientById(clientID).ID);
+                        minBattery = batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude,3);
+                        //minBattery = BatteryByKM(3, KM);
+                        droneToList.Battery = rand.Next((int)minBattery+1, 101);
 
                     }
                 }
@@ -125,7 +125,7 @@ namespace BL
         }
 
 
-        void IBL.IBL.AddDrone(Drone drone, int stationNumToCharge)
+        public void AddDrone(Drone drone, int stationNumToCharge)
         {
             try // חריגה מהשכבה הלוגית
             {
@@ -169,7 +169,7 @@ namespace BL
 
 
 
-        void IBL.IBL.UpdateDroneName(int id, string name)
+        public void UpdateDroneName(int id, string name)
         {
             IDAL.DO.Drone droneDAL;
             try
@@ -201,7 +201,7 @@ namespace BL
 
 
 
-        void IBL.IBL.ChargeDrone(int id)
+        public void ChargeDrone(int id)
         {
             DroneToList drone = DroneList.Find(drone => drone.ID == id);
             if (drone == null) { throw new IBL.BO.Exceptions.IDException("Drone ID not found", id); }
@@ -216,13 +216,10 @@ namespace BL
                 // ניתן לשלוח לטעינה
                 DroneToList tempDrone = drone;
 
-                tempDrone.Battery = tempDrone.Battery - minBattery; // הרחפן כביכול נסע לתחנה ולכן צריך להוריד ממנו את הסוללה של הנסיעה מהמיקום שלו לתחנה
+                tempDrone.Battery -= (int) Math.Round(minBattery); // הרחפן כביכול נסע לתחנה ולכן צריך להוריד ממנו את הסוללה של הנסיעה מהמיקום שלו לתחנה
                 tempDrone.DroneLocation.Latitude = station.Latitude;
                 tempDrone.DroneLocation.Longitude = station.Longitude;
                 tempDrone.Status = DroneStatus.Maintenance;
-
-                DroneList.Add(tempDrone); // עדכון ברשימה בשכבה 2
-                DroneList.Remove(drone);
 
                 dal.DroneCharge(dal.DroneById(drone.ID), station.ID); // יצירת מופע של רחפן בטעינה והקטנת מספר עמדות הטעינה
 
@@ -231,26 +228,28 @@ namespace BL
 
         }
 
-        void IBL.IBL.FinishCharging(int DroneID, int minutesCharging)   //why cant be public?//////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public void FinishCharging(int droneID, double minutesCharging)   
         {
             
-            if (!DroneList.Any(drone => drone.ID == DroneID)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", DroneID);
-            int indexDroneToList = DroneList.FindIndex(d => d.ID == DroneID);
-            if (DroneList.Find(drone => drone.ID == DroneID).Status != DroneStatus.Maintenance) throw new IBL.BO.Exceptions.EndDroneCharging("Drone status is not Maintenance", DroneID);
+            if (!DroneList.Any(drone => drone.ID == droneID)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", droneID);
+            if (!dal.droneChargesList().Any(d => d.DroneId == droneID)) throw new IBL.BO.Exceptions.EndDroneCharging("The status of the drone is charging but it is not in the droneCharges list", droneID);
+            int indexDroneToList = DroneList.FindIndex(d => d.ID == droneID);
+            if (DroneList.Find(drone => drone.ID == droneID).Status != DroneStatus.Maintenance) throw new IBL.BO.Exceptions.EndDroneCharging("Drone status is not Maintenance", droneID);
 
-            int battary = (minutesCharging / 60) * 100;
+            //int minutesCharging =(int) ((DateTime.Now - dal.droneChargesList().First(x => x.DroneId == droneID).ChargingStartTime).TotalMinutes); // המרה מspentime
+
+            int battary =(int)((minutesCharging / 60.0) * 100);
             if (battary > 100) battary = 100;
             DroneList[indexDroneToList].Battery = battary;
             DroneList[indexDroneToList].Status = DroneStatus.Available;
 
-            if (!dal.droneChargesList().Any(d => d.DroneId == DroneID)) throw new IBL.BO.Exceptions.EndDroneCharging("The status of the drone is charging but it is not in the droneCharges list", DroneID);
-            IDAL.DO.DroneCharge droneCharge = dal.droneChargesList().First(d => d.DroneId == DroneID);
+            IDAL.DO.DroneCharge droneCharge = dal.droneChargesList().First(d => d.DroneId == droneID);
 
             dal.FinishCharging(droneCharge); // שליחה לפונקציה שתקטין עמדות טעינה ותמחוק מופע של רחפן בטעינה
 
         }
 
-        public Drone DroneItem(int id)
+        public Drone DisplyDrone(int id)
         {
             if (!DroneList.Any(d => d.ID == id))
                 throw new IBL.BO.Exceptions.IDException("Drone ID not found", id);
@@ -266,7 +265,7 @@ namespace BL
             drone.Model = droneToList.Model;
             drone.Status = droneToList.Status;
 
-            if(drone.Status == DroneStatus.Shipping) //  אם הוא מעביר חבילה מאתחלים את מופע משלוח החבילה
+            if (drone.Status == DroneStatus.Shipping) //  אם הוא מעביר חבילה מאתחלים את מופע משלוח החבילה
             {
                 IDAL.DO.Package package = dal.PackageList().First(x => x.DroneId == drone.ID);
                 drone.DronePackageProcess.Id = package.ID;
@@ -297,8 +296,16 @@ namespace BL
                 drone.DronePackageProcess.Distance = DalObject.DalObject.distance(drone.DronePackageProcess.CollectLocation.Latitude, drone.DronePackageProcess.CollectLocation.Longitude,
                 drone.DronePackageProcess.DestinationLocation.Latitude, drone.DronePackageProcess.DestinationLocation.Longitude);
             }
+            else drone.DronePackageProcess = null;
 
             return drone;
+        }
+
+
+        public IEnumerable<DroneToList> DisplyDroneList()
+        {
+            List<DroneToList> drones = new List<DroneToList>(DroneList); // העתקה של רשימה ללא רפרנס!!!
+            return drones;
         }
 
 
@@ -317,8 +324,7 @@ namespace BL
                 if (tempDistance < distance)
                 {
                     distance = tempDistance;
-                    tempLocation.Latitude = station.Latitude;
-                    tempLocation.Longitude = station.Longitude;
+                    tempLocation = station;
                 }
 
             }
@@ -334,7 +340,7 @@ namespace BL
             return battery;
         }
 
-       public int BatteryByKM(int weight, double KM) // חישוב צריכת חשמל לקילומטר
+        private double BatteryByKM(int weight, double KM) // חישוב צריכת חשמל לקילומטר
         {
 
             double power;
@@ -342,7 +348,7 @@ namespace BL
             if (weight == 1) power = PowerMediumDrone;
             if (weight == 2) power = PowerHeavyDrone;
             else power = PowerVacantDrone;
-            int temp = (int)(KM * power);
+            double temp = (KM * power);
             return temp;
         }
     }

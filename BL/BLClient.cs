@@ -7,30 +7,15 @@ using IBL.BO;
 
 namespace BL
 {
-    public partial class BL :IBL.IBL
+    public partial class BL : IBL.IBL
     {
 
-        //public Client GetClient(int id)
-        //{
-        //    Client client = default;
-        //    try
-        //    {
-        //        IDAL.DO.Client dalClient = dal.ClientById(id);
 
-        //    }
-        //    catch (IDAL.DO.Exceptions.IDException ClientEx)
-        //    {
-        //        throw new IBL.BO.Exceptions.BLClientException($"Client ID {id} not found", ClientEx);
-        //    }
-
-        //    return client;
-        //}
-
-        IDAL.DO.Station NearestStationToClient(int ClientID) //  חישוב התחנה הקרובה ללקוח עם עמדות טעינה פנויות
+        private IDAL.DO.Station NearestStationToClient(int ClientID) //  חישוב התחנה הקרובה ללקוח עם עמדות טעינה פנויות
         {
             IDAL.DO.Station tempStation = new IDAL.DO.Station();
             double distance = int.MaxValue;
-            if (dal.StationWithCharging().Count() == 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station",0); // אם אין עמדות טעינה פנויות באף תחנה
+            if (dal.StationWithCharging().Count() == 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station", 0); // אם אין עמדות טעינה פנויות באף תחנה
 
             foreach (var station in dal.StationWithCharging())
             {
@@ -50,25 +35,17 @@ namespace BL
 
         public void AddClient(Client client)
         {
-            try
-            {
-                if (client.ID < 0) throw new IBL.BO.Exceptions.IDException("Client ID cannot be negative", client.ID);
-                if (!dal.ClientsList().Any(x => x.ID == client.ID)) throw new IBL.BO.Exceptions.IDException("Client ID not found", client.ID);
-            }
+         
+             if (client.ID < 0) throw new IBL.BO.Exceptions.IDException("Client ID cannot be negative", client.ID);
+             if (!dal.ClientsList().Any(x => x.ID == client.ID)) throw new IBL.BO.Exceptions.IDException("Client ID not found", client.ID);
             
-            //catch (IBL.BO.Exceptions.IDException ex)
-            //{
-            //    if (ex.Message == "Station ID can not be negative") { throw; }
-            //    else if (ex.Message == "Station ID not found") { throw; }
-
-            //}
 
             IDAL.DO.Client dalClient = new IDAL.DO.Client();
 
             if (client.ID < 100000000 && client.ID > 1000000000)
                 throw new Exceptions.IDException("Id not valid", client.ID);
-            if (client.Phone.Length != 11)
-                throw new Exceptions.IDException("Phone number not valid");
+
+            correctPhone(client.Phone); // בודק תקינות מספר פלאפון
 
             dalClient.ID = client.ID;
             dalClient.Name = client.Name;
@@ -100,14 +77,16 @@ namespace BL
             IDAL.DO.Client dalClient;
             if (!dal.ClientsList().Any(x => x.ID == id))
                 throw new IBL.BO.Exceptions.IDException("Client ID not found", id);
-            dalClient= dal.ClientById(id);
+            correctPhone(phone); // בודק תקינות מספר פלאפון
+
+            dalClient = dal.ClientById(id);
 
             IDAL.DO.Client clientTemp = dalClient;
 
             if (name != "")
                 clientTemp.Name = name;
-
-            clientTemp.Phone = phone;
+            if (phone != "")
+                clientTemp.Phone = phone;
 
             dal.DeleteClient(dalClient);
             dal.AddClient(clientTemp);
@@ -115,12 +94,7 @@ namespace BL
         }
 
 
-
-
-
-
-
-        public IEnumerable<IDAL.DO.Client> RecivedCustomerList()
+        public IEnumerable<IDAL.DO.Client> RecivedCustomerList() // ??????? אסור שפונקציה ציבורית תחזיר אובייקט של שכבה 1
         {
             List<IDAL.DO.Client> receivedClient = new List<IDAL.DO.Client>();
             foreach (var client in dal.ClientsList())
@@ -133,7 +107,7 @@ namespace BL
         }
 
 
-        public Client DisplayClient(int id)
+        /*public Client DisplayClient(int id)
         {
             if (!dal.ClientsList().Any(x => x.ID == id))
                 throw new IBL.BO.Exceptions.IDException("Client ID not found", id);
@@ -156,12 +130,13 @@ namespace BL
                 PackageAtClient packageAtClient = new PackageAtClient();
                 packageAtClient.Source_Destination.ID
 
-              
+
+
 
             }
 
 
-        }
+        }*/
 
 
         //public Package DisplayPackage(int id)
@@ -181,8 +156,14 @@ namespace BL
 
 
 
+        private void correctPhone(string phone) // בןדק תקינות מספר פלאפון
+        {
+            string[] nums = { "052", "053", "054", "055", "056", "057", "058" };
 
+            if(phone.Length != 10) throw new IBL.BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
 
+            phone = phone.Substring(0, 3);
+            if (!nums.Any(x => x == phone)) throw new IBL.BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
         }
 
 
@@ -192,5 +173,7 @@ namespace BL
 
 
 
+
+    
     }
 }

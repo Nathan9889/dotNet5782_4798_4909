@@ -1,5 +1,5 @@
 ﻿using System;
-//Mini Project Targil 1:
+//Mini Project Targil 2:
 //Name: Nathan Sayag, TZ: 328944798
 //Name: Haim Goren, TZ: 207214909 
 
@@ -13,9 +13,9 @@ namespace ConsoleUI_BL
         ///Enum for for User Option
         enum Menu { Exit, Add, Update, DisplayItem, DisplayList, Distance };
         enum UpdateOptions { Exit, UpdateDronedata, UpdateStationData, UpdateClientData, Charging, FinishCharging, Assignment, PickedUp, Delivered };
-        enum ObjectMenu { Exit, Client, Drone, Station, Package };
-        enum ObjectList { Exit, ClientList, DroneList, StationList, PackageList, PackageWithoutDrone, StationWithCharging };
-        enum DistanceOptions { Exit, Client, Station };
+        enum ObjectMenu { Exit, Station, Drone, Client, Package };
+        enum ObjectList { Exit, StationList, DroneList, ClientList, PackageList, PackageListWithoutDrone, StationListWithCharging };
+        //enum DistanceOptions { Exit, Client, Station };
 
         /// <summary>
         /// Main function to run the program, the program get user input and display the relevant application from user choice, User can: Add An object, Update different type of information, Display specific object and Display every element from different list.
@@ -26,299 +26,379 @@ namespace ConsoleUI_BL
             ObjectMenu objectMenu;
             UpdateOptions updateOptions;
             ObjectList objectList;
-            DistanceOptions distanceOptions;
+            //DistanceOptions distanceOptions;
             int num = 1;
 
             while (num != 0)
             {
                 Console.WriteLine("Choose an Option:");
-                Console.WriteLine(" 1: Add \n 2: Update \n 3: Display specific Item \n 4: Display Item List \n 5: Distance \n 0: Exit");
+                Console.WriteLine(" 1: Add \n 2: Update \n 3: Display specific Item \n 4: Display Item List \n 0: Exit");
                 choice = (Menu)int.Parse(Console.ReadLine());    //User input to go through the menu
 
-                switch (choice)
+                try
                 {
-                    case Menu.Add:  //Adding a new Object to the list of different object
-                        {
-                            Console.WriteLine("Choose an Adding Option: \n 1 : Station \n 2 : Drone \n 3 : Client: \n 4 : Package \n ");
-                            objectMenu = (ObjectMenu)int.Parse(Console.ReadLine());
-
-                            switch (objectMenu)
+                    switch (choice)
+                    {
+                        case Menu.Add:  //Adding a new Object to the list of different object
                             {
-                                case ObjectMenu.Station:
+                                Console.WriteLine("Choose an Adding Option: \n 1 : Station \n 2 : Drone \n 3 : Client: \n 4 : Package ");
+                                objectMenu = (ObjectMenu)int.Parse(Console.ReadLine());
 
-                                    Console.WriteLine("Enter Station Data: Station ID, Station Name, Station location, Num of Available Stand  \n");  // Getting Station data from user
+                                switch (objectMenu)
+                                {
+                                    case ObjectMenu.Station:
 
-                                    int stationId;
-                                    int.TryParse(Console.ReadLine(), out stationId);
-                                    string stationName = Console.ReadLine();//
-                                    Console.WriteLine("Enter Latitude and Longitude of the station\n");
-                                    Location location = new Location();
-                                    double myLatitude, myLongitude;
-                                    double.TryParse(Console.ReadLine(), out myLatitude);
-                                    double.TryParse(Console.ReadLine(), out myLongitude);
-                                    location.Latitude = myLatitude;
-                                    location.Longitude = myLongitude;
-                                    int stationChargeSlot;
-                                    int.TryParse(Console.ReadLine(), out stationChargeSlot);
+                                        Console.WriteLine("Enter Station Data: Station ID, Station Name, Station location, Num of Available Stand  \n");  // Getting Station data from user
 
-                                    Station station = new Station();
+                                        int stationId;
+                                        int.TryParse(Console.ReadLine(), out stationId);
+                                        string stationName = Console.ReadLine();//
+                                        Console.WriteLine("Enter Latitude and Longitude of the station\n");
+                                        Location location = new Location();
+                                        double myLatitude, myLongitude;
+                                        double.TryParse(Console.ReadLine(), out myLatitude);
+                                        double.TryParse(Console.ReadLine(), out myLongitude);
+                                        location.Latitude = myLatitude;
+                                        location.Longitude = myLongitude;
+                                        int stationChargeSlot;
+                                        int.TryParse(Console.ReadLine(), out stationChargeSlot);
 
-                                    station.ID = stationId;
-                                    station.Name = stationName;
-                                    station.StationLocation = location;
-                                    station.VacantChargeSlots = stationChargeSlot;//check
-                                    station.ChargingDronesList = new System.Collections.Generic.List<ChargingDrone>();////have to checkk
-                                    bl.AddStation(station);
+                                        Station station = new Station();
 
-                                    //if no Charigot
-                                    Console.WriteLine("Station added succesfully !");
+                                        station.ID = stationId;
+                                        station.Name = stationName;
+                                        station.StationLocation = location;
+                                        station.AvailableChargeSlots = stationChargeSlot;//check
+                                        station.ChargingDronesList = new System.Collections.Generic.List<ChargingDrone>();////have to checkk
+                                        bl.AddStation(station);
 
-                                    break;
+                                        //if no Charigot
+                                        Console.WriteLine("Station added succesfully !");
 
-                                case ObjectMenu.Drone:
+                                        break;
 
-                                    Console.WriteLine("Enter Drone Data: Drone ID, Drone Model, Drone Max Weight, Station number \n");  // Getting Drone data from user   
-                                 
-                                    int droneId;
-                                    int.TryParse(Console.ReadLine(), out droneId);
-                                    string droneModel = Console.ReadLine();
-                                    string chosen;
-                                    Console.WriteLine("Choose Drone Weight: 0 : Light, 1 : Medium, 2 : Heavy :\n");  //getting different type of weight from user
-                                    chosen = (Console.ReadLine());  //used to get the num from user and chose with it different enum option
-                                    WeightCategories droneMaxWeight = (WeightCategories)Convert.ToInt32(chosen);
+                                    case ObjectMenu.Drone:
 
-                                    int stationNumToCharge;
-                                    int.TryParse(Console.ReadLine(), out stationNumToCharge);
+                                        Console.WriteLine("Enter Drone Data: Drone ID, Drone Model, Drone Max Weight, Station number ");  // Getting Drone data from user   
 
-                                    Drone drone = new Drone();
-                                    Random rand = new Random();
+                                        int droneId;
+                                        int.TryParse(Console.ReadLine(), out droneId);
+                                        string droneModel = Console.ReadLine();
+                                        string chosen;
+                                        Console.WriteLine("Choose Drone Weight: 0 : Light, 1 : Medium, 2 : Heavy :\n");  //getting different type of weight from user
+                                        chosen = (Console.ReadLine());  //used to get the num from user and chose with it different enum option
+                                        WeightCategories droneMaxWeight = (WeightCategories)Convert.ToInt32(chosen);
 
-                                    drone.ID = droneId;
-                                    drone.Model = droneModel;
-                                    drone.MaxWeight = droneMaxWeight;
+                                        int stationNumToCharge;
+                                        int.TryParse(Console.ReadLine(), out stationNumToCharge);
 
+                                        Drone drone = new Drone();
+                                        Random rand = new Random();
 
-                                    bl.AddDrone(drone, stationNumToCharge);
-                                    Console.WriteLine("Drone added succesfully !");
-
-
-
-                                    break;
-
-                                case ObjectMenu.Client:
-
-                                    Console.WriteLine("Enter Client Data: ID, Name, Phone, Location\n");   // Getting Client data from user
+                                        drone.ID = droneId;
+                                        drone.Model = droneModel;
+                                        drone.MaxWeight = droneMaxWeight;
 
 
-                                    int clientId;
-                                    int.TryParse(Console.ReadLine(), out clientId);
-                                    string clientName = Console.ReadLine();
-                                    string clientPhone = Console.ReadLine();
-                                    Location myClientLocation = new Location();
-                                    Console.WriteLine("Enter Latitude and Longitude of the client \n");
-                                    double.TryParse(Console.ReadLine(), out myLatitude);
-                                    double.TryParse(Console.ReadLine(), out myLongitude);
-                                    myClientLocation.Latitude = myLatitude;
-                                    myClientLocation.Longitude = myLongitude;
+                                        bl.AddDrone(drone, stationNumToCharge);
+                                        Console.WriteLine("Drone added succesfully !");
 
-                                    Client client = new Client();
 
-                                    client.ID = clientId;
-                                    client.Name = clientName;
-                                    client.Phone = clientPhone;
-                                    client.ClientLocation = myClientLocation;
 
-                                    bl.AddClient(client); 
+                                        break;
 
-                                    
-                                    Console.WriteLine("Client added succesfully !");
+                                    case ObjectMenu.Client:
 
-                                    break;
+                                        Console.WriteLine("Enter Client Data: ID, Name, Phone, Location");   // Getting Client data from user
 
-                                case ObjectMenu.Package:
 
-                                    Console.WriteLine("Enter All Package Data: SenderId, ReceiverId, MaxWeight, Priority,");  // Getting Package data from user
-                                    int packageSenderId, packageTargetId;
-                                    int.TryParse(Console.ReadLine(), out packageSenderId);
-                                    int.TryParse(Console.ReadLine(), out packageTargetId);
+                                        int clientId;
+                                        int.TryParse(Console.ReadLine(), out clientId);
+                                        string clientName = Console.ReadLine();
+                                        string clientPhone = Console.ReadLine();
+                                        Location myClientLocation = new Location();
+                                        Console.WriteLine("Enter Latitude and Longitude of the client \n");
+                                        double.TryParse(Console.ReadLine(), out myLatitude);
+                                        double.TryParse(Console.ReadLine(), out myLongitude);
+                                        myClientLocation.Latitude = myLatitude;
+                                        myClientLocation.Longitude = myLongitude;
 
-                                    Console.WriteLine("Choose package Weight: 0 : Light, 1 : Medium, 2 : Heavy :");
-                                    chosen = (Console.ReadLine());
-                                    WeightCategories packageWeight = (WeightCategories)Convert.ToInt32(chosen);
-                                    Console.WriteLine("Choose package Priority: 0 :  Standard, 1 : Fast, 2 : Urgent :");
-                                    chosen = (Console.ReadLine());
-                                    Priorities packagePriority = (Priorities)Convert.ToInt32(chosen);
+                                        Client client = new Client();
 
-                                    Package package = new Package();
+                                        client.ID = clientId;
+                                        client.Name = clientName;
+                                        client.Phone = clientPhone;
+                                        client.ClientLocation = myClientLocation;
 
-                                    ClientPackage senderClient = new ClientPackage(); //bdika
-                                    ClientPackage receiverClient = new ClientPackage();
-                                    senderClient.ID = packageSenderId;
-                                    receiverClient.ID = packageTargetId;
+                                        bl.AddClient(client);
 
-                                    package.SenderClient = senderClient;
-                                    package.ReceiverClient = receiverClient;
-                                    package.Weight = packageWeight;
-                                    package.Priority = packagePriority;
 
-                                    bl.AddPackage(package);
-                                    Console.WriteLine("Package added succesfully !");
-                                    break;
+                                        Console.WriteLine("Client added succesfully !");
 
-                                default:
-                                    break;
+                                        break;
+
+                                    case ObjectMenu.Package:
+
+                                        Console.WriteLine("Enter All Package Data: SenderId, ReceiverId, MaxWeight, Priority,");  // Getting Package data from user
+                                        int packageSenderId, packageTargetId;
+                                        int.TryParse(Console.ReadLine(), out packageSenderId);
+                                        int.TryParse(Console.ReadLine(), out packageTargetId);
+
+                                        Console.WriteLine("Choose package Weight: 0 : Light, 1 : Medium, 2 : Heavy :");
+                                        chosen = (Console.ReadLine());
+                                        WeightCategories packageWeight = (WeightCategories)Convert.ToInt32(chosen);
+                                        Console.WriteLine("Choose package Priority: 0 :  Standard, 1 : Fast, 2 : Urgent :");
+                                        chosen = (Console.ReadLine());
+                                        Priorities packagePriority = (Priorities)Convert.ToInt32(chosen);
+
+                                        Package package = new Package();
+
+                                        ClientPackage senderClient = new ClientPackage(); //bdika
+                                        ClientPackage receiverClient = new ClientPackage();
+                                        senderClient.ID = packageSenderId;
+                                        receiverClient.ID = packageTargetId;
+
+                                        package.SenderClient = senderClient;
+                                        package.TargetClient = receiverClient;
+                                        package.Weight = packageWeight;
+                                        package.Priority = packagePriority;
+
+                                        bl.AddPackage(package);
+                                        Console.WriteLine("Package added succesfully !");
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                                break;
                             }
-                            break;
-                        }
 
-                    case Menu.Update:   //Update item
-                        {
-                            Console.WriteLine("Choose an Option:");
-                            Console.WriteLine(" 1: Update Drone Data \n 2: Update Station Data \n 3: Update Client Data : \n 4: Send Drone to Charge \n 5: Finish charging drone \n " +
-                                              "6: Assigning a package to a drone \n 7: Pick Up Package by Drone \n 8: Delivery of a package to the client: \n  0: Exit");  ///User Choose Different type of Update
-                            updateOptions = (UpdateOptions)int.Parse(Console.ReadLine());
-
-                            switch (updateOptions)
+                        case Menu.Update:   //Update item
                             {
-                                case UpdateOptions.Exit:
-                                    break;
-                                case UpdateOptions.UpdateDronedata:      //New Model name
+                                Console.WriteLine("Choose an Option:");
+                                Console.WriteLine(" 1: Update Drone Data \n 2: Update Station Data \n 3: Update Client Data : \n 4: Send Drone to Charge \n 5: Finish charging drone \n " +
+                                                  "6: Assigning a package to a drone \n 7: Pick Up Package by Drone \n 8: Delivery of a package to the client: \n  0: Exit");  ///User Choose Different type of Update
+                                updateOptions = (UpdateOptions)int.Parse(Console.ReadLine());
 
-                                    Console.WriteLine("Enter Drone Id and New Drone Model name");
-                                    int droneIdUp;
-                                    int.TryParse(Console.ReadLine(), out droneIdUp);
-                                    string name = Console.ReadLine();
+                                switch (updateOptions)
+                                {
+                                    case UpdateOptions.Exit:
+                                        break;
 
-                                    bl.UpdateDroneName(droneIdUp, name);
+                                    case UpdateOptions.UpdateDronedata:      //New Model name
 
-                                    break;
+                                        Console.WriteLine("Enter Drone Id");
+                                        int droneIdUp;
 
-                                case UpdateOptions.UpdateStationData:  //
-                                    Console.WriteLine("Enter Station Id");
-                                    int stationId;
-                                    int.TryParse(Console.ReadLine(), out stationId);
+                                        Console.WriteLine("Enter new Drone Model name");
+                                        int.TryParse(Console.ReadLine(), out droneIdUp);
+                                        string name = Console.ReadLine();
 
-                                    Console.WriteLine("Enter station name and number of charge stand to update");
-                                    string stationName = Console.ReadLine();
-                                    Console.WriteLine("Enter number of charge stand (optional)");
-                                    int numOfCharge;
-                                    int.TryParse(Console.ReadLine(), out numOfCharge);
+                                        bl.UpdateDroneName(droneIdUp, name);
+                                        Console.WriteLine("Update Drone succesfully !");
 
-                                    bl.UpdateStation(stationId, stationName, numOfCharge);
+                                        break;
 
-                                    break;
+                                    case UpdateOptions.UpdateStationData:  //
+                                        Console.WriteLine("Enter Station Id");
+                                        int stationId;
+                                        int.TryParse(Console.ReadLine(), out stationId);
 
-                                case UpdateOptions.UpdateClientData:   //
+                                        Console.WriteLine("Enter new station name");
+                                        string stationName = Console.ReadLine();
+                                        Console.WriteLine("Enter number of charge stand (optional)");
+                                        int numOfCharge;
+                                        int.TryParse(Console.ReadLine(), out numOfCharge);
 
-                                    Console.WriteLine("Enter Client Id");
-                                    int clientId;
-                                    int.TryParse(Console.ReadLine(), out clientId);
-                                    Console.WriteLine("Enter Client Name or phone to update ");
-                                    string clientName = Console.ReadLine();
-                                    string clientPhone = Console.ReadLine();
-                                    //int.TryParse(Console.ReadLine(), out clientPhone);
+                                        bl.UpdateStation(stationId, stationName, numOfCharge);
+                                        Console.WriteLine("Update Station succesfully !");
 
-                                    bl.UpdateClient(clientId, clientName,clientPhone);
-                                    break;
+                                        break;
 
-                                case UpdateOptions.Charging:    //sending a drone to a station to get it charged
+                                    case UpdateOptions.UpdateClientData:   //
 
-                                    Console.WriteLine("Enter Drone Id to charge");
-                                    int droneIdToCharge;
-                                    int.TryParse(Console.ReadLine(), out droneIdToCharge);
+                                        Console.WriteLine("Enter Client Id");
+                                        int clientId;
+                                        int.TryParse(Console.ReadLine(), out clientId);
+                                        Console.WriteLine("Enter new Client Name ");
+                                        string clientName = Console.ReadLine();
+                                        Console.WriteLine("Enter new Client phone");
+                                        string clientPhone = Console.ReadLine();
 
-                                    bl.ChargeDrone(droneIdToCharge);
-                                    break;
+                                        bl.UpdateClient(clientId, clientName, clientPhone);
+                                        Console.WriteLine("Update Client succesfully !");
 
-                                case UpdateOptions.FinishCharging:  //Getting a drone back from charging
+                                        break;
 
-                                    Console.WriteLine("Enter Drone Id to finish Charging");
-                                    int droneIdToFinish;
-                                    int.TryParse(Console.ReadLine(), out droneIdToFinish);
-                                    Console.WriteLine("Enter time of charging (minutes) ");
-                                    int timeCharge;
-                                    int.TryParse(Console.ReadLine(), out timeCharge);
+                                    case UpdateOptions.Charging:    //sending a drone to a station to get it charged
 
-                                    bl.FinishCharging(droneIdToFinish, timeCharge);
-                                    break;
+                                        Console.WriteLine("Enter Drone Id to charge");
+                                        int droneIdToCharge;
+                                        int.TryParse(Console.ReadLine(), out droneIdToCharge);
 
-                                case UpdateOptions.Assignment:  //Assign Package to a drone using Drone and package ID.
+                                        bl.ChargeDrone(droneIdToCharge);
+                                        break;
 
-                                    break;
+                                    case UpdateOptions.FinishCharging:  //Getting a drone back from charging
 
-                                case UpdateOptions.PickedUp:    //Getting a drone to pick up a package 
-                                   
-                                    break;
+                                        Console.WriteLine("Enter Drone Id to finish Charging");
+                                        int droneIdToFinish;
+                                        int.TryParse(Console.ReadLine(), out droneIdToFinish);
 
-                                case UpdateOptions.Delivered:   //Deliver a Package to a client
-                                   
-                                    break;
+                                        Console.WriteLine("Enter the charging minutes");
+                                        double timeCharging;
+                                        double.TryParse(Console.ReadLine(), out timeCharging);
 
-                                default:
-                                    break;
+                                        bl.FinishCharging(droneIdToFinish, timeCharging);
+                                        break;
+
+                                    case UpdateOptions.Assignment:  //Assign Package to a drone using Drone and package ID.
+                                        Console.WriteLine("Enter Drone Id to to assign it a package");
+                                        int droneIdToAssign;
+                                        int.TryParse(Console.ReadLine(), out droneIdToAssign);
+
+                                        bl.packageToDrone(droneIdToAssign);
+                                        break;
+
+                                    case UpdateOptions.PickedUp:    //Getting a drone to pick up a package 
+                                        Console.WriteLine("Enter Drone Id to to PickedUp a package");
+                                        int droneIdToPickedUp;
+                                        int.TryParse(Console.ReadLine(), out droneIdToPickedUp);
+
+                                        bl.PickedUpByDrone(droneIdToPickedUp);
+                                        break;
+
+                                    case UpdateOptions.Delivered:   //Deliver a Package to a client
+                                        Console.WriteLine("Enter Drone Id to to deliver a package");
+                                        int droneIdToDeliver;
+                                        int.TryParse(Console.ReadLine(), out droneIdToDeliver);
+
+                                        bl.DeliveredToClient(droneIdToDeliver);
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                                break;
                             }
-                            break;
-                        }
-                    case Menu.DisplayItem:   // Output Specific item Data
-                        {
-                            Console.WriteLine("Choose which Item to display: \n 1: Client \n 2: Drone \n 3: Station \n 4: Package \n 0: Exit ");
-                            objectMenu = (ObjectMenu)int.Parse(Console.ReadLine());
-                            switch (objectMenu)
+                        case Menu.DisplayItem:   // Output Specific item Data
                             {
-                                case ObjectMenu.Exit:
-                                    break;
+                                Console.WriteLine("Choose which Item to display: \n 1: Station\n 2: Drone \n 3: Client \n 4: Package \n 0: Exit ");
+                                objectMenu = (ObjectMenu)int.Parse(Console.ReadLine());
+                                switch (objectMenu)
+                                {
+                                    case ObjectMenu.Exit:
+                                        break;
 
-                                case ObjectMenu.Client:
-                                    Console.WriteLine("What is the client's ID?");
-                                    int clientId;
-                                    int.TryParse(Console.ReadLine(), out clientId);
-                                                                                //output the tostring func of client object that match the id user inputed
-                                                                                //check charigot?
-                                    break;
+                                    case ObjectMenu.Station:
+                                        Console.WriteLine("What is the station's ID?");
+                                        int stationId;
+                                        int.TryParse(Console.ReadLine(), out stationId);
 
-                                case ObjectMenu.Drone:
-                                    Console.WriteLine("Choose Drone id to display");
-                                    int droneId;
-                                    int.TryParse(Console.ReadLine(), out droneId);
-                                    Console.WriteLine(bl.DroneItem(droneId)); // output this way?
-                                    break;
+                                        Console.WriteLine(bl.DisplayStation(stationId));
+                                        break;
 
-                                case ObjectMenu.Station:
-                                    Console.WriteLine("What is the station's ID?");
-                                    int stationId;
-                                    int.TryParse(Console.ReadLine(), out stationId);
-                                   
-                                    break;
+                                    case ObjectMenu.Drone:
+                                        Console.WriteLine("What is the drone's ID");
+                                        int droneId;
+                                        int.TryParse(Console.ReadLine(), out droneId);
 
-                                case ObjectMenu.Package:
-                                    Console.WriteLine("What is the package's ID?");
-                                    int packageId;
-                                    int.TryParse(Console.ReadLine(), out packageId);
+                                        Console.WriteLine(bl.DisplyDrone(droneId));
+                                        break;
 
-                                    break;
+                                    case ObjectMenu.Client:
+                                        Console.WriteLine("What is the client's ID?");
+                                        int clientId;
+                                        int.TryParse(Console.ReadLine(), out clientId);
+                                        //output the tostring func of client object that match the id user inputed
+                                        //check charigot?
+                                        //Console.WriteLine()
+                                        break;
 
-                                default:
-                                    break;
+                                    case ObjectMenu.Package:
+                                        Console.WriteLine("What is the package's ID?");
+                                        int packageId;
+                                        int.TryParse(Console.ReadLine(), out packageId);
+
+                                        Console.WriteLine(bl.DisplayPackage(packageId));
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                                break;
+
                             }
+
+
+                        case Menu.DisplayList:   // Output all list of different object
+                            {
+                                Console.WriteLine("Choose which Item List to display: \n 1: Station list\n 2: Drone list \n 3: Client list \n 4: Package list \n 5: List of packages not associated to drone\n 6: List of stations with available charging slots\n 0: Exit ");
+                                objectList = (ObjectList)int.Parse(Console.ReadLine());
+
+                                switch (objectList)
+                                {
+                                    case ObjectList.Exit:
+                                        break;
+
+                                    case ObjectList.StationList:
+                                        foreach (var station in bl.DisplayStationList())
+                                        {
+                                            Console.WriteLine(station);
+                                        }
+                                        break;
+
+                                    case ObjectList.DroneList:
+                                        foreach (var drone in bl.DisplyDroneList())
+                                        {
+                                            Console.WriteLine(drone);
+                                        }
+                                        break;
+
+                                    case ObjectList.ClientList:
+                                        //
+                                        break;
+
+                                    case ObjectList.PackageList:
+                                        foreach (var package in bl.DisplayPackageList())
+                                        {
+                                            Console.WriteLine(package);
+                                        }
+                                        break;
+
+                                    case ObjectList.PackageListWithoutDrone:
+                                        foreach (var PackageWithoutDrone in bl.DisplayPackageListWithoutDrone())
+                                        {
+                                            Console.WriteLine(PackageWithoutDrone);
+                                        }
+                                        break;
+
+                                    case ObjectList.StationListWithCharging:
+                                        foreach (var StationWithCharging in bl.DisplayStationListWitAvailableChargingSlots())
+                                        {
+                                            Console.WriteLine(StationWithCharging);
+                                        }
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                                break;
+                            }
+
+                        case Menu.Exit:
+                            num = 0;
                             break;
-                            
-                        }
-                    case Menu.DisplayList:   // Output all list of different object
-                        {
-                            
 
-
-
+                        default:
                             break;
-                        }
-                    
-                    case Menu.Exit:
-                        num = 0;
-                        break;
-
-                    default:
-                        break;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                
             }
         }
 

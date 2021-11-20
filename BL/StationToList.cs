@@ -12,17 +12,17 @@ namespace IBL
         {
             public int ID { get; set; }
             public string Name { get; set; }
-            public int VacantChargingStand { get; set; }
-            public int TakenChargingStand { get; set; }
+            public int AvailableChargingSlots { get; set; }
+            public int BusyChargingSlots { get; set; }
            
 
             public override string ToString()
             {
                 string result = "";
-                result += $"PackagProcessId is {ID},\n";
+                result += $"ID is {ID},\n";
                 result += $"Name is {Name},\n";
-                result += $"num of VacantChargingStand is {VacantChargingStand},\n";
-                result += $"num of TakenChargingStand is {TakenChargingStand},\n";
+                result += $"num of AvailableChargingSlots is {AvailableChargingSlots},\n";
+                result += $"num of BusyChargingSlots is {BusyChargingSlots},\n";
 
                 return result;
             }

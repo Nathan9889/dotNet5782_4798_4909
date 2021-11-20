@@ -9,7 +9,7 @@ namespace IBL
 {
     namespace BO
     {
-        public class DroneWithPackage  //  רחפן בחבילה
+        public class DroneOfPackage  //  רחפן בחבילה
         {
             public int Id { get; set; }
             public double Battery { get; set; }
@@ -20,7 +20,7 @@ namespace IBL
                 string result = "";
                 result += $"DroneWithPackageId is {Id},\n";
                 result += $"DroneWithPackageBattery is {Battery},\n";
-                result += $"DroneWithPackageCurrentLocation is {CurrentLocation},\n";
+                result += $"DroneWithPackageCurrentLocation:\n {CurrentLocation}\n";
 
                 return result;
             }

@@ -8,7 +8,7 @@ namespace IBL
 {
     namespace BO
     {
-        class ClientToList
+        public class ClientToList
         {
             public int Id { get; set; }
             public string Name { get; set; }

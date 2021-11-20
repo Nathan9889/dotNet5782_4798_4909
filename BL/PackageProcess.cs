@@ -31,10 +31,10 @@ namespace IBL
                 result += $"ShipmentStatus is {PackageShipmentStatus},\n";
                 result += $"Priority is {Priority},\n";
                 result += $"Weight is {Weight},\n";
-                result += $"Sender is {Sender},\n";
-                result += $"Receiver is {Receiver},\n";
-                result += $"Collect Location is {CollectLocation},\n";
-                result += $"Destination Location is {DestinationLocation},\n";
+                result += $"Sender:\n {Sender}\n";
+                result += $"Receiver:\n {Receiver}\n";
+                result += $"Collect Location:\n {CollectLocation}\n";
+                result += $"Destination Location:\n {DestinationLocation}\n";
                 result += $"Distance is {Distance},\n";
 
                 return result;

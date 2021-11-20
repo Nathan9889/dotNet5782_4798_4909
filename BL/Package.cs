@@ -13,10 +13,10 @@ namespace IBL
         {
             public int ID { get; set; }
             public ClientPackage SenderClient { get; set; }
-            public ClientPackage ReceiverClient { get; set; }
+            public ClientPackage TargetClient { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
-            public DroneWithPackage DroneOfPackage { get; set; }
+            public DroneOfPackage DroneOfPackage { get; set; }
             public DateTime Created { get; set; }
             public DateTime Associated { get; set; }
             public DateTime PickedUp { get; set; }
@@ -26,15 +26,15 @@ namespace IBL
             {
                 string result = "";
                 result += $"ID is {ID}, \n";
-                result += $"SenderClient is {SenderClient},\n";
-                result += $"ReceiverClient is {ReceiverClient}, \n";
+                result += $"SenderClient:\n {SenderClient}\n";
+                result += $"ReceiverClient:\n {TargetClient} \n";
                 result += $"Weight is {Weight}, \n";
                 result += $"Priority is {Priority}, \n";
-                if(DroneOfPackage != null) result += $"DroneOfPackage is {DroneOfPackage}, \n"; // רק אם החבילה שויכה אתחלנו את השדה הזה
+                if(DroneOfPackage != null) result += $"DroneOfPackage:\n {DroneOfPackage} \n"; // רק אם החבילה שויכה אתחלנו את השדה הזה
                 result += $"Created at {Created}, \n";
-                result += $"Associated at  {Associated}, \n";
-                result += $"PickedUp at {PickedUp}, \n";
-                result += $"Delivered at {Delivered}, \n";
+                if(Associated != DateTime.MinValue) result += $"Associated at  {Associated}, \n";
+                if (PickedUp != DateTime.MinValue) result += $"PickedUp at {PickedUp}, \n";
+                if (Delivered != DateTime.MinValue) result += $"Delivered at {Delivered}, \n";
 
                 return result;
             }

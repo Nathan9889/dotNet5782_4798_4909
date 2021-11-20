@@ -24,7 +24,7 @@ namespace IBL
                 result += $"Weight is {Weight},\n";
                 result += $"Priority is {Priority},\n";
                 result += $"Status is {Status},\n";
-                result += $"Source_Destination is {Source_Destination},\n";
+                result += $"Source_Destination:\n {Source_Destination}\n";
                 return result;
             }
         }

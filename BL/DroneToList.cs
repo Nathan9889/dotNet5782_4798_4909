@@ -13,7 +13,7 @@ namespace IBL
             public int ID { get; set; }
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }
-            public double Battery { get; set; }
+            public int Battery { get; set; }
             public DroneStatus Status { get; set; }
             public Location DroneLocation { get; set; }
             public int PackageID { get; set; }
@@ -21,12 +21,12 @@ namespace IBL
             public override string ToString()
             {
                 string result = "";
-                result += $"PackagProcessId is {ID},\n";
+                result += $"ID is {ID},\n";
                 result += $"DroneModel is {Model},\n";
                 result += $"MaxWeight is {MaxWeight},\n";
                 result += $"Battery is {Battery},\n";
                 result += $"Status is {Status},\n";
-                result += $"DroneLocation is {DroneLocation},\n";
+                result += $"DroneLocation is:\n{DroneLocation}";
                 result += $"PackageID num is {PackageID},\n";
 
                 return result;

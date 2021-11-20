@@ -48,7 +48,7 @@ namespace IBL
 
                 public override string ToString()
                 {
-                    return Message + $"ID: {iD}";
+                    return Message + $" ID: {iD}";
                 }
             }
 
@@ -151,7 +151,7 @@ namespace IBL
 
                 public override string ToString()
                 {
-                    return Message + $"ID: {iD}";
+                    return Message + $" ID: {iD}";
                 }
             }
 
@@ -261,7 +261,7 @@ namespace IBL
             [Serializable]
             internal class IdNotFoundException : Exception
             {
-                private string v;
+                
                 private int iD;
 
                 public IdNotFoundException()
@@ -272,9 +272,9 @@ namespace IBL
                 {
                 }
 
-                public IdNotFoundException(string v, int iD)
+                public IdNotFoundException(string v, int iD): base(v)
                 {
-                    this.v = v;
+                    
                     this.iD = iD;
                 }
 
@@ -284,6 +284,10 @@ namespace IBL
 
                 protected IdNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
+                }
+                public override string ToString()
+                {
+                    return Message + $" ID: {iD}";
                 }
             }
 
@@ -364,7 +368,7 @@ namespace IBL
             [Serializable]
             internal class UnablePickedUpPackage : Exception
             {
-                private string v;
+                
                 private int iD;
 
                 public UnablePickedUpPackage()
@@ -375,9 +379,9 @@ namespace IBL
                 {
                 }
 
-                public UnablePickedUpPackage(string v, int iD)
+                public UnablePickedUpPackage(string v, int iD) : base(v)
                 {
-                    this.v = v;
+                   
                     this.iD = iD;
                 }
 
@@ -387,6 +391,10 @@ namespace IBL
 
                 protected UnablePickedUpPackage(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
+                }
+                public override string ToString()
+                {
+                    return Message + $" ID: {iD}";
                 }
             }
 
@@ -407,6 +415,43 @@ namespace IBL
 
                 protected UnableAssociatPackage(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
+                }
+                public override string ToString()
+                {
+                    return Message;
+                }
+            }
+
+            [Serializable]
+            internal class PhoneExceptional : Exception
+            {
+               
+                private string phone;
+
+                public PhoneExceptional()
+                {
+                }
+
+                public PhoneExceptional(string message) : base(message)
+                {
+                }
+
+                public PhoneExceptional(string v, string phone) : base(v)
+                {
+                    
+                    this.phone = phone;
+                }
+
+                public PhoneExceptional(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected PhoneExceptional(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+                public override string ToString()
+                {
+                    return Message + $"Phone: {phone}";
                 }
             }
         }

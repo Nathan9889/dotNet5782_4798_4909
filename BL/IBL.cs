@@ -9,44 +9,50 @@ namespace IBL
 {
     public interface IBL
     {
-        //-----------ADD Functions------------//
-        void AddStation(Station station);
-        void AddDrone(Drone drone, int stationNumToCharge);
-        void AddClient(Client client);
-        void AddPackage(Package package);
+        //-----------ADD Functions------------
+        public void AddDrone(Drone drone, int stationNumToCharge);
+        public void AddStation(Station station);
+        public void AddPackage(Package package);
+        public void AddClient(Client client);
+
+
 
         //-----------Update Functions------------//
-        void UpdateDroneName(int id, string name);
-        void UpdateStation(int id, string name, int numCharge);
-        void UpdateClient(int id, string name, string phone);
-        void ChargeDrone(int id);
-        void FinishCharging(int DroneID, int minutesCharging);
-        //void packageToDrone(/*Package package, int DroneID*/);
-        //void PickedUpByDrone(/*Package package*/);
-        //void DeliveredToClient(/*Package package*/);
-        IEnumerable<IDAL.DO.Client> RecivedCustomerList();
+        public void UpdateDroneName(int id, string name);
+        public void ChargeDrone(int id);
+        public void FinishCharging(int droneID,Double minutesCharging);
+        public void UpdateStation(int id, string name, int numCharge);
+        public void packageToDrone(int droneID);
+        void PickedUpByDrone(int droneID);
+        void DeliveredToClient(int droneID);
+        public void UpdateClient(int id, string name, string phone);
+
+
 
         //-----------Display Item------------//
-        Station DisplayStation(int id);
-        Drone DroneItem(int id);
-        Client DisplayClient(int id);
+        public Drone DisplyDrone(int id);
+        public Station DisplayStation(int id);
+        public Package DisplayPackage(int packageID);
 
-        //-----------Display Functions------------//
-
-        ////
-        ////
-        ////
-        ////
-        //IEnumerable<Station> StationsList();
-        //IEnumerable<Drone> DroneList();
-        //IEnumerable<Client> ClientsList();
-        //IEnumerable<Package> PackageList();
-        //IEnumerable<Package> PackageWithoutDrone();
-        //IEnumerable<Station> StationWithCharging();
+        //public Client DisplayClient(int id);
 
 
 
-        ////Exit
+        //----------Display Lists------------//
+        public IEnumerable<DroneToList> DisplyDroneList();
+        public IEnumerable<StationToList> DisplayStationList();
+        public IEnumerable<StationToList> DisplayStationListWitAvailableChargingSlots();
+        public IEnumerable<PackageToList> DisplayPackageList();
+        public IEnumerable<PackageToList> DisplayPackageListWithoutDrone();
+
+        //public IEnumerable<ClientToList> DisplayClientList();
+
+
+
+
+
+
+        //Exit
 
 
 
