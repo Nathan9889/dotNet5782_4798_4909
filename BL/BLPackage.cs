@@ -104,7 +104,7 @@ namespace BL
             if ((drone.Status != DroneStatus.Shipping)) throw new Exceptions.UnablePickedUpPackage("Drone is not Shipping", droneID); // רחפן לא מבצע משלוח
             if (!dal.PackageList().Any(p => p.DroneId == droneID)) throw new IBL.BO.Exceptions.UnablePickedUpPackage("No package associated with the drone was found"); // אין חבילה ששויכה לרחפן הזה
 
-            IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID);
+            IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID && p.PickedUp == DateTime.MinValue);
             if (package.PickedUp != DateTime.MinValue) throw new IBL.BO.Exceptions.UnablePickedUpPackage("The package has already been PickedUp", package.ID); // אם החבילה שמשוייכת לרחפן כבר נאספה אז תזרוק חריגה
 
             IDAL.DO.Client sender = dal.ClientById(package.SenderId); // השולח של החבילה - מיקום החדש של הרחפן 
@@ -130,10 +130,10 @@ namespace BL
             if ((drone.Status != DroneStatus.Shipping)) throw new Exceptions.UnablePickedUpPackage("Drone is not Shipping", droneID); // רחפן לא מבצע משלוח
             if (!dal.PackageList().Any(p => p.DroneId == droneID)) throw new IBL.BO.Exceptions.UnablePickedUpPackage("No package associated with the drone was found"); // אין חבילה ששויכה לרחפן הזה
 
-            IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID);
+            IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID && p.Delivered == DateTime.MinValue);
             if (package.Delivered > DateTime.MinValue) throw new IBL.BO.Exceptions.UnablePickedUpPackage("The package has already been PickedUp", package.ID); // אם החבילה שמשוייכת לרחפן כבר סופקה אז תזרוק חריגה
 
-            IDAL.DO.Client target = dal.ClientById(package.SenderId);// היעד של החבילה - מיקום הרחפן החדש
+            IDAL.DO.Client target = dal.ClientById(package.TargetId);// היעד של החבילה - מיקום הרחפן החדש
             int index = DroneList.FindIndex(d => d.ID == droneID);
 
             // עדכון בשכבת הלוגיקה
