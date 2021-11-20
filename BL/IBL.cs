@@ -33,8 +33,7 @@ namespace IBL
         public Drone DisplyDrone(int id);
         public Station DisplayStation(int id);
         public Package DisplayPackage(int packageID);
-
-        //public Client DisplayClient(int id);
+       public Client DisplayClient(int id);
 
 
 

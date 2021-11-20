@@ -68,7 +68,6 @@ namespace BL
                 
         }
 
-
         public Station DisplayStation(int id)
         {
 
@@ -81,22 +80,28 @@ namespace BL
 
             station.ID = dalStation.ID;
             station.Name = dalStation.Name;
+
             Location location = new Location(); //check
-            station.StationLocation.Latitude = dalStation.Latitude;
-            station.StationLocation.Longitude = dalStation.Longitude;
-            
-            
+            location.Latitude = dalStation.Latitude;
+            location.Longitude = dalStation.Longitude;
+
+            station.StationLocation = location;
+
+
+
             foreach (var item in dal.droneChargesList())
             {
-                ChargingDrone chargingDrone = new ChargingDrone();
-                chargingDrone.ID = item.DroneId;
-                DroneToList droneBat = DroneList.Find(drone => drone.ID == id);
-                chargingDrone.Battery = droneBat.Battery;
+                if(dalStation.ID == item.StationId)
+                {
+                    ChargingDrone chargingDrone = new ChargingDrone();
+                    chargingDrone.ID = item.DroneId;
+                    DroneToList droneBat = DroneList.Find(drone => drone.ID == id);
+                    chargingDrone.Battery = droneBat.Battery;
 
-                station.ChargingDronesList.Add(chargingDrone);
-
+                    station.ChargingDronesList.Add(chargingDrone);
+                }
             }
-            station.AvailableChargeSlots = dalStation.ChargeSlots - dal.droneChargesList().Count();
+            station.AvailableChargeSlots = dalStation.ChargeSlots - station.ChargingDronesList.Count();
 
             return station;
         }

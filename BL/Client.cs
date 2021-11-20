@@ -15,8 +15,8 @@ namespace IBL
             public string Name { get; set; }
             public string Phone { get; set; }
             public Location ClientLocation { get; set; }
-            List<PackageAtClient> ClientsSender;
-            List<PackageAtClient> ClientsReceiver;
+            public List<PackageAtClient> ClientsSender = new List<PackageAtClient>();
+            public List<PackageAtClient> ClientsReceiver = new List<PackageAtClient>();
 
             public override string ToString()
             {

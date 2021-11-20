@@ -93,8 +93,7 @@ namespace BL
 
         }
 
-
-        public IEnumerable<IDAL.DO.Client> RecivedCustomerList() // ??????? אסור שפונקציה ציבורית תחזיר אובייקט של שכבה 1
+        public IEnumerable<IDAL.DO.Client> RecivedCustomerList()
         {
             List<IDAL.DO.Client> receivedClient = new List<IDAL.DO.Client>();
             foreach (var client in dal.ClientsList())
@@ -107,7 +106,7 @@ namespace BL
         }
 
 
-        /*public Client DisplayClient(int id)
+        public Client DisplayClient(int id)
         {
             if (!dal.ClientsList().Any(x => x.ID == id))
                 throw new IBL.BO.Exceptions.IDException("Client ID not found", id);
@@ -115,52 +114,85 @@ namespace BL
             IDAL.DO.Client dalClient = dal.ClientsList().First(x => x.ID == id);
 
             Client client = new Client();
+
             client.ID = dalClient.ID;
             client.Name = dalClient.Name;
             client.Phone = dalClient.Phone;
             Location location = new Location(); //check
-            client.ClientLocation.Latitude = dalClient.Latitude;
-            client.ClientLocation.Longitude = dalClient.Longitude;
 
-            List<PackageAtClient> ls;
-            ls.Add()
+            location.Longitude = dalClient.Longitude;
+            location.Latitude = dalClient.Latitude;
+            client.ClientLocation = location;
 
-            foreach (var item in )
+
+
+            //List<PackageAtClient> senderClientList = new List<PackageAtClient>();
+
+            foreach (var item in dal.PackageList())
             {
-                PackageAtClient packageAtClient = new PackageAtClient();
-                packageAtClient.Source_Destination.ID
 
+                if (item.SenderId == dalClient.ID)
+                {
+                    PackageAtClient packageAtClient = new PackageAtClient();
 
+                    packageAtClient.Id = item.ID;
+                    packageAtClient.Weight = (WeightCategories)item.Weight;
+                    packageAtClient.Priority = (Priorities)item.Priority;
+                    //if (item.Created != DateTime.MinValue)
+                    packageAtClient.Status = PackageStatus.Created; //?
 
+                    ClientPackage clientPackage = new ClientPackage();
+                    clientPackage.ID = item.SenderId;
+                    //clientPackage.Name;//???????
 
+                    packageAtClient.Source_Destination = clientPackage;
+
+                    // senderClientList.Add(packageAtClient);
+                    client.ClientsSender.Add(packageAtClient);
+                }
             }
 
 
-        }*/
+
+            //List <PackageAtClient> receiverClientList = new List<PackageAtClient>();
+
+            foreach (var item in dal.PackageList())
+            {
+
+                if (item.TargetId == dalClient.ID)
+                {
+                    PackageAtClient packageAtClient = new PackageAtClient();
+
+                    packageAtClient.Id = item.ID;
+                    packageAtClient.Weight = (WeightCategories)item.Weight;
+                    packageAtClient.Priority = (Priorities)item.Priority;
+                    packageAtClient.Status = PackageStatus.Delivered;///????
+
+                    ClientPackage clientPackage = new ClientPackage();
+
+                    clientPackage.ID = item.TargetId;
+                   // clientPackage.Name;//?????
+
+                    packageAtClient.Source_Destination = clientPackage;
+
+                    // receiverClientList.Add(packageAtClient);
+                    client.ClientsReceiver.Add(packageAtClient);
+                }
+            }
+
+            //client.ClientsSender = senderClientList;
+            //client.ClientsReceiver = receiverClientList;
 
 
-        //public Package DisplayPackage(int id)
-        //{
+            return client;
 
-        //    if (!dal.PackageList().Any(x => x.ID == id))
-        //        throw new Exceptions.IDException("Package id not found", id);
-
-        //    IDAL.DO.Package dalPackage = dal.PackageList().First(x => x.ID == id);
-
-        //    Package package = new Package();
-        //    package.ID = dalPackage.ID;
-        //    ClientPackage clientPackage = new ClientPackage();
-        //    clientPackage.ID = dalPackage.ID;
-        //    clientPackage.Name = 
-
-
-
+        }
 
         private void correctPhone(string phone) // בןדק תקינות מספר פלאפון
         {
             string[] nums = { "052", "053", "054", "055", "056", "057", "058" };
 
-            if(phone.Length != 10) throw new IBL.BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
+            if (phone.Length != 10) throw new IBL.BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
 
             phone = phone.Substring(0, 3);
             if (!nums.Any(x => x == phone)) throw new IBL.BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
@@ -168,12 +200,8 @@ namespace BL
 
 
 
-
-
-
-
+    }
 
 
     
-    }
 }
