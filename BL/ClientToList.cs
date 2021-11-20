@@ -13,10 +13,10 @@ namespace IBL
             public int Id { get; set; }
             public string Name { get; set; }
             public string Phone { get; set; }
-            public int DeliveredPackage { get; set; }
-            public int UndeliveredPackage { get; set; }
-            public int ReceivedPackage { get; set; }
-            public int OnGoingPackage { get; set; }
+            public int sentAndDeliveredPackage { get; set; }
+            public int sentAndUndeliveredPackage { get; set; }
+            public int ReceivedAndDeliveredPackage { get; set; }
+            public int ReceivedAndUnDeliveredPackage { get; set; }
 
             public override string ToString()
             {
@@ -24,10 +24,10 @@ namespace IBL
                 result += $"Id is {Id},\n";
                 result += $"Name is {Name},\n";
                 result += $"Phone is {Phone},\n";
-                result += $"num of DeliveredPackage is {DeliveredPackage},\n";
-                result += $"UndeliveredPackage is {UndeliveredPackage},\n";
-                result += $"DroneWithPackageCurrentLocation is {ReceivedPackage},\n";
-                result += $"OnGoingPackage is {OnGoingPackage},\n";
+                result += $"Number of sent and Delivered Package is {sentAndDeliveredPackage},\n";
+                result += $"Number of sent but Undelivered Package is {sentAndUndeliveredPackage},\n";
+                result += $"Number of received and Delivered Package is {ReceivedAndDeliveredPackage},\n";
+                result += $"Number of received but UnDelivered Package is {ReceivedAndUnDeliveredPackage},\n";
                 return result;
             }
         }

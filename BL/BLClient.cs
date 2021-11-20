@@ -93,17 +93,42 @@ namespace BL
 
         }
 
-        public IEnumerable<IDAL.DO.Client> RecivedCustomerList()
+        
+        public IEnumerable<ClientToList> DisplayClientList()
         {
-            List<IDAL.DO.Client> receivedClient = new List<IDAL.DO.Client>();
-            foreach (var client in dal.ClientsList())
+            List<ClientToList> clients = new List<ClientToList>();
+
+            foreach (var dalClient in dal.ClientsList())
             {
-                if (dal.PackageList().Any(x => x.TargetId == client.ID && x.Delivered != DateTime.MinValue))
-                    receivedClient.Add(client);
+                ClientToList clientToList = new ClientToList();
+
+                clientToList.Id = dalClient.ID;
+                clientToList.Name = dalClient.Name;
+                clientToList.Phone = dalClient.Phone;
+
+                IEnumerable<IDAL.DO.Package> sentAndDelivered = dal.PackageList().Where(x => x.SenderId == dalClient.ID && x.Delivered != DateTime.MinValue);
+                clientToList.sentAndDeliveredPackage = sentAndDelivered.Count();
+
+                IEnumerable<IDAL.DO.Package> sentAndUndelivered = dal.PackageList().Where(x => x.SenderId == dalClient.ID && x.Delivered == DateTime.MinValue);
+                clientToList.sentAndUndeliveredPackage = sentAndUndelivered.Count();
+
+                IEnumerable<IDAL.DO.Package> ReceivedAndDelivered = dal.PackageList().Where(x => x.TargetId == dalClient.ID && x.Delivered != DateTime.MinValue);
+                clientToList.ReceivedAndDeliveredPackage = ReceivedAndDelivered.Count();
+
+                IEnumerable<IDAL.DO.Package> ReceivedAndUnDelivered = dal.PackageList().Where(x => x.TargetId == dalClient.ID && x.Delivered == DateTime.MinValue);
+                clientToList.ReceivedAndUnDeliveredPackage = ReceivedAndUnDelivered.Count();
+
+
+
+                clients.Add(clientToList);
             }
 
-            return receivedClient;
+
+            return clients;
+
         }
+
+
 
 
         public Client DisplayClient(int id)
@@ -125,12 +150,12 @@ namespace BL
             client.ClientLocation = location;
 
 
+            List<PackageAtClient> senderPackage = new List<PackageAtClient>();
 
-            //List<PackageAtClient> senderClientList = new List<PackageAtClient>();
+            
 
             foreach (var item in dal.PackageList())
             {
-
                 if (item.SenderId == dalClient.ID)
                 {
                     PackageAtClient packageAtClient = new PackageAtClient();
@@ -138,23 +163,34 @@ namespace BL
                     packageAtClient.Id = item.ID;
                     packageAtClient.Weight = (WeightCategories)item.Weight;
                     packageAtClient.Priority = (Priorities)item.Priority;
-                    //if (item.Created != DateTime.MinValue)
-                    packageAtClient.Status = PackageStatus.Created; //?
+
+                    if (item.Associated == DateTime.MinValue)
+                        packageAtClient.Status = PackageStatus.Created; //?
+                    else if (item.PickedUp == DateTime.MinValue)
+                    {
+                        packageAtClient.Status = PackageStatus.Associated;
+                    }
+                    else if (item.Delivered == DateTime.MinValue)
+                    {
+                        packageAtClient.Status = PackageStatus.PickedUp;
+                    }
+                    else
+                        packageAtClient.Status = PackageStatus.Delivered;
 
                     ClientPackage clientPackage = new ClientPackage();
-                    clientPackage.ID = item.SenderId;
-                    //clientPackage.Name;//???????
+
+                    clientPackage.ID = item.TargetId;
+                    clientPackage.Name = dal.ClientById(item.TargetId).Name;
 
                     packageAtClient.Source_Destination = clientPackage;
 
-                    // senderClientList.Add(packageAtClient);
-                    client.ClientsSender.Add(packageAtClient);
+                    senderPackage.Add(packageAtClient);
                 }
             }
+            client.ClientsSender = senderPackage;
 
+            List<PackageAtClient> receiverPackage = new List<PackageAtClient>();
 
-
-            //List <PackageAtClient> receiverClientList = new List<PackageAtClient>();
 
             foreach (var item in dal.PackageList())
             {
@@ -166,22 +202,33 @@ namespace BL
                     packageAtClient.Id = item.ID;
                     packageAtClient.Weight = (WeightCategories)item.Weight;
                     packageAtClient.Priority = (Priorities)item.Priority;
-                    packageAtClient.Status = PackageStatus.Delivered;///????
+
+
+                    if (item.Associated == DateTime.MinValue)
+                        packageAtClient.Status = PackageStatus.Created; //?
+                    else if (item.PickedUp == DateTime.MinValue)
+                    {
+                        packageAtClient.Status = PackageStatus.Associated;
+                    }
+                    else if (item.Delivered == DateTime.MinValue)
+                    {
+                        packageAtClient.Status = PackageStatus.PickedUp;
+                    }
+                    else
+                        packageAtClient.Status = PackageStatus.Delivered;
 
                     ClientPackage clientPackage = new ClientPackage();
 
-                    clientPackage.ID = item.TargetId;
-                   // clientPackage.Name;//?????
+                    clientPackage.ID = item.SenderId;
+                    clientPackage.Name = dal.ClientById(item.SenderId).Name;
 
                     packageAtClient.Source_Destination = clientPackage;
 
-                    // receiverClientList.Add(packageAtClient);
-                    client.ClientsReceiver.Add(packageAtClient);
+                    receiverPackage.Add(packageAtClient);
                 }
             }
 
-            //client.ClientsSender = senderClientList;
-            //client.ClientsReceiver = receiverClientList;
+            client.ClientsReceiver = receiverPackage;
 
 
             return client;
@@ -197,6 +244,22 @@ namespace BL
             phone = phone.Substring(0, 3);
             if (!nums.Any(x => x == phone)) throw new IBL.BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

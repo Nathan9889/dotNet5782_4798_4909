@@ -70,6 +70,7 @@ namespace ConsoleUI_BL
                                         station.StationLocation = location;
                                         station.AvailableChargeSlots = stationChargeSlot;//check
                                         station.ChargingDronesList = new System.Collections.Generic.List<ChargingDrone>();////have to checkk
+
                                         bl.AddStation(station);
 
                                         //if no Charigot
@@ -163,8 +164,10 @@ namespace ConsoleUI_BL
                                         package.Weight = packageWeight;
                                         package.Priority = packagePriority;
 
-                                        bl.AddPackage(package);
-                                        Console.WriteLine("Package added succesfully !");
+
+                                        int id =  bl.AddPackage(package);
+                                        
+                                        Console.WriteLine($"Package added succesfully ! the id is {id} ");
                                         break;
 
                                     default:
@@ -303,16 +306,15 @@ namespace ConsoleUI_BL
                                         int droneId;
                                         int.TryParse(Console.ReadLine(), out droneId);
 
-                                        Console.WriteLine(bl.DisplyDrone(droneId));
+                                        Console.WriteLine(bl.DisplayDrone(droneId));
                                         break;
 
                                     case ObjectMenu.Client:
                                         Console.WriteLine("What is the client's ID?");
                                         int clientId;
                                         int.TryParse(Console.ReadLine(), out clientId);
-                                        //output the tostring func of client object that match the id user inputed
-                                        //check charigot?
-                                        //Console.WriteLine()
+
+                                        Console.WriteLine(bl.DisplayClient(clientId));
                                         break;
 
                                     case ObjectMenu.Package:
@@ -349,14 +351,17 @@ namespace ConsoleUI_BL
                                         break;
 
                                     case ObjectList.DroneList:
-                                        foreach (var drone in bl.DisplyDroneList())
+                                        foreach (var drone in bl.DisplayDroneList())
                                         {
                                             Console.WriteLine(drone);
                                         }
                                         break;
 
                                     case ObjectList.ClientList:
-                                        //
+                                        foreach (var client in bl.DisplayClientList())
+                                        {
+                                            Console.WriteLine(client);
+                                        }
                                         break;
 
                                     case ObjectList.PackageList:

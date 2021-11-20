@@ -127,18 +127,10 @@ namespace BL
 
         public void AddDrone(Drone drone, int stationNumToCharge)
         {
-            try // חריגה מהשכבה הלוגית
-            {
-                if (drone.ID < 0) throw new IBL.BO.Exceptions.IDException("Drone ID can not be negative", drone.ID);
-                if (!dal.StationsList().Any(x => x.ID == stationNumToCharge)) throw new IBL.BO.Exceptions.IDException("Station ID not found", stationNumToCharge);
-                if (dal.StationById(stationNumToCharge).ChargeSlots <= 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at the station", stationNumToCharge);
-            }
-            catch (IBL.BO.Exceptions.IDException ex)
-            {
-                if (ex.Message == "Drone ID can not be negative") { throw; }
-                else if (ex.Message == "Station ID not found") { throw; }
-            }
-            catch (IBL.BO.Exceptions.StationException ex) { throw; }
+
+            if (drone.ID < 0) throw new IBL.BO.Exceptions.IDException("Drone ID can not be negative", drone.ID);
+            if (!dal.StationsList().Any(x => x.ID == stationNumToCharge)) throw new IBL.BO.Exceptions.IDException("Station ID not found", stationNumToCharge);
+            if (dal.StationById(stationNumToCharge).ChargeSlots <= 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at the station", stationNumToCharge);
 
 
             IDAL.DO.Drone droneDAL = new IDAL.DO.Drone(); // הוספה לרשימה ב DAL
@@ -249,7 +241,7 @@ namespace BL
 
         }
 
-        public Drone DisplyDrone(int id)
+        public Drone DisplayDrone(int id)
         {
             if (!DroneList.Any(d => d.ID == id))
                 throw new IBL.BO.Exceptions.IDException("Drone ID not found", id);
@@ -302,7 +294,7 @@ namespace BL
         }
 
 
-        public IEnumerable<DroneToList> DisplyDroneList()
+        public IEnumerable<DroneToList> DisplayDroneList()
         {
             List<DroneToList> drones = new List<DroneToList>(DroneList); // העתקה של רשימה ללא רפרנס!!!
             return drones;

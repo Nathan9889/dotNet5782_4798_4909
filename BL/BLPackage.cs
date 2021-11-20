@@ -12,18 +12,8 @@ namespace BL
     {
 
 
-        public void AddPackage(Package package)
+        public int AddPackage(Package package)
         {
-
-            try
-            {
-                if (package.ID < 0) throw new IBL.BO.Exceptions.PackageIdException("Package Id cannot be negative", package.ID);
-            }
-            catch(IBL.BO.Exceptions.PackageIdException ex)
-            {
-                //if (ex.Message == "Package Id cannot be negative") { throw; }
-            }
-
             if (!dal.ClientsList().Any(client => client.ID == package.TargetClient.ID)) throw new Exceptions.IdNotFoundException("Receiver Id not found", package.TargetClient.ID);
             if (!dal.ClientsList().Any(client => client.ID == package.SenderClient.ID)) throw new Exceptions.IdNotFoundException("Sender Id not found", package.TargetClient.ID);
 
@@ -39,15 +29,16 @@ namespace BL
             dalPackage.Delivered = DateTime.MinValue;
             dalPackage.Created = DateTime.Now;
             dalPackage.DroneId = 0;
+            int id;
             try
             {
-                dal.AddPackage(dalPackage);
+                id = dal.AddPackage(dalPackage);
             }
             catch(IDAL.DO.Exceptions.IDException ex )
             {
                 throw new Exceptions.IDException("Package ID already exists", ex, dalPackage.ID);
             }
-
+            return id;
         }
 
        

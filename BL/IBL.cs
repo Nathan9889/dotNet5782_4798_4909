@@ -12,7 +12,7 @@ namespace IBL
         //-----------ADD Functions------------
         public void AddDrone(Drone drone, int stationNumToCharge);
         public void AddStation(Station station);
-        public void AddPackage(Package package);
+        public int AddPackage(Package package);
         public void AddClient(Client client);
 
 
@@ -30,7 +30,7 @@ namespace IBL
 
 
         //-----------Display Item------------//
-        public Drone DisplyDrone(int id);
+        public Drone DisplayDrone(int id);
         public Station DisplayStation(int id);
         public Package DisplayPackage(int packageID);
        public Client DisplayClient(int id);
@@ -38,13 +38,12 @@ namespace IBL
 
 
         //----------Display Lists------------//
-        public IEnumerable<DroneToList> DisplyDroneList();
+        public IEnumerable<DroneToList> DisplayDroneList();
         public IEnumerable<StationToList> DisplayStationList();
         public IEnumerable<StationToList> DisplayStationListWitAvailableChargingSlots();
         public IEnumerable<PackageToList> DisplayPackageList();
         public IEnumerable<PackageToList> DisplayPackageListWithoutDrone();
-
-        //public IEnumerable<ClientToList> DisplayClientList();
+        public IEnumerable<ClientToList> DisplayClientList();
 
 
 

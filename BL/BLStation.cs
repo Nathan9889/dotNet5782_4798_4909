@@ -78,7 +78,7 @@ namespace BL
 
             Station station = new Station();
 
-            station.ID = dalStation.ID;
+            station.ID = dalStation.ID; 
             station.Name = dalStation.Name;
 
             Location location = new Location(); //check
@@ -95,13 +95,13 @@ namespace BL
                 {
                     ChargingDrone chargingDrone = new ChargingDrone();
                     chargingDrone.ID = item.DroneId;
-                    DroneToList droneBat = DroneList.Find(drone => drone.ID == id);
+                    DroneToList droneBat = DroneList.Find(drone => drone.ID == item.DroneId);
                     chargingDrone.Battery = droneBat.Battery;
 
                     station.ChargingDronesList.Add(chargingDrone);
                 }
             }
-            station.AvailableChargeSlots = dalStation.ChargeSlots - station.ChargingDronesList.Count();
+            station.AvailableChargeSlots = dalStation.ChargeSlots;
 
             return station;
         }
