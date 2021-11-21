@@ -26,8 +26,23 @@ namespace IBL
                 result += $"Phone is {Phone.Substring(0, 3) + '-' + Phone.Substring(3)}, \n";
                 result += $"Client Latitude is {ClientLocation.Latitude}, \n";
                 result += $"Client Longitude is {ClientLocation.Longitude}, \n";
-               // result += $"ClientsSource is {ClientsSender}, \n";
-                //result += $"ClientsDestination is {ClientsReceiver}, \n";
+                if(ClientsSender.Count() > 0)
+                {
+                    result += $"ClientsSource is: \n";
+                    foreach (var item in ClientsSender)
+                    {
+                        result += $"{item}\n";
+                    }
+                }
+
+                if (ClientsReceiver.Count() > 0 )
+                {
+                    result += $"ClientsDestination is: \n";
+                    foreach (var item in ClientsReceiver)
+                    {
+                        result += $"{item}\n";
+                    }
+                }
 
                 return result;
             }

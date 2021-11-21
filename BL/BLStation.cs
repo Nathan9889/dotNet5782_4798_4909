@@ -77,6 +77,7 @@ namespace BL
             IDAL.DO.Station dalStation = dal.StationsList().First(x => x.ID == id);
 
             Station station = new Station();
+            station.ChargingDronesList = new List<ChargingDrone>();
 
             station.ID = dalStation.ID; 
             station.Name = dalStation.Name;
