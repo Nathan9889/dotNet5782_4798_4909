@@ -41,7 +41,7 @@ namespace ConsoleUI_BL
                     {
                         case Menu.Add:  //Adding a new Object to the list of different object
                             {
-                                Console.WriteLine("Choose an Adding Option: \n 1 : Station \n 2 : Drone \n 3 : Client: \n 4 : Package ");
+                                Console.WriteLine("Choose an Adding Option: \n 1: Station \n 2: Drone \n 3: Client: \n 4: Package ");
                                 objectMenu = (ObjectMenu)int.Parse(Console.ReadLine());
 
                                 switch (objectMenu)
@@ -211,7 +211,8 @@ namespace ConsoleUI_BL
                                         string stationName = Console.ReadLine();
                                         Console.WriteLine("Enter number of charge stand (optional)");
                                         int numOfCharge;
-                                        int.TryParse(Console.ReadLine(), out numOfCharge);
+                                        bool f = int.TryParse(Console.ReadLine(), out numOfCharge);
+                                        
 
                                         bl.UpdateStation(stationId, stationName, numOfCharge);
                                         Console.WriteLine("Update Station succesfully !");
