@@ -28,11 +28,11 @@ namespace IBL
                 result += $"Package ID is {ID}, \n";
                 result += $"Package SenderClient info :\n {SenderClient}\n";
                 result += $"Package ReceiverClient info :\n {TargetClient} \n";
-                result += $"Package Weight is {Weight}, \n";
-                result += $"Package Priority is {Priority}, \n";
+                result += $"Package Weight is {Weight},\n";
+                result += $"Package Priority is {Priority},\n";
                 if(DroneOfPackage != null) result += $"Drone Of Package info:\n {DroneOfPackage} \n"; // רק אם החבילה שויכה אתחלנו את השדה הזה
-                result += $"Package Created at {Created}, \n";
-                if(Associated != DateTime.MinValue) result += $"Package Associated at  {Associated}, \n";
+                result += $"Package Created at {Created},\n";
+                if(Associated != DateTime.MinValue) result += $"Package Associated at {Associated},\n";
                 if (PickedUp != DateTime.MinValue) result += $"Package PickedUp at {PickedUp}, \n";
                 if (Delivered != DateTime.MinValue) result += $"Package Delivered at {Delivered}, \n";
 
