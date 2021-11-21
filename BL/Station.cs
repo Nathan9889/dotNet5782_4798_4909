@@ -25,10 +25,10 @@ namespace IBL
                 result += $"Station Location:\n {StationLocation},\n";
                 if(ChargingDronesList.Count() > 0)
                 {
-                    result += $"List of charging Drones of the station";
+                    result += $"List of charging Drones of the station: \n";
                     foreach (var chargingDrone in ChargingDronesList)
                     {
-                        result += $"{chargingDrone}\n";
+                        result += $"{chargingDrone} \n";
                     }
                 }
 

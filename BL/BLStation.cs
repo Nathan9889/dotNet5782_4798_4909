@@ -8,27 +8,21 @@ namespace BL
 {
     public partial class BL : IBL.IBL
     {
-
-        
-
+        /// <summary>
+        /// The function Add a station in the list of station in Datasource 
+        /// </summary>
+        /// <param name="station"></param>
         public void AddStation(Station station)
         {
-            try
-            {
-                if (station.ID < 0) throw new IBL.BO.Exceptions.IDException("Station ID can not be negative", station.ID);
-                //if (!dal.StationsList().Any(x => x.ID == station.ID)) throw new IBL.BO.Exceptions.IDException("Station ID not found", station.ID);
-            }
-            catch (IBL.BO.Exceptions.IDException ex)
-            {
-                if (ex.Message == "Station ID can not be negative") { throw; }
-                //else if (ex.Message == "Station ID not found") { throw; }
+            if (station.ID < 0)                                                                         // Id input exceptions
+                throw new IBL.BO.Exceptions.IDException("Station ID can not be negative", station.ID);
+            if (!dal.StationsList().Any(x => x.ID == station.ID))
+                throw new IBL.BO.Exceptions.IDException("Station ID not found", station.ID);
 
-            }
 
-            IDAL.DO.Station dalStation = new IDAL.DO.Station();
+            IDAL.DO.Station dalStation = new IDAL.DO.Station();   //new datasource station then assign
             dalStation.ID = station.ID;
             dalStation.Name = station.Name;
-
             if(!( (station.StationLocation.Latitude >= 31.73) && (station.StationLocation.Latitude <= 31.83) ||
                 (station.StationLocation.Longitude >= 35.16) && (station.StationLocation.Longitude <= 35.26)) )
             {
@@ -38,7 +32,7 @@ namespace BL
             dalStation.Longitude = station.StationLocation.Longitude;
             dalStation.ChargeSlots = station.AvailableChargeSlots;
 
-            try
+            try         //adding the station to staton list in datasource
             {
                 dal.AddStation(dalStation);
             }
@@ -49,6 +43,12 @@ namespace BL
 
         }
 
+        /// <summary>
+        /// function update an existing client and changes it name or free chargeslot number according to user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="numCharge"></param>
         public void UpdateStation(int id, string name , int numCharge)
         {
             IDAL.DO.Station dalStation;
@@ -75,29 +75,30 @@ namespace BL
                 
         }
 
+
+        /// <summary>
+        /// the function find and display station information according to user id input
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Station DisplayStation(int id)
         {
-
             if (!dal.StationsList().Any(x => x.ID == id))
-                throw new IBL.BO.Exceptions.IDException("Station ID not found", id);
+                throw new IBL.BO.Exceptions.IDException("Station ID not found", id);    //else client with id exist in dal
 
             IDAL.DO.Station dalStation = dal.StationsList().First(x => x.ID == id);
 
-            Station station = new Station();
-            station.ChargingDronesList = new List<ChargingDrone>();
+            Station station = new Station();                             //create new object and getting and assign the station info from datasource
+            station.ChargingDronesList = new List<ChargingDrone>();        //new List for attributre of station
 
             station.ID = dalStation.ID; 
             station.Name = dalStation.Name;
-
-            Location location = new Location(); //check
+            Location location = new Location();
             location.Latitude = dalStation.Latitude;
             location.Longitude = dalStation.Longitude;
-
             station.StationLocation = location;
 
-
-
-            foreach (var item in dal.droneChargesList())
+            foreach (var item in dal.droneChargesList())    //finding charging drone in datasource 
             {
                 if(dalStation.ID == item.StationId)
                 {
@@ -109,25 +110,28 @@ namespace BL
                     station.ChargingDronesList.Add(chargingDrone);
                 }
             }
-            station.AvailableChargeSlots = dalStation.ChargeSlots;
 
+            station.AvailableChargeSlots = dalStation.ChargeSlots;
             return station;
         }
 
-
+        /// <summary>
+        /// The function Display list of all station information
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<StationToList> DisplayStationList()
         {
-            List<StationToList> stations = new List<StationToList>();
+            List<StationToList> stations = new List<StationToList>();       //creating new list to return after assign
 
             foreach (var dalStation in dal.StationsList())
             {
-                StationToList stationToList = new StationToList();
+                StationToList stationToList = new StationToList();  //new station object for list
                 stationToList.ID = dalStation.ID;
                 stationToList.Name = dalStation.Name;
                 stationToList.AvailableChargingSlots = dalStation.ChargeSlots;
 
-                List<IDAL.DO.DroneCharge> dronesInCharges = dal.droneChargesList().ToList().FindAll(d => d.StationId == dalStation.ID); // רשימה של כל הרחפנים שנמצאים בטעינה בתחנה הנוכחית
-                stationToList.BusyChargingSlots = dronesInCharges.Count(); // כמות הרחפנים ברשימה הקודמת זה העמדות התפוסות
+                List<IDAL.DO.DroneCharge> dronesInCharges = dal.droneChargesList().ToList().FindAll(d => d.StationId == dalStation.ID); //list of all charging drone in that current station
+                stationToList.BusyChargingSlots = dronesInCharges.Count();                                                              //number of drone charging equal number of taken/busy chargeSlots
 
                 stations.Add(stationToList);
             }
@@ -135,12 +139,15 @@ namespace BL
             return stations;
         }
 
-
+        /// <summary>
+        /// function that return list of station with available chargeSlot
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<StationToList> DisplayStationListWitAvailableChargingSlots()
         {
-            IEnumerable<StationToList> StationWithChargingSlots = DisplayStationList(); // כל התחנות - שימוש בפונקציית ההצגה של כל רשימת התחנות
+            IEnumerable<StationToList> StationWithChargingSlots = DisplayStationList(); // using displaystationlist func to get the list of station
 
-            StationWithChargingSlots = StationWithChargingSlots.Where(s => s.AvailableChargingSlots > 0); //  על הרשימה שחזרה מהפונקציה של כל התחנות נעשה סינון ונבחר רק את התחנות עם עמדות טעינה פנויות
+            StationWithChargingSlots = StationWithChargingSlots.Where(s => s.AvailableChargingSlots > 0); //  finding in that list all stations with Available chargeSlot 
             return StationWithChargingSlots;
         }
 

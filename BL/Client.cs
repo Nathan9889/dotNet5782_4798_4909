@@ -25,13 +25,13 @@ namespace IBL
                 result += $"ID is {ID}, \n";
                 result += $"Phone is {Phone.Substring(0, 3) + '-' + Phone.Substring(3)}, \n";
                 result += $"Client Latitude is {ClientLocation.Latitude}, \n";
-                result += $"Client Longitude is {ClientLocation.Longitude}\n";
+                result += $"Client Longitude is {ClientLocation.Longitude} \n\n";
                 if(ClientsSender.Count() > 0)
                 {
                     result += $"List of Packages info of Client Sender : \n";
                     foreach (var item in ClientsSender)
                     {
-                        result += $"{item}\n";
+                        result += $"{item}";
                     }
                 }
 
@@ -40,7 +40,7 @@ namespace IBL
                     result += $"List of Packages info of Client Target : \n";
                     foreach (var item in ClientsReceiver)
                     {
-                        result += $"{item}\n";
+                        result += $"{item}";
                     }
                 }
 

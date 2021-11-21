@@ -29,7 +29,7 @@ namespace IBL
                 result += $"Drone Battery is {Battery}, \n";
                 result += $"Drone Status is {Status}, \n";
                 if(DronePackageProcess != null) result += $"Package Shipping of drone:\n{DronePackageProcess},\n";
-                result += $"Drone Location is: {DroneLocation}";
+                result += $"Drone Location is:\n {DroneLocation}";
      
                 return result;
             }
