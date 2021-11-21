@@ -23,7 +23,13 @@ namespace IBL
                 result += $"Name is {Name},\n";
                 result += $"Available ChargeSlots is {AvailableChargeSlots}, \n";
                 result += $"Station Location:\n {StationLocation},\n";
-                result += $"Charging Drones List is {ChargingDronesList},\n";
+                if(ChargingDronesList.Count() > 0)
+                {
+                    foreach (var chargingDrone in ChargingDronesList)
+                    {
+                        result += $"{chargingDrone}\n";
+                    }
+                }
 
                 return result;
             }

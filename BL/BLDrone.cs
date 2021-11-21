@@ -300,8 +300,6 @@ namespace BL
             return drones;
         }
 
-
-
         private IDAL.DO.Station NearestStationToDrone(int DroneID) // חישוב התחנה הקרובה לרחפן עם עמדות פנויות והחזרה שלה
         {
             DroneToList drone = DroneList.Find(x => x.ID == DroneID);
