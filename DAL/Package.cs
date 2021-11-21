@@ -26,16 +26,16 @@ namespace IDAL
             public override string ToString()
             {
                 string result = "";
-                result += $"ID is {ID}, \n";
-                result += $"SenderId is {SenderId},\n";
-                result += $"TargetId is {TargetId}, \n";
-                result += $"DroneId is {DroneId}, \n";
-                result += $"Weight is {Weight}, \n";
-                result += $"Priority is {Priority}, \n";
-                result += $"Created at {Created}, \n";
-                result += $"Associated at  {Associated}, \n";
-                result += $"PickedUp at {PickedUp}, \n";
-                result += $"Delivered at {Delivered}, \n";
+                result += $"Package ID is {ID}, \n";
+                result += $"Package SenderId is {SenderId},\n";
+                result += $"Package TargetId is {TargetId}, \n";
+                result += $"Package DroneId is {DroneId}, \n";
+                result += $"Package Weight is {Weight}, \n";
+                result += $"Package Priority is {Priority}, \n";
+                result += $"Package Created at {Created}, \n";
+                result += $"Package Associated at  {Associated}, \n";
+                result += $"Package PickedUp at {PickedUp}, \n";
+                result += $"Package Delivered at {Delivered}, \n";
 
                 return result;
             }

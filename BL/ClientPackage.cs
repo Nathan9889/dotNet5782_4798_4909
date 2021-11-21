@@ -16,8 +16,8 @@ namespace IBL
             public override string ToString()
             {
                 string result = "";
-                result += $"Client Id is {ID},\n";
-                result += $"Client Name is {Name},\n";
+                result += $"Client of the Package Id is {ID},\n";
+                result += $"Client of the Package Name is {Name}.\n";
                 
                 return result;
             }

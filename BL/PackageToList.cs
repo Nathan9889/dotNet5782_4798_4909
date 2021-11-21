@@ -21,20 +21,15 @@ namespace IBL
             public override string ToString()
             {
                 string result = "";
-                result += $"Id is {Id},\n";
-                result += $"Sender Name is {Sender},\n";
-                result += $"Receiver Name is {Receiver},\n";
-                result += $"WeightCategories is {Weight},\n";
-                result += $"Priorities is {Priority},\n";
-                result += $"PackageStatus is {Status},\n";
-
+                result += $"Package Id is {Id},\n";
+                result += $"Package Sender Name is {Sender},\n";
+                result += $"Package Receiver Name is {Receiver},\n";
+                result += $"Package Weight Capacity is {Weight},\n";
+                result += $"Package Priorities is {Priority},\n";
+                result += $"Package Status is {Status},\n";
 
                 return result;
             }
-
-
         }
-
     }
-
 }

@@ -21,13 +21,13 @@ namespace IBL
             public override string ToString()
             {
                 string result = "";
-                result += $"Id is {Id},\n";
-                result += $"Name is {Name},\n";
-                result += $"Phone is {Phone},\n";
+                result += $"Client Id is {Id},\n";
+                result += $"Client Name is {Name},\n";
+                result += $"Client Phone is {Phone},\n";
                 result += $"Number of sent and Delivered Package is {sentAndDeliveredPackage},\n";
                 result += $"Number of sent but Undelivered Package is {sentAndUndeliveredPackage},\n";
                 result += $"Number of received and Delivered Package is {ReceivedAndDeliveredPackage},\n";
-                result += $"Number of received but UnDelivered Package is {ReceivedAndUnDeliveredPackage},\n";
+                result += $"Number of received but UnDelivered Package is {ReceivedAndUnDeliveredPackage}.\n";
                 return result;
             }
         }

@@ -19,12 +19,13 @@ namespace IBL
             public override string ToString()
             {
                 string result = "";
-                result += $"ID is {ID}, \n";
-                result += $"Name is {Name},\n";
-                result += $"Available ChargeSlots is {AvailableChargeSlots}, \n";
+                result += $"Station ID is {ID}, \n";
+                result += $"Station Name is {Name},\n";
+                result += $"Number of Available ChargeSlots of the Station is {AvailableChargeSlots}, \n";
                 result += $"Station Location:\n {StationLocation},\n";
                 if(ChargingDronesList.Count() > 0)
                 {
+                    result += $"List of charging Drones of the station";
                     foreach (var chargingDrone in ChargingDronesList)
                     {
                         result += $"{chargingDrone}\n";

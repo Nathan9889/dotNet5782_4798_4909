@@ -25,16 +25,16 @@ namespace IBL
             public override string ToString()
             {
                 string result = "";
-                result += $"ID is {ID}, \n";
-                result += $"SenderClient:\n {SenderClient}\n";
-                result += $"ReceiverClient:\n {TargetClient} \n";
-                result += $"Weight is {Weight}, \n";
-                result += $"Priority is {Priority}, \n";
-                if(DroneOfPackage != null) result += $"DroneOfPackage:\n {DroneOfPackage} \n"; // רק אם החבילה שויכה אתחלנו את השדה הזה
-                result += $"Created at {Created}, \n";
-                if(Associated != DateTime.MinValue) result += $"Associated at  {Associated}, \n";
-                if (PickedUp != DateTime.MinValue) result += $"PickedUp at {PickedUp}, \n";
-                if (Delivered != DateTime.MinValue) result += $"Delivered at {Delivered}, \n";
+                result += $"Package ID is {ID}, \n";
+                result += $"Package SenderClient info :\n {SenderClient}\n";
+                result += $"Package ReceiverClient info :\n {TargetClient} \n";
+                result += $"Package Weight is {Weight}, \n";
+                result += $"Package Priority is {Priority}, \n";
+                if(DroneOfPackage != null) result += $"Drone Of Package info:\n {DroneOfPackage} \n"; // רק אם החבילה שויכה אתחלנו את השדה הזה
+                result += $"Package Created at {Created}, \n";
+                if(Associated != DateTime.MinValue) result += $"Package Associated at  {Associated}, \n";
+                if (PickedUp != DateTime.MinValue) result += $"Package PickedUp at {PickedUp}, \n";
+                if (Delivered != DateTime.MinValue) result += $"Package Delivered at {Delivered}, \n";
 
                 return result;
             }

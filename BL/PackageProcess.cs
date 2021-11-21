@@ -27,15 +27,15 @@ namespace IBL
             public override string ToString()
             {
                 string result = "";
-                result += $"PackagProcessId is {Id},\n";
-                result += $"ShipmentStatus is {PackageShipmentStatus},\n";
-                result += $"Priority is {Priority},\n";
-                result += $"Weight is {Weight},\n";
-                result += $"Sender:\n {Sender}\n";
-                result += $"Receiver:\n {Receiver}\n";
-                result += $"Collect Location:\n {CollectLocation}\n";
-                result += $"Destination Location:\n {DestinationLocation}\n";
-                result += $"Distance is {Distance},\n";
+                result += $"Shipping Package Shipping Id is {Id},\n";
+                result += $"Shipping Status is {PackageShipmentStatus},\n";
+                result += $"Shipping Package Priority is {Priority},\n";
+                result += $"Shipping Package Weight is {Weight},\n";
+                result += $"Shipping Package Sender info:\n {Sender}\n";
+                result += $"Shipping Package Receiver info:\n {Receiver}\n";
+                result += $"Package Picked Up Location:\n {CollectLocation}\n";
+                result += $"Package Destination Location:\n {DestinationLocation}\n";
+                result += $"Overall Distance is {Distance},\n";
 
                 return result;
             }

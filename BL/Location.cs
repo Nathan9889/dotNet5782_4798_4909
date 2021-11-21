@@ -18,7 +18,7 @@ namespace IBL
             {
                 string result = "";
                 result += $"Latitude is {DalObject.DalObject.ConvertLatitude(Latitude)},\n";
-                result += $"Longitude is {DalObject.DalObject.ConvertLongitude(Longitude)},\n";
+                result += $"Longitude is {DalObject.DalObject.ConvertLongitude(Longitude)}.\n";
                 return result;
             }
         }

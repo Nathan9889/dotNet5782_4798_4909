@@ -20,11 +20,11 @@ namespace IDAL
             public override string ToString()
             {
                 string result = "";
-                result += $"ID is {ID}, \n";
-                result += $"Name is {Name},\n";
-                result += $"ChargeSlots is {ChargeSlots}, \n";
-                result += $"Latitude is {DalObject.DalObject.ConvertLatitude(Latitude)}, \n";
-                result += $"Longitude is {DalObject.DalObject.ConvertLongitude(Longitude)}, \n";
+                result += $"Station ID is {ID}, \n";
+                result += $"Station Name is {Name},\n";
+                result += $"Number of ChargeSlots is {ChargeSlots}, \n";
+                result += $"Station Latitude is {DalObject.DalObject.ConvertLatitude(Latitude)}, \n";
+                result += $"Station Longitude is {DalObject.DalObject.ConvertLongitude(Longitude)}, \n";
 
                 return result;
             }

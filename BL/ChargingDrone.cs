@@ -16,8 +16,8 @@ namespace IBL
             public override string ToString()
             {
                 string result = "";
-                result += $"ChargingDroneId is {ID},\n";
-                result += $"ChargingDroneBattery is {Battery},\n";
+                result += $"Charging Drone Id is {ID},\n";
+                result += $"Charging Drone Battery is {Battery}.\n";
 
                 return result;
             }
