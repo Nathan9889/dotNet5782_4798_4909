@@ -70,7 +70,7 @@ namespace IBL
                 {
                 }
 
-                public StationException(string v, int stationNumToCharge)
+                public StationException(string v, int stationNumToCharge) : base(v)
                 {
                     
                     this.stationNumToCharge = stationNumToCharge;
