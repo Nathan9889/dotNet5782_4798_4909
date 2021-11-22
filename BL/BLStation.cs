@@ -43,36 +43,70 @@ namespace BL
 
         }
 
-        /// <summary>
-        /// function update an existing client and changes it name or free chargeslot number according to user
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="numCharge"></param>
-        public void UpdateStation(int id, string name , int numCharge)
+        ///// <summary>
+        ///// function update an existing client and changes it name or free chargeslot number according to user
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <param name="name"></param>
+        ///// <param name="numCharge"></param>
+        //public void UpdateStation(int id, string name , int numCharge)
+        //{
+        //    IDAL.DO.Station dalStation;
+        //    if(! dal.StationsList().Any(x => x.ID == id))
+        //        throw new IBL.BO.Exceptions.IDException("Station ID not found", id);
+        //    dalStation = dal.StationById(id);
+
+        //    IDAL.DO.Station stationTemp = dalStation;
+
+        //    if(name != "")
+        //        stationTemp.Name = name;
+        //    /// בדיקה על int
+
+        //    int minSlots = 0;
+        //    foreach (var item in dal.droneChargesList())
+        //    {
+        //        if (item.StationId == id) minSlots++;
+        //    }
+        //    if (minSlots < numCharge) throw new IBL.BO.Exceptions.StationException("The number of new slots can not be less than the number of Drones in charging",id);
+        //    stationTemp.ChargeSlots = numCharge;
+
+        //    dal.DeleteStation(dalStation);
+        //    dal.AddStation(stationTemp);
+                
+        //}
+
+        public void UpdateStationName(int id, string name)
         {
             IDAL.DO.Station dalStation;
-            if(! dal.StationsList().Any(x => x.ID == id))
+            if (!dal.StationsList().Any(x => x.ID == id))
                 throw new IBL.BO.Exceptions.IDException("Station ID not found", id);
             dalStation = dal.StationById(id);
 
             IDAL.DO.Station stationTemp = dalStation;
+            stationTemp.Name = name;
 
-            if(name != "")
-                stationTemp.Name = name;
-            /// בדיקה על int
+            dal.DeleteStation(dalStation);
+            dal.AddStation(stationTemp);
+        }
+
+        public void UpdateStationNumCharge(int id, int numCharge)
+        {
+            IDAL.DO.Station dalStation;
+            if (!dal.StationsList().Any(x => x.ID == id))
+                throw new IBL.BO.Exceptions.IDException("Station ID not found", id);
+            dalStation = dal.StationById(id);
+            IDAL.DO.Station stationTemp = dalStation;
 
             int minSlots = 0;
             foreach (var item in dal.droneChargesList())
             {
                 if (item.StationId == id) minSlots++;
             }
-            if (minSlots < numCharge) throw new IBL.BO.Exceptions.StationException("The number of new slots can not be less than the number of Drones in charging",id);
+            if (minSlots < numCharge) throw new IBL.BO.Exceptions.StationException("The number of new slots can not be less than the number of Drones in charging", id);
             stationTemp.ChargeSlots = numCharge;
 
             dal.DeleteStation(dalStation);
             dal.AddStation(stationTemp);
-                
         }
 
 

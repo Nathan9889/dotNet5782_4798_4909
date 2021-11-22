@@ -211,10 +211,11 @@ namespace ConsoleUI_BL
                                         string stationName = Console.ReadLine();
                                         Console.WriteLine("Enter number of charge stand (optional)");
                                         int numOfCharge;
-                                        bool f = int.TryParse(Console.ReadLine(), out numOfCharge);
-                                        
+                                        bool flag = int.TryParse(Console.ReadLine(), out numOfCharge);
 
-                                        bl.UpdateStation(stationId, stationName, numOfCharge);
+                                        if (stationName != "") bl.UpdateStationName(stationId, stationName);
+                                        if (flag) bl.UpdateStationNumCharge(stationId, numOfCharge);
+
                                         Console.WriteLine("Update Station succesfully !");
 
                                         break;

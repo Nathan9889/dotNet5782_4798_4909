@@ -21,11 +21,13 @@ namespace IBL
         public void UpdateDroneName(int id, string name);
         public void ChargeDrone(int id);
         public void FinishCharging(int droneID,Double minutesCharging);
-        public void UpdateStation(int id, string name, int numCharge);
+        //public void UpdateStation(int id, string name, int numCharge);
         public void packageToDrone(int droneID);
         void PickedUpByDrone(int droneID);
         void DeliveredToClient(int droneID);
         public void UpdateClient(int id, string name, string phone);
+        public void UpdateStationNumCharge(int id, int numCharge);
+        public void UpdateStationName(int id, string name);
 
 
 
