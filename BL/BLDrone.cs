@@ -148,6 +148,7 @@ namespace BL
           
 
             DroneToList droneToList = new DroneToList();
+            droneToList.DroneLocation = new Location();
             droneToList.ID = drone.ID;
             droneToList.Model = drone.Model;
             droneToList.MaxWeight = drone.MaxWeight;

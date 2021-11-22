@@ -24,7 +24,7 @@ namespace IBL
                 result += $"Package Weight is {Weight},\n";
                 result += $"Package Priority is {Priority},\n";
                 result += $"Package Status is {Status},\n";
-                result += $"Client Package info:\n{Source_Destination}\n";
+                result += $"Client Package info(the other side):\n{Source_Destination}\n";
                 return result;
             }
         }

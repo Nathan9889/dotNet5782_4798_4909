@@ -21,8 +21,7 @@ namespace BL
                 throw new IBL.BO.Exceptions.IDException("Client ID cannot be negative", client.ID);     
             if (client.ID < 100000000 || client.ID > 1000000000)                
                 throw new Exceptions.IDException("Id not valid", client.ID);
-            if (!dal.ClientsList().Any(x => x.ID == client.ID)) 
-                throw new IBL.BO.Exceptions.IDException("Client ID not found", client.ID);
+            
             
 
             IDAL.DO.Client dalClient = new IDAL.DO.Client();        //creating new datasource client then assigning its attributes then adding it to client list

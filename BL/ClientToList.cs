@@ -23,7 +23,7 @@ namespace IBL
                 string result = "";
                 result += $"Client Id is {Id},\n";
                 result += $"Client Name is {Name},\n";
-                result += $"Client Phone is {Phone},\n";
+                result += $"Client Phone is {Phone.Substring(0, 3) + '-' + Phone.Substring(3)}, \n";
                 result += $"Number of sent and Delivered Package is {sentAndDeliveredPackage},\n";
                 result += $"Number of sent but Undelivered Package is {sentAndUndeliveredPackage},\n";
                 result += $"Number of received and Delivered Package is {ReceivedAndDeliveredPackage},\n";

@@ -86,7 +86,7 @@ namespace ConsoleUI_BL
                                         int.TryParse(Console.ReadLine(), out droneId);
                                         string droneModel = Console.ReadLine();
                                         string chosen;
-                                        Console.WriteLine("Choose Drone Weight: 0 : Light, 1 : Medium, 2 : Heavy :\n");  //getting different type of weight from user
+                                        Console.WriteLine("Choose Drone Weight: 0: Light, 1: Medium, 2: Heavy");  //getting different type of weight from user
                                         chosen = (Console.ReadLine());  //used to get the num from user and chose with it different enum option
                                         WeightCategories droneMaxWeight = (WeightCategories)Convert.ToInt32(chosen);
 

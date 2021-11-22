@@ -102,7 +102,7 @@ namespace BL
             {
                 if (item.StationId == id) minSlots++;
             }
-            if (minSlots < numCharge) throw new IBL.BO.Exceptions.StationException("The number of new slots can not be less than the number of Drones in charging", id);
+            if (numCharge < minSlots) throw new IBL.BO.Exceptions.StationException("The number of new slots can not be less than the number of Drones in charging.", id);
             stationTemp.ChargeSlots = numCharge;
 
             dal.DeleteStation(dalStation);
