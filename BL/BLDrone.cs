@@ -260,7 +260,7 @@ namespace BL
 
             if (drone.Status == DroneStatus.Shipping) //  אם הוא מעביר חבילה מאתחלים את מופע משלוח החבילה
             {
-                IDAL.DO.Package package = dal.PackageList().First(x => x.DroneId == drone.ID);
+                IDAL.DO.Package package = dal.PackageList().First(x => x.DroneId == drone.ID && x.Delivered == DateTime.MinValue);
                 drone.DronePackageProcess.Id = package.ID;
                 drone.DronePackageProcess.Priority = (Priorities)(package.Priority);
                 drone.DronePackageProcess.Weight = (WeightCategories)(package.Weight);

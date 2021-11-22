@@ -59,43 +59,99 @@ namespace BL
                 throw new IBL.BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
 
             DroneToList drone = DroneList.First(x => x.ID == droneID);
-
             if(!(drone.Status == DroneStatus.Available))         //if Drone not available
             {
                 throw new Exceptions.UnableAssociatPackage("Drone is not Available");// new except
             }
-            
-            List<IDAL.DO.Package> dalPackageHighPriority = new List<IDAL.DO.Package>();
 
-            for (int i = 2; i >= 0; i--)                 //creating  new package list that havent been associated with highest priority
+            List<IDAL.DO.Package> dalPackages = new List<IDAL.DO.Package>(dal.PackageList().ToList().FindAll(x => (int)(x.Weight) <= (int) drone.MaxWeight  &&  x.Associated == DateTime.MinValue)); // כל החבילות שיתכן שהרחפן יכול לקחת
+            IDAL.DO.Package package = new IDAL.DO.Package() ;
+            int priority = 2, weight = (int)drone.MaxWeight;
+            bool flag = true;
+
+            while (flag)
             {
-                dalPackageHighPriority = dal.PackageList().ToList().FindAll(x => (int)(x.Priority) == i && x.Associated == DateTime.MinValue);  //first getting priority equal 2 (urgent) ect
-                if (dalPackageHighPriority.Count() > 0) break;
+                List<IDAL.DO.Package> filteredPackages = dalPackages.FindAll(p=> p.Priority == (IDAL.DO.Priorities)priority); // רשימת החבילות בעדיפות הנוכחית
+                if(filteredPackages.Count() == 0)
+                {
+                    if (priority != 0)
+                    {
+                        priority--; // אם אין חבילות בעדיפות הנוכחית נרד עדיפות
+                        weight = (int)drone.MaxWeight; // אם ירדנו עדיפות נאפס את המשקל כי הסינון מתחיל מחדש
+                        continue; // נתחיל מחדש את הלולאה
+                    }
+                    else throw new IBL.BO.Exceptions.UnableAssociatPackage("There is no package for the the Drone"); // אם זה הגיע ל0 לא נשארו חבילות
+                }
+
+                filteredPackages = filteredPackages.FindAll(p => p.Weight == (IDAL.DO.WeightCategories)weight); // מתוך רשימת החבילות בעדיפות נוכחית נסנן את המשקל הגבוה שקיים
+                if(filteredPackages.Count() == 0)
+                {
+                    if(weight != 0)
+                    {
+                        weight--;
+                        continue;
+                    }
+                    else
+                    {
+                        if (priority != 0)priority--; // אם לא מצאנו בעדיפות הנוכחית חבילה שמתאימה למשקל נרד עדיפות
+                        weight = (int)drone.MaxWeight; // ואם ירדנו עדיפות נאפס את המשקל
+                        continue;
+                    }
+                }
+
+                package = NearestPackageToDrone(droneID, filteredPackages);                //send to function that return from the list the nearest package from drone
+                IDAL.DO.Client senderClient = dal.ClientById(package.SenderId);                                 //sender client, his location is the package location
+                IDAL.DO.Client targetClient = dal.ClientById(package.TargetId);                                //target client target location for the drone
+
+                double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, senderClient.Latitude, senderClient.Longitude, 3);        // from drone location to package with no weight
+                minBattery += batteryConsumption(senderClient.Latitude, senderClient.Longitude, targetClient.Latitude, targetClient.Longitude, (int)package.Weight);         // from package sender location to target with package weight
+
+                IDAL.DO.Station station = NearestStationToClient(package.TargetId);                                                              //station with available chargeSlot nearest to client target for charging the drone if needed
+                minBattery += batteryConsumption(targetClient.Latitude, targetClient.Longitude, station.Latitude, station.Longitude, 3);         //from client target to nearest station location with no weight
+
+                if (minBattery > drone.Battery) dalPackages.Remove(package); // אם החבילה לא מתאימה נמחק אותה מרשימת החבילות האופציונליות
+                else flag = false;
             }
-            if (dalPackageHighPriority.Count() == 0)                 //if no element got in the list which means no package matches
-                throw new IBL.BO.Exceptions.UnableAssociatPackage("There are no packages waiting to be shipped");
-
-
-            List<IDAL.DO.Package> PackagesSuitableWeight = dalPackageHighPriority.ToList().FindAll(x => ((int)(x.Weight) <= (int)(drone.MaxWeight)));          // from the list created we now search for packages that matches drone max weight capacity
-            if (PackagesSuitableWeight.Count() == 0)
-                throw new IBL.BO.Exceptions.UnableAssociatPackage("There are no packages suitable for the weight of the Drone");
-
-            IDAL.DO.Package package = NearestPackageToDrone(droneID, PackagesSuitableWeight);                //send to function that return from the list the nearest package from drone
-            IDAL.DO.Client senderClient = dal.ClientById(package.SenderId);                                 //sender client, his location is the package location
-            IDAL.DO.Client targetClient = dal.ClientById(package.TargetId);                                //target client target location for the drone
-
-            double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, senderClient.Latitude, senderClient.Longitude, 3);        // from drone location to package with no weight
-            minBattery += batteryConsumption(senderClient.Latitude, senderClient.Longitude,targetClient.Latitude ,targetClient.Longitude , (int)package.Weight);         // from package sender location to target with package weight
-
-            IDAL.DO.Station station = NearestStationToClient(package.TargetId);                                                              //station with available chargeSlot nearest to client target for charging the drone if needed
-            minBattery += batteryConsumption(targetClient.Latitude, targetClient.Longitude, station.Latitude,station.Longitude,3 );         //from client target to nearest station location with no weight
-
-            if (minBattery > drone.Battery) throw new IBL.BO.Exceptions.UnableAssociatPackage("Not enough battery");                     // all of above in condition that the battery of the drone is enough to travel
 
             //update data if fitting package found
             int index = DroneList.FindIndex(d => d.ID == drone.ID);
             DroneList[index].Status = DroneStatus.Shipping; //Update of drone status, logical 
             dal.packageToDrone(package, droneID); // update of drone, datasource
+
+
+
+
+            //List<IDAL.DO.Package> dalPackageHighPriority = new List<IDAL.DO.Package>();
+
+            //for (int i = 2; i >= 0; i--)                 //creating  new package list that havent been associated with highest priority
+            //{
+            //    dalPackageHighPriority = dal.PackageList().ToList().FindAll(x => (int)(x.Priority) == i && x.Associated == DateTime.MinValue);  //first getting priority equal 2 (urgent) ect
+            //    if (dalPackageHighPriority.Count() > 0) break;
+            //}
+            //if (dalPackageHighPriority.Count() == 0)                 //if no element got in the list which means no package matches
+            //    throw new IBL.BO.Exceptions.UnableAssociatPackage("There are no packages waiting to be shipped");
+
+
+            //List<IDAL.DO.Package> PackagesSuitableWeight = dalPackageHighPriority.ToList().FindAll(x => ((int)(x.Weight) <= (int)(drone.MaxWeight)));          // from the list created we now search for packages that matches drone max weight capacity
+            //if (PackagesSuitableWeight.Count() == 0)
+            //    throw new IBL.BO.Exceptions.UnableAssociatPackage("There are no packages suitable for the weight of the Drone");
+
+            //IDAL.DO.Package package = NearestPackageToDrone(droneID, PackagesSuitableWeight);                //send to function that return from the list the nearest package from drone
+            //IDAL.DO.Client senderClient = dal.ClientById(package.SenderId);                                 //sender client, his location is the package location
+            //IDAL.DO.Client targetClient = dal.ClientById(package.TargetId);                                //target client target location for the drone
+
+            //double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, senderClient.Latitude, senderClient.Longitude, 3);        // from drone location to package with no weight
+            //minBattery += batteryConsumption(senderClient.Latitude, senderClient.Longitude,targetClient.Latitude ,targetClient.Longitude , (int)package.Weight);         // from package sender location to target with package weight
+
+            //IDAL.DO.Station station = NearestStationToClient(package.TargetId);                                                              //station with available chargeSlot nearest to client target for charging the drone if needed
+            //minBattery += batteryConsumption(targetClient.Latitude, targetClient.Longitude, station.Latitude,station.Longitude,3 );         //from client target to nearest station location with no weight
+
+            //if (minBattery > drone.Battery) throw new IBL.BO.Exceptions.UnableAssociatPackage("Not enough battery");                     // all of above in condition that the battery of the drone is enough to travel
+
+            ////update data if fitting package found
+            //int index = DroneList.FindIndex(d => d.ID == drone.ID);
+            //DroneList[index].Status = DroneStatus.Shipping; //Update of drone status, logical 
+            //dal.packageToDrone(package, droneID); // update of drone, datasource
 
         }
 
