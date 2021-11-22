@@ -155,7 +155,10 @@ namespace BL
 
         }
 
-
+        /// <summary>
+        /// the function get a drone to pick up a package
+        /// </summary>
+        /// <param name="droneID"></param>
         public void PickedUpByDrone(int droneID)
         {
             if (! DroneList.Any(d => d.ID == droneID)) throw new IBL.BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
@@ -208,22 +211,26 @@ namespace BL
 
         }
 
-
+        /// <summary>
+        /// the function find and display package information according to user id input
+        /// </summary>
+        /// <param name="packageID"></param>
+        /// <returns></returns>
         public Package DisplayPackage(int packageID)
         {
             IDAL.DO.Package dalPackage;
             try
             {
-                dalPackage = dal.PackageById(packageID); // אם לא נמצאת החבילה בשכבת הנתונים
+                dalPackage = dal.PackageById(packageID);    //if package not found 
             }
             catch (IDAL.DO.Exceptions.IDException ex)
             {
                 throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, ID not found", ex);
             }
 
-
-            // אתחולים מידיים
+            // assigning 
             Package blPackage = new Package();
+
             blPackage.ID = dalPackage.ID; 
             blPackage.Weight = (IBL.BO.WeightCategories)(dalPackage.Weight);
             blPackage.Priority = (IBL.BO.Priorities)(dalPackage.Priority);
@@ -233,27 +240,24 @@ namespace BL
             blPackage.PickedUp = dalPackage.PickedUp;
             blPackage.Delivered = dalPackage.Delivered;
 
-
-            // אתחול בחבילה של שדות השולח והמקבל 
+            //init in package attributes of sender and target
             IDAL.DO.Client sender, target;
             try
             {
-                sender = dal.ClientById(dalPackage.SenderId); // הלקוח ששלח את החבילה
+                sender = dal.ClientById(dalPackage.SenderId); // client that sent the package
             }
             catch (IDAL.DO.Exceptions.IDException ex)
             {
                 throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, senderID not found",ex);
             }
-
             try
             {
-                target = dal.ClientById(dalPackage.TargetId); // הלקוח שמקבל את החבילה
+                target = dal.ClientById(dalPackage.TargetId); //client that gets the package 
             }
             catch (IDAL.DO.Exceptions.IDException ex)
             {
                 throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, targetID not found", ex);
             }
-
             blPackage.SenderClient = new ClientPackage();
             blPackage.TargetClient = new ClientPackage();
 
@@ -262,25 +266,24 @@ namespace BL
             blPackage.TargetClient.ID = target.ID;
             blPackage.TargetClient.Name = target.Name;
 
-
-            if(dalPackage.Associated == DateTime.MinValue) // אם החבילה לא שויכה אפשר להחזיר אותה
+            if(dalPackage.Associated == DateTime.MinValue) //if package is not associated we can return it
             {
                 blPackage.DroneOfPackage = null;
                 return blPackage;
             }
 
-
-            //אתחול הרחפן שלוקח את החבילה - אם החבילה שוייכה
-            DroneOfPackage droneOfPackage = new DroneOfPackage(); // יצירת מופע רחפן של חבילה -  כמו שיש בחבילה
+            //assigning drone that takes the package id associated
+            DroneOfPackage droneOfPackage = new DroneOfPackage(); //object of droneOfPackage then assigning it
             droneOfPackage.CurrentLocation = new Location();
-            if (!DroneList.Any(d => d.ID == dalPackage.DroneId)) throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, The package was associated but no drone ID was found", dalPackage.DroneId);
+            if (!DroneList.Any(d => d.ID == dalPackage.DroneId))
+                throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, The package was associated but no drone ID was found", dalPackage.DroneId);
             DroneToList drone = DroneList.Find(d => d.ID == dalPackage.DroneId);
 
             droneOfPackage.Id = drone.ID;
             droneOfPackage.Battery = drone.Battery;
             droneOfPackage.CurrentLocation = drone.DroneLocation;
 
-            blPackage.DroneOfPackage = droneOfPackage; // השמה של הרחפן לתוך חבילה
+            blPackage.DroneOfPackage = droneOfPackage; //assign drone to the package 
 
             return blPackage;
         }
@@ -311,7 +314,7 @@ namespace BL
                 packages.Add(packageToList);        //adding it to the package list
             }
 
-            return packages;                    //returns the list of packages
+            return packages;                 //returns the list of packages
         }
 
         /// <summary>
