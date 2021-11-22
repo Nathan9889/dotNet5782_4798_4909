@@ -88,7 +88,7 @@ namespace BL
                 {
                     if(weight != 0)
                     {
-                        weight--;
+                        weight--; // אם לא מצאנו במשקל הנוכחי נרד משקל
                         continue;
                     }
                     else
