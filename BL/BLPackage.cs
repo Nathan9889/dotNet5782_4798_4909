@@ -82,7 +82,7 @@ namespace BL
                         weight = (int)drone.MaxWeight; // If we have dropped priority we will reset the weight because the filtering starts again
                         continue; // We'll restart the loop
                     }
-                    else throw new IBL.BO.Exceptions.UnableAssociatPackage("There is no package for the the Drone"); // If the priority has reached 0 and no packages have been found yet then there is no suitable package
+                    else throw new IBL.BO.Exceptions.UnableAssociatPackage("There is no package for the Drone"); // If the priority has reached 0 and no packages have been found yet then there is no suitable package
                 }
 
                 filteredPackages = filteredPackages.FindAll(p => p.Weight == (IDAL.DO.WeightCategories)weight); // From the list of packages with current priority we will filter the high weight that exists (current weight)

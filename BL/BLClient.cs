@@ -259,6 +259,5 @@ namespace BL
             if (!nums.Any(x => x == phone)) throw new IBL.BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
         }
 
-
     }
 }
