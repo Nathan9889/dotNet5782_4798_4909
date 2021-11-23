@@ -24,8 +24,8 @@ namespace IBL
                 result += $"Name is {Name},\n";
                 result += $"ID is {ID}, \n";
                 result += $"Phone is {Phone.Substring(0, 3) + '-' + Phone.Substring(3)}, \n";
-                result += $"Client Latitude is {ClientLocation.Latitude}, \n";
-                result += $"Client Longitude is {ClientLocation.Longitude} \n\n";
+                result += $"Client Latitude is {DalObject.DalObject.ConvertLatitude( ClientLocation.Latitude)}, \n";
+                result += $"Client Longitude is {DalObject.DalObject.ConvertLongitude(ClientLocation.Longitude)} \n\n";
                 if(ClientsSender.Count() > 0)
                 {
                     result += $"List of Packages info of Client Sender : \n";

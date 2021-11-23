@@ -79,8 +79,8 @@ namespace BL
                         targetLocation.Longitude = dal.ClientById(dal.PackageById(droneToList.PackageID).TargetId).Longitude;
 
                         Location senderLocation = new Location(); // Sender location
-                        targetLocation.Latitude = dal.ClientById(dal.PackageById(droneToList.PackageID).SenderId).Latitude;
-                        targetLocation.Longitude = dal.ClientById(dal.PackageById(droneToList.PackageID).SenderId).Longitude;
+                        senderLocation.Latitude = dal.ClientById(dal.PackageById(droneToList.PackageID).SenderId).Latitude;
+                        senderLocation.Longitude = dal.ClientById(dal.PackageById(droneToList.PackageID).SenderId).Longitude;
 
                         double minBattery;
                         minBattery = batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, senderLocation.Latitude, senderLocation.Longitude, 3); // From the position of the drone to the position of the sender at empty weight (if it is not different from the position of the sender then nothing will be added)
@@ -158,6 +158,7 @@ namespace BL
             {
                 throw new Exceptions.IDException("A Drone ID already exists", ex, droneDAL.ID);
             }
+            dal.DroneCharge(droneDAL, stationNumToCharge); // add drone to charge
           
 
             DroneToList droneToList = new DroneToList();

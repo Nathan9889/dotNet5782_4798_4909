@@ -259,7 +259,7 @@ namespace DalObject
 
             PackageList.Add(new Package()
             {
-                ID = Config.PackageId,
+                ID = Config.PackageId++,
                 SenderId = ClientList[rand.Next(0, 10)].ID,
                 TargetId = ClientList[rand.Next(0, 10)].ID,
                 Weight = WeightCategories.Light,
@@ -325,7 +325,7 @@ namespace DalObject
         {
             package.ID = DataSource.Config.PackageId++;
             DataSource.PackageList.Add(package);
-            return DataSource.Config.PackageId;
+            return DataSource.Config.PackageId-1;
         }
 
 

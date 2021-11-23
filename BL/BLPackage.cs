@@ -111,7 +111,8 @@ namespace BL
                 IDAL.DO.Station station = NearestStationToClient(package.TargetId);                                                              //station with available chargeSlot nearest to client target for charging the drone if needed
                 minBattery += batteryConsumption(targetClient.Latitude, targetClient.Longitude, station.Latitude, station.Longitude, 3);         //from client target to nearest station location with no weight
 
-                if (minBattery > drone.Battery) dalPackages.Remove(package); // If the package is not suitable we will delete it from the list of optional packages (dalPackages)
+                minBattery = Math.Ceiling(minBattery);
+                if (minBattery+1 > drone.Battery) dalPackages.Remove(package); // If the package is not suitable we will delete it from the list of optional packages (dalPackages)
                 else flag = false;
             }
 
@@ -175,7 +176,7 @@ namespace BL
             // Update in the logic layer
             double spendBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, sender.Latitude, sender.Longitude, 3); // From the location of the drone to the package, empty weight
             if ((DroneList[index].Battery - spendBattery) < 0) throw new IBL.BO.Exceptions.UnablePickedUpPackage("Not enough battery"); //We have already tested in a function that assigns that this will not happen
-            DroneList[index].Battery -= (int)Math.Round(spendBattery);
+            DroneList[index].Battery -= (int)Math.Ceiling(spendBattery);
             DroneList[index].DroneLocation.Latitude = sender.Latitude;
             DroneList[index].DroneLocation.Longitude = sender.Longitude;
 
@@ -204,7 +205,7 @@ namespace BL
             // Update in the logic layer
             double spendBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, target.Latitude, target.Longitude, (int)package.Weight); // From the position of the drone (position of the sender) to the position of the destination in the weight of the package (to reduce it from the battery)
             if ((DroneList[index].Battery - spendBattery) < 0) throw new IBL.BO.Exceptions.UnablePickedUpPackage("Not enough battery");
-            DroneList[index].Battery -= (int)Math.Round(spendBattery);
+            DroneList[index].Battery -= (int)Math.Ceiling(spendBattery);
             DroneList[index].DroneLocation.Latitude = target.Latitude;
             DroneList[index].DroneLocation.Longitude = target.Longitude;
             DroneList[index].Status = DroneStatus.Available;
