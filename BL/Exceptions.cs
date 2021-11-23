@@ -454,6 +454,35 @@ namespace IBL
                     return Message + $"Phone: {phone}";
                 }
             }
+
+            [Serializable]
+            internal class NegativeException : Exception
+            {
+                private string v;
+                private int availableChargeSlots;
+
+                public NegativeException()
+                {
+                }
+
+                public NegativeException(string message) : base(message)
+                {
+                }
+
+                public NegativeException(string v, int availableChargeSlots)
+                {
+                    this.v = v;
+                    this.availableChargeSlots = availableChargeSlots;
+                }
+
+                public NegativeException(string message, Exception innerException) : base(message, innerException)
+                {
+                }
+
+                protected NegativeException(SerializationInfo info, StreamingContext context) : base(info, context)
+                {
+                }
+            }
         }
     }
 

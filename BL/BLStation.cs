@@ -6,25 +6,31 @@ using System.Threading.Tasks;
 using IBL.BO;
 namespace BL
 {
-    public partial class BL : IBL.IBL
+    public partial class BL : IBL.IBL        //Partial BL class that contains Stations Functions
     {
+
         /// <summary>
-        /// The function Add a station in the list of station in Datasource 
+        /// The function get a object station from user input and adds it to the station list in Datasource 
         /// </summary>
-        /// <param name="station"></param>
+        /// <param name="station"> Station object from ConsoleUi </param>
         public void AddStation(Station station)
         {
             if (station.ID < 0)                                                                         // Id input exceptions
                 throw new IBL.BO.Exceptions.IDException("Station ID can not be negative", station.ID);
-            if (!dal.StationsList().Any(x => x.ID == station.ID))
-                throw new IBL.BO.Exceptions.IDException("Station ID not found", station.ID);
+            if (station.AvailableChargeSlots < 0)
+                throw new IBL.BO.Exceptions.NegativeException("Charges slot cannot be negative", station.AvailableChargeSlots);
+            if (((station.StationLocation.Latitude <= 31.73) && (station.StationLocation.Latitude >= 31.83)) ||
+               ((station.StationLocation.Longitude <= 35.16) && (station.StationLocation.Longitude >= 35.26)))      //location exception 
+            {
+                throw new Exceptions.LocationOutOfRange("Client Location entered is out of shipping range", station.ID);
+            }
 
+            IDAL.DO.Station dalStation = new IDAL.DO.Station();   //new datasource station then assigning
 
-            IDAL.DO.Station dalStation = new IDAL.DO.Station();   //new datasource station then assign
             dalStation.ID = station.ID;
             dalStation.Name = station.Name;
             if(!( (station.StationLocation.Latitude >= 31.73) && (station.StationLocation.Latitude <= 31.83) ||
-                (station.StationLocation.Longitude >= 35.16) && (station.StationLocation.Longitude <= 35.26)) )
+                (station.StationLocation.Longitude >= 35.16) && (station.StationLocation.Longitude <= 35.26)) )    //if station info inputed is out of shipping range
             {
                 throw new Exceptions.LocationOutOfRange("Station Location entered is out of shipping range", station.ID);
             }
@@ -40,81 +46,61 @@ namespace BL
             {
                 throw new Exceptions.IDException("Station with this ID already exists", ex, station.ID);
             }
-
         }
 
-        ///// <summary>
-        ///// function update an existing client and changes it name or free chargeslot number according to user
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <param name="name"></param>
-        ///// <param name="numCharge"></param>
-        //public void UpdateStation(int id, string name , int numCharge)
-        //{
-        //    IDAL.DO.Station dalStation;
-        //    if(! dal.StationsList().Any(x => x.ID == id))
-        //        throw new IBL.BO.Exceptions.IDException("Station ID not found", id);
-        //    dalStation = dal.StationById(id);
-
-        //    IDAL.DO.Station stationTemp = dalStation;
-
-        //    if(name != "")
-        //        stationTemp.Name = name;
-        //    /// בדיקה על int
-
-        //    int minSlots = 0;
-        //    foreach (var item in dal.droneChargesList())
-        //    {
-        //        if (item.StationId == id) minSlots++;
-        //    }
-        //    if (minSlots < numCharge) throw new IBL.BO.Exceptions.StationException("The number of new slots can not be less than the number of Drones in charging",id);
-        //    stationTemp.ChargeSlots = numCharge;
-
-        //    dal.DeleteStation(dalStation);
-        //    dal.AddStation(stationTemp);
-                
-        //}
-
+        /// <summary>
+        /// The function update the name of the station that matches the id user inputed
+        /// </summary>
+        /// <param name="id"> id to find which station user wants to change the name</param>
+        /// <param name="name"> new name to give to the station</param>
         public void UpdateStationName(int id, string name)
         {
             IDAL.DO.Station dalStation;
-            if (!dal.StationsList().Any(x => x.ID == id))
+            if (!dal.StationsList().Any(x => x.ID == id))  // if station doesn't exist
                 throw new IBL.BO.Exceptions.IDException("Station ID not found", id);
             dalStation = dal.StationById(id);
 
             IDAL.DO.Station stationTemp = dalStation;
             stationTemp.Name = name;
 
-            dal.DeleteStation(dalStation);
+            dal.DeleteStation(dalStation);  //switching station with the new name
             dal.AddStation(stationTemp);
         }
 
+        /// <summary>
+        /// The function update the number of charge slot of the station that matches the id user inputed
+        /// </summary>
+        /// <param name="id">id to find which station user wants to change the name </param>
+        /// <param name="numCharge">new number of charge slot to give to the given station </param>
         public void UpdateStationNumCharge(int id, int numCharge)
         {
             IDAL.DO.Station dalStation;
             if (!dal.StationsList().Any(x => x.ID == id))
                 throw new IBL.BO.Exceptions.IDException("Station ID not found", id);
-            dalStation = dal.StationById(id);
+
+            dalStation = dal.StationById(id);  //getting station info to give to new one then exchange between
             IDAL.DO.Station stationTemp = dalStation;
 
             int minSlots = 0;
-            foreach (var item in dal.droneChargesList())
+            foreach (var item in dal.droneChargesList())  //count if num inputed is greater than num of drones charging in that staion
             {
                 if (item.StationId == id) minSlots++;
             }
-            if (numCharge < minSlots) throw new IBL.BO.Exceptions.StationException("The number of new slots can not be less than the number of Drones in charging.", id);
-            stationTemp.ChargeSlots = numCharge;
+            if (numCharge < minSlots)
+                throw new IBL.BO.Exceptions.StationException("The number of new slots can not be less than the number of Drones in charging.", id);
 
-            dal.DeleteStation(dalStation);
+            stationTemp.ChargeSlots = numCharge;  //update
+
+            dal.DeleteStation(dalStation);   //switch
             dal.AddStation(stationTemp);
         }
 
 
         /// <summary>
-        /// the function find and display station information according to user id input
+        /// the function find the station according to id, create new BL station to return it to display the station information 
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id"> id inputed in ConsoleUi to find which station to display </param>
+        /// <returns> returns StationBl object </returns>
         public Station DisplayStation(int id)
         {
             if (!dal.StationsList().Any(x => x.ID == id))
@@ -144,7 +130,6 @@ namespace BL
                     station.ChargingDronesList.Add(chargingDrone);
                 }
             }
-
             station.AvailableChargeSlots = dalStation.ChargeSlots;
             return station;
         }
@@ -152,7 +137,7 @@ namespace BL
         /// <summary>
         /// The function Display list of all station information
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Returns List of stations </returns>
         public IEnumerable<StationToList> DisplayStationList()
         {
             List<StationToList> stations = new List<StationToList>();       //creating new list to return after assign
@@ -176,7 +161,7 @@ namespace BL
         /// <summary>
         /// function that return list of station with available chargeSlot
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Returns List of stations </returns>
         public IEnumerable<StationToList> DisplayStationListWitAvailableChargingSlots()
         {
             IEnumerable<StationToList> StationWithChargingSlots = DisplayStationList(); // using displaystationlist func to get the list of station
@@ -184,7 +169,6 @@ namespace BL
             StationWithChargingSlots = StationWithChargingSlots.Where(s => s.AvailableChargingSlots > 0); //  finding in that list all stations with Available chargeSlot 
             return StationWithChargingSlots;
         }
-
 
     }
 }

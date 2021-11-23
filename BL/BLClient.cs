@@ -7,13 +7,13 @@ using IBL.BO;
 
 namespace BL
 {
-    public partial class BL : IBL.IBL       // Partial Client BL Class
+    public partial class BL : IBL.IBL           // Partial Client BL Class that contains Clients Functions
     {
 
         /// <summary>
-        /// The function Add a client in the list of client in Datasource 
+        /// The function get a object client from user input and adds it to the clients list in Datasource 
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="client"> Client object from ConsoleUi </param>
         public void AddClient(Client client)
         {
 
@@ -21,8 +21,6 @@ namespace BL
                 throw new IBL.BO.Exceptions.IDException("Client ID cannot be negative", client.ID);     
             if (client.ID < 100000000 || client.ID > 1000000000)                
                 throw new Exceptions.IDException("Id not valid", client.ID);
-            
-            
 
             IDAL.DO.Client dalClient = new IDAL.DO.Client();        //creating new datasource client then assigning its attributes then adding it to client list
 
@@ -50,11 +48,11 @@ namespace BL
         }
 
         /// <summary>
-        /// function update an existing client and changes it name or phone number according to user
+        /// The function update an existing client and changes it name or phone number according to user
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="phone"></param>
+        /// <param name="id"> id to find the client to update info </param>
+        /// <param name="name"> new name to give to that </param>
+        /// <param name="phone"> new phone to give to that client </param>
         public void UpdateClient(int id, string name, string phone)
         {
             IDAL.DO.Client dalClient;
@@ -68,7 +66,7 @@ namespace BL
 
             IDAL.DO.Client clientTemp = dalClient;
 
-            if (name != "")         //changing name or phone or both
+            if (name != "")         //changing name or phone or both, if no input (only enter), no changes
                 clientTemp.Name = name;
             if (phone != "")
                 clientTemp.Phone = phone;
@@ -78,14 +76,14 @@ namespace BL
         }
 
         /// <summary>
-        /// the function find and display client information according to user id input
+        /// the function find the client according to id input, assign its attributes to clientBl object then returns it and so display its client information
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id"> client id from console </param>
+        /// <returns> Client object type </returns>
         public Client DisplayClient(int id)
         {
             if (!dal.ClientsList().Any(x => x.ID == id))
-                throw new IBL.BO.Exceptions.IDException("Client ID not found", id);   //else client with id exist in dal
+                throw new IBL.BO.Exceptions.IDException("Client ID not found", id);      //else client with id exist in dal
 
             IDAL.DO.Client dalClient = dal.ClientsList().First(x => x.ID == id);
 
@@ -177,21 +175,21 @@ namespace BL
             client.ClientsSender = senderPackage;    //assign two lists to client attribute then return the client
             client.ClientsReceiver = receiverPackage;
 
-            return client;
+            return client;  //return the client object to display it using Tostring
         }
 
 
         /// <summary>
-        /// The function Display every Client attributes within a list of package info
+        /// The function Display every Client attributes with a list of package info
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Client List </returns>
         public IEnumerable<ClientToList> DisplayClientList()   
         {
             List<ClientToList> clients = new List<ClientToList>();   //creating new list to return after assign
 
             foreach (var dalClient in dal.ClientsList())
             {
-                ClientToList clientToList = new ClientToList();
+                ClientToList clientToList = new ClientToList();  //new list , getting its values then returns all of it to display
 
                 clientToList.Id = dalClient.ID;
                 clientToList.Name = dalClient.Name;
@@ -221,8 +219,8 @@ namespace BL
         /// <summary>
         /// The fonction finds the nearest station from the client that has Available charge slots To charge a shipping drone
         /// </summary>
-        /// <param name="ClientID"></param>
-        /// <returns></returns>
+        /// <param name="ClientID">  Client id to to find the right location </param>
+        /// <returns> station with closest location </returns>
         private IDAL.DO.Station NearestStationToClient(int ClientID)
         {
             IDAL.DO.Station tempStation = new IDAL.DO.Station();
@@ -247,10 +245,13 @@ namespace BL
         /// <summary>
         /// private function that check if phone number entered is correct according to israel standard
         /// </summary>
-        /// <param name="phone"></param>
+        /// <param name="phone"> phone inputed by user </param>
         private void correctPhone(string phone) 
         {
             string[] nums = { "052", "053", "054", "055", "056", "057", "058" };
+
+            if (phone == "")
+                return;
 
             if (phone.Length != 10) throw new IBL.BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
 
