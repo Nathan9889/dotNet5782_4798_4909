@@ -259,7 +259,7 @@ namespace DalObject
 
             PackageList.Add(new Package()
             {
-                ID = Config.PackageId++,
+                ID = Config.PackageId,
                 SenderId = ClientList[rand.Next(0, 10)].ID,
                 TargetId = ClientList[rand.Next(0, 10)].ID,
                 Weight = WeightCategories.Light,
