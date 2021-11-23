@@ -18,12 +18,13 @@ namespace BL
         public double PowerMediumDrone;
         public double PowerHeavyDrone;
         public double ChargeRate;
-        //private int droneID;
+        
 
         public BL()
         {
             dal = new DalObject.DalObject();
 
+            //Battery consumption fields by weight, and charge rate
             PowerVacantDrone = (dal.PowerConsumptionByDrone())[0];
             PowerLightDrone = (dal.PowerConsumptionByDrone())[1];
             PowerMediumDrone = (dal.PowerConsumptionByDrone())[2];
@@ -35,10 +36,13 @@ namespace BL
         }
 
 
+        /// <summary>
+        /// A function that initializes the list of drones in BL by calling the list from DAL
+        /// </summary>
         private void initializeDrone()
         {
 
-            foreach (var drone in dal.DroneList())
+            foreach (var drone in dal.DroneList()) //Check on each drone in DAL what data it will receive
             {
                 DroneToList droneToList = new DroneToList();
                 droneToList.DroneLocation = new Location();
@@ -47,76 +51,80 @@ namespace BL
                 droneToList.MaxWeight = (WeightCategories)drone.MaxWeight;
 
                 bool flag = false;
-                foreach (var package in dal.PackageList())
+                foreach (var package in dal.PackageList()) // Each drone must check if there is a package to which it is associated
                 {
 
-                    if ((package.DroneId == drone.ID) && (package.Delivered == DateTime.MinValue)) // אם שוייך אך לא נמסר
+                    if ((package.DroneId == drone.ID) && (package.Delivered == DateTime.MinValue)) // If the drone is associated with a package and the package has not yet been delivered
                     {
                         flag = true;
                         droneToList.Status = DroneStatus.Shipping;
                         droneToList.PackageID = package.ID;
 
-                        if (package.PickedUp == DateTime.MinValue) // מיקום הרחפן אם עדיין לא נאסף
+                        // There are 2 options: either the package has not been collected yet or it has already been collected
+                        if (package.PickedUp == DateTime.MinValue) // Location of the drone if the package has not yet been collected
                         {
-                            IDAL.DO.Station location = NearestStationToClient(package.SenderId);
+                            IDAL.DO.Station location = NearestStationToClient(package.SenderId); // The location of the drone will be at the station closest to the sender
                             droneToList.DroneLocation.Latitude = location.Latitude;
                             droneToList.DroneLocation.Longitude = location.Longitude;
                         }
-                        else // מיקום הרחפן אם נאסף 
+                        else // If the package is collected, the location of the drone will be at the location of the sender
                         {
                             droneToList.DroneLocation.Latitude = dal.ClientById(package.SenderId).Latitude;
                             droneToList.DroneLocation.Longitude = dal.ClientById(package.SenderId).Longitude;
                         }
 
-                        // מצב סוללת הרחפן אם שוייך אך לא נמסר
-                        Location targetLocation = new Location();
+                        // If the drone is associated but not yet delivered then the battery will at least be able to reach the package to deliver it and reach the station
+                        Location targetLocation = new Location(); // Target location
                         targetLocation.Latitude = dal.ClientById(dal.PackageById(droneToList.PackageID).TargetId).Latitude;
                         targetLocation.Longitude = dal.ClientById(dal.PackageById(droneToList.PackageID).TargetId).Longitude;
 
-                        double minBattery;
-                        minBattery = batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, targetLocation.Latitude, targetLocation.Longitude, (int)package.Weight);
-                        //minBattery = BatteryByKM((int)package.Weight, KM);
+                        Location senderLocation = new Location(); // Sender location
+                        targetLocation.Latitude = dal.ClientById(dal.PackageById(droneToList.PackageID).SenderId).Latitude;
+                        targetLocation.Longitude = dal.ClientById(dal.PackageById(droneToList.PackageID).SenderId).Longitude;
 
-                        IDAL.DO.Station stationLocation = NearestStationToClient(package.TargetId);
-                        minBattery += batteryConsumption(targetLocation.Latitude, targetLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude,3);
-                        //minBattery += BatteryByKM(3, KM);
+                        double minBattery;
+                        minBattery = batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, senderLocation.Latitude, senderLocation.Longitude, 3); // From the position of the drone to the position of the sender at empty weight (if it is not different from the position of the sender then nothing will be added)
+                        minBattery += batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, targetLocation.Latitude, targetLocation.Longitude, (int)package.Weight); // From the location of the sender to the destination location in the weight of the package
+
+                        IDAL.DO.Station stationLocation = NearestStationToClient(package.TargetId); //The station closest to the target
+                        minBattery += batteryConsumption(targetLocation.Latitude, targetLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude,3); //From the destination location to the location of the nearest station at empty weight
 
                         if (minBattery > 100) throw new Exception();
-                        droneToList.Battery = rand.Next((int)minBattery+1, 101); // בין הצריכה המינמלית ל100
+                        droneToList.Battery = rand.Next((int)minBattery+1, 101); // Between the minimum battery consumption and 100
 
                         break;
                     }
                 }
 
-                if (!flag)
+                if (!flag) // If the drone is not associated with a package that has not yet been delivered
                 {
-                    droneToList.Status = (DroneStatus)(rand.Next(0, 2));
-                    if (droneToList.Status == DroneStatus.Maintenance)
+                    droneToList.Status = (DroneStatus)(rand.Next(0, 2)); // Status between available and maintained
+                    if (droneToList.Status == DroneStatus.Maintenance) // If it is in maintenance
                     {
-                        IDAL.DO.Station station = dal.StationWithCharging().ElementAt(rand.Next(0, dal.StationsList().Count()));
+                        IDAL.DO.Station station = dal.StationWithCharging().ElementAt(rand.Next(0, dal.StationsList().Count())); // Lottery location between stations with charging stations available
                         droneToList.DroneLocation.Latitude = station.Latitude;
                         droneToList.DroneLocation.Longitude = station.Longitude;
                         droneToList.Battery = rand.Next(0, 21);
 
-                        dal.DroneCharge(drone, station.ID); // הוספה לטעינה
+                        dal.DroneCharge(drone, station.ID); // Adding a drone for charging
                     }
-                    else
+                    else // If the status is available
                     {
                         int index = rand.Next(0, 10);
-                        while (dal.PackageList().ElementAt(index).Delivered == DateTime.MinValue)
+                        while (dal.PackageList().ElementAt(index).Delivered == DateTime.MinValue) //The location will be in the customer who has a package delivered to him. (There is one that we created at boot)
                         {
                             index = rand.Next(0, 10);
                         }
-                        int clientID = dal.PackageList().ElementAt(index).TargetId;
+                        int clientID = dal.PackageList().ElementAt(index).TargetId; //The customer selected - having a package delivered to him                                                                
 
                         droneToList.DroneLocation.Latitude = dal.ClientById(clientID).Latitude;
                         droneToList.DroneLocation.Longitude = dal.ClientById(clientID).Longitude;
 
                         double minBattery;
                         IDAL.DO.Station stationLocation = NearestStationToClient(dal.ClientById(clientID).ID);
-                        minBattery = batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude,3);
+                        minBattery = batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude,3); //
                         //minBattery = BatteryByKM(3, KM);
-                        droneToList.Battery = rand.Next((int)minBattery+1, 101);
+                        droneToList.Battery = rand.Next((int)minBattery+1, 101); //
 
                     }
                 }
@@ -125,6 +133,11 @@ namespace BL
         }
 
 
+        /// <summary>
+        /// The function receives a drone and station number for charging and adds the drone to the list and location of the station
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <param name="stationNumToCharge"></param>
         public void AddDrone(Drone drone, int stationNumToCharge)
         {
 
@@ -133,13 +146,13 @@ namespace BL
             if (dal.StationById(stationNumToCharge).ChargeSlots <= 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at the station", stationNumToCharge);
 
 
-            IDAL.DO.Drone droneDAL = new IDAL.DO.Drone(); // הוספה לרשימה ב DAL
+            IDAL.DO.Drone droneDAL = new IDAL.DO.Drone(); // For addition to the list in DAL
             droneDAL.ID = drone.ID;
             droneDAL.Model = drone.Model;
             droneDAL.MaxWeight = (IDAL.DO.WeightCategories)(int)(drone.MaxWeight);
-            try // חריגה משכבת הנתונם
+            try // Exceeding the data layer
             {
-                dal.AddDrone(droneDAL);
+                dal.AddDrone(droneDAL); // addition to the list in DAL
             }
             catch (IDAL.DO.Exceptions.IDException ex)
             {
@@ -157,23 +170,23 @@ namespace BL
             droneToList.DroneLocation.Latitude = dal.StationById(stationNumToCharge).Latitude;
             droneToList.DroneLocation.Longitude = dal.StationById(stationNumToCharge).Longitude;
             droneToList.PackageID = 0;
-            DroneList.Add(droneToList);
-         }
+            DroneList.Add(droneToList); // Add to list in BL
+        }
 
 
 
-        public void UpdateDroneName(int id, string name)
+        /// <summary>
+        /// A function that gets a new name for the station and updates the station name if the input is not empty
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        public void UpdateDroneName(int id, string name) 
         {
             IDAL.DO.Drone droneDAL;
-            try
-            {
-                if (!DroneList.Any(x => x.ID == id)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", id); // // חריגה משהכבה הלוגית
-                droneDAL = dal.DroneById(id); // חריגה משכבת הנתונים
-            }
-            catch (IBL.BO.Exceptions.IDException ex) { throw; }
-            catch (IDAL.DO.Exceptions.IDException ex) { throw; }
+            if (!DroneList.Any(x => x.ID == id)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", id);
+            droneDAL = dal.DroneById(id);
 
-            foreach (var droneBL in DroneList) // עדכון ברשימה ב BL
+            foreach (var droneBL in DroneList) // Update the name on the list in BL
             {
                 if (droneBL.ID == id)
                 {
@@ -181,9 +194,9 @@ namespace BL
                     break;
                 }
             }
-            IDAL.DO.Drone droneDalTemp = droneDAL; // עדכון ברשימה בשכבת התונים
+            IDAL.DO.Drone droneDalTemp = droneDAL; // Update the name in the list in DAL
             droneDalTemp.Model = name;
-            try // לא אמור להיות חריגה כי כבר בדקנו בתחילת הפונקציה שזה קיים
+            try 
             {
                 dal.DeleteDrone(droneDAL);
                 dal.AddDrone(droneDalTemp);
@@ -193,34 +206,43 @@ namespace BL
 
 
 
-
+        /// <summary>
+        /// The function receives a skimmer number and sends it for charging
+        /// </summary>
+        /// <param name="id"></param>
         public void ChargeDrone(int id)
         {
             DroneToList drone = DroneList.Find(drone => drone.ID == id);
             if (drone == null) { throw new IBL.BO.Exceptions.IDException("Drone ID not found", id); }
 
-            if (drone.Status == DroneStatus.Available)
+            if (drone.Status == DroneStatus.Available) //Will ship for loading only if available
             {
                 IDAL.DO.Station station = NearestStationToDrone(drone.ID);
-                double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, station.Latitude, station.Longitude, 4); // כמות הסוללה הנדרשת כדי שהרחפן יוכל לטוס ממיקומו ועד התחנה
+                double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, station.Latitude, station.Longitude, 3); // The amount of battery required for the drone to fly from its location to the station
 
                 if (drone.Battery < minBattery) throw new IBL.BO.Exceptions.SendingDroneToCharging("The drone can not reach the station, Not enough battery",drone.ID);
 
-                // ניתן לשלוח לטעינה
+                // Can be sent for loading
                 DroneToList tempDrone = drone;
 
-                tempDrone.Battery -= (int) Math.Round(minBattery); // הרחפן כביכול נסע לתחנה ולכן צריך להוריד ממנו את הסוללה של הנסיעה מהמיקום שלו לתחנה
+                tempDrone.Battery -= (int) Math.Round(minBattery); // The drone flew to the station so it was necessary to reduce the battery from where it was to the station
                 tempDrone.DroneLocation.Latitude = station.Latitude;
                 tempDrone.DroneLocation.Longitude = station.Longitude;
                 tempDrone.Status = DroneStatus.Maintenance;
 
-                dal.DroneCharge(dal.DroneById(drone.ID), station.ID); // יצירת מופע של רחפן בטעינה והקטנת מספר עמדות הטעינה
+                dal.DroneCharge(dal.DroneById(drone.ID), station.ID); // Creating a DroneCharge and reducing the free slots in the station
 
             }
             else { throw new IBL.BO.Exceptions.SendingDroneToCharging("Drone status is not Available", drone.ID); }
 
         }
 
+
+        /// <summary>
+        /// The function gets the drone number and the time it was charging and takes the drone out of charge
+        /// </summary>
+        /// <param name="droneID"></param>
+        /// <param name="minutesCharging"></param>
         public void FinishCharging(int droneID, double minutesCharging)   
         {
             
@@ -231,17 +253,23 @@ namespace BL
 
             //int minutesCharging =(int) ((DateTime.Now - dal.droneChargesList().First(x => x.DroneId == droneID).ChargingStartTime).TotalMinutes); // המרה מspentime
 
-            int battary =(int)((minutesCharging / 60.0) * 100);
+            int battary =(int)((minutesCharging / 60.0) * 100); // Calculate the new battery
             if (battary > 100) battary = 100;
             DroneList[indexDroneToList].Battery = battary;
             DroneList[indexDroneToList].Status = DroneStatus.Available;
 
             IDAL.DO.DroneCharge droneCharge = dal.droneChargesList().First(d => d.DroneId == droneID);
 
-            dal.FinishCharging(droneCharge); // שליחה לפונקציה שתקטין עמדות טעינה ותמחוק מופע של רחפן בטעינה
+            dal.FinishCharging(droneCharge); // Send to a function that will increase load slots and delete the droneCharge
 
         }
 
+
+        /// <summary>
+        /// The function receives a drone number and returns its display
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Drone DisplayDrone(int id)
         {
             if (!DroneList.Any(d => d.ID == id))
@@ -258,7 +286,7 @@ namespace BL
             drone.Model = droneToList.Model;
             drone.Status = droneToList.Status;
 
-            if (drone.Status == DroneStatus.Shipping) //  אם הוא מעביר חבילה מאתחלים את מופע משלוח החבילה
+            if (drone.Status == DroneStatus.Shipping) // Only if the drone delivers a package will the DronePackageProcess be initialized
             {
                 IDAL.DO.Package package = dal.PackageList().First(x => x.DroneId == drone.ID && x.Delivered == DateTime.MinValue);
                 drone.DronePackageProcess.Id = package.ID;
@@ -272,14 +300,16 @@ namespace BL
                 Location collectLocation = new Location();
                 Location destinationLocation = new Location();
 
-                sender.ID = package.SenderId; // איתחולי לקוח בחבילה
+                // Initials of customers in the package
+                sender.ID = package.SenderId; 
                 sender.Name = dal.ClientById(sender.ID).Name;
-                receiver.ID = package.TargetId;
+                receiver.ID = package.TargetId; 
                 receiver.Name = dal.ClientById(receiver.ID).Name;
                 drone.DronePackageProcess.Sender = sender;
                 drone.DronePackageProcess.Receiver = receiver;
 
-                collectLocation.Latitude = dal.ClientById(sender.ID).Latitude; // איתחולי מיקומים של המקור ויעד
+                //Initials of customers' locations in the package
+                collectLocation.Latitude = dal.ClientById(sender.ID).Latitude; 
                 collectLocation.Longitude = dal.ClientById(sender.ID).Longitude;
                 destinationLocation.Latitude = dal.ClientById(receiver.ID).Latitude;
                 destinationLocation.Longitude = dal.ClientById(receiver.ID).Longitude;
@@ -287,7 +317,7 @@ namespace BL
                 drone.DronePackageProcess.DestinationLocation = destinationLocation;
 
                 drone.DronePackageProcess.Distance = DalObject.DalObject.distance(drone.DronePackageProcess.CollectLocation.Latitude, drone.DronePackageProcess.CollectLocation.Longitude,
-                drone.DronePackageProcess.DestinationLocation.Latitude, drone.DronePackageProcess.DestinationLocation.Longitude);
+                drone.DronePackageProcess.DestinationLocation.Latitude, drone.DronePackageProcess.DestinationLocation.Longitude); //The distance between the sender and the destination
             }
             else drone.DronePackageProcess = null;
 
@@ -295,35 +325,58 @@ namespace BL
         }
 
 
+        /// <summary>
+        /// A function that returns the list of drones
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<DroneToList> DisplayDroneList()
         {
-            List<DroneToList> drones = new List<DroneToList>(DroneList); // העתקה של רשימה ללא רפרנס!!!
+            List<DroneToList> drones = new List<DroneToList>(DroneList); // Copy of list without reference !!
             return drones;
         }
 
-        private IDAL.DO.Station NearestStationToDrone(int DroneID) // חישוב התחנה הקרובה לרחפן עם עמדות פנויות והחזרה שלה
+
+
+
+
+        /// <summary>
+        /// Calculating the station closest to the drone and returning it
+        /// </summary>
+        /// <param name="DroneID"></param>
+        /// <returns></returns>
+        private IDAL.DO.Station NearestStationToDrone(int DroneID) 
         {
             DroneToList drone = DroneList.Find(x => x.ID == DroneID);
-            IDAL.DO.Station tempLocation = new IDAL.DO.Station();
+            IDAL.DO.Station neareStatuon = new IDAL.DO.Station();
             double distance = int.MaxValue;
 
-            if (dal.StationWithCharging().Count() == 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station",DroneID); // אם אין עמדות טעינה פנויות באף תחנה
+            if (dal.StationWithCharging().Count() == 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station",DroneID); // If no charging slots are available at any station
             foreach (var station in dal.StationWithCharging())
             {
 
                 double tempDistance = DalObject.DalObject.distance(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, station.Latitude, station.Longitude);
-                if (tempDistance < distance)
+                if (tempDistance < distance) //If it's closer
                 {
                     distance = tempDistance;
-                    tempLocation = station;
+                    neareStatuon = station;
                 }
 
             }
-            return tempLocation;
+            return neareStatuon;
         }
 
 
-        private double batteryConsumption(double lat1, double long1, double lat2, double long2, int weight) // חישוב צריכת סוללה בין 2 נקודות ולפי משקל החבילה
+        /// <summary>
+        /// A function that receives 2 points and calculates the battery consumption
+        /// for the drone to fly between the points and according to the weight of the package And returns it
+        /// </summary>
+        /// <param name="lat1"></param>
+        /// <param name="long1"></param>
+        /// <param name="lat2"></param>
+        /// <param name="long2"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
+        private double batteryConsumption(double lat1, double long1, double lat2, double long2, int weight) 
         {
             double KM = DalObject.DalObject.distance(lat1, long1, lat2, long2);
             double battery = BatteryByKM(weight, KM);
@@ -331,7 +384,15 @@ namespace BL
             return battery;
         }
 
-        private double BatteryByKM(int weight, double KM) // חישוב צריכת חשמל לקילומטר
+
+        /// <summary>
+        /// A function that receives a package weight and several kilometers 
+        /// and calculates the battery consumption by package weight in the same number of kilometers And returns it
+        /// </summary>
+        /// <param name="weight"></param>
+        /// <param name="KM"></param>
+        /// <returns></returns>
+        private double BatteryByKM(int weight, double KM) 
         {
 
             double power;
