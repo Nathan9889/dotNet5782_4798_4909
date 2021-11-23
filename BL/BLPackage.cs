@@ -25,7 +25,7 @@ namespace BL
 
             IDAL.DO.Package dalPackage = new IDAL.DO.Package();   //new then assign data then adding to datasource list
 
-            dalPackage.ID = package.ID;
+            //dalPackage.ID = package.ID;
             dalPackage.SenderId = package.SenderClient.ID;
             dalPackage.TargetId = package.TargetClient.ID;
             dalPackage.Priority = (IDAL.DO.Priorities)package.Priority;
