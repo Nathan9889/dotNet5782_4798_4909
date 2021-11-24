@@ -269,6 +269,7 @@ namespace ConsoleUI_BL
                                         Console.WriteLine("Enter Drone Id to to deliver a package");
                                         int droneIdToDeliver;
                                         int.TryParse(Console.ReadLine(), out droneIdToDeliver);
+                                        Console.WriteLine("Package have been delivered ! ");
 
                                         bl.DeliveredToClient(droneIdToDeliver);
                                         Console.WriteLine("The Drone Delivered package successfully ! ");
