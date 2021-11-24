@@ -47,20 +47,20 @@ namespace ConsoleUI_BL
                                 {
                                     case ObjectMenu.Station:
 
-                                        Console.WriteLine("Enter Station Data: Station ID, Station Name, Station location, Num of Available Stand  \n");  // Getting Station data from user and adding it to station list 
+                                        Console.WriteLine("Enter Station Data: Station ID, Station Name, Num of Available Stand , Station location\n");  // Getting Station data from user and adding it to station list 
 
                                         int stationId;
                                         int.TryParse(Console.ReadLine(), out stationId);
                                         string stationName = Console.ReadLine();
-                                        Console.WriteLine("Enter Latitude and Longitude of the station");
+                                        int stationChargeSlot;
+                                        int.TryParse(Console.ReadLine(), out stationChargeSlot);
+                                        Console.WriteLine("Enter Latitude and Longitude of the station (Only location in Jerusalem)");
                                         Location location = new Location();
                                         double myLatitude, myLongitude;
                                         double.TryParse(Console.ReadLine(), out myLatitude);
                                         double.TryParse(Console.ReadLine(), out myLongitude);
                                         location.Latitude = myLatitude;
                                         location.Longitude = myLongitude;
-                                        int stationChargeSlot;
-                                        int.TryParse(Console.ReadLine(), out stationChargeSlot);
 
                                         Station station = new Station();
 

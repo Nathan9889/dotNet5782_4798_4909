@@ -19,10 +19,10 @@ namespace BL
                 throw new IBL.BO.Exceptions.IDException("Station ID can not be negative", station.ID);
             if (station.AvailableChargeSlots < 0)
                 throw new IBL.BO.Exceptions.NegativeException("Charges slot cannot be negative", station.AvailableChargeSlots);
-            if (((station.StationLocation.Latitude <= 31.73) && (station.StationLocation.Latitude >= 31.83)) ||
-               ((station.StationLocation.Longitude <= 35.16) && (station.StationLocation.Longitude >= 35.26)))      //location exception 
+            if (((station.StationLocation.Latitude < 31.73) || (station.StationLocation.Latitude > 31.83)) ||
+               ((station.StationLocation.Longitude <= 35.16) || (station.StationLocation.Longitude >= 35.26)))      //location exception 
             {
-                throw new Exceptions.LocationOutOfRange("Client Location entered is out of shipping range", station.ID);
+                throw new Exceptions.LocationOutOfRange("Station Location entered is out of shipping range", station.ID);
             }
 
             IDAL.DO.Station dalStation = new IDAL.DO.Station();   //new datasource station then assigning

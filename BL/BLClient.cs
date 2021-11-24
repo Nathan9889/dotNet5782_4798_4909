@@ -29,8 +29,8 @@ namespace BL
             dalClient.ID = client.ID;
             dalClient.Name = client.Name;
             dalClient.Phone = client.Phone;
-            if (((client.ClientLocation.Latitude <= 31.73) && (client.ClientLocation.Latitude >= 31.83)) ||
-                ((client.ClientLocation.Longitude <= 35.16) && (client.ClientLocation.Longitude >= 35.26)))      //location exception 
+            if (((client.ClientLocation.Latitude < 31.73) || (client.ClientLocation.Latitude > 31.83)) ||
+                ((client.ClientLocation.Longitude < 35.16) || (client.ClientLocation.Longitude > 35.26)))      //location exception 
             {
                 throw new Exceptions.LocationOutOfRange("Client Location entered is out of shipping range", client.ID);
             }
