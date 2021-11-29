@@ -276,6 +276,7 @@ namespace BL
             if (!DroneList.Any(d => d.ID == id))
                 throw new IBL.BO.Exceptions.IDException("Drone ID not found", id);
             DroneToList droneToList = DroneList.Find(d => d.ID == id);
+            if (droneToList == null) throw new IBL.BO.Exceptions.IDException("Drone ID not found", id);
 
             Drone drone = new Drone();
             drone.DronePackageProcess = new PackageProcess();
@@ -317,7 +318,7 @@ namespace BL
                 drone.DronePackageProcess.CollectLocation = collectLocation;
                 drone.DronePackageProcess.DestinationLocation = destinationLocation;
 
-                drone.DronePackageProcess.Distance = DalObject.DalObject.distance(drone.DronePackageProcess.CollectLocation.Latitude, drone.DronePackageProcess.CollectLocation.Longitude,
+                drone.DronePackageProcess.Distance = DalObject.DalObject.Distance(drone.DronePackageProcess.CollectLocation.Latitude, drone.DronePackageProcess.CollectLocation.Longitude,
                 drone.DronePackageProcess.DestinationLocation.Latitude, drone.DronePackageProcess.DestinationLocation.Longitude); //The distance between the sender and the destination
             }
             else drone.DronePackageProcess = null;
@@ -355,7 +356,7 @@ namespace BL
             foreach (var station in dal.StationWithCharging())
             {
 
-                double tempDistance = DalObject.DalObject.distance(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, station.Latitude, station.Longitude);
+                double tempDistance = DalObject.DalObject.Distance(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, station.Latitude, station.Longitude);
                 if (tempDistance < distance) //If it's closer
                 {
                     distance = tempDistance;
@@ -379,7 +380,7 @@ namespace BL
         /// <returns></returns>
         private double batteryConsumption(double lat1, double long1, double lat2, double long2, int weight) 
         {
-            double KM = DalObject.DalObject.distance(lat1, long1, lat2, long2);
+            double KM = DalObject.DalObject.Distance(lat1, long1, lat2, long2);
             double battery = BatteryByKM(weight, KM);
 
             return battery;

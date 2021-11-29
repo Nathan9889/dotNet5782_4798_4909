@@ -325,14 +325,14 @@ namespace ConsoleUI
                                     Console.WriteLine("What is the client ID ?");
                                     int.TryParse(Console.ReadLine(), out ID);
                                     Client client = dal.ClientById(ID);
-                                    Console.WriteLine($"The distance is: {Math.Round(DalObject.DalObject.distance(latitude, longitude, client.Latitude, client.Longitude),3)}");
+                                    Console.WriteLine($"The distance is: {Math.Round(DalObject.DalObject.Distance(latitude, longitude, client.Latitude, client.Longitude),3)}");
                                     break;
 
                                 case DistanceOptions.Station:
                                     Console.WriteLine("What is the station ID ?");
                                     int.TryParse(Console.ReadLine(), out ID);
                                     Station station = dal.StationById(ID);
-                                    Console.WriteLine($"The distance is: {Math.Round(DalObject.DalObject.distance(latitude, longitude, station.Latitude, station.Longitude), 3)}");
+                                    Console.WriteLine($"The distance is: {Math.Round(DalObject.DalObject.Distance(latitude, longitude, station.Latitude, station.Longitude), 3)}");
                                     break;
 
                                 default:

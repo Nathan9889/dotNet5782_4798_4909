@@ -33,10 +33,20 @@ namespace DalObject
         /// <summary>
         /// The func Calculate the distance between Two Coordination and returns it
         /// </summary>
-        public static double distance(double x1, double y1, double x2, double y2)
+        public static double Distance(double lat1, double lon1, double lat2, double lon2)
         {
-            double m = Math.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-            return m * 100;
+            double rlat1 = Math.PI * lat1 / 180;
+            double rlat2 = Math.PI * lat2 / 180;
+            double theta = lon1 - lon2;
+            double rtheta = Math.PI * theta / 180;
+            double dist =
+                Math.Sin(rlat1) * Math.Sin(rlat2) + Math.Cos(rlat1) *
+                Math.Cos(rlat2) * Math.Cos(rtheta);
+            dist = Math.Acos(dist);
+            dist = dist * 180 / Math.PI;
+            dist = dist * 60 * 1.1515;
+
+            return dist * 1.609344;
         }
 
         public static string ConvertLongitude(double longitude)

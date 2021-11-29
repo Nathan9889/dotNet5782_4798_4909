@@ -230,7 +230,7 @@ namespace BL
 
             foreach (var station in dal.StationWithCharging()) //calculating the min of station distance with client
             {
-                double tempDistance = DalObject.DalObject.distance(dal.ClientById(ClientID).Latitude, dal.ClientById(ClientID).Longitude, station.Latitude, station.Longitude);
+                double tempDistance = DalObject.DalObject.Distance(dal.ClientById(ClientID).Latitude, dal.ClientById(ClientID).Longitude, station.Latitude, station.Longitude);
                 if (tempDistance < distance)
                 {
                     distance = tempDistance;
