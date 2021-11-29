@@ -18,7 +18,7 @@ namespace BL
         {
 
             if (client.ID < 0)                                                                         // Id input exceptions
-                throw new IBL.BO.Exceptions.IDException("Client ID cannot be negative", client.ID);     
+                throw new IBL.BO.Exceptions.NegativeException("Client ID cannot be negative", client.ID);     
             if (client.ID < 100000000 || client.ID > 1000000000)                
                 throw new Exceptions.IDException("Id not valid", client.ID);
 

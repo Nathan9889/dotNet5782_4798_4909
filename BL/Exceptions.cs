@@ -193,50 +193,7 @@ namespace IBL
                 }
             }
 
-            [Serializable]
-            internal class NotFound : Exception
-            {
-               
-
-                public NotFound()
-                {
-                }
-
-                public NotFound(string message) : base(message)
-                {
-                }
-
-
-                public NotFound(string message, Exception innerException) : base(message, innerException)
-                {
-                }
-
-                protected NotFound(SerializationInfo info, StreamingContext context) : base(info, context)
-                {
-                }
-            }
-
-            [Serializable]
-            internal class DroneTaken : Exception
-            {
-                int droneID;
-                public DroneTaken()
-                {
-                }
-
-                public DroneTaken(string message, int droneID) : base(message)
-                {
-                    this.droneID = droneID;
-                }
-
-                public DroneTaken(string message, Exception innerException) : base(message, innerException)
-                {
-                }
-
-                protected DroneTaken(SerializationInfo info, StreamingContext context) : base(info, context)
-                {
-                }
-            }
+           
 
             [Serializable]
             internal class LocationOutOfRange : Exception
@@ -365,8 +322,8 @@ namespace IBL
             [Serializable]
             internal class NegativeException : Exception
             {
-                private string v;
-                private int availableChargeSlots;
+                
+                private int ID;
 
                 public NegativeException()
                 {
@@ -376,10 +333,9 @@ namespace IBL
                 {
                 }
 
-                public NegativeException(string v, int availableChargeSlots)
+                public NegativeException(string v, int ID) : base(v)
                 {
-                    this.v = v;
-                    this.availableChargeSlots = availableChargeSlots;
+                    this.ID = ID;
                 }
 
                 public NegativeException(string message, Exception innerException) : base(message, innerException)
@@ -388,6 +344,10 @@ namespace IBL
 
                 protected NegativeException(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
+                }
+                public override string ToString()
+                {
+                    return Message + $": ID is {ID}";
                 }
             }
         }

@@ -403,16 +403,12 @@ namespace DalObject
             throw new IDAL.DO.Exceptions.IDException("DroneCharge ID not found", id);
         }
 
-
+        
         /// <summary>
         /// The function receives a Drone object and a Package object and assigns the packet to the drone
-        //public void packageToDrone(Drone drone) // Link the package to the drone
-        //{
-        //    Drone temp = drone;  // Updates in temp of drone
-        //    //temp.Status = DroneStatus.Shipping; // Updates in temp of drone
-        //    DataSource.DroneList.Add(temp); // Add temp to list and delete old
-        //    DataSource.DroneList.Remove(drone);
-        //}
+        /// </summary>
+        /// <param name="package"></param>
+        /// <param name="DroneID"></param>
         public void packageToDrone(Package package, int DroneID)
         {
             Package packageTemp = package;
@@ -520,6 +516,10 @@ namespace DalObject
             DataSource.droneCharge.Remove(droneCharge); // Deleting the instance from the list
         }
 
+        /// <summary>
+        /// returns dronecharge list type
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<DroneCharge> droneChargesList()
         {
             List< DroneCharge> droneChargeTemp = new List<DroneCharge>(DataSource.droneCharge);
@@ -600,19 +600,30 @@ namespace DalObject
             return stationWithCharging;
         }
 
-
+        /// <summary>
+        /// remove item drone from the list of drones
+        /// </summary>
+        /// <param name="drone"></param>
         public void DeleteDrone(Drone drone)
         {
             if (! DataSource.DroneList.Any(x=> x.ID == drone.ID)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", drone.ID); }
             DataSource.DroneList.Remove(drone);
         }
 
+        /// <summary>
+        /// remove item station from the list of station
+        /// </summary>
+        /// <param name="station"></param>
         public void DeleteStation(Station station)
         {
             if (!DataSource.StationList.Any(x => x.ID == station.ID)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", station.ID); }
             DataSource.StationList.Remove(station);
         }
 
+        /// <summary>
+        /// remove item package from the list of package
+        /// </summary>
+        /// <param name="package"></param>
         public void DeletePackage(Package package)
         {
             if (!DataSource.PackageList.Any(x => x.ID == package.ID)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", package.ID); }
@@ -620,18 +631,30 @@ namespace DalObject
 
         }
 
+        /// <summary>
+        /// remove item client from the list of client
+        /// </summary>
+        /// <param name="client"></param>
         public void DeleteClient(Client client)
         {
             if (!DataSource.ClientList.Any(x => x.ID == client.ID)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", client.ID); }
             DataSource.ClientList.Remove(client);
         }
 
+        /// <summary>
+        /// remove item droneCharge from the list of droneCharge
+        /// </summary>
+        /// <param name="droneCharge"></param>
         public void DeleteDroneCharge(DroneCharge droneCharge)
         {
             if (!DataSource.droneCharge.Any(x => x.DroneId == droneCharge.DroneId)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", droneCharge.DroneId); }
             DataSource.droneCharge.Remove(droneCharge);
         }
 
+        /// <summary>
+        /// double array to store attributes of powerneed of different type of drone
+        /// </summary>
+        /// <returns></returns>
         public double[] PowerConsumptionByDrone()
         {
             double [] arr = new double[5];

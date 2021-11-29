@@ -141,7 +141,7 @@ namespace BL
         public void AddDrone(Drone drone, int stationNumToCharge)
         {
 
-            if (drone.ID < 0) throw new IBL.BO.Exceptions.IDException("Drone ID can not be negative", drone.ID);
+            if (drone.ID < 0) throw new IBL.BO.Exceptions.NegativeException("Drone ID can not be negative", drone.ID);
             if (!dal.StationsList().Any(x => x.ID == stationNumToCharge)) throw new IBL.BO.Exceptions.IDException("Station ID not found", stationNumToCharge);
             if (dal.StationById(stationNumToCharge).ChargeSlots <= 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at the station", stationNumToCharge);
 
@@ -208,9 +208,9 @@ namespace BL
 
 
         /// <summary>
-        /// The function receives a skimmer number and sends it for charging
+        /// The function receives a drone id and sends it for charging
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id"> id inputed by user </param>
         public void ChargeDrone(int id)
         {
             DroneToList drone = DroneList.Find(drone => drone.ID == id);
@@ -270,7 +270,7 @@ namespace BL
         /// The function receives a drone number and returns its display
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns> Drone object </returns>
         public Drone DisplayDrone(int id)
         {
             if (!DroneList.Any(d => d.ID == id))
@@ -330,7 +330,7 @@ namespace BL
         /// <summary>
         /// A function that returns the list of drones
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Drone list </returns>
         public IEnumerable<DroneToList> DisplayDroneList()
         {
             List<DroneToList> drones = new List<DroneToList>(DroneList); // Copy of list without reference !!
@@ -338,14 +338,11 @@ namespace BL
         }
 
 
-
-
-
         /// <summary>
         /// Calculating the station closest to the drone and returning it
         /// </summary>
         /// <param name="DroneID"></param>
-        /// <returns></returns>
+        /// <returns> closest dal station object </returns>
         private IDAL.DO.Station NearestStationToDrone(int DroneID) 
         {
             DroneToList drone = DroneList.Find(x => x.ID == DroneID);
@@ -391,9 +388,9 @@ namespace BL
         /// A function that receives a package weight and several kilometers 
         /// and calculates the battery consumption by package weight in the same number of kilometers And returns it
         /// </summary>
-        /// <param name="weight"></param>
-        /// <param name="KM"></param>
-        /// <returns></returns>
+        /// <param name="weight">weight option </param>
+        /// <param name="KM"> kilometer </param>
+        /// <returns> Battery value </returns>
         private double BatteryByKM(int weight, double KM) 
         {
 

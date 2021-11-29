@@ -16,7 +16,7 @@ namespace BL
         public void AddStation(Station station)
         {
             if (station.ID < 0)                                                                         // Id input exceptions
-                throw new IBL.BO.Exceptions.IDException("Station ID can not be negative", station.ID);
+                throw new IBL.BO.Exceptions.NegativeException("Station ID can not be negative", station.ID);
             if (station.AvailableChargeSlots < 0)
                 throw new IBL.BO.Exceptions.NegativeException("Charges slot cannot be negative", station.AvailableChargeSlots);
             if (((station.StationLocation.Latitude < 31.73) || (station.StationLocation.Latitude > 31.83)) ||
