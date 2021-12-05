@@ -199,15 +199,15 @@ namespace BL
 
                 clientToList.sentAndDeliveredPackage = sentAndDelivered.Count();                 //getting number of element we have and assigning to attribute "number of sent and delivered sender client" same for all below
 
-                IEnumerable<IDAL.DO.Package> sentAndUndelivered = dal.PackageList().Where(x => x.SenderId == dalClient.ID && x.Delivered == DateTime.MinValue);
+                IEnumerable<IDAL.DO.Package> sentAndUndelivered = dal.PackagesFilter(x => x.SenderId == dalClient.ID && x.Delivered == DateTime.MinValue);
 
                 clientToList.sentAndUndeliveredPackage = sentAndUndelivered.Count();
 
-                IEnumerable<IDAL.DO.Package> ReceivedAndDelivered = dal.PackageList().Where(x => x.TargetId == dalClient.ID && x.Delivered != DateTime.MinValue);
+                IEnumerable<IDAL.DO.Package> ReceivedAndDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered != DateTime.MinValue);
 
                 clientToList.ReceivedAndDeliveredPackage = ReceivedAndDelivered.Count();
 
-                IEnumerable<IDAL.DO.Package> ReceivedAndUnDelivered = dal.PackageList().Where(x => x.TargetId == dalClient.ID && x.Delivered == DateTime.MinValue);
+                IEnumerable<IDAL.DO.Package> ReceivedAndUnDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered == DateTime.MinValue);
 
                 clientToList.ReceivedAndUnDeliveredPackage = ReceivedAndUnDelivered.Count();
 
@@ -225,10 +225,10 @@ namespace BL
         {
             IDAL.DO.Station tempStation = new IDAL.DO.Station();
             double distance = int.MaxValue;
-            if (dal.StationWithCharging().Count() == 0)
+            if ((dal.StationsFilter(s=> s.ChargeSlots > 0)).Count() == 0)
                 throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station", 0); //if there are no station with available charge slots
 
-            foreach (var station in dal.StationWithCharging()) //calculating the min of station distance with client
+            foreach (var station in dal.StationsFilter(s => s.ChargeSlots > 0)) //calculating the min of station distance with client
             {
                 double tempDistance = DalObject.DalObject.Distance(dal.ClientById(ClientID).Latitude, dal.ClientById(ClientID).Longitude, station.Latitude, station.Longitude);
                 if (tempDistance < distance)

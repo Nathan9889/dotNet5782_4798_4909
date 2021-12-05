@@ -149,7 +149,7 @@ namespace BL
                 stationToList.Name = dalStation.Name;
                 stationToList.AvailableChargingSlots = dalStation.ChargeSlots;
 
-                List<IDAL.DO.DroneCharge> dronesInCharges = dal.droneChargesList().ToList().FindAll(d => d.StationId == dalStation.ID); //list of all charging drone in that current station
+                List<IDAL.DO.DroneCharge> dronesInCharges = dal.DroneChargeFilter(d => d.StationId == dalStation.ID).ToList(); //list of all charging drone in that current station
                 stationToList.BusyChargingSlots = dronesInCharges.Count();                                                              //number of drone charging equal number of taken/busy chargeSlots
 
                 stations.Add(stationToList);

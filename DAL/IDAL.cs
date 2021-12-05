@@ -140,17 +140,11 @@ namespace IDAL
         /// <returns></returns>
         IEnumerable<Package> PackageList();
 
-        /// <summary>
-        /// The function creates and returns a list of packages that have not yet been assigned to the glider
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Package> PackageWithoutDrone();
-
-        /// <summary>
-        /// The function creates and returns a list of stations with available charging slots
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Station> StationWithCharging();
+        IEnumerable<DroneCharge> DroneChargeFilter(Predicate<DroneCharge> match);
+        IEnumerable<Client> ClientsFilter(Predicate<Client> match);
+        IEnumerable<Drone> DronedFilter(Predicate<Drone> match);
+        IEnumerable<Station> StationsFilter(Predicate<Station> match);
+        IEnumerable<Package> PackagesFilter(Predicate<Package> match);
 
         /// <summary>
         /// remove item drone from the list of drones

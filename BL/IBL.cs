@@ -195,7 +195,7 @@ namespace IBL
         public IEnumerable<ClientToList> DisplayClientList();
 
 
-
+       IEnumerable<DroneToList> DisplayDroneListFilter(Predicate<DroneToList> match);
 
 
 

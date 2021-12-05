@@ -66,7 +66,7 @@ namespace BL
                 throw new Exceptions.UnableAssociatPackage("Drone is not Available");// new except
             }
 
-            List<IDAL.DO.Package> dalPackages = new List<IDAL.DO.Package>(dal.PackageList().ToList().FindAll(x => (int)(x.Weight) <= (int) drone.MaxWeight  &&  x.Associated == DateTime.MinValue)); // All packages the drone may take
+            List<IDAL.DO.Package> dalPackages = new List<IDAL.DO.Package>(dal.PackagesFilter(x => (int)(x.Weight) <= (int)drone.MaxWeight && x.Associated == DateTime.MinValue)); // All packages the drone may take
             IDAL.DO.Package package = new IDAL.DO.Package() ;
             int priority = 2, weight = (int)drone.MaxWeight; // Start with the high priority and high weight of the drone
             bool flag = true; 

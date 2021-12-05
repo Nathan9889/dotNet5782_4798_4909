@@ -101,7 +101,7 @@ namespace BL
                     droneToList.Status = (DroneStatus)(rand.Next(0, 2)); // Status between available and maintained
                     if (droneToList.Status == DroneStatus.Maintenance) // If it is in maintenance
                     {
-                        IDAL.DO.Station station = dal.StationWithCharging().ElementAt(rand.Next(0, dal.StationsList().Count())); // Lottery location between stations with charging stations available
+                        IDAL.DO.Station station = dal.StationsFilter(s=> s.ChargeSlots > 0).ElementAt(rand.Next(0, dal.StationsList().Count())); // Lottery location between stations with charging stations available
                         droneToList.DroneLocation.Latitude = station.Latitude;
                         droneToList.DroneLocation.Longitude = station.Longitude;
                         droneToList.Battery = rand.Next(0, 21);
@@ -337,6 +337,12 @@ namespace BL
             return drones;
         }
 
+        public IEnumerable<DroneToList> DisplayDroneListFilter(Predicate<DroneToList> match)
+        {
+            List<DroneToList> drones = new List<DroneToList>(DroneList).FindAll(match); // Copy of list without reference !!
+            return drones;
+        }
+
 
         /// <summary>
         /// Calculating the station closest to the drone and returning it
@@ -349,8 +355,8 @@ namespace BL
             IDAL.DO.Station neareStatuon = new IDAL.DO.Station();
             double distance = int.MaxValue;
 
-            if (dal.StationWithCharging().Count() == 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station",DroneID); // If no charging slots are available at any station
-            foreach (var station in dal.StationWithCharging())
+            if (dal.StationsFilter(s=> s.ChargeSlots > 0).Count() == 0) throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station",DroneID); // If no charging slots are available at any station
+            foreach (var station in dal.StationsFilter(s=> s.ChargeSlots > 0))
             {
 
                 double tempDistance = DalObject.DalObject.Distance(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, station.Latitude, station.Longitude);

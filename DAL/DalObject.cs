@@ -575,14 +575,10 @@ namespace DalObject
         /// The function creates and returns a list of packages that have not yet been assigned to the glider
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Package> PackageWithoutDrone()
+        public IEnumerable<Package> PackagesFilter(Predicate<Package> match)
         {
-            List<Package> packagesWithoutDrone = new List<Package>();
-            foreach (var item in DataSource.PackageList)
-            {
-                if (item.DroneId == 0) packagesWithoutDrone.Add(item);
-            }
-            return packagesWithoutDrone;
+            List<Package> packagesFilter = new List<Package>(DataSource.PackageList).FindAll(match);
+            return packagesFilter;
         }
 
 
@@ -590,14 +586,29 @@ namespace DalObject
         /// The function creates and returns a list of stations with available charging slots
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Station> StationWithCharging()
+        public IEnumerable<Station> StationsFilter(Predicate<Station> match)
         {
-            List<Station> stationWithCharging = new List<Station>();
-            foreach (var item in DataSource.StationList)
-            {
-                if (item.ChargeSlots > 0) stationWithCharging.Add(item);
-            }
-            return stationWithCharging;
+            List<Station> stationsFilter = new List<Station>(DataSource.StationList).FindAll(match);
+            return stationsFilter;
+        }
+
+        public IEnumerable<Drone> DronedFilter(Predicate<Drone> match)
+        {
+            List<Drone> dronedFilter = new List<Drone>(DataSource.DroneList).FindAll(match);
+            return dronedFilter;
+        }
+
+
+        public IEnumerable<Client> ClientsFilter(Predicate<Client> match)
+        {
+            List<Client> clientsFilter = new List<Client>(DataSource.ClientList).FindAll(match);
+            return clientsFilter;
+        }
+
+        public IEnumerable<DroneCharge> DroneChargeFilter(Predicate<DroneCharge> match)
+        {
+            List<DroneCharge> droneChargeFilter = new List<DroneCharge>(DataSource.droneCharge).FindAll(match);
+            return droneChargeFilter;
         }
 
         /// <summary>
