@@ -19,9 +19,12 @@ namespace PL
     /// </summary>
     public partial class DisplaysDrone : Window
     {
-        public DisplaysDrone()
+        IBL.IBL BL;
+        public DisplaysDrone(IBL.IBL bL)
         {
             InitializeComponent();
+            this.BL = bL;
+
         }
     }
 }

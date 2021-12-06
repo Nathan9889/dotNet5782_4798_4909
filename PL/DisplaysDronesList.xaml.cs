@@ -38,11 +38,11 @@ namespace PL
 
         private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            IBL.BO.DroneStatus ststus = (IBL.BO.DroneStatus)StatusSelector.SelectedItem;
+            IBL.BO.DroneStatus status = (IBL.BO.DroneStatus)StatusSelector.SelectedItem;
 
             if(WeightSelector.SelectedItem == null)
             {
-                switch (ststus)
+                switch (status)
                 {
                     case IBL.BO.DroneStatus.Available:
                         DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == IBL.BO.DroneStatus.Available);
@@ -59,7 +59,7 @@ namespace PL
             }
             else
             {
-                switch (ststus)
+                switch (status)
                 {
                     case IBL.BO.DroneStatus.Available:
                         DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == IBL.BO.DroneStatus.Available && d.MaxWeight == (IBL.BO.WeightCategories) WeightSelector.SelectedItem);
@@ -114,6 +114,11 @@ namespace PL
                         break;
                 }
             }
+        }
+
+        private void Add_New_Drone(object sender, RoutedEventArgs e)
+        {
+            new DisplaysDrone(BL).Show();
         }
     }
 }

@@ -6,35 +6,55 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="DisplaysDronesList" Height="450" Width="800">
-    
-        <Grid Name="MainGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50*"/>
-                <RowDefinition Height ="400*"/>
-            </Grid.RowDefinitions>
-            <Grid>
-                <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
-VerticalAlignment="Stretch" Width="auto">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions >
+
+    <Grid Name="MainGrid">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height ="400*"/>
+
+            <RowDefinition Height="50*"/>
+
+        </Grid.RowDefinitions>
+
+
+        <Grid>
+            <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions >
                 <ComboBox Name="StatusSelector" Grid.Column="1" HorizontalAlignment="Left" Width="200" SelectionChanged="StatusSelector_SelectionChanged" Text=""/>
                 <Label Content="Label" Grid.Column="0" HorizontalAlignment="Left" Margin="79,10,0,0" VerticalAlignment="Top"/>
                 <ComboBox Name="WeightSelector" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="WeightSelector_SelectionChanged"/>
                 <Label Content="Label" Grid.Column="2" HorizontalAlignment="Left" Margin="88,10,0,0" VerticalAlignment="Top"/>
             </Grid>
 
-            </Grid>
-
-            <ListView x:Name="DronesListView" Grid.Row="1">
+        </Grid>
+        
+       
+        
+        <ListView x:Name ="DronesListView" Grid.Row="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
+
+
+        <Grid Name="DownGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="2" VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+            <Button Content="Add New Drone" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Add_New_Drone"/>
         </Grid>
+
+
+    </Grid>
 </Window>
