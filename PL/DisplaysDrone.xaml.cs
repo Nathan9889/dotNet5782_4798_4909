@@ -24,7 +24,22 @@ namespace PL
         {
             InitializeComponent();
             this.BL = bL;
+            Add_New_Drone.Visibility = Visibility.Visible;
+            Drone_Weight.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
 
+
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //Drone_Weight.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+        }
+
+        private void idInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var bc = new BrushConverter();
+
+            idInput.Background = (Brush)bc.ConvertFrom("#00FFFF00");
         }
     }
 }

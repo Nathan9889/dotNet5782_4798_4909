@@ -6,7 +6,65 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="DisplaysDrone" Height="450" Width="800">
-    <Grid>
+    <Grid x:Name="MainGrid">
+        <Grid x:Name ="Add_New_Drone" Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="10*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
+            <Grid.RowDefinitions>
+                <RowDefinition Height ="*"></RowDefinition>
+                <RowDefinition Height ="8*"></RowDefinition>
+                <RowDefinition Height ="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height ="2*"></RowDefinition>
+                    <RowDefinition Height ="*"></RowDefinition>
+                    <RowDefinition Height ="*"></RowDefinition>
+                    <RowDefinition Height ="0.5*"></RowDefinition>
+                    <RowDefinition Height ="*"></RowDefinition>
+                    <RowDefinition Height ="*"></RowDefinition>
+                    <RowDefinition Height ="0.5*"></RowDefinition>
+                    <RowDefinition Height ="*"></RowDefinition>
+                    <RowDefinition Height ="*"></RowDefinition>
+                    <RowDefinition Height ="0.5*"></RowDefinition>
+                    <RowDefinition Height ="*"></RowDefinition>
+                    <RowDefinition Height ="*"></RowDefinition>
+                    <RowDefinition Height ="0.5*"></RowDefinition>
+                    <RowDefinition Height ="2*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width ="*"></ColumnDefinition>
+                    <ColumnDefinition Width ="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="id" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Text="Enter ID:" TextWrapping="Wrap" VerticalAlignment= "Bottom" FontSize="15" FontFamily="Aharoni" FontWeight="Normal"/>
+                <TextBox x:Name="idInput" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2" TextWrapping="Wrap" Width="150"  TextChanged="idInput_TextChanged" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}"/>
+                <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="7" Text="Drone Max Weight:" TextWrapping="Wrap" VerticalAlignment="Bottom" FontFamily="Aharoni" FontSize="15" FontWeight="Normal"/>
+                <ComboBox x:Name="Drone_Weight" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="7" VerticalAlignment="Bottom" Width="150" BorderBrush="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" SelectionChanged="ComboBox_SelectionChanged" Margin="0,0,0,3" Grid.RowSpan="2" OpacityMask="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
+                    <ComboBox.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="Black"/>
+                            <GradientStop Color="#FF6C1111" Offset="1"/>
+                        </RadialGradientBrush>
+                    </ComboBox.Background>
+                    <ComboBox.Foreground>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionTextColorKey}}"/>
+                    </ComboBox.Foreground>
+                </ComboBox>
+                <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="4" Text="Enter Drone Model:" VerticalAlignment="Bottom" FontFamily="Aharoni" FontSize="15"/>
+                <TextBox x:Name="DroneModel" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Grid.Row="5" Width="150" Height="Auto" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}"/>
+                <TextBlock Grid.Column="1" HorizontalAlignment="Left" Grid.Row="10" Text="Enter Station ID:" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="15" FontFamily="Aharoni"/>
+                <TextBox x:Name="StationID" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="11" TextWrapping="Wrap"  Width="150" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}"/>
+
+            </Grid>
+
+        </Grid>
+
+        <Grid x:Name ="UpdateDrone" Visibility="Hidden">
+            <Button Content="Button" HorizontalAlignment="Right"  Margin="331,190,0,0" VerticalAlignment="Top"/>
+        </Grid>
     </Grid>
 </Window>
