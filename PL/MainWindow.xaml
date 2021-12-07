@@ -7,7 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="640" Width="800">
     <Grid >
-        <Button Content="Button" HorizontalAlignment="Left" Margin="265,195,0,0" VerticalAlignment="Top" Height="28" Width="239" Click="Button_Click"/>
+        <Button Content="Drones" HorizontalAlignment="Left" Margin="265,195,0,0" VerticalAlignment="Top" Height="62" Width="297" Click="Button_Click" FontSize="15" FontFamily="Aharoni">
+            <Button.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FF00FFD1" Offset="0"/>
+                </RadialGradientBrush>
+            </Button.Background>
+        </Button>
 
 
     </Grid>
