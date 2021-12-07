@@ -197,6 +197,7 @@ namespace IBL
 
        IEnumerable<DroneToList> DisplayDroneListFilter(Predicate<DroneToList> match);
 
+        IEnumerable<StationToList> DisplayStationListFilter(Predicate<StationToList> match);
 
 
         //Exit

@@ -21,7 +21,7 @@ namespace IBL
                 string result = "";
                 result += $"Station ID is {ID},\n";
                 result += $"Station Name is {Name},\n";
-                result += $"Number of Available Charging Slots of Station is {AvailableChargingSlots},\n";
+                result += $"Number of Available Charging Slots is {AvailableChargingSlots},\n";
                 result += $"Number of Occupied ChargingSlots is {BusyChargingSlots},\n";
 
                 return result;

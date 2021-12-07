@@ -20,6 +20,7 @@ namespace PL
     public partial class DisplaysDronesList : Window
     {
         IBL.IBL BL;
+        DisplaysDrone DroneWindow;
         public DisplaysDronesList(IBL.IBL bL)
         {
             InitializeComponent();
@@ -118,7 +119,18 @@ namespace PL
 
         private void Add_New_Drone(object sender, RoutedEventArgs e)
         {
-            new DisplaysDrone(BL).Show();
+            DroneWindow = new DisplaysDrone(BL);
+            DroneWindow.RefreshListEvent += RefreshListView;
+            DroneWindow.Show();
+        }
+
+
+        private void RefreshListView(object ob)
+        {
+            DronesListView.Items.Refresh();
+            if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null) DronesListView.ItemsSource = BL.DisplayDroneList();
+            if (WeightSelector.SelectedItem != null) WeightSelector_SelectionChanged(this, null);
+            if (StatusSelector.SelectedItem != null) StatusSelector_SelectionChanged(this, null);
         }
     }
 }
