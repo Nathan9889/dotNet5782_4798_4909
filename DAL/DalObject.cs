@@ -165,9 +165,9 @@ namespace DalObject
                     Priority = (Priorities)rand.Next(3),
                     DroneId = 0,
                     Created = DateTime.Now,
-                    Associated = DateTime.MinValue,
-                    PickedUp = DateTime.MinValue,
-                    Delivered = DateTime.MinValue,
+                    Associated = null,
+                    PickedUp = null,
+                    Delivered = null,
 
                 });
             }
@@ -182,8 +182,8 @@ namespace DalObject
                 DroneId = DroneList[0].ID,
                 Created = DateTime.Now.AddMinutes(-30),
                 Associated = DateTime.Now.AddMinutes(-20),
-                PickedUp = DateTime.MinValue,
-                Delivered = DateTime.MinValue,
+                PickedUp = null,
+                Delivered = null,
 
             }); ;
 
@@ -197,8 +197,8 @@ namespace DalObject
                 DroneId = DroneList[1].ID,
                 Created = DateTime.Now.AddMinutes(-30),
                 Associated = DateTime.Now.AddMinutes(-20),
-                PickedUp = DateTime.MinValue,
-                Delivered = DateTime.MinValue,
+                PickedUp = null,
+                Delivered = null,
             });
 
             PackageList.Add(new Package()
@@ -212,7 +212,7 @@ namespace DalObject
                 Created = DateTime.Now.AddMinutes(-50),
                 Associated = DateTime.Now.AddMinutes(-40),
                 PickedUp = DateTime.Now.AddMinutes(-10),
-                Delivered = DateTime.MinValue,
+                Delivered = null,
             });
 
             PackageList.Add(new Package()
@@ -226,7 +226,7 @@ namespace DalObject
                 Created = DateTime.Now.AddMinutes(-45),
                 Associated = DateTime.Now.AddMinutes(-43),
                 PickedUp = DateTime.Now.AddMinutes(-8),
-                Delivered = DateTime.MinValue,
+                Delivered = null,
             });
 
             PackageList.Add(new Package()

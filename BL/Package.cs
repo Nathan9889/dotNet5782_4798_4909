@@ -17,10 +17,10 @@ namespace IBL
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
             public DroneOfPackage DroneOfPackage { get; set; }
-            public DateTime Created { get; set; }
-            public DateTime Associated { get; set; }
-            public DateTime PickedUp { get; set; }
-            public DateTime Delivered { get; set; }
+            public DateTime? Created { get; set; }
+            public DateTime? Associated { get; set; }
+            public DateTime? PickedUp { get; set; }
+            public DateTime? Delivered { get; set; }
 
             public override string ToString()
             {

@@ -31,10 +31,10 @@ namespace BL
             dalPackage.TargetId = package.TargetClient.ID;
             dalPackage.Priority = (IDAL.DO.Priorities)package.Priority;
             dalPackage.Weight = (IDAL.DO.WeightCategories)package.Weight;
-            dalPackage.PickedUp = DateTime.MinValue;
-            dalPackage.Associated = DateTime.MinValue;
-            dalPackage.Delivered = DateTime.MinValue;
-            dalPackage.Created = DateTime.Now;
+            dalPackage.PickedUp = null;
+            dalPackage.Associated = null;
+            dalPackage.Delivered = null;
+            dalPackage.Created = null;
             dalPackage.DroneId = 0;
             int id;
             try
@@ -66,7 +66,7 @@ namespace BL
                 throw new Exceptions.UnableAssociatPackage("Drone is not Available");// new except
             }
 
-            List<IDAL.DO.Package> dalPackages = new List<IDAL.DO.Package>(dal.PackagesFilter(x => (int)(x.Weight) <= (int)drone.MaxWeight && x.Associated == DateTime.MinValue)); // All packages the drone may take
+            List<IDAL.DO.Package> dalPackages = new List<IDAL.DO.Package>(dal.PackagesFilter(x => (int)(x.Weight) <= (int)drone.MaxWeight && x.Associated == null)); // All packages the drone may take
             IDAL.DO.Package package = new IDAL.DO.Package() ;
             int priority = 2, weight = (int)drone.MaxWeight; // Start with the high priority and high weight of the drone
             bool flag = true; 
@@ -134,8 +134,8 @@ namespace BL
             if ((drone.Status != DroneStatus.Shipping)) throw new Exceptions.UnablePickedUpPackage("Drone is not Shipping", droneID); // A drone does not ship
             if (!dal.PackageList().Any(p => p.DroneId == droneID)) throw new IBL.BO.Exceptions.UnablePickedUpPackage("No package associated with the drone was found"); // There is no package associated with this drone
 
-            IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID && p.PickedUp == DateTime.MinValue);
-            if (package.PickedUp != DateTime.MinValue) throw new IBL.BO.Exceptions.UnablePickedUpPackage("The package has already been PickedUp", package.ID); //If the package associated with the glider has already been collected then you will throw an exception
+            IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID && p.PickedUp == null);
+            if (package.PickedUp != null) throw new IBL.BO.Exceptions.UnablePickedUpPackage("The package has already been PickedUp", package.ID); //If the package associated with the glider has already been collected then you will throw an exception
 
             IDAL.DO.Client sender = dal.ClientById(package.SenderId); // The sender of the package - this is the new location of the drone
             int index = DroneList.FindIndex(d => d.ID == droneID);
@@ -162,9 +162,9 @@ namespace BL
             if (!DroneList.Any(d => d.ID == droneID)) throw new IBL.BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
             DroneToList drone = DroneList.First(x => x.ID == droneID);
             if ((drone.Status != DroneStatus.Shipping)) throw new Exceptions.UnablePickedUpPackage("Drone is not Shipping", droneID); // A drone does not ship
-            if (!dal.PackageList().Any(p => p.DroneId == droneID && p.Delivered == DateTime.MinValue && p.PickedUp > DateTime.MinValue)) throw new IBL.BO.Exceptions.UnablePickedUpPackage("No package associated with the drone was found"); // No package associated with this drone, Picked Up, and has not yet been delivered
+            if (!dal.PackageList().Any(p => p.DroneId == droneID && p.Delivered == null && p.PickedUp != null)) throw new IBL.BO.Exceptions.UnablePickedUpPackage("No package associated with the drone was found"); // No package associated with this drone, Picked Up, and has not yet been delivered
 
-            IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID && p.Delivered == DateTime.MinValue && p.PickedUp > DateTime.MinValue);
+            IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID && p.Delivered == null && p.PickedUp != null);
 
             IDAL.DO.Client target = dal.ClientById(package.TargetId);// The destination of the package - this is the new location of the drone
             int index = DroneList.FindIndex(d => d.ID == droneID);
@@ -237,7 +237,7 @@ namespace BL
             blPackage.TargetClient.ID = target.ID;
             blPackage.TargetClient.Name = target.Name;
 
-            if(dalPackage.Associated == DateTime.MinValue) //if package is not associated we can return it
+            if(dalPackage.Associated == null) //if package is not associated we can return it
             {
                 blPackage.DroneOfPackage = null;
                 return blPackage;
@@ -277,9 +277,9 @@ namespace BL
                 packageToList.Weight = (WeightCategories)dalPackage.Weight;
                 packageToList.Priority = (Priorities)dalPackage.Priority;
 
-                if (dalPackage.Associated == DateTime.MinValue) packageToList.Status = PackageStatus.Created;
-                else if (dalPackage.PickedUp == DateTime.MinValue) packageToList.Status = PackageStatus.Associated;
-                else if (dalPackage.Delivered == DateTime.MinValue) packageToList.Status = PackageStatus.PickedUp;
+                if (dalPackage.Associated == null) packageToList.Status = PackageStatus.Created;
+                else if (dalPackage.PickedUp == null) packageToList.Status = PackageStatus.Associated;
+                else if (dalPackage.Delivered == null) packageToList.Status = PackageStatus.PickedUp;
                 else packageToList.Status = PackageStatus.Delivered;
 
                 packages.Add(packageToList);        //adding it to the package list

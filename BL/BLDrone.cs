@@ -54,14 +54,14 @@ namespace BL
                 foreach (var package in dal.PackageList()) // Each drone must check if there is a package to which it is associated
                 {
 
-                    if ((package.DroneId == drone.ID) && (package.Delivered == DateTime.MinValue)) // If the drone is associated with a package and the package has not yet been delivered
+                    if ((package.DroneId == drone.ID) && (package.Delivered == null)) // If the drone is associated with a package and the package has not yet been delivered
                     {
                         flag = true;
                         droneToList.Status = DroneStatus.Shipping;
                         droneToList.PackageID = package.ID;
 
                         // There are 2 options: either the package has not been collected yet or it has already been collected
-                        if (package.PickedUp == DateTime.MinValue) // Location of the drone if the package has not yet been collected
+                        if (package.PickedUp == null) // Location of the drone if the package has not yet been collected
                         {
                             IDAL.DO.Station location = NearestStationToClient(package.SenderId); // The location of the drone will be at the station closest to the sender
                             droneToList.DroneLocation.Latitude = location.Latitude;
@@ -111,7 +111,7 @@ namespace BL
                     else // If the status is available
                     {
                         int index = rand.Next(0, 10);
-                        while (dal.PackageList().ElementAt(index).Delivered == DateTime.MinValue) //The location will be in the customer who has a package delivered to him. (There is one that we created at boot)
+                        while (dal.PackageList().ElementAt(index).Delivered == null) //The location will be in the customer who has a package delivered to him. (There is one that we created at boot)
                         {
                             index = rand.Next(0, 10);
                         }
@@ -244,7 +244,7 @@ namespace BL
         /// </summary>
         /// <param name="droneID"></param>
         /// <param name="minutesCharging"></param>
-        public void FinishCharging(int droneID, double minutesCharging)   
+        public void FinishCharging(int droneID)   
         {
             
             if (!DroneList.Any(drone => drone.ID == droneID)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", droneID);
@@ -253,7 +253,7 @@ namespace BL
             int indexDroneToList = DroneList.FindIndex(d => d.ID == droneID);
             if (DroneList.Find(drone => drone.ID == droneID).Status != DroneStatus.Maintenance) throw new IBL.BO.Exceptions.EndDroneCharging("Drone status is not Maintenance", droneID);
 
-            //int minutesCharging =(int) ((DateTime.Now - dal.droneChargesList().First(x => x.DroneId == droneID).ChargingStartTime).TotalMinutes); // המרה מspentime
+            int minutesCharging =(int) ((DateTime.Now - dal.droneChargesList().First(x => x.DroneId == droneID).ChargingStartTime).TotalMinutes); // המרה מspentime
 
             int battary =(int)((minutesCharging / 60.0) * 100); // Calculate the new battery
             DroneList[indexDroneToList].Battery += battary;
@@ -291,11 +291,11 @@ namespace BL
 
             if (drone.Status == DroneStatus.Shipping) // Only if the drone delivers a package will the DronePackageProcess be initialized
             {
-                IDAL.DO.Package package = dal.PackageList().First(x => x.DroneId == drone.ID && x.Delivered == DateTime.MinValue);
+                IDAL.DO.Package package = dal.PackageList().First(x => x.DroneId == drone.ID && x.Delivered == null);
                 drone.DronePackageProcess.Id = package.ID;
                 drone.DronePackageProcess.Priority = (Priorities)(package.Priority);
                 drone.DronePackageProcess.Weight = (WeightCategories)(package.Weight);
-                if (package.PickedUp == DateTime.MinValue) drone.DronePackageProcess.PackageShipmentStatus = ShipmentStatus.Waiting;
+                if (package.PickedUp == null) drone.DronePackageProcess.PackageShipmentStatus = ShipmentStatus.Waiting;
                 else drone.DronePackageProcess.PackageShipmentStatus = ShipmentStatus.OnGoing;
 
                 ClientPackage sender = new ClientPackage();

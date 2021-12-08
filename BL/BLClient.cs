@@ -111,13 +111,13 @@ namespace BL
                     packageAtClient.Weight = (WeightCategories)item.Weight;
                     packageAtClient.Priority = (Priorities)item.Priority;
 
-                    if (item.Associated == DateTime.MinValue)           //assigning package status according to its status
+                    if (item.Associated == null)           //assigning package status according to its status
                         packageAtClient.Status = PackageStatus.Created; 
-                    else if (item.PickedUp == DateTime.MinValue)
+                    else if (item.PickedUp == null)
                     {
                         packageAtClient.Status = PackageStatus.Associated;
                     }
-                    else if (item.Delivered == DateTime.MinValue)
+                    else if (item.Delivered == null)
                     {
                         packageAtClient.Status = PackageStatus.PickedUp;
                     }
@@ -148,13 +148,13 @@ namespace BL
                     packageAtClient.Priority = (Priorities)item.Priority;
 
 
-                    if (item.Associated == DateTime.MinValue)               //assigning package status according to its status
+                    if (item.Associated == null)               //assigning package status according to its status
                         packageAtClient.Status = PackageStatus.Created; 
-                    else if (item.PickedUp == DateTime.MinValue)
+                    else if (item.PickedUp == null)
                     {
                         packageAtClient.Status = PackageStatus.Associated;
                     }
-                    else if (item.Delivered == DateTime.MinValue)
+                    else if (item.Delivered == null)
                     {
                         packageAtClient.Status = PackageStatus.PickedUp;
                     }
@@ -195,19 +195,19 @@ namespace BL
                 clientToList.Name = dalClient.Name;
                 clientToList.Phone = dalClient.Phone;
 
-                IEnumerable<IDAL.DO.Package> sentAndDelivered = dal.PackageList().Where(x => x.SenderId == dalClient.ID && x.Delivered != DateTime.MinValue);  //new list of sender package that have been delevered
+                IEnumerable<IDAL.DO.Package> sentAndDelivered = dal.PackageList().Where(x => x.SenderId == dalClient.ID && x.Delivered != null);  //new list of sender package that have been delevered
 
                 clientToList.sentAndDeliveredPackage = sentAndDelivered.Count();                 //getting number of element we have and assigning to attribute "number of sent and delivered sender client" same for all below
 
-                IEnumerable<IDAL.DO.Package> sentAndUndelivered = dal.PackagesFilter(x => x.SenderId == dalClient.ID && x.Delivered == DateTime.MinValue);
+                IEnumerable<IDAL.DO.Package> sentAndUndelivered = dal.PackagesFilter(x => x.SenderId == dalClient.ID && x.Delivered == null);
 
                 clientToList.sentAndUndeliveredPackage = sentAndUndelivered.Count();
 
-                IEnumerable<IDAL.DO.Package> ReceivedAndDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered != DateTime.MinValue);
+                IEnumerable<IDAL.DO.Package> ReceivedAndDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered != null);
 
                 clientToList.ReceivedAndDeliveredPackage = ReceivedAndDelivered.Count();
 
-                IEnumerable<IDAL.DO.Package> ReceivedAndUnDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered == DateTime.MinValue);
+                IEnumerable<IDAL.DO.Package> ReceivedAndUnDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered == null);
 
                 clientToList.ReceivedAndUnDeliveredPackage = ReceivedAndUnDelivered.Count();
 

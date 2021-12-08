@@ -65,7 +65,7 @@ namespace IBL
         /// </summary>
         /// <param name="droneID"></param>
         /// <param name="minutesCharging"></param>
-        public void FinishCharging(int droneID,Double minutesCharging);
+        public void FinishCharging(int droneID);
 
 
         /// <summary>

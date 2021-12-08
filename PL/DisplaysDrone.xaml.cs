@@ -246,7 +246,7 @@ namespace PL
         {
             try
             {
-                BL.FinishCharging(selectedDrone.ID, 5);
+                BL.FinishCharging(selectedDrone.ID);
 
                 MessageBox.Show("Drone finished charging successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Initialize(selectedDrone.ID);
