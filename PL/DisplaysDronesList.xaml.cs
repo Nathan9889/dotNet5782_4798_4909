@@ -36,7 +36,7 @@ namespace PL
         {
             IBL.BO.DroneStatus status = (IBL.BO.DroneStatus)StatusSelector.SelectedItem;
 
-            if(WeightSelector.SelectedItem == null || (IBL.BO.DroneStatus)WeightSelector.SelectedItem == IBL.BO.DroneStatus.Select )
+            if(WeightSelector.SelectedItem == null )
             {
                 switch (status)
                 {
@@ -52,9 +52,7 @@ namespace PL
                         DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == IBL.BO.DroneStatus.Shipping);
                         break;
 
-                    case IBL.BO.DroneStatus.Select:
-                        DronesListView.ItemsSource = BL.DisplayDroneList();
-                        break;
+                  
                 }
             }
             else
@@ -73,9 +71,7 @@ namespace PL
                         DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == IBL.BO.DroneStatus.Shipping && d.MaxWeight == (IBL.BO.WeightCategories)WeightSelector.SelectedItem);
                         break;
 
-                    case IBL.BO.DroneStatus.Select:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d=> d.MaxWeight == (IBL.BO.WeightCategories)WeightSelector.SelectedItem);
-                        break;
+                   
                 }
             }
             
@@ -84,7 +80,7 @@ namespace PL
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)WeightSelector.SelectedItem;
-            if(StatusSelector.SelectedItem == null || (IBL.BO.WeightCategories)StatusSelector.SelectedItem == IBL.BO.WeightCategories.Select)
+            if(StatusSelector.SelectedItem == null )
             {
                 switch (weight)
                 {
@@ -100,9 +96,7 @@ namespace PL
                         DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == IBL.BO.WeightCategories.Medium);
                         break;
 
-                    case IBL.BO.WeightCategories.Select:
-                        DronesListView.ItemsSource = BL.DisplayDroneList();
-                        break;
+                  
                 }
             }
             else
@@ -121,9 +115,7 @@ namespace PL
                         DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == IBL.BO.WeightCategories.Medium && d.Status == (IBL.BO.DroneStatus)StatusSelector.SelectedItem);
                         break;
 
-                    case IBL.BO.WeightCategories.Select:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d=> d.Status == (IBL.BO.DroneStatus)StatusSelector.SelectedItem);
-                        break;
+                    
                 }
             }
         }

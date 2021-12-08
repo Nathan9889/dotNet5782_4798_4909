@@ -11,7 +11,7 @@ namespace IBL
     {
         public enum WeightCategories
         {
-            Select = -1, Light = 0, Medium = 1, Heavy = 2
+             Light = 0, Medium = 1, Heavy = 2
         }
 
 
@@ -21,7 +21,7 @@ namespace IBL
         }
         public enum DroneStatus
         {
-            Select = -1, Available = 0, Maintenance = 1, Shipping = 2, 
+             Available = 0, Maintenance = 1, Shipping = 2, 
         }
 
         public enum ShipmentStatus

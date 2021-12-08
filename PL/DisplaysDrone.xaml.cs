@@ -115,7 +115,7 @@ namespace PL
 
         private void Drone_Weight_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           if(Drone_Weight.SelectedItem != null && (IBL.BO.WeightCategories)Drone_Weight.SelectedItem != IBL.BO.WeightCategories.Select)
+           if(Drone_Weight.SelectedItem != null )
             {
                 Drone_Weight.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
             }
