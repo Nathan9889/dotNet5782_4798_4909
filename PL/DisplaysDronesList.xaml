@@ -36,7 +36,7 @@
 
 
 
-        <ListView x:Name ="DronesListView" Grid.Row="1" MouseDoubleClick="DronesListView_MouseDoubleClick">
+        <ListView x:Name ="DronesListView" Grid.Row="1" MouseDoubleClick="DronesListView_MouseDoubleClick" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
@@ -52,7 +52,11 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <Button Content="Add New Drone" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Add_New_Drone"/>
+            <Button Content="Add New Drone" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Add_New_Drone"/>
+
+            <Button Content="Exit" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button_Click"  />
+
+
         </Grid>
 
 

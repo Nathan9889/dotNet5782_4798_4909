@@ -20,7 +20,7 @@ namespace PL
     public partial class DisplaysDrone : Window
     {
         IBL.IBL BL;
-        
+        IBL.BO.Drone selectedDrone;
 
         public DisplaysDrone(IBL.IBL bL)
         {
@@ -34,10 +34,49 @@ namespace PL
 
         }
 
-        public DisplaysDrone(object selectedItem)
+
+        public DisplaysDrone(IBL.IBL bL, IBL.BO.DroneToList drone, DisplaysDronesList droneListWindow)
         {
-           IBL.BO.DroneToList droneToList = (IBL.BO.DroneToList)selectedItem;
+            InitializeComponent();
+            this.BL = bL;
+            selectedDrone = BL.DisplayDrone(drone.ID);
+
+            UpdateDrone.Visibility = Visibility.Visible;
+
+            ID.Text = $"{drone.ID}";
+            Battery.Text = $"{drone.Battery}";
+
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+            WeightSelector.SelectedValue = drone.MaxWeight;
+            WeightSelector.IsEnabled = false;
+
+            Model.Text = drone.Model;
+
+            StatusSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.DroneStatus));
+            StatusSelector.SelectedValue = drone.Status;
+            StatusSelector.IsEnabled = false;
+
+            Delivery.Text = $"{drone.PackageID}";
+            Latitude.Text = $"{drone.DroneLocation.Latitude}";
+            Longitude.Text = $"{drone.DroneLocation.Longitude}";
+
+            ID.IsReadOnly = true;
+            Battery.IsReadOnly = true;
+
+            //if(drone.Status == IBL.BO.DroneStatus.Maintenance)
+            //{
+            //    ReleaseButton.Visibility = Visibility.Visible;
+            //}
+
+
         }
+
+
+
+
+
+
+
 
         public delegate void RefreshList(object ob);
         public event RefreshList RefreshListEvent;

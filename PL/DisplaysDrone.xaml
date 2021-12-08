@@ -108,7 +108,7 @@
 
 
     <Grid x:Name="MainGrid">
-        <Grid x:Name ="Add_New_Drone" Visibility="Visible">
+        <Grid x:Name ="Add_New_Drone" Visibility="Hidden">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"></ColumnDefinition>
                 <ColumnDefinition Width="10*"></ColumnDefinition>
@@ -211,8 +211,48 @@
 
         </Grid>
 
-        <Grid x:Name ="UpdateDrone" Visibility="Hidden">
-            <Button Content="Button" HorizontalAlignment="Right"  Margin="331,190,0,0" VerticalAlignment="Top"/>
+        <Grid x:Name ="UpdateDrone" Visibility="Visible">
+            <!--<Button Content="Button" HorizontalAlignment="Right"  Margin="331,190,0,0" VerticalAlignment="Top"/>-->
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="13*"/>
+                <ColumnDefinition Width="67*"/>
+
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="ID" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="133,50,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="277" Height="20"/>
+            <TextBox x:Name="Battery" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="133,80,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="277" Height="20"/>
+            <ComboBox x:Name="WeightSelector" Grid.Column="1" HorizontalAlignment="Left" Margin="133,110,0,0" VerticalAlignment="Top" Width="277" />
+            <TextBox x:Name="Model" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="133,145,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="277" Height="20"/>
+            <ComboBox x:Name="StatusSelector" Grid.Column="1" HorizontalAlignment="Left" Margin="133,171,0,0" VerticalAlignment="Top" Width="277" />
+            <TextBox x:Name="Delivery" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="133,216,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="277" Height="20"/>
+            <TextBox x:Name="Latitude" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="133,248,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="277" Height="20"/>
+            <TextBox x:Name="Longitude" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="133,277,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="277" Height="20"/>
+
+
+            <Label Content="ID:" Grid.Column="1" HorizontalAlignment="Left" Margin="20,46,0,0" VerticalAlignment="Top" Width="100"/>
+            <Label Content="Battery:" Grid.Column="1" HorizontalAlignment="Left" Margin="20,76,0,0" VerticalAlignment="Top" Width="100"/>
+            <Label Content="Max Weight:" Grid.Column="1" HorizontalAlignment="Left" Margin="20,106,0,0" VerticalAlignment="Top" Width="100"/>
+            <Label Content="Model:" Grid.Column="1" HorizontalAlignment="Left" Margin="20,138,0,0" VerticalAlignment="Top" Width="100"/>
+            <Label Content="Status:" Grid.Column="1" HorizontalAlignment="Left" Margin="20,167,0,0" VerticalAlignment="Top" Width="100"/>
+            <Label Content="Package Id: " Grid.Column="1" HorizontalAlignment="Left" Margin="20,210,0,0" VerticalAlignment="Top" Width="100"/>
+            <Label Content="Latitude:" Grid.Column="1" HorizontalAlignment="Left" Margin="20,244,0,0" VerticalAlignment="Top" Width="100"/>
+            <Label Content="Longitude:" Grid.Column="1" HorizontalAlignment="Left" Margin="20,273,0,0" VerticalAlignment="Top" Width="100"/>
+
+
+
+
+            <Button Content="Change Name" x:Name="Change_Name" HorizontalAlignment="Center" Margin="0,59,0,0" VerticalAlignment="Top" />
+            <Button Content="Charge Drone"  x:Name="ChargeButton" HorizontalAlignment="Center" Margin="0,100,0,0" VerticalAlignment="Top" Width="92" Background="#FFC16A6A"/>
+            <Button Content="Release" x:Name="ReleaseButton" HorizontalAlignment="Center" Margin="0,144,0,0" VerticalAlignment="Top" Width="92"/>
+            <Button Content="Associate" x:Name="AssociateButton" HorizontalAlignment="Center" Margin="0,183,0,0" VerticalAlignment="Top" Width="92"/>
+            <Button Content="Pick Up" x:Name="PickUpButton" HorizontalAlignment="Center" Margin="0,224,0,0" VerticalAlignment="Top" Width="92"/>
+            <Button Content="Deliver"  x:Name="DeliverButton" HorizontalAlignment="Center" Margin="0,265,0,0" VerticalAlignment="Top" Width="92"/>
+
+
+
+
+
         </Grid>
     </Grid>
 </Window>
