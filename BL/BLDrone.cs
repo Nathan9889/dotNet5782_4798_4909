@@ -101,7 +101,7 @@ namespace BL
                     droneToList.Status = (DroneStatus)(rand.Next(0, 2)); // Status between available and maintained
                     if (droneToList.Status == DroneStatus.Maintenance) // If it is in maintenance
                     {
-                        IDAL.DO.Station station = dal.StationsFilter(s=> s.ChargeSlots > 0).ElementAt(rand.Next(0, dal.StationsList().Count())); // Lottery location between stations with charging stations available
+                        IDAL.DO.Station station = dal.StationsFilter(s=> s.ChargeSlots > 0).ElementAt(rand.Next(0, dal.StationsFilter(s => s.ChargeSlots > 0).Count())); // Lottery location between stations with charging stations available
                         droneToList.DroneLocation.Latitude = station.Latitude;
                         droneToList.DroneLocation.Longitude = station.Longitude;
                         droneToList.Battery = rand.Next(0, 21);
@@ -248,6 +248,7 @@ namespace BL
         {
             
             if (!DroneList.Any(drone => drone.ID == droneID)) throw new IBL.BO.Exceptions.IDException("Drone ID not found", droneID);
+            if(DroneList.Find(d=> d.ID == droneID).Status != DroneStatus.Maintenance) throw new IBL.BO.Exceptions.EndDroneCharging("The status of the drone is not Maintenance", droneID);
             if (!dal.droneChargesList().Any(d => d.DroneId == droneID)) throw new IBL.BO.Exceptions.EndDroneCharging("The status of the drone is charging but it is not in the droneCharges list", droneID);
             int indexDroneToList = DroneList.FindIndex(d => d.ID == droneID);
             if (DroneList.Find(drone => drone.ID == droneID).Status != DroneStatus.Maintenance) throw new IBL.BO.Exceptions.EndDroneCharging("Drone status is not Maintenance", droneID);
@@ -255,8 +256,8 @@ namespace BL
             //int minutesCharging =(int) ((DateTime.Now - dal.droneChargesList().First(x => x.DroneId == droneID).ChargingStartTime).TotalMinutes); // המרה מspentime
 
             int battary =(int)((minutesCharging / 60.0) * 100); // Calculate the new battery
-            if (battary > 100) battary = 100;
-            DroneList[indexDroneToList].Battery = battary;
+            DroneList[indexDroneToList].Battery += battary;
+            if (DroneList[indexDroneToList].Battery > 100) DroneList[indexDroneToList].Battery = 100;
             DroneList[indexDroneToList].Status = DroneStatus.Available;
 
             IDAL.DO.DroneCharge droneCharge = dal.droneChargesList().First(d => d.DroneId == droneID);

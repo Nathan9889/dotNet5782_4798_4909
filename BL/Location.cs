@@ -17,8 +17,8 @@ namespace IBL
             public override string ToString()
             {
                 string result = "";
-                result += $"Latitude is \n{DalObject.DalObject.ConvertLatitude(Latitude)}, ";
-                result += $"Longitude is {DalObject.DalObject.ConvertLongitude(Longitude)}.";
+                result += $"{DalObject.DalObject.ConvertLatitude(Latitude)}, ";
+                result += $"{DalObject.DalObject.ConvertLongitude(Longitude)}";
                 return result;
             }
 

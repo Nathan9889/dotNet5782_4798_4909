@@ -7,7 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="640" Width="800">
     <Grid >
-        <Button Content="Drones" HorizontalAlignment="Left" Margin="265,195,0,0" VerticalAlignment="Top" Height="62" Width="297" Click="Button_Click" FontSize="15" FontFamily="Aharoni">
+        <Grid.Background>
+            <ImageBrush ImageSource="/רחפן.jpg"/>
+        </Grid.Background>
+        <Button Content="Drones" HorizontalAlignment="Left" Margin="273,277,0,0" VerticalAlignment="Top" Height="62" Width="297" Click="Button_Click" FontSize="15" FontFamily="Aharoni">
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="Black" Offset="1"/>

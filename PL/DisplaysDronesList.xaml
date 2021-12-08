@@ -36,10 +36,15 @@
 
 
 
-        <ListView x:Name ="DronesListView" Grid.Row="1" MouseDoubleClick="DronesListView_MouseDoubleClick" >
+        <ListView x:Name ="DronesListView" Grid.Row="1" MouseDoubleClick="DronesListView_MouseDoubleClick" SelectionChanged="DronesListView_SelectionChanged" FontSize="13" Margin="0,40,0,43" Grid.RowSpan="2" HorizontalAlignment="Left" Width="710" >
             <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
+                <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="information">
+                    <GridViewColumn DisplayMemberBinding="{Binding ID}" x:Name="ID" Header="ID" Width="70"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Model}" x:Name="Model" Header="Model" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding DroneLocation}" x:Name="Location" Header="Location" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Battery}" x:Name="Battery" Header="Battery %" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding MaxWeight}" x:Name="Weight" Header="Weight" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Status}" x:Name="DronesStatus" Header="DronesStatus" Width="auto"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -58,6 +63,7 @@
 
 
         </Grid>
+        <Button Content="Reset Selection" HorizontalAlignment="Left" Margin="688,9,0,0" VerticalAlignment="Top" Width="99" Height="21" Click="Button_Click_1" Grid.Row="1"/>
 
 
     </Grid>
