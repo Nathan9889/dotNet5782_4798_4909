@@ -20,16 +20,23 @@ namespace PL
     public partial class DisplaysDrone : Window
     {
         IBL.IBL BL;
+        
+
         public DisplaysDrone(IBL.IBL bL)
         {
             InitializeComponent();
             this.BL = bL;
             Add_New_Drone.Visibility = Visibility.Visible;
             Drone_Weight.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
-            Stations_List.ItemsSource = BL.DisplayStationListFilter(s => s.AvailableChargingSlots > 0);
+            Stations_List.ItemsSource = BL.DisplayStationListWitAvailableChargingSlots();
             Add_New_Drone.Visibility = Visibility.Visible;
 
 
+        }
+
+        public DisplaysDrone(object selectedItem)
+        {
+           IBL.BO.DroneToList droneToList = (IBL.BO.DroneToList)selectedItem;
         }
 
         public delegate void RefreshList(object ob);
@@ -81,7 +88,7 @@ namespace PL
         { 
             SolidColorBrush red = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFE92617"));
             if (SolidColorBrush.Equals(((SolidColorBrush)StationID.BorderBrush).Color , red.Color) || SolidColorBrush.Equals(((SolidColorBrush)DroneModel.BorderBrush).Color , red.Color)
-                || SolidColorBrush.Equals(((SolidColorBrush)IdInput.BorderBrush).Color , red.Color) || Drone_Weight.SelectedItem == null)
+                || SolidColorBrush.Equals(((SolidColorBrush)IdInput.BorderBrush).Color , red.Color) || Drone_Weight.Style == (Style)this.FindResource("ComboBoxTest2"))
             {
                 MessageBox.Show("Please enter correct input","Error input" ,MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -94,24 +101,25 @@ namespace PL
                 try
                 {
                     BL.AddDrone(drone, int.Parse(StationID.Text));
+
+                    MessageBox.Show("The addition was successful", "Added a drone", MessageBoxButton.OK, MessageBoxImage.Information);
+                    RefreshListEvent(this);
+                    DroneWindow.Close();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
                 }
-                MessageBox.Show("The addition was successful", "Added a drone", MessageBoxButton.OK, MessageBoxImage.Information);
-                RefreshListEvent(this);
-                DroneWindow.Close();
             }
         }
 
         private void Drone_Weight_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var bc = new BrushConverter();
-            Drone_Weight.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617"); ;
-           
-                
+           if(Drone_Weight.SelectedItem != null && (IBL.BO.WeightCategories)Drone_Weight.SelectedItem != IBL.BO.WeightCategories.Select)
+            {
+                Drone_Weight.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
+            }
+            else Drone_Weight.Style = (Style)this.FindResource("ComboBoxTest2");
         }
 
         

@@ -17,10 +17,18 @@ namespace IBL
             public override string ToString()
             {
                 string result = "";
-                result += $"Latitude is {DalObject.DalObject.ConvertLatitude(Latitude)},\n";
-                result += $"Longitude is {DalObject.DalObject.ConvertLongitude(Longitude)}.\n";
+                result += $"Latitude is \n{DalObject.DalObject.ConvertLatitude(Latitude)}, ";
+                result += $"Longitude is {DalObject.DalObject.ConvertLongitude(Longitude)}.";
                 return result;
             }
+
+            //public override string ToString()
+            //{
+            //    string result = "";
+            //    result += $"Latitude is {DalObject.DalObject.ConvertLatitude(Latitude)},\n";
+            //    result += $"Longitude is {DalObject.DalObject.ConvertLongitude(Longitude)}.\n";
+            //    return result;
+            //}
         }
     }
 

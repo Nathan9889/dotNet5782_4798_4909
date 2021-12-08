@@ -30,18 +30,13 @@ namespace PL
             WeightSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
 
 
-            //StatusSelector.Items.Add("Select");
-            //for (int i = 0; i < 3; i++) StatusSelector.Items.Add(((IBL.BO.DroneStatus)i).ToString());
-
-            //WeightSelector.Items.Add("Select");
-            //for (int i = 0; i < 3; i++) WeightSelector.Items.Add(((IBL.BO.WeightCategories)i).ToString());
         }
 
         private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             IBL.BO.DroneStatus status = (IBL.BO.DroneStatus)StatusSelector.SelectedItem;
 
-            if(WeightSelector.SelectedItem == null)
+            if(WeightSelector.SelectedItem == null || (IBL.BO.DroneStatus)WeightSelector.SelectedItem == IBL.BO.DroneStatus.Select )
             {
                 switch (status)
                 {
@@ -55,6 +50,10 @@ namespace PL
 
                     case IBL.BO.DroneStatus.Shipping:
                         DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == IBL.BO.DroneStatus.Shipping);
+                        break;
+
+                    case IBL.BO.DroneStatus.Select:
+                        DronesListView.ItemsSource = BL.DisplayDroneList();
                         break;
                 }
             }
@@ -73,6 +72,10 @@ namespace PL
                     case IBL.BO.DroneStatus.Shipping:
                         DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == IBL.BO.DroneStatus.Shipping && d.MaxWeight == (IBL.BO.WeightCategories)WeightSelector.SelectedItem);
                         break;
+
+                    case IBL.BO.DroneStatus.Select:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d=> d.MaxWeight == (IBL.BO.WeightCategories)WeightSelector.SelectedItem);
+                        break;
                 }
             }
             
@@ -81,7 +84,7 @@ namespace PL
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)WeightSelector.SelectedItem;
-            if(StatusSelector.SelectedItem == null)
+            if(StatusSelector.SelectedItem == null || (IBL.BO.WeightCategories)StatusSelector.SelectedItem == IBL.BO.WeightCategories.Select)
             {
                 switch (weight)
                 {
@@ -95,6 +98,10 @@ namespace PL
 
                     case IBL.BO.WeightCategories.Medium:
                         DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == IBL.BO.WeightCategories.Medium);
+                        break;
+
+                    case IBL.BO.WeightCategories.Select:
+                        DronesListView.ItemsSource = BL.DisplayDroneList();
                         break;
                 }
             }
@@ -112,6 +119,10 @@ namespace PL
 
                     case IBL.BO.WeightCategories.Medium:
                         DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == IBL.BO.WeightCategories.Medium && d.Status == (IBL.BO.DroneStatus)StatusSelector.SelectedItem);
+                        break;
+
+                    case IBL.BO.WeightCategories.Select:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d=> d.Status == (IBL.BO.DroneStatus)StatusSelector.SelectedItem);
                         break;
                 }
             }
@@ -131,6 +142,11 @@ namespace PL
             if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null) DronesListView.ItemsSource = BL.DisplayDroneList();
             if (WeightSelector.SelectedItem != null) WeightSelector_SelectionChanged(this, null);
             if (StatusSelector.SelectedItem != null) StatusSelector_SelectionChanged(this, null);
+        }
+
+        private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            new DisplaysDrone(DronesListView.SelectedItem).Show();
         }
     }
 }

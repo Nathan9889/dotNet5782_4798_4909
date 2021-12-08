@@ -194,10 +194,11 @@ namespace IBL
         /// <returns> Client List </returns>
         public IEnumerable<ClientToList> DisplayClientList();
 
+       
 
        IEnumerable<DroneToList> DisplayDroneListFilter(Predicate<DroneToList> match);
 
-        IEnumerable<StationToList> DisplayStationListFilter(Predicate<StationToList> match);
+       
 
 
         //Exit

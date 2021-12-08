@@ -171,11 +171,6 @@ namespace BL
         }
 
 
-        public IEnumerable<StationToList> DisplayStationListFilter(Predicate<StationToList> match)
-        {
-            List<StationToList> stations = new List<StationToList>(DisplayStationList()).FindAll(match); // Copy of list without reference !!
-            return stations;
-        }
 
     }
 }

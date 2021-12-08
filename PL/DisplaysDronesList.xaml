@@ -26,8 +26,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions >
-                <ComboBox Name="StatusSelector" Grid.Column="1" HorizontalAlignment="Left" Width="200" SelectionChanged="StatusSelector_SelectionChanged" Text=""/>
-                <ComboBox Name="WeightSelector" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="WeightSelector_SelectionChanged"/>
+                <ComboBox Name="StatusSelector" Grid.Column="1" HorizontalAlignment="Left" Width="200" SelectionChanged="StatusSelector_SelectionChanged" Text="" SelectedIndex="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="15" FontFamily="Arial" FontWeight="Bold"/>
+                <ComboBox Name="WeightSelector" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="WeightSelector_SelectionChanged" SelectedIndex="3" FontSize="15" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <TextBlock HorizontalAlignment="Center" Text="Drone Status:" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="20" FontFamily="Aharoni" Width="150"/>
                 <TextBlock Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Drone weight:" TextWrapping="Wrap" FontSize="20" FontFamily="Aharoni"/>
             </Grid>
@@ -36,7 +36,7 @@
 
 
 
-        <ListView x:Name ="DronesListView" Grid.Row="1">
+        <ListView x:Name ="DronesListView" Grid.Row="1" MouseDoubleClick="DronesListView_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
