@@ -25,6 +25,7 @@ namespace PL
         {
             InitializeComponent();
             BL = new BL.BL();
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

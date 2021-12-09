@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DisplaysDrone" Name="DroneWindow" Height="450" Width="800">
+        Title="DisplaysDrone" Name="DroneWindow" Height="450" Width="800" Loaded="Window_Loaded">
+    <!--here-->
 
 
 
@@ -212,7 +213,7 @@
         </Grid>
 
         <Grid x:Name ="UpdateDrone" Visibility="Visible">
-            <!--<Button Content="Button" HorizontalAlignment="Right"  Margin="331,190,0,0" VerticalAlignment="Top"/>-->
+
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="13*"/>
@@ -220,23 +221,51 @@
 
             </Grid.ColumnDefinitions>
 
-            <TextBox x:Name="ID" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="209,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="265" Height="20"/>
-            <TextBox x:Name="Battery" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="209,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="265" Height="20"/>
-            <TextBox x:Name="WeightSelector" Grid.Column="1" HorizontalAlignment="Left" Margin="209,119,0,0" VerticalAlignment="Top" Width="265" IsReadOnly="True" />
-            <TextBox x:Name="Model_Input" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="208,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" Height="20" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" TextChanged="Model_Input_TextChanged"/>
-            <TextBox x:Name="StatusSelector" Grid.Column="1" HorizontalAlignment="Left" Margin="209,182,0,0" VerticalAlignment="Top" Width="265" IsReadOnly="True" />
-            <TextBox x:Name="Latitude" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="209,210,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="265" Height="20" IsReadOnly="True"/>
-            <TextBox x:Name="Longitude" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="209,237,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="265" Height="20" IsReadOnly="True"/>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="5*"></RowDefinition>
+                    <RowDefinition Height="28"></RowDefinition>
+
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+
+                </Grid.ColumnDefinitions>
 
 
-            <Label Content="ID:" Grid.Column="1" HorizontalAlignment="Left" Margin="115,51,0,0" VerticalAlignment="Top" Width="64"/>
-            <Label Content="Battery:" Grid.Column="1" HorizontalAlignment="Left" Margin="115,81,0,0" VerticalAlignment="Top" Width="100"/>
-            <Label Content="Max Weight:" Grid.Column="1" HorizontalAlignment="Left" Margin="115,117,0,0" VerticalAlignment="Top" Width="100"/>
-            <Label Content="Model:" Grid.Column="1" HorizontalAlignment="Left" Margin="115,149,0,0" VerticalAlignment="Top" Width="100"/>
-            <Label Content="Status:" Grid.Column="1" HorizontalAlignment="Left" Margin="115,178,0,0" VerticalAlignment="Top" Width="100"/>
-            <Label Content="Latitude:" Grid.Column="1" HorizontalAlignment="Left" Margin="115,206,0,0" VerticalAlignment="Top" Width="100"/>
-            <Label Content="Longitude:" Grid.Column="1" HorizontalAlignment="Left" Margin="115,230,0,0" VerticalAlignment="Top" Width="100"/>
-            <Label Content="PackageProcess:" Name="PackageProcess_Label" Grid.Column="1" HorizontalAlignment="Left" Margin="115,268,0,0" VerticalAlignment="Top" Width="100"/>
+                <Label Content="ID:" HorizontalAlignment="Right"  Grid.Row="1" Margin="45,0,0,0" Width="90" Grid.RowSpan="2"/>
+                <Label Content="Battery:" HorizontalAlignment="Right" Width="90" Grid.Row="2" Margin="45,0,0,0" Grid.RowSpan="2"/>
+                <Label Content="Max Weight:" HorizontalAlignment="Right" Margin="45,0,0,0" Width="90" Grid.Row="3" Grid.RowSpan="2"/>
+                <Label Content="Model:" HorizontalAlignment="Right" Margin="45,0,0,0" Width="90" Grid.Row="4" Grid.RowSpan="2"/>
+                <Label Content="Status:" HorizontalAlignment="Right" Margin="45,0,0,0" Width="90" Grid.Row="5" Grid.RowSpan="2"/>
+                <Label Content="Latitude:" HorizontalAlignment="Right"  Margin="45,0,0,0" Width="90" Grid.Row="6" Grid.RowSpan="2"/>
+                <Label Content="Longitude:" HorizontalAlignment="Right" Margin="45,0,0,0" Width="90" Grid.Row="7" Grid.RowSpan="2"/>
+                <Label Content="Shipping:" x:Name="PackageProcess_Label" HorizontalAlignment="Right"  Margin="45,0,0,0" Width="90" Grid.Row="8" Grid.RowSpan="2"/>
+
+
+                <TextBox x:Name="ID" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="250" Height="20" Grid.Row="1"/>
+                <TextBox x:Name="Battery" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="250" Height="20" Grid.Row="2"/>
+                <TextBox x:Name="WeightSelector" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Stretch" Width="250" Height="20" IsReadOnly="True" Grid.Row="3" />
+                <TextBox x:Name="Model_Input" DataContext="{Binding}" HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Width="250" Height="20" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" TextChanged="Model_Input_TextChanged" Grid.Row="4" Grid.Column="1"/>
+                <TextBox x:Name="StatusSelector" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Stretch" Width="250"  Height="20" IsReadOnly="True" Grid.Row="5" />
+                <TextBox x:Name="Latitude" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Width="250" Height="20" IsReadOnly="True" Grid.Row="6"/>
+                <TextBox x:Name="Longitude" Grid.Column="1" DataContext="{Binding}" HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Width="250" Height="20" IsReadOnly="True" Grid.Row="7"/>
+                <TextBox Grid.Column="1" Margin="10,10,250,20"  x:Name="Package_Process" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled"
+                         
+              VerticalScrollBarVisibility="Auto" Grid.Row="8" />
+
+
+            </Grid>
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -259,7 +288,7 @@
                     <RowDefinition Height ="2*"></RowDefinition>
                     <RowDefinition Height ="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Button Content="Change Name" x:Name="Change_Name"   Click="Change_Name_Click" Grid.Row="2" >
+                <Button Content="Update Model" x:Name="Change_Name"   Click="Change_Name_Click" Grid.Row="2" >
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -273,7 +302,7 @@
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button Content="Release" x:Name="ReleaseButton"  Click="ReleaseButton_Click" Grid.Row="6" IsEnabled="False" >
+                <Button Content="Release Drone" x:Name="ReleaseButton"  Click="ReleaseButton_Click" Grid.Row="6" IsEnabled="False" >
 
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -281,21 +310,21 @@
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button Content="Associate" x:Name="AssociateButton" Click="AssociateButton_Click" Grid.Row="8" IsEnabled="False">
+                <Button Content="Associate Package" x:Name="AssociateButton" Click="AssociateButton_Click" Grid.Row="8" IsEnabled="False">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button Content="Pick Up" x:Name="PickUpButton" Grid.Row="10" Click="PickUpButton_Click" IsEnabled="False">
+                <Button Content="Pick UpPackage" x:Name="PickUpButton" Grid.Row="10" Click="PickUpButton_Click" IsEnabled="False">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button Content="Deliver"  x:Name="DeliverButton" Grid.Row="12" Click="DeliverButton_Click" IsEnabled="False">
+                <Button Content="Deliver Package"  x:Name="DeliverButton" Grid.Row="12" Click="DeliverButton_Click" IsEnabled="False">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -303,9 +332,7 @@
                     </Button.Resources>
                 </Button>
             </Grid>
-            <Button Content="Exit" Grid.Column="1" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="28" Width="95"  FontSize="15" FontFamily="Calisto MT" Click="Button_Click" Background="#FFCD0000"/>
-            <TextBox Grid.Column="1" Margin="209,266,183,14"  Name="Package_Process" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled"
-              VerticalScrollBarVisibility="Auto" />
+            <Button Content="Exit" Grid.Column="1" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="28" Width="95"  FontSize="15" FontFamily="Calisto MT" Click="Button_Click" Background="#FFEF8C8C" Margin="0,0,10,10"/>
 
 
 

@@ -10,7 +10,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="/רחפן.jpg"/>
         </Grid.Background>
-        <Button Content="Drones" HorizontalAlignment="Left" Margin="273,277,0,0" VerticalAlignment="Top" Height="62" Width="297" Click="Button_Click" FontSize="15" FontFamily="Aharoni">
+        <Button Content="Drones List" HorizontalAlignment="Center" Margin="0,450,0,0" VerticalAlignment="Top" Height="62" Width="296" Click="Button_Click" FontSize="15" FontFamily="Aharoni">
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="Black" Offset="1"/>
@@ -18,6 +18,7 @@
                 </RadialGradientBrush>
             </Button.Background>
         </Button>
+        <Label Content="Welcome" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="200" FontSize="36" FontFamily="Lucida Calligraphy" Foreground="#FF08B7B3"/>
 
 
     </Grid>
