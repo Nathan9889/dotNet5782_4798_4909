@@ -52,12 +52,9 @@ namespace PL
         {
             InitializeComponent();
             this.BL = bL;
-            Add_New_Drone.Visibility = Visibility.Visible;
-            Drone_Weight.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
-            Stations_List.ItemsSource = BL.DisplayStationListWitAvailableChargingSlots();
-            Add_New_Drone.Visibility = Visibility.Visible;
+          
 
-
+            InitializeAddDrone();
         }
 
 
@@ -65,43 +62,78 @@ namespace PL
         {
             InitializeComponent();
             this.BL = bL;
-            
-            Initialize(drone.ID);
-      
+
+            InitializeDisplayDrone(drone.ID);
+           
+        }
+
+        void InitializeAddDrone()
+        {
+            Add_New_Drone.Visibility = Visibility.Visible;
+            Drone_Weight.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+            Stations_List.ItemsSource = BL.DisplayStationListWitAvailableChargingSlots();
+            Add_New_Drone.Visibility = Visibility.Visible;
+
+            var bc = new BrushConverter();
+            IdInput.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
+            IdInput.Background = (Brush)bc.ConvertFrom("#FFFFFFE1");
+
+            DroneModel.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
+            DroneModel.Background = (Brush)bc.ConvertFrom("#FFFFFFE1");
+
+            StationID.Visibility = Visibility.Visible;
+            Station_Id_Labl.Visibility = Visibility.Visible;
+            StationID.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
+            StationID.Background = (Brush)bc.ConvertFrom("#FFFFFFE1");
+            Drone_Weight.Style = (Style)this.FindResource("ComboBoxTest2");
+
+            Stations_Labl.Visibility = Visibility.Visible;
+            Stations_List.Visibility = Visibility.Visible;
+
+            Add_Drone_Button.Visibility = Visibility.Visible;
+            cancel.Visibility = Visibility.Visible;
+
+            Buttons.Visibility = Visibility.Hidden;
+            Shipping_Label.Visibility = Visibility.Hidden;
+            Package_Process.Visibility = Visibility.Hidden;
+            Battery.Visibility = Visibility.Hidden;
+            Battary_Label.Visibility = Visibility.Hidden;
+
+            StatusSelector.Text = IBL.BO.DroneStatus.Maintenance.ToString();
         }
 
 
-
-
-        void Initialize(int DroneId)
+        void InitializeDisplayDrone(int DroneId)
         {
             selectedDrone = BL.DisplayDrone(DroneId);
 
-            UpdateDrone.Visibility = Visibility.Visible;
-            UpdateDrone.Visibility = Visibility.Visible;
-
-            ID.Text = $"{selectedDrone.ID}";
+            var bc = new BrushConverter();
+            DroneModel.Background = (Brush)bc.ConvertFrom("#FFFFFFE1");
+            IdInput.Text = $"{selectedDrone.ID}";
+            IdInput.IsReadOnly = true;
             Battery.Text = $"{selectedDrone.Battery}";
 
-            WeightSelector.Text = selectedDrone.MaxWeight.ToString();
+            Drone_Weight.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+            Drone_Weight.SelectedItem = selectedDrone.MaxWeight;
+            Drone_Weight.IsReadOnly = true;
+            Drone_Weight.IsEnabled = false;
+            Drone_Weight.Style = (Style)this.FindResource("ComboBoxTestInDisplayDrone");
 
-            Model_Input.Text = selectedDrone.Model;
+            DroneModel.Text = selectedDrone.Model;
 
             StatusSelector.Text = selectedDrone.Status.ToString();
 
            // Delivery.Text = $"{selectedDrone.DronePackageProcess.Id}";
-            Latitude.Text = $"{selectedDrone.DroneLocation.Latitude}";
-            Longitude.Text = $"{selectedDrone.DroneLocation.Longitude}";
+           Location.Text = $"{selectedDrone.DroneLocation.Latitude} , {selectedDrone.DroneLocation.Longitude}";
+           
 
             if (selectedDrone.DronePackageProcess == null)
             {
                 Package_Process.Visibility = Visibility.Hidden;
-                PackageProcess_Label.Visibility = Visibility.Hidden;
+               Shipping_Label.Visibility = Visibility.Hidden;
             }
             else Package_Process.Text = $"{selectedDrone.DronePackageProcess}";
-
-            ID.IsReadOnly = true;
-            Battery.IsReadOnly = true;
+            
 
             switch (selectedDrone.Status)
             {
@@ -185,6 +217,17 @@ namespace PL
                 StationID.BorderBrush = (Brush)bc.ConvertFrom("#FF99B4D1");
             }
             else StationID.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
+
+            try
+            {
+                int id = int.Parse(StationID.Text.ToString());
+                Location.Text = $"{BL.DisplayStation(id).StationLocation.Latitude} , {BL.DisplayStation(id).StationLocation.Latitude}";
+            }
+            catch (Exception ex)
+            {
+
+                Location.Text = null;
+            }
         }
 
         private void cancel_Click(object sender, RoutedEventArgs e)
@@ -245,7 +288,7 @@ namespace PL
                 BL.ChargeDrone(selectedDrone.ID);
 
                 MessageBox.Show("The Drone have been sent successfulyl", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Initialize(selectedDrone.ID);
+                InitializeDisplayDrone(selectedDrone.ID);
             }
             catch (Exception ex)
             {
@@ -257,10 +300,10 @@ namespace PL
         {
             try
             {
-                BL.UpdateDroneName(selectedDrone.ID, Model_Input.Text);
+                BL.UpdateDroneName(selectedDrone.ID, DroneModel.Text);
 
                 MessageBox.Show("Name have been changed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Initialize(selectedDrone.ID);
+                InitializeDisplayDrone(selectedDrone.ID);
             }
             catch (Exception ex)
             {
@@ -275,7 +318,7 @@ namespace PL
                 BL.FinishCharging(selectedDrone.ID);
 
                 MessageBox.Show($"Drone have been unplugged, Battery left: {selectedDrone.Battery}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Initialize(selectedDrone.ID);
+                InitializeDisplayDrone(selectedDrone.ID);
             }
             catch (Exception ex)
             {
@@ -290,7 +333,7 @@ namespace PL
                 BL.packageToDrone(selectedDrone.ID);
 
                 MessageBox.Show("Package have been Associated to drone successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Initialize(selectedDrone.ID);
+                InitializeDisplayDrone(selectedDrone.ID);
             }
             catch (Exception ex)
             {
@@ -305,7 +348,7 @@ namespace PL
                 BL.PickedUpByDrone(selectedDrone.ID);
 
                 MessageBox.Show("Package have been picked up successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Initialize(selectedDrone.ID);
+                InitializeDisplayDrone(selectedDrone.ID);
             }
             catch (Exception ex)
             {
@@ -320,7 +363,7 @@ namespace PL
                 BL.DeliveredToClient(selectedDrone.ID);
 
                 MessageBox.Show("Package have been delivered successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Initialize(selectedDrone.ID);
+                InitializeDisplayDrone(selectedDrone.ID);
             }
             catch (Exception ex)
             {
@@ -333,17 +376,6 @@ namespace PL
             RefreshListEvent(this);
             Close();
             
-        }
-
-        private void Model_Input_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var bc = new BrushConverter();
-            string text = Model_Input.Text;
-            if (text != null && text != "" && char.IsLetter(text.ElementAt(0)))
-            {
-                Model_Input.BorderBrush = (Brush)bc.ConvertFrom("#FFABADB3");
-            }
-            else Model_Input.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
         }
     }
 }
