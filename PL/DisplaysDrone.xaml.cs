@@ -298,16 +298,25 @@ namespace PL
 
         private void Change_Name_Click(object sender, RoutedEventArgs e)
         {
-            try
+            SolidColorBrush red = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFE92617"));
+            if (SolidColorBrush.Equals(((SolidColorBrush)DroneModel.BorderBrush).Color, red.Color))
             {
-                BL.UpdateDroneName(selectedDrone.ID, DroneModel.Text);
-
-                MessageBox.Show("Name have been changed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                InitializeDisplayDrone(selectedDrone.ID);
+                MessageBox.Show("Please enter correct Name", "Error input", MessageBoxButton.OK, MessageBoxImage.Error);
+                DroneModel.Text = selectedDrone.Model;
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                try
+                {
+                    BL.UpdateDroneName(selectedDrone.ID, DroneModel.Text);
+
+                    MessageBox.Show("Name have been changed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    InitializeDisplayDrone(selectedDrone.ID);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
