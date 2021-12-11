@@ -24,6 +24,7 @@ namespace PL
     {
         IBL.IBL BL;
         IBL.BO.Drone selectedDrone;
+
         /// <summary>
         /// Set up a window closing event to refresh a drone list
         /// </summary>
