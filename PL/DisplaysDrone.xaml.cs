@@ -280,7 +280,7 @@ namespace PL
             {
                 BL.ChargeDrone(selectedDrone.ID);
 
-                MessageBox.Show("The Drone have been sent successfulyl", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Drone sent to charge", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 InitializeDisplayDrone(selectedDrone.ID);
             }
             catch (Exception ex)
