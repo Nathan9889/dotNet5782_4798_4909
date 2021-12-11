@@ -46,6 +46,7 @@ namespace DalObject
             dist = dist * 180 / Math.PI;
             dist = dist * 60 * 1.1515;
 
+            if (double.IsNaN(dist)) return 0;
             return dist * 1.609344;
         }
 

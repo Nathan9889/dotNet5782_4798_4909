@@ -243,7 +243,7 @@ namespace ConsoleUI_BL
                                         double timeCharging;
                                         double.TryParse(Console.ReadLine(), out timeCharging);
 
-                                        bl.FinishCharging(droneIdToFinish, timeCharging);
+                                        bl.FinishCharging(droneIdToFinish);
                                         Console.WriteLine("Drone has finished Charging ! ");
                                         break;
 
