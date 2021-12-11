@@ -244,7 +244,7 @@
                 </TextBox>
 
                 <TextBlock x:Name ="Station_Id_Labl"  HorizontalAlignment="Left" Grid.Row="7" Text="Station ID:" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="13" FontFamily="Aharoni" Visibility="Hidden" />
-                <TextBox x:Name="StationID" Visibility="Hidden" Grid.Column="1"  Grid.Row="7" TextWrapping="Wrap"  Width="150" TextChanged="StationID_TextChanged" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontFamily="Arial" FontWeight="Bold" >
+                <TextBox x:Name="StationID" Visibility="Hidden" Grid.Column="1"  Grid.Row="7" TextWrapping="Wrap"  Width="150" TextChanged="StationID_TextChanged" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontFamily="Arial" FontWeight="Bold" VerticalContentAlignment="Center" >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />

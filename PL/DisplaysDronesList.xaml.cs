@@ -26,9 +26,8 @@ namespace PL
         IBL.IBL BL;
         DisplaysDrone DroneWindow;
 
-
-        //********
-        private const int GWL_STYLE = -16;
+       
+        private const int GWL_STYLE = -16;   //used to remove X button for bonus
         private const int WS_SYSMENU = 0x80000;
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -37,16 +36,11 @@ namespace PL
         [DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-
-
-        //**
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)  //function used to remove X button for bonus
         {
             var hwnd = new WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
-        //**
-
         //********
 
 
@@ -59,8 +53,6 @@ namespace PL
             DronesListView.ItemsSource = BL.DisplayDroneList();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
-
-
         }
 
         private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -142,8 +134,6 @@ namespace PL
                     case null:
                         DronesListView.ItemsSource = BL.DisplayDroneList();
                         break;
-
-
                 }
             }
             else
@@ -173,7 +163,7 @@ namespace PL
         private void Add_New_Drone(object sender, RoutedEventArgs e)
         {
             DroneWindow = new DisplaysDrone(BL);
-            DroneWindow.RefreshListEvent += RefreshListView;
+            DroneWindow.CloseWindowEvent += RefreshListView;
             DroneWindow.Show();
         }
 
@@ -191,7 +181,7 @@ namespace PL
             if ((IBL.BO.DroneToList)DronesListView.SelectedItem != null)
             {
                 DroneWindow = new DisplaysDrone(BL, (IBL.BO.DroneToList)DronesListView.SelectedItem, this);
-                DroneWindow.RefreshListEvent += RefreshListView;
+                DroneWindow.CloseWindowEvent += RefreshListView;
                 DroneWindow.Show();
             }
             DronesListView.SelectedItems.Clear();
@@ -200,11 +190,6 @@ namespace PL
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void DronesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

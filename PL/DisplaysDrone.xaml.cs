@@ -25,6 +25,10 @@ namespace PL
         IBL.IBL BL;
         IBL.BO.Drone selectedDrone;
 
+        public delegate void CloseWindow(object ob);
+        public event CloseWindow CloseWindowEvent;
+
+
 
         //***
         private const int GWL_STYLE = -16;
@@ -42,9 +46,6 @@ namespace PL
             var hwnd = new WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
-
-
-
         //*****
 
 
@@ -176,10 +177,6 @@ namespace PL
             }
         }
 
-
-        public delegate void RefreshList(object ob);
-        public event RefreshList RefreshListEvent;
-
         private void idInput_TextChanged(object sender, TextChangedEventArgs e)
         {
             var bc = new BrushConverter();
@@ -216,9 +213,8 @@ namespace PL
                 int id = int.Parse(StationID.Text.ToString());
                 Location.Text = $"{BL.DisplayStation(id).StationLocation}";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
                 Location.Text = null;
             }
         }
@@ -246,8 +242,8 @@ namespace PL
                 {
                     BL.AddDrone(drone, int.Parse(StationID.Text));
 
-                    MessageBox.Show("The addition was successful", "Added a drone", MessageBoxButton.OK, MessageBoxImage.Information);
-                    RefreshListEvent(this);
+                    MessageBox.Show("Drone have been Added Successfully !", "Drone Added", MessageBoxButton.OK, MessageBoxImage.Information);
+                    CloseWindowEvent(this);
                     DroneWindow.Close();
                 }
                 catch (Exception ex)
@@ -374,10 +370,10 @@ namespace PL
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            RefreshListEvent(this);
+            CloseWindowEvent(this);
             Close();
-            
         }
+
     }
 }
 
