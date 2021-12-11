@@ -26,7 +26,9 @@ namespace PL
         IBL.IBL BL;
         DisplaysDrone DroneWindow;
 
-       
+        /// <summary>
+        ///  Deleting the X button
+        /// </summary>
         private const int GWL_STYLE = -16;   //used to remove X button for bonus
         private const int WS_SYSMENU = 0x80000;
 
@@ -45,7 +47,10 @@ namespace PL
 
 
 
-
+        /// <summary>
+        /// Initialize the drone list view window
+        /// </summary>
+        /// <param name="bL"></param>
         public DisplaysDronesList(IBL.IBL bL)
         {
             InitializeComponent();
@@ -55,6 +60,11 @@ namespace PL
             WeightSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
         }
 
+        /// <summary>
+        /// Displays the list of drones according to the filters of the 2 options
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             IBL.BO.DroneStatus? status;
@@ -108,6 +118,11 @@ namespace PL
 
         }
 
+        /// <summary>
+        /// Displays the list of drones according to the filters of the 2 options
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             IBL.BO.WeightCategories? weight;
@@ -160,6 +175,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// By clicking on the button Add Drone - Displays the drone window, and registers for the event of closing the window the function that refreshes the drone list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Add_New_Drone(object sender, RoutedEventArgs e)
         {
             DroneWindow = new DisplaysDrone(BL);
@@ -167,7 +187,10 @@ namespace PL
             DroneWindow.Show();
         }
 
-
+        /// <summary>
+        /// A function that refreshes the list of drones
+        /// </summary>
+        /// <param name="ob"></param>
         private void RefreshListView(object ob) // עדכון לרשימות
         {
             DronesListView.Items.Refresh();
@@ -176,6 +199,11 @@ namespace PL
             if (StatusSelector.SelectedItem != null) StatusSelector_SelectionChanged(this, null);
         }
 
+        /// <summary>
+        /// Double-clicking the drone in the list - Displays the drone window, and registers for the event of closing the window the function that refreshes the drone list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if ((IBL.BO.DroneToList)DronesListView.SelectedItem != null)
@@ -187,12 +215,22 @@ namespace PL
             DronesListView.SelectedItems.Clear();
         }
 
+        /// <summary>
+        /// Closes the drone list window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Reset the drone list filter
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Reset_Button_Click(object sender, RoutedEventArgs e)
         {
             StatusSelector.SelectedItem = null;
             WeightSelector.SelectedItem = null;

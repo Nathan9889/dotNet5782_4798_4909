@@ -63,7 +63,7 @@
 
 
         </Grid>
-        <Button Content="Reset Selection" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="99" Height="21" Click="Button_Click_1" Grid.Row="1" Margin="0,10,10,0" />
+        <Button Name="reset" Content="Reset Selection" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="99" Height="21" Click="Reset_Button_Click" Grid.Row="1" Margin="0,10,10,0" />
 
 
     </Grid>

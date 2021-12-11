@@ -24,12 +24,15 @@ namespace PL
     {
         IBL.IBL BL;
         IBL.BO.Drone selectedDrone;
-
+        /// <summary>
+        /// Set up a window closing event to refresh a drone list
+        /// </summary>
+        /// <param name="ob"></param>
         public delegate void CloseWindow(object ob);
         public event CloseWindow CloseWindowEvent;
 
 
-
+        // Deleting the X button
         //***
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
@@ -48,7 +51,10 @@ namespace PL
         }
         //*****
 
-
+        /// <summary>
+        ///Constructor for adding a drone display
+        /// </summary>
+        /// <param name="bL"></param>
         public DisplaysDrone(IBL.IBL bL)
         {
             InitializeComponent();
@@ -58,7 +64,12 @@ namespace PL
             InitializeAddDrone();
         }
 
-
+        /// <summary>
+        /// Constructor for displaying drone updates
+        /// </summary>
+        /// <param name="bL"></param>
+        /// <param name="drone"></param>
+        /// <param name="droneListWindow"></param>
         public DisplaysDrone(IBL.IBL bL, IBL.BO.DroneToList drone, DisplaysDronesList droneListWindow)
         {
             InitializeComponent();
@@ -68,6 +79,9 @@ namespace PL
            
         }
 
+        /// <summary>
+        /// Initialize for adding a drone
+        /// </summary>
         void InitializeAddDrone()
         {
             Add_New_Drone.Visibility = Visibility.Visible;
@@ -104,6 +118,10 @@ namespace PL
         }
 
 
+        /// <summary>
+        /// Initialize for drone updates
+        /// </summary>
+        /// <param name="DroneId"></param>
         void InitializeDisplayDrone(int DroneId)
         {
             selectedDrone = BL.DisplayDrone(DroneId);
@@ -133,8 +151,8 @@ namespace PL
                Shipping_Label.Visibility = Visibility.Hidden;
             }
             else Package_Process.Text = $"{selectedDrone.DronePackageProcess}";
-            
 
+            //Only the buttons that can perform an action will be available for pressing
             switch (selectedDrone.Status)
             {
                 case IBL.BO.DroneStatus.Available:
@@ -177,6 +195,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Change the frame color if the ID input is incorrect
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void idInput_TextChanged(object sender, TextChangedEventArgs e)
         {
             var bc = new BrushConverter();
@@ -188,6 +211,11 @@ namespace PL
 
         }
 
+        /// <summary>
+        /// Change the frame color if the DroneModel input is incorrect
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DroneModel_TextChanged(object sender, TextChangedEventArgs e)
         {
             var bc = new BrushConverter();
@@ -199,6 +227,12 @@ namespace PL
             else DroneModel.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
         }
 
+        /// <summary>
+        ///  Change the frame color if the StationID input is incorrect
+        ///  And adding the station location if the ID is correct
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StationID_TextChanged(object sender, TextChangedEventArgs e)
         {
             var bc = new BrushConverter();
@@ -219,11 +253,23 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Cancel insert and close window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
             DroneWindow.Close();
         }
 
+        /// <summary>
+        /// Adding a drone.
+        ///Check that the inputs are correct and add.
+        ///And display an appropriate message
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Add_Drone_Button_Click(object sender, RoutedEventArgs e)
         { 
             SolidColorBrush red = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFE92617"));
@@ -253,6 +299,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Change the frame color if the  Drone_Weight input is incorrect
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Drone_Weight_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
            if(Drone_Weight.SelectedItem != null )
@@ -262,14 +313,23 @@ namespace PL
             else Drone_Weight.Style = (Style)this.FindResource("ComboBoxTest2");
         }
 
-        
 
+        /// <summary>
+        /// Select a station for adding a drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Stations_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Stations_List.SelectedItem = Stations_List.SelectedItem.ToString().ElementAt(5);
             StationID.Text = ((IBL.BO.StationToList) Stations_List.SelectedItem).ID.ToString();
         }
 
+        /// <summary>
+        /// Sending a drone for charging and displaying an appropriate message and refreshing the display as needed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChargeButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -285,6 +345,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Renaming the drone. Checking the correctness of the name, and sending it to BL and displaying an appropriate message and refreshing the display as needed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Change_Name_Click(object sender, RoutedEventArgs e)
         {
             SolidColorBrush red = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFE92617"));
@@ -308,6 +373,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Releasing a drone from charging, displaying an appropriate message and refreshing the display as needed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ReleaseButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -323,6 +393,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Assigning a drone to a package, displaying an appropriate message and refreshing the display as needed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AssociateButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -338,6 +413,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Picking up a package by a drone, displaying an appropriate message, and refreshing the display as needed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PickUpButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -353,6 +433,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Delivery of a package to the customer by a drone, displaying an appropriate message, and refreshing the display as needed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeliverButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -368,6 +453,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Closing a Drone window and activating the event 'CloseWindowEvent', for which a refresh function of the drone list is registered
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             CloseWindowEvent(this);
