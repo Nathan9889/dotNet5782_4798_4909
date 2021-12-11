@@ -62,7 +62,7 @@ namespace DalObject
             {
                 ClientList.Add(new Client()
                 {
-                    ID = rand.Next(100000000, 1000000000),
+                    ID = rand.Next(100000000, (1000000000 - 10)) +i,
                     Name = $"{Names[i]}",
                     Phone = $"0{rand.Next(52, 59)}{rand.Next(1000000, 10000000)}",
                     Latitude = GetRandCoordinate(31.73),
@@ -118,7 +118,7 @@ namespace DalObject
             {
                 DroneList.Add(new Drone()
                 {
-                    ID = rand.Next(1000000,10000000),
+                    ID = rand.Next(1000000,10000000) + i,
                     Model = "Dji_Mavic_2_Pro",
                     MaxWeight = WeightCategories.Heavy,
                    
@@ -129,7 +129,7 @@ namespace DalObject
             {
                 DroneList.Add(new Drone()
                 {
-                    ID = rand.Next(1000000, 10000000),
+                    ID = rand.Next(1000000, 10000000) + i*4,
                     Model = "Dji_Mavic_2_Air",
                     MaxWeight = WeightCategories.Medium,
                  
@@ -140,7 +140,7 @@ namespace DalObject
             {
                 DroneList.Add(new Drone()
                 {
-                    ID = rand.Next(1000000, 10000000),
+                    ID = rand.Next(1000000, 10000000) + i*12,
                     Model = "Dji_Mavic_2_Zoom",
                     MaxWeight = WeightCategories.Light,
                     

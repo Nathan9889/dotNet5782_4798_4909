@@ -403,8 +403,8 @@ namespace BL
 
             double power;
             if (weight == 0) power = PowerLightDrone;
-            if (weight == 1) power = PowerMediumDrone;
-            if (weight == 2) power = PowerHeavyDrone;
+            else if (weight == 1) power = PowerMediumDrone;
+            else if (weight == 2) power = PowerHeavyDrone;
             else power = PowerVacantDrone;
             double temp = (KM * power);
             return temp;
