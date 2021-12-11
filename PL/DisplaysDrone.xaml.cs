@@ -24,6 +24,8 @@ namespace PL
     {
         IBL.IBL BL;
         IBL.BO.Drone selectedDrone;
+
+
         /// <summary>
         /// Set up a window closing event to refresh a drone list
         /// </summary>
@@ -31,10 +33,9 @@ namespace PL
         public delegate void CloseWindow(object ob);
         public event CloseWindow CloseWindowEvent;
 
-
-        // Deleting the X button
-        //***
-        private const int GWL_STYLE = -16;
+        #region 
+        // used for Deleting the X button
+        private const int GWL_STYLE = -16;    
         private const int WS_SYSMENU = 0x80000;
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -43,29 +44,27 @@ namespace PL
         [DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-        //**
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e) 
         {
             var hwnd = new WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
-        //*****
+        #endregion
 
         /// <summary>
-        ///Constructor for adding a drone display
+        ///Constructor for adding a drone window
         /// </summary>
         /// <param name="bL"></param>
         public DisplaysDrone(IBL.IBL bL)
         {
             InitializeComponent();
             this.BL = bL;
-          
 
             InitializeAddDrone();
         }
 
         /// <summary>
-        /// Constructor for displaying drone updates
+        /// Constructor for updating existing drone
         /// </summary>
         /// <param name="bL"></param>
         /// <param name="drone"></param>
@@ -80,7 +79,7 @@ namespace PL
         }
 
         /// <summary>
-        /// Initialize for adding a drone
+        /// Initialize for adding a drone window
         /// </summary>
         void InitializeAddDrone()
         {
@@ -108,7 +107,7 @@ namespace PL
             Add_Drone_Button.Visibility = Visibility.Visible;
             cancel.Visibility = Visibility.Visible;
 
-            Buttons.Visibility = Visibility.Hidden;
+            Buttons.Visibility = Visibility.Hidden;   //hiding update window buttons
             Shipping_Label.Visibility = Visibility.Hidden;
             Package_Process.Visibility = Visibility.Hidden;
             Battery.Visibility = Visibility.Hidden;
@@ -119,7 +118,7 @@ namespace PL
 
 
         /// <summary>
-        /// Initialize for drone updates
+        /// Initialize for drone updates window
         /// </summary>
         /// <param name="DroneId"></param>
         void InitializeDisplayDrone(int DroneId)
@@ -128,6 +127,7 @@ namespace PL
 
             var bc = new BrushConverter();
             DroneModel.Background = (Brush)bc.ConvertFrom("#FFFFFFE1");
+
             IdInput.Text = $"{selectedDrone.ID}";
             IdInput.IsReadOnly = true;
             Battery.Text = $"{selectedDrone.Battery}";
@@ -142,15 +142,18 @@ namespace PL
 
             StatusSelector.Text = selectedDrone.Status.ToString();
 
-           Location.Text = $"{selectedDrone.DroneLocation}";
-           
+            Location.Text = $"{selectedDrone.DroneLocation}";
+
 
             if (selectedDrone.DronePackageProcess == null)
             {
                 Package_Process.Visibility = Visibility.Hidden;
-               Shipping_Label.Visibility = Visibility.Hidden;
+                Shipping_Label.Visibility = Visibility.Hidden;
             }
-            else Package_Process.Text = $"{selectedDrone.DronePackageProcess}";
+            else
+            {
+                Package_Process.Text = $"{selectedDrone.DronePackageProcess}";
+            }
 
             //Only the buttons that can perform an action will be available for pressing
             switch (selectedDrone.Status)
@@ -458,7 +461,7 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Exit_Button(object sender, RoutedEventArgs e)
         {
             CloseWindowEvent(this);
             Close();

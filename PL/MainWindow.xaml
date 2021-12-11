@@ -10,10 +10,9 @@
         <Grid.Background>
             <ImageBrush ImageSource="/רחפן.jpg"/>
         </Grid.Background>
-        <Button Content="Drones List" HorizontalAlignment="Center" Margin="0,450,0,0" VerticalAlignment="Top" Height="62" Width="296" Click="Button_Click" FontSize="15" FontFamily="Aharoni">
+        <Button Content="Drones List" HorizontalAlignment="Center" Margin="0,450,0,0" VerticalAlignment="Top" Height="62" Width="296" Click="DroneListAccessButton" FontSize="15" FontFamily="Aharoni">
             <Button.Background>
                 <RadialGradientBrush>
-                    <GradientStop Color="Black" Offset="1"/>
                     <GradientStop Color="#FF00FFD1" Offset="0"/>
                 </RadialGradientBrush>
             </Button.Background>
