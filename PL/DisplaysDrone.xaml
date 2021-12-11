@@ -6,9 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="DisplaysDrone" Name="DroneWindow" Height="450" Width="800" Loaded="Window_Loaded">
-    <!--here-->
-
-
+    <!--Loaded for canceling the x button for the bonus-->
 
     <Window.Resources>
         <Style x:Key="ComboBoxTest2" TargetType="{x:Type ComboBox}">
@@ -168,24 +166,24 @@
                 <RowDefinition Height ="8*"></RowDefinition>
                 <RowDefinition Height ="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Grid Grid.Column="1" Margin="76,25,99,18" Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <Grid Grid.Column="1" Margin="76,0,99,43" Grid.RowSpan="2" Grid.ColumnSpan="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="33*" ></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
+                    <RowDefinition Height="21*" ></RowDefinition>
+                    <RowDefinition Height ="26*"></RowDefinition>
                     <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
+                    <RowDefinition Height ="26*"></RowDefinition>
                     <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
+                    <RowDefinition Height ="26*"></RowDefinition>
                     <RowDefinition Height ="16.573"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
+                    <RowDefinition Height ="26*"></RowDefinition>
                     <RowDefinition Height ="16.821"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
+                    <RowDefinition Height ="26*"></RowDefinition>
                     <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="24.736"></RowDefinition>
+                    <RowDefinition Height ="41.987"></RowDefinition>
+                    <RowDefinition Height ="0*"></RowDefinition>
+                    <RowDefinition Height ="26*"></RowDefinition>
                     <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
-                    <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
+                    <RowDefinition Height ="26*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width ="*"></ColumnDefinition>
@@ -193,66 +191,40 @@
                     <ColumnDefinition Width ="183"></ColumnDefinition>
 
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="id" HorizontalAlignment="Left" Grid.Row="1" Text="ID:" TextWrapping="Wrap" VerticalAlignment= "Center" FontSize="13" FontFamily="Aharoni" FontWeight="Normal" />
-                <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Width="150"  TextChanged="idInput_TextChanged" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" VerticalContentAlignment="Center">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
+                <TextBlock x:Name="id" HorizontalAlignment="Left" Grid.Row="1" Text="ID:" TextWrapping="Wrap" VerticalAlignment= "Center" FontSize="13" FontFamily="Aharoni" FontWeight="Normal" Height="13" Width="17" />
+                <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"  TextChanged="idInput_TextChanged" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" VerticalContentAlignment="Center" Margin="0,0,0,17" Grid.RowSpan="2">
+
                 </TextBox>
-                <TextBox x:Name="Battery" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap" Width="150"  TextChanged="idInput_TextChanged" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" VerticalContentAlignment="Center">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
+                <TextBox x:Name="Battery" Grid.Column="1" Grid.Row="6" TextWrapping="Wrap"  TextChanged="idInput_TextChanged" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" VerticalContentAlignment="Center" Margin="0,17,0,17" Grid.RowSpan="3">
+
                 </TextBox>
 
-                <TextBox x:Name="StatusSelector" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap" Width="150"  TextChanged="idInput_TextChanged" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" TextAlignment="Left" VerticalContentAlignment="Center">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
+                <TextBox x:Name="StatusSelector" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap"  TextChanged="idInput_TextChanged" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" TextAlignment="Left" VerticalContentAlignment="Center" Margin="0,0,0,17" Grid.RowSpan="2">
+
                 </TextBox>
 
-                <TextBox x:Name="Location" Grid.Column="1" Grid.Row="11" TextWrapping="Wrap" Width="150"  TextChanged="idInput_TextChanged" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" VerticalContentAlignment="Center">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
+                <TextBox x:Name="Location" Grid.Column="1" Grid.Row="11" TextWrapping="Wrap"  TextChanged="idInput_TextChanged" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" VerticalContentAlignment="Center" Margin="0,0,0,1">
+
                 </TextBox>
 
                 <TextBox Grid.Column="1"  x:Name="Package_Process" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled"
                          
-              VerticalScrollBarVisibility="Auto" Grid.Row="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.RowSpan="4" Grid.ColumnSpan="2" Margin="0,16,78,-43" />
+              VerticalScrollBarVisibility="Auto" Grid.Row="13" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="0,10,78,-51" />
 
-                <TextBlock HorizontalAlignment="Left" Grid.Row="5" Text="Drone Max Weight:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
-                <TextBlock x:Name="Battary_Label" HorizontalAlignment="Left" Grid.Row="7" Text="Battery:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
-                <TextBlock x:Name="Status_Label" HorizontalAlignment="Left" Grid.Row="9" Text="Status:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
-                <TextBlock x:Name="Location_Label" HorizontalAlignment="Left" Grid.Row="11" Text="Location:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
-                <TextBlock x:Name="Shipping_Label" HorizontalAlignment="Left" Grid.Row="13" Text="Shipping:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
+                <TextBlock HorizontalAlignment="Left" Grid.Row="5" Text="Drone Max Weight:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="121" />
+                <TextBlock x:Name="Battary_Label" HorizontalAlignment="Left" Grid.Row="7" Text="Battery:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="49" />
+                <TextBlock x:Name="Status_Label" HorizontalAlignment="Left" Grid.Row="9" Text="Status:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="49" />
+                <TextBlock x:Name="Location_Label" HorizontalAlignment="Left" Grid.Row="11" Text="Location:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="55" Margin="0,7,0,0" />
+                <TextBlock x:Name="Shipping_Label" HorizontalAlignment="Left" Grid.Row="13" Text="Shipping:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="64" Margin="0,11,0,0" />
                 <ComboBox x:Name="Drone_Weight" Grid.Column="1" Grid.Row="5"  Style="{StaticResource ComboBoxTestInDisplayDrone}" SelectionChanged="Drone_Weight_SelectionChanged" SelectedIndex="3" FontFamily="Arial" FontWeight="Bold" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" VerticalContentAlignment="Center"   />
-                <TextBlock HorizontalAlignment="Left" Grid.Row="3" Text="Drone Model:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" />
-                <TextBox x:Name="DroneModel" Grid.Column="1"  TextWrapping="Wrap" Grid.Row="3" Width="150" Height="Auto" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" TextChanged="DroneModel_TextChanged" FontWeight="Bold" FontFamily="Arial" VerticalContentAlignment="Center" >
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
+                <TextBlock HorizontalAlignment="Left" Grid.Row="3" Text="Drone Model:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" Height="13" Width="84" />
+                <TextBox x:Name="DroneModel" Grid.Column="1"  TextWrapping="Wrap" Grid.Row="3" Height="Auto" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" TextChanged="DroneModel_TextChanged" FontWeight="Bold" FontFamily="Arial" VerticalContentAlignment="Center" Margin="0,0,0,17" Grid.RowSpan="2" ></TextBox>
 
-                <TextBlock x:Name ="Station_Id_Labl"  HorizontalAlignment="Left" Grid.Row="7" Text="Station ID:" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="13" FontFamily="Aharoni" Visibility="Hidden" />
-                <TextBox x:Name="StationID" Visibility="Hidden" Grid.Column="1"  Grid.Row="7" TextWrapping="Wrap"  Width="150" TextChanged="StationID_TextChanged" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontFamily="Arial" FontWeight="Bold" >
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
+                <TextBlock x:Name ="Station_Id_Labl"  HorizontalAlignment="Left" Grid.Row="7" Text="Station ID:" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="13" FontFamily="Aharoni" Visibility="Hidden" Height="13" Width="64" />
+                <TextBox x:Name="StationID" Visibility="Hidden" Grid.Column="1"  Grid.Row="6" TextWrapping="Wrap" TextChanged="StationID_TextChanged" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontFamily="Arial" FontWeight="Bold" Margin="0,17,0,17" Grid.RowSpan="3" >
+
                 </TextBox>
-                <Button x:Name="cancel" Visibility="Hidden" Width="125" Height="32" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Bottom"   IsCancel="True" FontFamily="Arial Black" FontSize="15" Click="cancel_Click"  Grid.Row="13" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="81,0,0,25"  >
+                <Button x:Name="cancel" Visibility="Hidden" Width="125" Height="32" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Bottom"   IsCancel="True" FontFamily="Arial Black" FontSize="15" Click="cancel_Click"  Grid.Row="15" Grid.ColumnSpan="2" Margin="32,0,0,-24"  >
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="Black" Offset="1"/>
@@ -260,7 +232,7 @@
                         </RadialGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="Add_Drone_Button" Visibility="Hidden" Content="Add Drone" Width="125" Height="32" VerticalAlignment="Bottom"  IsDefault="True" FontFamily="Arial Black" FontSize="15" Click="Add_Drone_Button_Click" Grid.Column="1" Grid.Row="13"  Grid.ColumnSpan="2" Grid.RowSpan="2">
+                <Button x:Name="Add_Drone_Button" Visibility="Hidden" Content="Add Drone" Height="32" VerticalAlignment="Bottom"  IsDefault="True" FontFamily="Arial Black" FontSize="15" Click="Add_Drone_Button_Click" Grid.Column="1" Grid.Row="15"  Grid.ColumnSpan="2" Margin="96,0,111,-24">
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="#FF3B5611" Offset="1"/>

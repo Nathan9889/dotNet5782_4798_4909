@@ -123,8 +123,7 @@ namespace PL
 
             StatusSelector.Text = selectedDrone.Status.ToString();
 
-           // Delivery.Text = $"{selectedDrone.DronePackageProcess.Id}";
-           Location.Text = $"{selectedDrone.DroneLocation.Latitude} , {selectedDrone.DroneLocation.Longitude}";
+           Location.Text = $"{selectedDrone.DroneLocation}";
            
 
             if (selectedDrone.DronePackageProcess == null)
@@ -174,14 +173,8 @@ namespace PL
 
                     }
                     break;
-
             }
-
-
-
-
         }
-
 
 
         public delegate void RefreshList(object ob);
@@ -221,7 +214,7 @@ namespace PL
             try
             {
                 int id = int.Parse(StationID.Text.ToString());
-                Location.Text = $"{BL.DisplayStation(id).StationLocation.Latitude} , {BL.DisplayStation(id).StationLocation.Latitude}";
+                Location.Text = $"{BL.DisplayStation(id).StationLocation}";
             }
             catch (Exception ex)
             {
@@ -309,8 +302,7 @@ namespace PL
                 try
                 {
                     BL.UpdateDroneName(selectedDrone.ID, DroneModel.Text);
-
-                    MessageBox.Show("Name have been changed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"Name have been changed to {DroneModel.Text} !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     InitializeDisplayDrone(selectedDrone.ID);
                 }
                 catch (Exception ex)
@@ -326,7 +318,7 @@ namespace PL
             {
                 BL.FinishCharging(selectedDrone.ID);
 
-                MessageBox.Show($"Drone have been unplugged, Battery left: {selectedDrone.Battery}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Drone have been unplugged, Battery left: {selectedDrone.Battery}%", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 InitializeDisplayDrone(selectedDrone.ID);
             }
             catch (Exception ex)

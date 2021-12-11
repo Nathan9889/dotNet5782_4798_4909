@@ -188,9 +188,13 @@ namespace PL
 
         private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            DroneWindow = new DisplaysDrone(BL, (IBL.BO.DroneToList)DronesListView.SelectedItem, this);
-            DroneWindow.RefreshListEvent += RefreshListView;
-            DroneWindow.Show();
+            if ((IBL.BO.DroneToList)DronesListView.SelectedItem != null)
+            {
+                DroneWindow = new DisplaysDrone(BL, (IBL.BO.DroneToList)DronesListView.SelectedItem, this);
+                DroneWindow.RefreshListEvent += RefreshListView;
+                DroneWindow.Show();
+            }
+            DronesListView.SelectedItems.Clear();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
