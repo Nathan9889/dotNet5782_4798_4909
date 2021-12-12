@@ -29,8 +29,7 @@ namespace PL
         /// Set up a window closing event to refresh a drone list
         /// </summary>
         /// <param name="ob"></param>
-        public delegate void CloseWindow(object ob);
-        public event CloseWindow CloseWindowEvent;
+    
 
 
         // Deleting the X button
@@ -290,7 +289,6 @@ namespace PL
                     BL.AddDrone(drone, int.Parse(StationID.Text));
 
                     MessageBox.Show("Drone have been Added Successfully !", "Drone Added", MessageBoxButton.OK, MessageBoxImage.Information);
-                    CloseWindowEvent(this);
                     DroneWindow.Close();
                 }
                 catch (Exception ex)
@@ -461,7 +459,7 @@ namespace PL
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            CloseWindowEvent(this);
+            
             Close();
         }
 

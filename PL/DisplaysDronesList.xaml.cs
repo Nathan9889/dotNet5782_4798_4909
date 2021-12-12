@@ -183,7 +183,7 @@ namespace PL
         private void Add_New_Drone(object sender, RoutedEventArgs e)
         {
             DroneWindow = new DisplaysDrone(BL);
-            DroneWindow.CloseWindowEvent += RefreshListView;
+            DroneWindow.Closed += RefreshListView;
             DroneWindow.Show();
         }
 
@@ -191,7 +191,7 @@ namespace PL
         /// A function that refreshes the list of drones
         /// </summary>
         /// <param name="ob"></param>
-        private void RefreshListView(object ob) // עדכון לרשימות
+        private void RefreshListView(object sender, EventArgs e) // עדכון לרשימות
         {
             DronesListView.Items.Refresh();
             if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null) DronesListView.ItemsSource = BL.DisplayDroneList();
@@ -209,7 +209,7 @@ namespace PL
             if ((IBL.BO.DroneToList)DronesListView.SelectedItem != null)
             {
                 DroneWindow = new DisplaysDrone(BL, (IBL.BO.DroneToList)DronesListView.SelectedItem, this);
-                DroneWindow.CloseWindowEvent += RefreshListView;
+                DroneWindow.Closed += RefreshListView;
                 DroneWindow.Show();
             }
             DronesListView.SelectedItems.Clear();
