@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DalObject
 {
-    public partial class DalObject
+    public class Coordinates
     {
+
         /// <summary>
         /// The function Convert from Decimal to Sexagesimal and returns the result
         /// </summary>

@@ -5,8 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL
-{
+
     namespace BO
     {
 
@@ -350,7 +349,36 @@ namespace IBL
                     return Message + $": ID is {ID}";
                 }
             }
+
+        [Serializable]
+        internal class UnableToItinitDrone : Exception
+        {
+            private string v;
+            private int iD;
+
+            public UnableToItinitDrone()
+            {
+            }
+
+            public UnableToItinitDrone(string message) : base(message)
+            {
+            }
+
+            public UnableToItinitDrone(string v, int iD) : base(v)
+            {
+                this.v = v;
+                this.iD = iD;
+            }
+
+            public UnableToItinitDrone(string message, Exception innerException) : base(message, innerException)
+            {
+            }
+
+            protected UnableToItinitDrone(SerializationInfo info, StreamingContext context) : base(info, context)
+            {
+            }
         }
     }
+    }
 
-}
+

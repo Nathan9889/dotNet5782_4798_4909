@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace IBL
-{
     namespace BO
     {
         public enum WeightCategories
@@ -41,7 +39,6 @@ namespace IBL
 
     }
 
-}
 
 
 

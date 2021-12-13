@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
-using IDAL;
+using BO;
+using DalApi;
 
 namespace BL
 {
-    public partial class BL : IBL.IBL
+    internal partial class BL : BlApi.IBL
     {
 
         /// <summary>
@@ -24,13 +24,13 @@ namespace BL
             if (!dal.ClientsList().Any(client => client.ID == package.SenderClient.ID)) 
                 throw new Exceptions.IdNotFoundException("Sender Id not found", package.TargetClient.ID);
 
-            IDAL.DO.Package dalPackage = new IDAL.DO.Package();   //new then assign data then adding to datasource list
+            DO.Package dalPackage = new DO.Package();   //new then assign data then adding to datasource list
 
             // Adding all the details to the package from layer 1
             dalPackage.SenderId = package.SenderClient.ID;
             dalPackage.TargetId = package.TargetClient.ID;
-            dalPackage.Priority = (IDAL.DO.Priorities)package.Priority;
-            dalPackage.Weight = (IDAL.DO.WeightCategories)package.Weight;
+            dalPackage.Priority = (DO.Priorities)package.Priority;
+            dalPackage.Weight = (DO.WeightCategories)package.Weight;
             dalPackage.PickedUp = null;
             dalPackage.Associated = null;
             dalPackage.Delivered = null;
@@ -41,7 +41,7 @@ namespace BL
             {
                 id = dal.AddPackage(dalPackage);
             }
-            catch(IDAL.DO.Exceptions.IDException ex )
+            catch(DO.Exceptions.IDException ex )
             {
                 throw new Exceptions.IDException("Package ID already exists", ex, dalPackage.ID);  //new bl exception
             }
@@ -58,7 +58,7 @@ namespace BL
         {
 
             if (!DroneList.Any(d => d.ID == droneID))
-                throw new IBL.BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
+                throw new BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
 
             DroneToList drone = DroneList.First(x => x.ID == droneID);
             if(!(drone.Status == DroneStatus.Available))         //if Drone not available
@@ -66,14 +66,14 @@ namespace BL
                 throw new Exceptions.UnableAssociatPackage("Drone is not Available");// new except
             }
 
-            List<IDAL.DO.Package> dalPackages = new List<IDAL.DO.Package>(dal.PackagesFilter(x => (int)(x.Weight) <= (int)drone.MaxWeight && x.Associated == null)); // All packages the drone may take
-            IDAL.DO.Package package = new IDAL.DO.Package() ;
+            List<DO.Package> dalPackages = new List<DO.Package>(dal.PackagesFilter(x => (int)(x.Weight) <= (int)drone.MaxWeight && x.Associated == null)); // All packages the drone may take
+            DO.Package package = new DO.Package() ;
             int priority = 2, weight = (int)drone.MaxWeight; // Start with the high priority and high weight of the drone
             bool flag = true; 
 
             while (flag) // We have not yet found a package
             {
-                List<IDAL.DO.Package> filteredPackages = dalPackages.FindAll(p=> p.Priority == (IDAL.DO.Priorities)priority); //From dalPackages we will only filter the packages in the current priority
+                List<DO.Package> filteredPackages = dalPackages.FindAll(p=> p.Priority == (DO.Priorities)priority); //From dalPackages we will only filter the packages in the current priority
                 if (filteredPackages.Count() == 0) // If there are no packages
                 {
                     if (priority != 0)
@@ -82,10 +82,10 @@ namespace BL
                         weight = (int)drone.MaxWeight; // If we have dropped priority we will reset the weight because the filtering starts again
                         continue; // We'll restart the loop
                     }
-                    else throw new IBL.BO.Exceptions.UnableAssociatPackage("There is no package for the Drone"); // If the priority has reached 0 and no packages have been found yet then there is no suitable package
+                    else throw new BO.Exceptions.UnableAssociatPackage("There is no package for the Drone"); // If the priority has reached 0 and no packages have been found yet then there is no suitable package
                 }
 
-                filteredPackages = filteredPackages.FindAll(p => p.Weight == (IDAL.DO.WeightCategories)weight); // From the list of packages with current priority we will filter the high weight that exists (current weight)
+                filteredPackages = filteredPackages.FindAll(p => p.Weight == (DO.WeightCategories)weight); // From the list of packages with current priority we will filter the high weight that exists (current weight)
                 if (filteredPackages.Count() == 0)
                 {
                     if(weight != 0)
@@ -102,13 +102,13 @@ namespace BL
                 }
 
                 package = NearestPackageToDrone(droneID, filteredPackages);                //send to function that return from the list the nearest package from drone
-                IDAL.DO.Client senderClient = dal.ClientById(package.SenderId);                                 //sender client, his location is the package location
-                IDAL.DO.Client targetClient = dal.ClientById(package.TargetId);                                //target client target location for the drone
+                DO.Client senderClient = dal.ClientById(package.SenderId);                                 //sender client, his location is the package location
+                DO.Client targetClient = dal.ClientById(package.TargetId);                                //target client target location for the drone
 
                 double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, senderClient.Latitude, senderClient.Longitude, 3);        // from drone location to package with no weight
                 minBattery += batteryConsumption(senderClient.Latitude, senderClient.Longitude, targetClient.Latitude, targetClient.Longitude, (int)package.Weight);         // from package sender location to target with package weight
 
-                IDAL.DO.Station station = NearestStationToClient(package.TargetId);                                                              //station with available chargeSlot nearest to client target for charging the drone if needed
+                DO.Station station = NearestStationToClient(package.TargetId);                                                              //station with available chargeSlot nearest to client target for charging the drone if needed
                 minBattery += batteryConsumption(targetClient.Latitude, targetClient.Longitude, station.Latitude, station.Longitude, 3);         //from client target to nearest station location with no weight
 
                 minBattery = Math.Ceiling(minBattery);
@@ -129,20 +129,20 @@ namespace BL
         /// <param name="droneID"> drone id user input </param>
         public void PickedUpByDrone(int droneID)
         {
-            if (! DroneList.Any(d => d.ID == droneID)) throw new IBL.BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
+            if (! DroneList.Any(d => d.ID == droneID)) throw new BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
             DroneToList drone = DroneList.First(x => x.ID == droneID);
             if ((drone.Status != DroneStatus.Shipping)) throw new Exceptions.UnablePickedUpPackage("Drone is not Shipping", droneID); // A drone does not ship
-            if (!dal.PackageList().Any(p => p.DroneId == droneID)) throw new IBL.BO.Exceptions.UnablePickedUpPackage("No package associated with the drone was found"); // There is no package associated with this drone
+            if (!dal.PackageList().Any(p => p.DroneId == droneID)) throw new BO.Exceptions.UnablePickedUpPackage("No package associated with the drone was found"); // There is no package associated with this drone
 
-            IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID && p.PickedUp == null);
-            if (package.PickedUp != null) throw new IBL.BO.Exceptions.UnablePickedUpPackage("The package has already been PickedUp", package.ID); //If the package associated with the glider has already been collected then you will throw an exception
+            DO.Package package = dal.PackageList().First(p => p.DroneId == droneID && p.PickedUp == null);
+            if (package.PickedUp != null) throw new BO.Exceptions.UnablePickedUpPackage("The package has already been PickedUp", package.ID); //If the package associated with the glider has already been collected then you will throw an exception
 
-            IDAL.DO.Client sender = dal.ClientById(package.SenderId); // The sender of the package - this is the new location of the drone
+            DO.Client sender = dal.ClientById(package.SenderId); // The sender of the package - this is the new location of the drone
             int index = DroneList.FindIndex(d => d.ID == droneID);
 
             // Update in the logic layer
             double spendBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, sender.Latitude, sender.Longitude, 3); // From the location of the drone to the package, empty weight
-            if ((DroneList[index].Battery - spendBattery) < 0) throw new IBL.BO.Exceptions.UnablePickedUpPackage("Not enough battery"); //We have already tested in a function that assigns that this will not happen
+            if ((DroneList[index].Battery - spendBattery) < 0) throw new BO.Exceptions.UnablePickedUpPackage("Not enough battery"); //We have already tested in a function that assigns that this will not happen
             DroneList[index].Battery -= (int)Math.Ceiling(spendBattery);
             DroneList[index].DroneLocation.Latitude = sender.Latitude;
             DroneList[index].DroneLocation.Longitude = sender.Longitude;
@@ -159,19 +159,19 @@ namespace BL
         /// <param name="droneID"></param>
         public void DeliveredToClient(int droneID)
         {
-            if (!DroneList.Any(d => d.ID == droneID)) throw new IBL.BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
+            if (!DroneList.Any(d => d.ID == droneID)) throw new BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
             DroneToList drone = DroneList.First(x => x.ID == droneID);
             if ((drone.Status != DroneStatus.Shipping)) throw new Exceptions.UnablePickedUpPackage("Drone is not Shipping", droneID); // A drone does not ship
-            if (!dal.PackageList().Any(p => p.DroneId == droneID && p.Delivered == null && p.PickedUp != null)) throw new IBL.BO.Exceptions.UnablePickedUpPackage("No package associated with the drone was found"); // No package associated with this drone, Picked Up, and has not yet been delivered
+            if (!dal.PackageList().Any(p => p.DroneId == droneID && p.Delivered == null && p.PickedUp != null)) throw new BO.Exceptions.UnablePickedUpPackage("No package associated with the drone was found"); // No package associated with this drone, Picked Up, and has not yet been delivered
 
-            IDAL.DO.Package package = dal.PackageList().First(p => p.DroneId == droneID && p.Delivered == null && p.PickedUp != null);
+            DO.Package package = dal.PackageList().First(p => p.DroneId == droneID && p.Delivered == null && p.PickedUp != null);
 
-            IDAL.DO.Client target = dal.ClientById(package.TargetId);// The destination of the package - this is the new location of the drone
+            DO.Client target = dal.ClientById(package.TargetId);// The destination of the package - this is the new location of the drone
             int index = DroneList.FindIndex(d => d.ID == droneID);
 
             // Update in the logic layer
             double spendBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, target.Latitude, target.Longitude, (int)package.Weight); // From the position of the drone (position of the sender) to the position of the destination in the weight of the package (to reduce it from the battery)
-            if ((DroneList[index].Battery - spendBattery) < 0) throw new IBL.BO.Exceptions.UnablePickedUpPackage("Not enough battery");
+            if ((DroneList[index].Battery - spendBattery) < 0) throw new BO.Exceptions.UnablePickedUpPackage("Not enough battery");
             DroneList[index].Battery -= (int)Math.Ceiling(spendBattery);
             DroneList[index].DroneLocation.Latitude = target.Latitude;
             DroneList[index].DroneLocation.Longitude = target.Longitude;
@@ -189,22 +189,22 @@ namespace BL
         /// <returns> package element from package list </returns>
         public Package DisplayPackage(int packageID)
         {
-            IDAL.DO.Package dalPackage;
+            DO.Package dalPackage;
             try
             {
                 dalPackage = dal.PackageById(packageID);    //if package not found 
             }
-            catch (IDAL.DO.Exceptions.IDException ex)
+            catch (DO.Exceptions.IDException ex)
             {
-                throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, ID not found", ex);
+                throw new BO.Exceptions.IdNotFoundException("Unable to view package, ID not found", ex);
             }
 
             // assigning 
             Package blPackage = new Package();
 
             blPackage.ID = dalPackage.ID; 
-            blPackage.Weight = (IBL.BO.WeightCategories)(dalPackage.Weight);
-            blPackage.Priority = (IBL.BO.Priorities)(dalPackage.Priority);
+            blPackage.Weight = (BO.WeightCategories)(dalPackage.Weight);
+            blPackage.Priority = (BO.Priorities)(dalPackage.Priority);
 
             blPackage.Created = dalPackage.Created;
             blPackage.Associated = dalPackage.Associated;
@@ -212,22 +212,22 @@ namespace BL
             blPackage.Delivered = dalPackage.Delivered;
 
             //init in package attributes of sender and target
-            IDAL.DO.Client sender, target;
+            DO.Client sender, target;
             try
             {
                 sender = dal.ClientById(dalPackage.SenderId); // client that sent the package
             }
-            catch (IDAL.DO.Exceptions.IDException ex)
+            catch (DO.Exceptions.IDException ex)
             {
-                throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, senderID not found",ex);
+                throw new BO.Exceptions.IdNotFoundException("Unable to view package, senderID not found",ex);
             }
             try
             {
                 target = dal.ClientById(dalPackage.TargetId); //client that gets the package 
             }
-            catch (IDAL.DO.Exceptions.IDException ex)
+            catch (DO.Exceptions.IDException ex)
             {
-                throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, targetID not found", ex);
+                throw new BO.Exceptions.IdNotFoundException("Unable to view package, targetID not found", ex);
             }
             blPackage.SenderClient = new ClientPackage();
             blPackage.TargetClient = new ClientPackage();
@@ -247,7 +247,7 @@ namespace BL
             DroneOfPackage droneOfPackage = new DroneOfPackage(); //object of droneOfPackage then assigning it
             droneOfPackage.CurrentLocation = new Location();
             if (!DroneList.Any(d => d.ID == dalPackage.DroneId))
-                throw new IBL.BO.Exceptions.IdNotFoundException("Unable to view package, The package was associated but no drone ID was found", dalPackage.DroneId);
+                throw new BO.Exceptions.IdNotFoundException("Unable to view package, The package was associated but no drone ID was found", dalPackage.DroneId);
             DroneToList drone = DroneList.Find(d => d.ID == dalPackage.DroneId);
 
             droneOfPackage.Id = drone.ID;
@@ -306,17 +306,17 @@ namespace BL
         /// <param name="DroneID"> drone id </param>
         /// <param name="PackagesSuitableWeight">list of filtered package </param>
         /// <returns> package object </returns>
-        private IDAL.DO.Package NearestPackageToDrone(int DroneID, List<IDAL.DO.Package> PackagesSuitableWeight)  
+        private DO.Package NearestPackageToDrone(int DroneID, List<DO.Package> PackagesSuitableWeight)  
         {
             DroneToList drone = DroneList.Find(x => x.ID == DroneID);       //finding the drone
-            IDAL.DO.Package tempPackage = new IDAL.DO.Package();
+            DO.Package tempPackage = new DO.Package();
 
             double distance = int.MaxValue;
 
             foreach (var package in PackagesSuitableWeight)             //finding min distance between drone and package
             {
-                IDAL.DO.Client sender = dal.ClientById(package.SenderId);        //sender from data source that want to send package
-                double tempDistance = DalObject.DalObject.Distance(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, sender.Latitude, sender.Longitude);  //calculate distance
+                DO.Client sender = dal.ClientById(package.SenderId);        //sender from data source that want to send package
+                double tempDistance = DalObject.Coordinates.Distance(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, sender.Latitude, sender.Longitude);  //calculate distance
                 if (tempDistance < distance)
                 {
                     distance = tempDistance;

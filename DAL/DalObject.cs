@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDAL.DO;
+using DO;
+using DalApi;
 
 
 namespace DalObject
@@ -16,7 +17,7 @@ namespace DalObject
         internal static List<Package> PackageList = new List<Package>(); // Creating List of Package
         internal static List<DroneCharge> droneCharge = new List<DroneCharge>(); // Creating List of droneCharge
 
-        internal static List<string> Names = new List<string>() { "Smith","Johnson","Williams", "Brown", "Lee", "Garcia", "Miller", "Davis", "Rodriguez","Martinez",}; // Random list of names
+        internal static List<string> Names = new List<string>() { "Smith", "Johnson", "Williams", "Brown", "Lee", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", }; // Random list of names
 
         static Random rand = new Random();
 
@@ -37,11 +38,11 @@ namespace DalObject
         {
             public static int PackageId = 1000;
 
-            internal static double PowerAvailableDrone = 1;  
-            internal static double PowerLightDrone = 2; 
-            internal static double PowerMediumDrone  = 3; 
-            internal static double PowerHeavyDrone  = 4; 
-            public static double ChargeRate  = 100; 
+            internal static double PowerAvailableDrone = 1;
+            internal static double PowerLightDrone = 2;
+            internal static double PowerMediumDrone = 3;
+            internal static double PowerHeavyDrone = 4;
+            public static double ChargeRate = 100;
 
         }
 
@@ -58,31 +59,31 @@ namespace DalObject
         /// </summary>
         static void InitializeClient()
         {
-            for (int i = 0; i < 10; i++)  
+            for (int i = 0; i < 10; i++)
             {
                 ClientList.Add(new Client()
                 {
-                    ID = rand.Next(100000000, (1000000000 - 10)) +i,
+                    ID = rand.Next(100000000, (1000000000 - 10)) + i,
                     Name = $"{Names[i]}",
                     Phone = $"0{rand.Next(52, 59)}{rand.Next(1000000, 10000000)}",
                     Latitude = GetRandCoordinate(31.73),
                     Longitude = GetRandCoordinate(35.16)
-                }) ;
+                });
             }
         }
 
-         
+
         /// <summary>
         /// Initialize 3 stations
         /// </summary>
-        static void InitializeStation() 
+        static void InitializeStation()
         {
 
-            StationList.Add(new Station() 
+            StationList.Add(new Station()
             {
                 ID = 10,
                 Name = "Malcha Mall",
-                ChargeSlots = rand.Next(4,10),
+                ChargeSlots = rand.Next(4, 10),
                 Latitude = 31.7515163,
                 Longitude = 35.1872451
             });
@@ -91,8 +92,8 @@ namespace DalObject
             {
                 ID = 20,
                 Name = "Central Station",
-                ChargeSlots = rand.Next(3,10),
-                Latitude =31.7888727,
+                ChargeSlots = rand.Next(3, 10),
+                Latitude = 31.7888727,
                 Longitude = 35.2031491
             });
 
@@ -100,7 +101,7 @@ namespace DalObject
             {
                 ID = 30,
                 Name = "Mount Scopus",
-                ChargeSlots = rand.Next(3,10),
+                ChargeSlots = rand.Next(3, 10),
                 Latitude = 31.7930604,
                 Longitude = 35.2449342
             });
@@ -112,16 +113,16 @@ namespace DalObject
         /// </summary>
         static void InitializeDrone()
         {
-        
+
 
             for (int i = 0; i < 4; i++)
             {
                 DroneList.Add(new Drone()
                 {
-                    ID = rand.Next(1000000,10000000) + i,
+                    ID = rand.Next(1000000, 10000000) + i,
                     Model = "Dji_Mavic_2_Pro",
                     MaxWeight = WeightCategories.Heavy,
-                   
+
                 });
             }
 
@@ -129,10 +130,10 @@ namespace DalObject
             {
                 DroneList.Add(new Drone()
                 {
-                    ID = rand.Next(1000000, 10000000) + i*4,
+                    ID = rand.Next(1000000, 10000000) + i * 4,
                     Model = "Dji_Mavic_2_Air",
                     MaxWeight = WeightCategories.Medium,
-                 
+
                 });
             }
 
@@ -140,10 +141,10 @@ namespace DalObject
             {
                 DroneList.Add(new Drone()
                 {
-                    ID = rand.Next(1000000, 10000000) + i*12,
+                    ID = rand.Next(1000000, 10000000) + i * 12,
                     Model = "Dji_Mavic_2_Zoom",
                     MaxWeight = WeightCategories.Light,
-                    
+
                 });
             }
         }
@@ -271,12 +272,14 @@ namespace DalObject
                 Delivered = DateTime.Now.AddMinutes(-60),
             });
 
-
         }
-        
+
     }
-    public partial class DalObject : IDAL.IDAL
+    internal class DalObject : DalApi.IDAL
     {
+        static readonly IDAL instance = new DalObject();
+        internal static IDAL Instance { get { return instance; } }
+        static DalObject() { }
 
         public DalObject() { DataSource.Initialize(); }
 
@@ -288,7 +291,7 @@ namespace DalObject
         public void AddStation(Station station)
         {
             if (DataSource.StationList.FindIndex(x => x.ID == station.ID) != -1) 
-                throw new IDAL.DO.Exceptions.IDException("A Station ID already exists",station.ID);
+                throw new DO.Exceptions.IDException("A Station ID already exists",station.ID);
             DataSource.StationList.Add(station);
         }
 
@@ -300,7 +303,7 @@ namespace DalObject
         public void AddDrone(Drone drone)
         {
             if (DataSource.DroneList.FindIndex(x => x.ID == drone.ID) != -1) 
-                throw new IDAL.DO.Exceptions.IDException("A Drone with ID already exists", drone.ID);
+                throw new DO.Exceptions.IDException("A Drone with ID already exists", drone.ID);
             DataSource.DroneList.Add(drone);
         }
 
@@ -312,7 +315,7 @@ namespace DalObject
         public void AddClient(Client client)
         {
             if (DataSource.ClientList.FindIndex(x => x.ID == client.ID) != -1)
-                throw new IDAL.DO.Exceptions.IDException("A Client with ID already exists", client.ID);
+                throw new DO.Exceptions.IDException("A Client with ID already exists", client.ID);
             DataSource.ClientList.Add(client);
         }
 
@@ -340,7 +343,7 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new IDAL.DO.Exceptions.IDException("Client ID not found", id);
+            throw new DO.Exceptions.IDException("Client ID not found", id);
         }
 
 
@@ -355,7 +358,7 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new IDAL.DO.Exceptions.IDException("Package ID not found", id);                                                                                                                                                                                                                                                                                                                                                           
+            throw new DO.Exceptions.IDException("Package ID not found", id);                                                                                                                                                                                                                                                                                                                                                           
         }
 
 
@@ -370,7 +373,7 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new IDAL.DO.Exceptions.IDException("Drone id not found", id);
+            throw new DO.Exceptions.IDException("Drone id not found", id);
         }
 
 
@@ -385,7 +388,7 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new IDAL.DO.Exceptions.IDException("Station ID not found", id);
+            throw new DO.Exceptions.IDException("Station ID not found", id);
         }
 
 
@@ -400,7 +403,7 @@ namespace DalObject
             {
                 if (item.DroneId == id) return item;
             }
-            throw new IDAL.DO.Exceptions.IDException("DroneCharge ID not found", id);
+            throw new DO.Exceptions.IDException("DroneCharge ID not found", id);
         }
 
         
@@ -617,7 +620,7 @@ namespace DalObject
         /// <param name="drone"></param>
         public void DeleteDrone(Drone drone)
         {
-            if (! DataSource.DroneList.Any(x=> x.ID == drone.ID)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", drone.ID); }
+            if (! DataSource.DroneList.Any(x=> x.ID == drone.ID)) { throw new DO.Exceptions.IDException("id to remove not found", drone.ID); }
             DataSource.DroneList.Remove(drone);
         }
 
@@ -627,7 +630,7 @@ namespace DalObject
         /// <param name="station"></param>
         public void DeleteStation(Station station)
         {
-            if (!DataSource.StationList.Any(x => x.ID == station.ID)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", station.ID); }
+            if (!DataSource.StationList.Any(x => x.ID == station.ID)) { throw new DO.Exceptions.IDException("id to remove not found", station.ID); }
             DataSource.StationList.Remove(station);
         }
 
@@ -637,7 +640,7 @@ namespace DalObject
         /// <param name="package"></param>
         public void DeletePackage(Package package)
         {
-            if (!DataSource.PackageList.Any(x => x.ID == package.ID)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", package.ID); }
+            if (!DataSource.PackageList.Any(x => x.ID == package.ID)) { throw new DO.Exceptions.IDException("id to remove not found", package.ID); }
             DataSource.PackageList.Remove(package);
 
         }
@@ -648,7 +651,7 @@ namespace DalObject
         /// <param name="client"></param>
         public void DeleteClient(Client client)
         {
-            if (!DataSource.ClientList.Any(x => x.ID == client.ID)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", client.ID); }
+            if (!DataSource.ClientList.Any(x => x.ID == client.ID)) { throw new DO.Exceptions.IDException("id to remove not found", client.ID); }
             DataSource.ClientList.Remove(client);
         }
 
@@ -658,7 +661,7 @@ namespace DalObject
         /// <param name="droneCharge"></param>
         public void DeleteDroneCharge(DroneCharge droneCharge)
         {
-            if (!DataSource.droneCharge.Any(x => x.DroneId == droneCharge.DroneId)) { throw new IDAL.DO.Exceptions.IDException("id to remove not found", droneCharge.DroneId); }
+            if (!DataSource.droneCharge.Any(x => x.DroneId == droneCharge.DroneId)) { throw new DO.Exceptions.IDException("id to remove not found", droneCharge.DroneId); }
             DataSource.droneCharge.Remove(droneCharge);
         }
 

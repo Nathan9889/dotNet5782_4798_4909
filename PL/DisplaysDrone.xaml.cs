@@ -22,8 +22,8 @@ namespace PL
     /// </summary>
     public partial class DisplaysDrone : Window
     {
-        IBL.IBL BL;
-        IBL.BO.Drone selectedDrone;
+        BlApi.IBL BL;
+        BO.Drone selectedDrone;
 
 
         /// <summary>
@@ -54,10 +54,10 @@ namespace PL
         ///Constructor for adding a drone window
         /// </summary>
         /// <param name="bL"></param>
-        public DisplaysDrone(IBL.IBL bL)
+        public DisplaysDrone()
         {
             InitializeComponent();
-            this.BL = bL;
+            this.BL = BlApi.BlFactory.GetBL();
 
             InitializeAddDrone();
         }
@@ -68,10 +68,10 @@ namespace PL
         /// <param name="bL"></param>
         /// <param name="drone"></param>
         /// <param name="droneListWindow"></param>
-        public DisplaysDrone(IBL.IBL bL, IBL.BO.DroneToList drone, DisplaysDronesList droneListWindow)
+        public DisplaysDrone(BO.DroneToList drone, DisplaysDronesList droneListWindow)
         {
             InitializeComponent();
-            this.BL = bL;
+            this.BL = BlApi.BlFactory.GetBL();
 
             InitializeDisplayDrone(drone.ID);
            
@@ -83,7 +83,7 @@ namespace PL
         void InitializeAddDrone()
         {
             Add_New_Drone.Visibility = Visibility.Visible;
-            Drone_Weight.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+            Drone_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             Stations_List.ItemsSource = BL.DisplayStationListWitAvailableChargingSlots();
             Add_New_Drone.Visibility = Visibility.Visible;
 
@@ -112,7 +112,7 @@ namespace PL
             Battery.Visibility = Visibility.Hidden;
             Battary_Label.Visibility = Visibility.Hidden;
 
-            StatusSelector.Text = IBL.BO.DroneStatus.Maintenance.ToString();
+            StatusSelector.Text = BO.DroneStatus.Maintenance.ToString();
         }
 
 
@@ -131,7 +131,7 @@ namespace PL
             IdInput.IsReadOnly = true;
             Battery.Text = $"{selectedDrone.Battery}";
 
-            Drone_Weight.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+            Drone_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             Drone_Weight.SelectedItem = selectedDrone.MaxWeight;
             Drone_Weight.IsReadOnly = true;
             Drone_Weight.IsEnabled = false;
@@ -157,7 +157,7 @@ namespace PL
             //Only the buttons that can perform an action will be available for pressing
             switch (selectedDrone.Status)
             {
-                case IBL.BO.DroneStatus.Available:
+                case BO.DroneStatus.Available:
                     ChargeButton.IsEnabled = true;
                     AssociateButton.IsEnabled = true;
                     ReleaseButton.IsEnabled = false;
@@ -165,7 +165,7 @@ namespace PL
                     DeliverButton.IsEnabled = false;
                     break;
 
-                case IBL.BO.DroneStatus.Maintenance:
+                case BO.DroneStatus.Maintenance:
                     ReleaseButton.IsEnabled = true;
                     ChargeButton.IsEnabled = false;
                     AssociateButton.IsEnabled = false;
@@ -173,10 +173,10 @@ namespace PL
                     DeliverButton.IsEnabled = false;
                     break;
 
-                case IBL.BO.DroneStatus.Shipping:
+                case BO.DroneStatus.Shipping:
                     switch (selectedDrone.DronePackageProcess.PackageShipmentStatus)
                     {
-                        case IBL.BO.ShipmentStatus.Waiting:
+                        case BO.ShipmentStatus.Waiting:
                             PickUpButton.IsEnabled = true;
                             ReleaseButton.IsEnabled = false;
                             ChargeButton.IsEnabled = false;
@@ -184,7 +184,7 @@ namespace PL
                             DeliverButton.IsEnabled = false;
                             break;
 
-                        case IBL.BO.ShipmentStatus.OnGoing:
+                        case BO.ShipmentStatus.OnGoing:
                             DeliverButton.IsEnabled = true;
                             ReleaseButton.IsEnabled = false;
                             ChargeButton.IsEnabled = false;
@@ -282,10 +282,10 @@ namespace PL
             }
             else
             {
-                IBL.BO.Drone drone = new IBL.BO.Drone();
+                BO.Drone drone = new BO.Drone();
                 drone.ID = int.Parse(IdInput.Text);
                 drone.Model = DroneModel.Text;
-                drone.MaxWeight = (IBL.BO.WeightCategories)Drone_Weight.SelectedItem;
+                drone.MaxWeight = (BO.WeightCategories)Drone_Weight.SelectedItem;
                 try
                 {
                     BL.AddDrone(drone, int.Parse(StationID.Text));
@@ -323,7 +323,7 @@ namespace PL
         private void Stations_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Stations_List.SelectedItem = Stations_List.SelectedItem.ToString().ElementAt(5);
-            StationID.Text = ((IBL.BO.StationToList) Stations_List.SelectedItem).ID.ToString();
+            StationID.Text = ((BO.StationToList) Stations_List.SelectedItem).ID.ToString();
         }
 
         /// <summary>

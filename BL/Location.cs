@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
-namespace IBL
-{
+
     namespace BO
     {
         public class Location  //מיקום
@@ -17,12 +16,12 @@ namespace IBL
             public override string ToString()
             {
                 string result = "";
-                result += $"{DalObject.DalObject.ConvertLatitude(Latitude)}\n";
-                result += $"{DalObject.DalObject.ConvertLongitude(Longitude)}";
+                result += $"{DalObject.Coordinates.ConvertLatitude(Latitude)}\n";
+                result += $"{DalObject.Coordinates.ConvertLongitude(Longitude)}";
                 return result;
             }
 
         }
     }
 
-}
+

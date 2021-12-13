@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
 namespace BL
 {
-    public partial class BL : IBL.IBL           // Partial Client BL Class that contains Clients Functions
+    internal partial class BL : BlApi.IBL           // Partial Client BL Class that contains Clients Functions
     {
 
         /// <summary>
@@ -18,11 +18,11 @@ namespace BL
         {
 
             if (client.ID < 0)                                                                         // Id input exceptions
-                throw new IBL.BO.Exceptions.NegativeException("Client ID cannot be negative", client.ID);     
+                throw new BO.Exceptions.NegativeException("Client ID cannot be negative", client.ID);     
             if (client.ID < 100000000 || client.ID > 1000000000)                
                 throw new Exceptions.IDException("Id not valid", client.ID);
 
-            IDAL.DO.Client dalClient = new IDAL.DO.Client();        //creating new datasource client then assigning its attributes then adding it to client list
+            DO.Client dalClient = new DO.Client();        //creating new datasource client then assigning its attributes then adding it to client list
 
             correctPhone(client.Phone);          //send to check if phone input is correct, else exception
 
@@ -41,7 +41,7 @@ namespace BL
             {
                 dal.AddClient(dalClient);
             }
-            catch (IDAL.DO.Exceptions.IDException ex)
+            catch (DO.Exceptions.IDException ex)
             {
                 throw new Exceptions.IDException("Client with this ID already exists", ex, dalClient.ID);  //new ibl exception
             }
@@ -55,16 +55,16 @@ namespace BL
         /// <param name="phone"> new phone to give to that client </param>
         public void UpdateClient(int id, string name, string phone)
         {
-            IDAL.DO.Client dalClient;
+            DO.Client dalClient;
 
             if (!dal.ClientsList().Any(x => x.ID == id))
-                throw new IBL.BO.Exceptions.IDException("Client ID not found", id);
+                throw new BO.Exceptions.IDException("Client ID not found", id);
 
             correctPhone(phone);        //check if phone number is correct
 
             dalClient = dal.ClientById(id);
 
-            IDAL.DO.Client clientTemp = dalClient;
+            DO.Client clientTemp = dalClient;
 
             if (name != "")         //changing name or phone or both, if no input (only enter), no changes
                 clientTemp.Name = name;
@@ -83,9 +83,9 @@ namespace BL
         public Client DisplayClient(int id)
         {
             if (!dal.ClientsList().Any(x => x.ID == id))
-                throw new IBL.BO.Exceptions.IDException("Client ID not found", id);      //else client with id exist in dal
+                throw new BO.Exceptions.IDException("Client ID not found", id);      //else client with id exist in dal
 
-            IDAL.DO.Client dalClient = dal.ClientsList().First(x => x.ID == id);
+            DO.Client dalClient = dal.ClientsList().First(x => x.ID == id);
 
             Client client = new Client();           //create new object and getting and assign the client info from datasource
 
@@ -195,19 +195,19 @@ namespace BL
                 clientToList.Name = dalClient.Name;
                 clientToList.Phone = dalClient.Phone;
 
-                IEnumerable<IDAL.DO.Package> sentAndDelivered = dal.PackageList().Where(x => x.SenderId == dalClient.ID && x.Delivered != null);  //new list of sender package that have been delevered
+                IEnumerable<DO.Package> sentAndDelivered = dal.PackageList().Where(x => x.SenderId == dalClient.ID && x.Delivered != null);  //new list of sender package that have been delevered
 
                 clientToList.sentAndDeliveredPackage = sentAndDelivered.Count();                 //getting number of element we have and assigning to attribute "number of sent and delivered sender client" same for all below
 
-                IEnumerable<IDAL.DO.Package> sentAndUndelivered = dal.PackagesFilter(x => x.SenderId == dalClient.ID && x.Delivered == null);
+                IEnumerable<DO.Package> sentAndUndelivered = dal.PackagesFilter(x => x.SenderId == dalClient.ID && x.Delivered == null);
 
                 clientToList.sentAndUndeliveredPackage = sentAndUndelivered.Count();
 
-                IEnumerable<IDAL.DO.Package> ReceivedAndDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered != null);
+                IEnumerable<DO.Package> ReceivedAndDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered != null);
 
                 clientToList.ReceivedAndDeliveredPackage = ReceivedAndDelivered.Count();
 
-                IEnumerable<IDAL.DO.Package> ReceivedAndUnDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered == null);
+                IEnumerable<DO.Package> ReceivedAndUnDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered == null);
 
                 clientToList.ReceivedAndUnDeliveredPackage = ReceivedAndUnDelivered.Count();
 
@@ -221,16 +221,16 @@ namespace BL
         /// </summary>
         /// <param name="ClientID">  Client id to to find the right location </param>
         /// <returns> station with closest location </returns>
-        private IDAL.DO.Station NearestStationToClient(int ClientID)
+        private DO.Station NearestStationToClient(int ClientID)
         {
-            IDAL.DO.Station tempStation = new IDAL.DO.Station();
+            DO.Station tempStation = new DO.Station();
             double distance = int.MaxValue;
             if ((dal.StationsFilter(s=> s.ChargeSlots > 0)).Count() == 0)
-                throw new IBL.BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station", 0); //if there are no station with available charge slots
+                throw new BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station", 0); //if there are no station with available charge slots
 
             foreach (var station in dal.StationsFilter(s => s.ChargeSlots > 0)) //calculating the min of station distance with client
             {
-                double tempDistance = DalObject.DalObject.Distance(dal.ClientById(ClientID).Latitude, dal.ClientById(ClientID).Longitude, station.Latitude, station.Longitude);
+                double tempDistance = DalObject.Coordinates.Distance(dal.ClientById(ClientID).Latitude, dal.ClientById(ClientID).Longitude, station.Latitude, station.Longitude);
                 if (tempDistance < distance)
                 {
                     distance = tempDistance;
@@ -253,10 +253,10 @@ namespace BL
             if (phone == "")
                 return;
 
-            if (phone.Length != 10) throw new IBL.BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
+            if (phone.Length != 10) throw new BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
 
             phone = phone.Substring(0, 3);
-            if (!nums.Any(x => x == phone)) throw new IBL.BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
+            if (!nums.Any(x => x == phone)) throw new BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
         }
 
     }

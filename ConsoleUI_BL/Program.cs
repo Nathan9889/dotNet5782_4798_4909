@@ -3,7 +3,7 @@
 //Name: Nathan Sayag, TZ: 328944798
 //Name: Haim Goren, TZ: 207214909 
 
-using IBL.BO;
+using BO;
 
 namespace ConsoleUI_BL
 {
@@ -20,7 +20,7 @@ namespace ConsoleUI_BL
         /// <summary>
         /// Main function to run the program, the program get user input and display the relevant application from user choice, User can: Add An object, Update different type of information, Display specific object and Display every element from different list.
         /// </summary>
-        public static void Display(IBL.IBL bl)
+        public static void Display(BlApi.IBL bl)
         {
             Menu choice;
             ObjectMenu objectMenu;
@@ -403,7 +403,7 @@ namespace ConsoleUI_BL
 
         static void Main(string[] args)
         {
-            IBL.IBL bl = new BL.BL();
+            BlApi.IBL bl = BlApi.BlFactory.GetBL();
             Display(bl);
         }
     }

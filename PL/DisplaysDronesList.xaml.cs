@@ -23,7 +23,7 @@ namespace PL
     /// </summary>
     public partial class DisplaysDronesList : Window
     {
-        IBL.IBL BL;
+        BlApi.IBL BL;
         DisplaysDrone DroneWindow;
 
         /// <summary>
@@ -51,13 +51,13 @@ namespace PL
         /// Initialize the drone list view window
         /// </summary>
         /// <param name="bL"></param>
-        public DisplaysDronesList(IBL.IBL bL)
+        public DisplaysDronesList()
         {
             InitializeComponent();
-            this.BL = bL;
+            this.BL = BlApi.BlFactory.GetBL();
             DronesListView.ItemsSource = BL.DisplayDroneList();
-            StatusSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.DroneStatus));
-            WeightSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+            StatusSelector.ItemsSource = Enum.GetValues(typeof(BO.DroneStatus));
+            WeightSelector.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
         }
 
         /// <summary>
@@ -67,25 +67,25 @@ namespace PL
         /// <param name="e"></param>
         private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            IBL.BO.DroneStatus? status;
+            BO.DroneStatus? status;
 
             if (StatusSelector.SelectedItem == null) status = null;
-            else status = (IBL.BO.DroneStatus)StatusSelector.SelectedItem;
+            else status = (BO.DroneStatus)StatusSelector.SelectedItem;
 
             if (WeightSelector.SelectedItem == null)
             {
                 switch (status)
                 {
-                    case IBL.BO.DroneStatus.Available:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == IBL.BO.DroneStatus.Available);
+                    case BO.DroneStatus.Available:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Available);
                         break;
 
-                    case IBL.BO.DroneStatus.Maintenance:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == IBL.BO.DroneStatus.Maintenance);
+                    case BO.DroneStatus.Maintenance:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Maintenance);
                         break;
 
-                    case IBL.BO.DroneStatus.Shipping:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == IBL.BO.DroneStatus.Shipping);
+                    case BO.DroneStatus.Shipping:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Shipping);
                         break;
 
                     case null:
@@ -97,20 +97,20 @@ namespace PL
             {
                 switch (status)
                 {
-                    case IBL.BO.DroneStatus.Available:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == IBL.BO.DroneStatus.Available && d.MaxWeight == (IBL.BO.WeightCategories)WeightSelector.SelectedItem);
+                    case BO.DroneStatus.Available:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Available && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem);
                         break;
 
-                    case IBL.BO.DroneStatus.Maintenance:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == IBL.BO.DroneStatus.Maintenance && d.MaxWeight == (IBL.BO.WeightCategories)WeightSelector.SelectedItem);
+                    case BO.DroneStatus.Maintenance:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Maintenance && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem);
                         break;
 
-                    case IBL.BO.DroneStatus.Shipping:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == IBL.BO.DroneStatus.Shipping && d.MaxWeight == (IBL.BO.WeightCategories)WeightSelector.SelectedItem);
+                    case BO.DroneStatus.Shipping:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Shipping && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem);
                         break;
 
                     case null:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d=> d.MaxWeight == (IBL.BO.WeightCategories)WeightSelector.SelectedItem);
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d=> d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem);
                         break;
 
                 }
@@ -125,25 +125,25 @@ namespace PL
         /// <param name="e"></param>
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            IBL.BO.WeightCategories? weight;
+            BO.WeightCategories? weight;
 
             if (WeightSelector.SelectedItem == null) weight = null;
-            else weight = (IBL.BO.WeightCategories)WeightSelector.SelectedItem;
+            else weight = (BO.WeightCategories)WeightSelector.SelectedItem;
 
             if (StatusSelector.SelectedItem == null)
             {
                 switch (weight)
                 {
-                    case IBL.BO.WeightCategories.Heavy:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == IBL.BO.WeightCategories.Heavy);
+                    case BO.WeightCategories.Heavy:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Heavy);
                         break;
 
-                    case IBL.BO.WeightCategories.Light:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == IBL.BO.WeightCategories.Light);
+                    case BO.WeightCategories.Light:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Light);
                         break;
 
-                    case IBL.BO.WeightCategories.Medium:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == IBL.BO.WeightCategories.Medium);
+                    case BO.WeightCategories.Medium:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Medium);
                         break;
 
                     case null:
@@ -155,20 +155,20 @@ namespace PL
             {
                 switch (weight)
                 {
-                    case IBL.BO.WeightCategories.Heavy:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == IBL.BO.WeightCategories.Heavy && d.Status == (IBL.BO.DroneStatus)StatusSelector.SelectedItem);
+                    case BO.WeightCategories.Heavy:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Heavy && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem);
                         break;
 
-                    case IBL.BO.WeightCategories.Light:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == IBL.BO.WeightCategories.Light && d.Status == (IBL.BO.DroneStatus)StatusSelector.SelectedItem);
+                    case BO.WeightCategories.Light:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Light && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem);
                         break;
 
-                    case IBL.BO.WeightCategories.Medium:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == IBL.BO.WeightCategories.Medium && d.Status == (IBL.BO.DroneStatus)StatusSelector.SelectedItem);
+                    case BO.WeightCategories.Medium:
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Medium && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem);
                         break;
 
                     case null:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d=> d.Status == (IBL.BO.DroneStatus)StatusSelector.SelectedItem);
+                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d=> d.Status == (BO.DroneStatus)StatusSelector.SelectedItem);
                         break;
 
                 }
@@ -182,7 +182,7 @@ namespace PL
         /// <param name="e"></param>
         private void Add_New_Drone(object sender, RoutedEventArgs e)
         {
-            DroneWindow = new DisplaysDrone(BL);
+            DroneWindow = new DisplaysDrone();
             DroneWindow.Closed += RefreshListView;
             DroneWindow.Show();
         }
@@ -206,9 +206,9 @@ namespace PL
         /// <param name="e"></param>
         private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if ((IBL.BO.DroneToList)DronesListView.SelectedItem != null)
+            if ((BO.DroneToList)DronesListView.SelectedItem != null)
             {
-                DroneWindow = new DisplaysDrone(BL, (IBL.BO.DroneToList)DronesListView.SelectedItem, this);
+                DroneWindow = new DisplaysDrone((BO.DroneToList)DronesListView.SelectedItem, this);
                 DroneWindow.Closed += RefreshListView;
                 DroneWindow.Show();
             }

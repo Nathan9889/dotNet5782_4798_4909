@@ -5,8 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IDAL
-{
+
     namespace DO
     {
         public class Exceptions : Exception
@@ -31,7 +30,7 @@ namespace IDAL
                 {
                 }
 
-                public IDException(string v, int iD):base(v)
+                public IDException(string v, int iD) : base(v)
                 {
                     
                     this.iD = iD;
@@ -51,9 +50,36 @@ namespace IDAL
                 }
             }
 
-            
-            
+        [Serializable]
+        internal class IDalNotFound : Exception
+        {
+            private string v;
+            private string type;
+
+            public IDalNotFound()
+            {
+            }
+
+            public IDalNotFound(string message) : base(message)
+            {
+
+            }
+
+            public IDalNotFound(string v, string type) : base(v)
+            {
+                this.v = v;
+                this.type = type;
+            }
+
+            public IDalNotFound(string message, Exception innerException) : base(message, innerException)
+            {
+            }
+
+            protected IDalNotFound(SerializationInfo info, StreamingContext context) : base(info, context)
+            {
+            }
         }
     }
-    
-}
+    }
+   
+

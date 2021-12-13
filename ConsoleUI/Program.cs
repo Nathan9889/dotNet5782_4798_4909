@@ -2,7 +2,7 @@
 //Name: Nathan Sayag, TZ: 328944798
 //Name: Haim Goren, TZ: 207214909 
 using System;
-using IDAL.DO;
+using DO;
 using DalObject;
 
 
@@ -20,7 +20,7 @@ namespace ConsoleUI
         /// <summary>
         /// Main function to run the program, the program get user input and display the relevant application from user choice, User can: Add An object, Update different type of information, Display specific object and Display every element from different list.
         /// </summary>
-        public static void Display(IDAL.IDAL dal)
+        public static void Display(DalApi.IDAL dal)
         {
             Menu choice;
             ObjectMenu objectMenu;
@@ -181,19 +181,19 @@ namespace ConsoleUI
                                     dal.DeliveredToClient(dal.PackageById(packageId));  
                                     break;
 
-                                case UpdateOptions.Charging:    //sending a drone to a station to get it charged
-                                    Console.WriteLine("What is the drone's ID?");
-                                    int.TryParse(Console.ReadLine(), out droneId);
-                                    Console.WriteLine("At which station do you want to recharge the drone?\n");
-                                    foreach (var station in (dal.StationWithCharging()))  // Display the stations list who have places to charge
-                                    {
-                                        Console.WriteLine(station);
-                                    }
-                                    Console.WriteLine("What is the station ID ?\n");
-                                    int stationId;
-                                    int.TryParse(Console.ReadLine(), out stationId);
-                                    dal.DroneCharge(dal.DroneById(droneId), stationId);
-                                    break;
+                                //case UpdateOptions.Charging:    //sending a drone to a station to get it charged
+                                //    Console.WriteLine("What is the drone's ID?");
+                                //    int.TryParse(Console.ReadLine(), out droneId);
+                                //    Console.WriteLine("At which station do you want to recharge the drone?\n");
+                                //    foreach (var station in (dal.StationWithCharging()))  // Display the stations list who have places to charge
+                                //    {
+                                //        Console.WriteLine(station);
+                                //    }
+                                //    Console.WriteLine("What is the station ID ?\n");
+                                //    int stationId;
+                                //    int.TryParse(Console.ReadLine(), out stationId);
+                                //    dal.DroneCharge(dal.DroneById(droneId), stationId);
+                                //    break;
 
                                 case UpdateOptions.FinishCharging:  //Getting a drone back from charging
                                     Console.WriteLine("What is the drone's ID?");
@@ -285,19 +285,19 @@ namespace ConsoleUI
                                     }
                                     break;
 
-                                case ObjectList.PackageWithoutDrone:
-                                    foreach (var package in dal.PackageWithoutDrone())
-                                    {
-                                        Console.WriteLine(package);
-                                    }
-                                    break;
+                                //case ObjectList.PackageWithoutDrone:
+                                //    foreach (var package in dal.PackageWithoutDrone())
+                                //    {
+                                //        Console.WriteLine(package);
+                                //    }
+                                //    break;
 
-                                case ObjectList.StationWithCharging:
-                                    foreach (var station in dal.StationWithCharging())
-                                    {
-                                        Console.WriteLine(station);
-                                    }
-                                    break;
+                                //case ObjectList.StationWithCharging:
+                                //    foreach (var station in dal.StationWithCharging())
+                                //    {
+                                //        Console.WriteLine(station);
+                                //    }
+                                //    break;
                                      
                                 default:
                                     break;
@@ -325,14 +325,14 @@ namespace ConsoleUI
                                     Console.WriteLine("What is the client ID ?");
                                     int.TryParse(Console.ReadLine(), out ID);
                                     Client client = dal.ClientById(ID);
-                                    Console.WriteLine($"The distance is: {Math.Round(DalObject.DalObject.Distance(latitude, longitude, client.Latitude, client.Longitude),3)}");
+                                    Console.WriteLine($"The distance is: {Math.Round(DalObject.Coordinates.Distance(latitude, longitude, client.Latitude, client.Longitude),3)}");
                                     break;
 
                                 case DistanceOptions.Station:
                                     Console.WriteLine("What is the station ID ?");
                                     int.TryParse(Console.ReadLine(), out ID);
                                     Station station = dal.StationById(ID);
-                                    Console.WriteLine($"The distance is: {Math.Round(DalObject.DalObject.Distance(latitude, longitude, station.Latitude, station.Longitude), 3)}");
+                                    Console.WriteLine($"The distance is: {Math.Round(DalObject.Coordinates.Distance(latitude, longitude, station.Latitude, station.Longitude), 3)}");
                                     break;
 
                                 default:
@@ -355,8 +355,7 @@ namespace ConsoleUI
 
         static void Main(string[] args)
         {
-             IDAL.IDAL dal = new DalObject.DalObject(); 
-            
+            DalApi.IDAL dal = DalApi.DalFactory.GetDal("List");
 
             Display(dal);
         }

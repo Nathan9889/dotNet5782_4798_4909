@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
+
 namespace BL
 {
-    public partial class BL : IBL.IBL        //Partial BL class that contains Stations Functions
+    internal partial class BL : BlApi.IBL        //Partial BL class that contains Stations Functions
     {
 
         /// <summary>
@@ -16,16 +17,16 @@ namespace BL
         public void AddStation(Station station)
         {
             if (station.ID < 0)                                                                         // Id input exceptions
-                throw new IBL.BO.Exceptions.NegativeException("Station ID can not be negative", station.ID);
+                throw new BO.Exceptions.NegativeException("Station ID can not be negative", station.ID);
             if (station.AvailableChargeSlots < 0)
-                throw new IBL.BO.Exceptions.NegativeException("Charges slot cannot be negative", station.AvailableChargeSlots);
+                throw new BO.Exceptions.NegativeException("Charges slot cannot be negative", station.AvailableChargeSlots);
             if (((station.StationLocation.Latitude < 31.73) || (station.StationLocation.Latitude > 31.83)) ||
                ((station.StationLocation.Longitude <= 35.16) || (station.StationLocation.Longitude >= 35.26)))      //location exception 
             {
                 throw new Exceptions.LocationOutOfRange("Station Location entered is out of shipping range", station.ID);
             }
 
-            IDAL.DO.Station dalStation = new IDAL.DO.Station();   //new datasource station then assigning
+            DO.Station dalStation = new DO.Station();   //new datasource station then assigning
 
             dalStation.ID = station.ID;
             dalStation.Name = station.Name;
@@ -42,7 +43,7 @@ namespace BL
             {
                 dal.AddStation(dalStation);
             }
-            catch (IDAL.DO.Exceptions.IDException ex)
+            catch (DO.Exceptions.IDException ex)
             {
                 throw new Exceptions.IDException("Station with this ID already exists", ex, station.ID);
             }
@@ -55,12 +56,12 @@ namespace BL
         /// <param name="name"> new name to give to the station</param>
         public void UpdateStationName(int id, string name)
         {
-            IDAL.DO.Station dalStation;
+            DO.Station dalStation;
             if (!dal.StationsList().Any(x => x.ID == id))  // if station doesn't exist
-                throw new IBL.BO.Exceptions.IDException("Station ID not found", id);
+                throw new BO.Exceptions.IDException("Station ID not found", id);
             dalStation = dal.StationById(id);
 
-            IDAL.DO.Station stationTemp = dalStation;
+            DO.Station stationTemp = dalStation;
             stationTemp.Name = name;
 
             dal.DeleteStation(dalStation);  //switching station with the new name
@@ -74,12 +75,12 @@ namespace BL
         /// <param name="numCharge">new number of charge slot to give to the given station </param>
         public void UpdateStationNumCharge(int id, int numCharge)
         {
-            IDAL.DO.Station dalStation;
+            DO.Station dalStation;
             if (!dal.StationsList().Any(x => x.ID == id))
-                throw new IBL.BO.Exceptions.IDException("Station ID not found", id);
+                throw new BO.Exceptions.IDException("Station ID not found", id);
 
             dalStation = dal.StationById(id);  //getting station info to give to new one then exchange between
-            IDAL.DO.Station stationTemp = dalStation;
+            DO.Station stationTemp = dalStation;
 
             int minSlots = 0;
             foreach (var item in dal.droneChargesList())  //count if num inputed is greater than num of drones charging in that staion
@@ -87,7 +88,7 @@ namespace BL
                 if (item.StationId == id) minSlots++;
             }
             if (numCharge < minSlots)
-                throw new IBL.BO.Exceptions.StationException("The number of new slots can not be less than the number of Drones in charging.", id);
+                throw new BO.Exceptions.StationException("The number of new slots can not be less than the number of Drones in charging.", id);
 
             stationTemp.ChargeSlots = numCharge;  //update
 
@@ -104,9 +105,9 @@ namespace BL
         public Station DisplayStation(int id)
         {
             if (!dal.StationsList().Any(x => x.ID == id))
-                throw new IBL.BO.Exceptions.IDException("Station ID not found", id);    //else client with id exist in dal
+                throw new BO.Exceptions.IDException("Station ID not found", id);    //else client with id exist in dal
 
-            IDAL.DO.Station dalStation = dal.StationsList().First(x => x.ID == id);
+            DO.Station dalStation = dal.StationsList().First(x => x.ID == id);
 
             Station station = new Station();                             //create new object and getting and assign the station info from datasource
             station.ChargingDronesList = new List<ChargingDrone>();        //new List for attributre of station
@@ -149,7 +150,7 @@ namespace BL
                 stationToList.Name = dalStation.Name;
                 stationToList.AvailableChargingSlots = dalStation.ChargeSlots;
 
-                List<IDAL.DO.DroneCharge> dronesInCharges = dal.DroneChargeFilter(d => d.StationId == dalStation.ID).ToList(); //list of all charging drone in that current station
+                List<DO.DroneCharge> dronesInCharges = dal.DroneChargeFilter(d => d.StationId == dalStation.ID).ToList(); //list of all charging drone in that current station
                 stationToList.BusyChargingSlots = dronesInCharges.Count();                                                              //number of drone charging equal number of taken/busy chargeSlots
 
                 stations.Add(stationToList);
