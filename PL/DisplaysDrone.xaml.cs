@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 
@@ -32,8 +31,9 @@ namespace PL
         /// <param name="ob"></param>
     
 
-        #region 
-        // used for Deleting the X button
+        
+        //***
+        //used for Deleting the X button
         private const int GWL_STYLE = -16;    
         private const int WS_SYSMENU = 0x80000;
 
@@ -48,7 +48,7 @@ namespace PL
             var hwnd = new WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
-        #endregion
+        //***
 
         /// <summary>
         ///Constructor for adding a drone window
@@ -384,9 +384,8 @@ namespace PL
             try
             {
                 BL.FinishCharging(selectedDrone.ID);
-
-                MessageBox.Show($"Drone have been unplugged, Battery left: {selectedDrone.Battery}%", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 InitializeDisplayDrone(selectedDrone.ID);
+                MessageBox.Show($"Drone have been unplugged, Battery left: {selectedDrone.Battery}%", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
@@ -461,7 +460,6 @@ namespace PL
         /// <param name="e"></param>
         private void Exit_Button(object sender, RoutedEventArgs e)
         {
-            
             Close();
         }
 

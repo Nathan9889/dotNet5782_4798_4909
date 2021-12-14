@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 
@@ -27,9 +25,9 @@ namespace PL
         DisplaysDrone DroneWindow;
 
         /// <summary>
-        ///  Deleting the X button
+        ///  //used to remove X button for bonus
         /// </summary>
-        private const int GWL_STYLE = -16;   //used to remove X button for bonus
+        private const int GWL_STYLE = -16;   
         private const int WS_SYSMENU = 0x80000;
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -43,9 +41,7 @@ namespace PL
             var hwnd = new WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
-        //********
-
-
+        //***
 
         /// <summary>
         /// Initialize the drone list view window

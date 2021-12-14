@@ -15,7 +15,7 @@ namespace ConsoleUI
         enum UpdateOptions { Exit, Assignment, PickedUp, Delivered, Charging, FinishCharging };
         enum ObjectMenu { Exit, Client, Drone, Station, Package };
         enum ObjectList { Exit, ClientList, DroneList, StationList, PackageList, PackageWithoutDrone, StationWithCharging };
-        enum DistanceOptions {Exit, Client, Station};
+        enum DistanceOptions { Exit, Client, Station };
 
         /// <summary>
         /// Main function to run the program, the program get user input and display the relevant application from user choice, User can: Add An object, Update different type of information, Display specific object and Display every element from different list.
@@ -28,8 +28,8 @@ namespace ConsoleUI
             ObjectList objectList;
             DistanceOptions distanceOptions;
             int num = 1;
-             
-            while (num != 0) 
+
+            while (num != 0)
             {
                 Console.WriteLine("Choose an Option:");
                 Console.WriteLine(" 1: Add \n 2: Update \n 3: Display specific Item \n 4: Display Item List \n 5: Distance \n 0: Exit");
@@ -52,7 +52,7 @@ namespace ConsoleUI
                                     string clientName = Console.ReadLine();
                                     string clientPhone = Console.ReadLine();
                                     double clientLatitude, clientLongitude;
-                                    double.TryParse(Console.ReadLine(),out clientLatitude);
+                                    double.TryParse(Console.ReadLine(), out clientLatitude);
                                     double.TryParse(Console.ReadLine(), out clientLongitude);
 
                                     Client client = new Client();   //creating new object then assigning user input to that object
@@ -71,7 +71,7 @@ namespace ConsoleUI
                                     Console.WriteLine("Enter Drone Data: ID, Model, Weight, Status, Battery \n");  // Getting Drone data from user  
                                     int droneId;
                                     int.TryParse(Console.ReadLine(), out droneId);
-                                    
+
 
                                     //Console.WriteLine("Choose Drone Model: 0 :  Dji_Mavic_2_Pro, 1 : Dji_Mavic_2_Air, 2 : Dji_Mavic_2_Zoom, 3 :  Dji_FPV_Combo :\n");  //getting different type of Model from user
                                     string chosen = Console.ReadLine();  //used to get the num from user and chose with it different enum option
@@ -80,11 +80,11 @@ namespace ConsoleUI
                                     Console.WriteLine("Choose Drone Weight: 0 : Light, 1 : Medium, 2 : Heavy :\n");  //getting different type of weight from user
                                     chosen = (Console.ReadLine());  //used to get the num from user and chose with it different enum option
                                     WeightCategories droneWeight = (WeightCategories)Convert.ToInt32(chosen);
-                                        //Console.WriteLine("Choose Drone Status: 0 : Available, 1 : Maintenance, 2 : Shipping :\n"); // For different type of status from user
-                                        //chosen = (Console.ReadLine());
-                                        //DroneStatus droneStatus = (DroneStatus)Convert.ToInt32(chosen);
+                                    //Console.WriteLine("Choose Drone Status: 0 : Available, 1 : Maintenance, 2 : Shipping :\n"); // For different type of status from user
+                                    //chosen = (Console.ReadLine());
+                                    //DroneStatus droneStatus = (DroneStatus)Convert.ToInt32(chosen);
                                     double droneBattery;
-                                    double.TryParse(Console.ReadLine(),out droneBattery);
+                                    double.TryParse(Console.ReadLine(), out droneBattery);
 
                                     Drone drone = new Drone();      //creating new object then assigning user input to that object
 
@@ -119,7 +119,7 @@ namespace ConsoleUI
 
                                 case ObjectMenu.Package:
                                     Console.WriteLine("Enter All Package Data: SenderId, TargetId, DroneId, MaxWeight, Priority");  // Getting Package data from user
-                                    int packageSenderId, packageTargetId,packageDroneId ;
+                                    int packageSenderId, packageTargetId, packageDroneId;
                                     int.TryParse(Console.ReadLine(), out packageSenderId);
                                     int.TryParse(Console.ReadLine(), out packageTargetId);
                                     int.TryParse(Console.ReadLine(), out packageDroneId);
@@ -178,7 +178,7 @@ namespace ConsoleUI
                                 case UpdateOptions.Delivered:   //Deliver a Package to a client
                                     Console.WriteLine("What is the package's ID?");
                                     int.TryParse(Console.ReadLine(), out packageId);
-                                    dal.DeliveredToClient(dal.PackageById(packageId));  
+                                    dal.DeliveredToClient(dal.PackageById(packageId));
                                     break;
 
                                 //case UpdateOptions.Charging:    //sending a drone to a station to get it charged
@@ -298,17 +298,17 @@ namespace ConsoleUI
                                 //        Console.WriteLine(station);
                                 //    }
                                 //    break;
-                                     
+
                                 default:
                                     break;
-                            } 
+                            }
                             break;
                         }
                     case Menu.Distance:
                         {
                             double latitude, longitude;
                             int ID;
-                            
+
                             Console.WriteLine("What is the Latitude?");
                             double.TryParse(Console.ReadLine(), out latitude);
                             Console.WriteLine("What is the Longitude?");
@@ -325,7 +325,7 @@ namespace ConsoleUI
                                     Console.WriteLine("What is the client ID ?");
                                     int.TryParse(Console.ReadLine(), out ID);
                                     Client client = dal.ClientById(ID);
-                                    Console.WriteLine($"The distance is: {Math.Round(DalObject.Coordinates.Distance(latitude, longitude, client.Latitude, client.Longitude),3)}");
+                                    Console.WriteLine($"The distance is: {Math.Round(DalObject.Coordinates.Distance(latitude, longitude, client.Latitude, client.Longitude), 3)}");
                                     break;
 
                                 case DistanceOptions.Station:

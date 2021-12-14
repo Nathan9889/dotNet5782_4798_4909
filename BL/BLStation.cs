@@ -30,8 +30,8 @@ namespace BL
 
             dalStation.ID = station.ID;
             dalStation.Name = station.Name;
-            if(!( (station.StationLocation.Latitude >= 31.73) && (station.StationLocation.Latitude <= 31.83) ||
-                (station.StationLocation.Longitude >= 35.16) && (station.StationLocation.Longitude <= 35.26)) )    //if station info inputed is out of shipping range
+            if (!((station.StationLocation.Latitude >= 31.73) && (station.StationLocation.Latitude <= 31.83) ||
+                (station.StationLocation.Longitude >= 35.16) && (station.StationLocation.Longitude <= 35.26)))    //if station info inputed is out of shipping range
             {
                 throw new Exceptions.LocationOutOfRange("Station Location entered is out of shipping range", station.ID);
             }
@@ -112,7 +112,7 @@ namespace BL
             Station station = new Station();                             //create new object and getting and assign the station info from datasource
             station.ChargingDronesList = new List<ChargingDrone>();        //new List for attributre of station
 
-            station.ID = dalStation.ID; 
+            station.ID = dalStation.ID;
             station.Name = dalStation.Name;
             Location location = new Location();
             location.Latitude = dalStation.Latitude;
@@ -121,7 +121,7 @@ namespace BL
 
             foreach (var item in dal.droneChargesList())    //finding charging drone in datasource 
             {
-                if(dalStation.ID == item.StationId)
+                if (dalStation.ID == item.StationId)
                 {
                     ChargingDrone chargingDrone = new ChargingDrone();
                     chargingDrone.ID = item.DroneId;

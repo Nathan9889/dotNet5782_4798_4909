@@ -280,8 +280,7 @@ namespace DalObject
         static readonly IDAL instance = new DalObject();
         internal static IDAL Instance { get { return instance; } }
         static DalObject() { }
-
-        public DalObject() { DataSource.Initialize(); }
+        DalObject() { DataSource.Initialize(); }
 
 
         /// <summary>
@@ -290,8 +289,8 @@ namespace DalObject
         /// <param name="station"></param>
         public void AddStation(Station station)
         {
-            if (DataSource.StationList.FindIndex(x => x.ID == station.ID) != -1) 
-                throw new DO.Exceptions.IDException("A Station ID already exists",station.ID);
+            if (DataSource.StationList.FindIndex(x => x.ID == station.ID) != -1)
+                throw new DO.Exceptions.IDException("A Station ID already exists", station.ID);
             DataSource.StationList.Add(station);
         }
 
@@ -302,7 +301,7 @@ namespace DalObject
         /// <param name="drone"></param>
         public void AddDrone(Drone drone)
         {
-            if (DataSource.DroneList.FindIndex(x => x.ID == drone.ID) != -1) 
+            if (DataSource.DroneList.FindIndex(x => x.ID == drone.ID) != -1)
                 throw new DO.Exceptions.IDException("A Drone with ID already exists", drone.ID);
             DataSource.DroneList.Add(drone);
         }
@@ -328,7 +327,7 @@ namespace DalObject
         {
             package.ID = DataSource.Config.PackageId++;
             DataSource.PackageList.Add(package);
-            return DataSource.Config.PackageId-1;
+            return DataSource.Config.PackageId - 1;
         }
 
 
@@ -358,7 +357,7 @@ namespace DalObject
             {
                 if (item.ID == id) return item;
             }
-            throw new DO.Exceptions.IDException("Package ID not found", id);                                                                                                                                                                                                                                                                                                                                                           
+            throw new DO.Exceptions.IDException("Package ID not found", id);
         }
 
 
@@ -406,7 +405,7 @@ namespace DalObject
             throw new DO.Exceptions.IDException("DroneCharge ID not found", id);
         }
 
-        
+
         /// <summary>
         /// The function receives a Drone object and a Package object and assigns the packet to the drone
         /// </summary>
@@ -482,7 +481,7 @@ namespace DalObject
         {
             Station station = ChargingStation(stationID); // The station that the user choose
             Drone droneTemp = drone;
-            
+
             DroneCharge droneCharg = new DroneCharge() // Initialization of a new instance for DroneCharge
             {
                 DroneId = droneTemp.ID,
@@ -525,7 +524,7 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<DroneCharge> droneChargesList()
         {
-            List< DroneCharge> droneChargeTemp = new List<DroneCharge>(DataSource.droneCharge);
+            List<DroneCharge> droneChargeTemp = new List<DroneCharge>(DataSource.droneCharge);
             return droneChargeTemp;
         }
 
@@ -558,7 +557,7 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Client> ClientsList()
         {
-            List <Client> temp = new List<Client>(DataSource.ClientList);
+            List<Client> temp = new List<Client>(DataSource.ClientList);
             return temp;
         }
 
@@ -620,7 +619,7 @@ namespace DalObject
         /// <param name="drone"></param>
         public void DeleteDrone(Drone drone)
         {
-            if (! DataSource.DroneList.Any(x=> x.ID == drone.ID)) { throw new DO.Exceptions.IDException("id to remove not found", drone.ID); }
+            if (!DataSource.DroneList.Any(x => x.ID == drone.ID)) { throw new DO.Exceptions.IDException("id to remove not found", drone.ID); }
             DataSource.DroneList.Remove(drone);
         }
 
@@ -671,7 +670,7 @@ namespace DalObject
         /// <returns></returns>
         public double[] PowerConsumptionByDrone()
         {
-            double [] arr = new double[5];
+            double[] arr = new double[5];
             arr[0] = DataSource.Config.PowerAvailableDrone;
             arr[1] = DataSource.Config.PowerLightDrone;
             arr[2] = DataSource.Config.PowerMediumDrone;
