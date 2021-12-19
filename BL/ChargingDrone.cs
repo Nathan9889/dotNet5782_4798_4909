@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 using BO;
 
 
-    namespace BO
+namespace BO
+{
+    public class ChargingDrone  //רחפן בטעינה
     {
-        public class ChargingDrone  //רחפן בטעינה
+        public int ID { get; set; }
+        public double Battery { get; set; }
+        public override string ToString()
         {
-            public int ID { get; set; }
-            public double Battery { get; set; }
-            public override string ToString()
-            {
-                string result = "";
-                result += $"Charging Drone Id is {ID},\n";
-                result += $"Charging Drone Battery is {Battery}.\n";
+            string result = "";
+            result += $"Charging Drone Id is {ID},\n";
+            result += $"Charging Drone Battery is {Battery}.\n";
 
-                return result;
-            }
+            return result;
         }
     }
+}
 
 

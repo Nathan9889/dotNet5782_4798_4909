@@ -13,8 +13,8 @@ namespace DalApi
 
         public static IDAL GetDal(string type)
         {
-            
-            switch(type)
+
+            switch (type)
             {
                 case "List":
 

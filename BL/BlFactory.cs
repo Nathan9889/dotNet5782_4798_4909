@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace BlApi
 {
-
     public static class BlFactory
     {
-
         public static IBL GetBL()
         {
             return BL.BL.Instance;
         }
-
     }
 }

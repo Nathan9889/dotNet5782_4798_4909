@@ -18,8 +18,8 @@ namespace BL
         {
 
             if (client.ID < 0)                                                                         // Id input exceptions
-                throw new BO.Exceptions.NegativeException("Client ID cannot be negative", client.ID);     
-            if (client.ID < 100000000 || client.ID > 1000000000)                
+                throw new BO.Exceptions.NegativeException("Client ID cannot be negative", client.ID);
+            if (client.ID < 100000000 || client.ID > 1000000000)
                 throw new Exceptions.IDException("Id not valid", client.ID);
 
             DO.Client dalClient = new DO.Client();        //creating new datasource client then assigning its attributes then adding it to client list
@@ -93,7 +93,7 @@ namespace BL
             client.Name = dalClient.Name;
             client.Phone = dalClient.Phone;
 
-            Location location = new Location(); 
+            Location location = new Location();
             location.Longitude = dalClient.Longitude;
             location.Latitude = dalClient.Latitude;
 
@@ -112,7 +112,7 @@ namespace BL
                     packageAtClient.Priority = (Priorities)item.Priority;
 
                     if (item.Associated == null)           //assigning package status according to its status
-                        packageAtClient.Status = PackageStatus.Created; 
+                        packageAtClient.Status = PackageStatus.Created;
                     else if (item.PickedUp == null)
                     {
                         packageAtClient.Status = PackageStatus.Associated;
@@ -149,7 +149,7 @@ namespace BL
 
 
                     if (item.Associated == null)               //assigning package status according to its status
-                        packageAtClient.Status = PackageStatus.Created; 
+                        packageAtClient.Status = PackageStatus.Created;
                     else if (item.PickedUp == null)
                     {
                         packageAtClient.Status = PackageStatus.Associated;
@@ -183,7 +183,7 @@ namespace BL
         /// The function Display every Client attributes with a list of package info
         /// </summary>
         /// <returns> Client List </returns>
-        public IEnumerable<ClientToList> DisplayClientList()   
+        public IEnumerable<ClientToList> DisplayClientList()
         {
             List<ClientToList> clients = new List<ClientToList>();   //creating new list to return after assign
 
@@ -225,7 +225,7 @@ namespace BL
         {
             DO.Station tempStation = new DO.Station();
             double distance = int.MaxValue;
-            if ((dal.StationsFilter(s=> s.ChargeSlots > 0)).Count() == 0)
+            if ((dal.StationsFilter(s => s.ChargeSlots > 0)).Count() == 0)
                 throw new BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station", 0); //if there are no station with available charge slots
 
             foreach (var station in dal.StationsFilter(s => s.ChargeSlots > 0)) //calculating the min of station distance with client
@@ -246,7 +246,7 @@ namespace BL
         /// private function that check if phone number entered is correct according to israel standard
         /// </summary>
         /// <param name="phone"> phone inputed by user </param>
-        private void correctPhone(string phone) 
+        private void correctPhone(string phone)
         {
             string[] nums = { "052", "053", "054", "055", "056", "057", "058" };
 

@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 using BO;
 
 
-    namespace BO
+namespace BO
+{
+    public class Location  //מיקום
     {
-        public class Location  //מיקום
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+
+        public override string ToString()
         {
-            public double Latitude { get; set; }
-            public double Longitude { get; set; }
-
-            public override string ToString()
-            {
-                string result = "";
-                result += $"{DalObject.Coordinates.ConvertLatitude(Latitude)}\n";
-                result += $"{DalObject.Coordinates.ConvertLongitude(Longitude)}";
-                return result;
-            }
-
+            string result = "";
+            result += $"{DalObject.Coordinates.ConvertLatitude(Latitude)}\n";
+            result += $"{DalObject.Coordinates.ConvertLongitude(Longitude)}";
+            return result;
         }
+
     }
+}
 
 

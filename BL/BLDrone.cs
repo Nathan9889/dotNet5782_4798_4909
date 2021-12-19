@@ -21,12 +21,12 @@ namespace BL
 
 
         static readonly IBL instance = new BL();
-        internal static IBL Instance { get { return instance; } }
+        internal static IBL Instance { get => instance; }
 
         static BL() { }
 
 
-        public BL()
+        BL()
         {
             dal = DalApi.DalFactory.GetDal("List");
 
@@ -93,10 +93,10 @@ namespace BL
                         minBattery += batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, targetLocation.Latitude, targetLocation.Longitude, (int)package.Weight); // From the location of the sender to the destination location in the weight of the package
 
                         DO.Station stationLocation = NearestStationToClient(package.TargetId); //The station closest to the target
-                        minBattery += batteryConsumption(targetLocation.Latitude, targetLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude,3); //From the destination location to the location of the nearest station at empty weight
+                        minBattery += batteryConsumption(targetLocation.Latitude, targetLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude, 3); //From the destination location to the location of the nearest station at empty weight
 
-                        if (minBattery > 100) throw new Exceptions.UnableToItinitDrone("Battery over 100",droneToList.ID);
-                        droneToList.Battery = rand.Next((int)minBattery+1, 101); // Between the minimum battery consumption and 100
+                        if (minBattery > 100) throw new Exceptions.UnableToItinitDrone("Battery over 100", droneToList.ID);
+                        droneToList.Battery = rand.Next((int)minBattery + 1, 101); // Between the minimum battery consumption and 100
 
                         break;
                     }
@@ -107,7 +107,7 @@ namespace BL
                     droneToList.Status = (DroneStatus)(rand.Next(0, 2)); // Status between available and maintained
                     if (droneToList.Status == DroneStatus.Maintenance) // If it is in maintenance
                     {
-                        DO.Station station = dal.StationsFilter(s=> s.ChargeSlots > 0).ElementAt(rand.Next(0, dal.StationsFilter(s => s.ChargeSlots > 0).Count())); // Lottery location between stations with charging stations available
+                        DO.Station station = dal.StationsFilter(s => s.ChargeSlots > 0).ElementAt(rand.Next(0, dal.StationsFilter(s => s.ChargeSlots > 0).Count())); // Lottery location between stations with charging stations available
                         droneToList.DroneLocation.Latitude = station.Latitude;
                         droneToList.DroneLocation.Longitude = station.Longitude;
                         droneToList.Battery = rand.Next(0, 21);
@@ -128,9 +128,9 @@ namespace BL
 
                         double minBattery;
                         DO.Station stationLocation = NearestStationToClient(dal.ClientById(clientID).ID);
-                        minBattery = batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude,3); //
+                        minBattery = batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude, 3); //
                         //minBattery = BatteryByKM(3, KM);
-                        droneToList.Battery = rand.Next((int)minBattery+1, 101); //
+                        droneToList.Battery = rand.Next((int)minBattery + 1, 101); //
 
                     }
                 }
@@ -165,7 +165,7 @@ namespace BL
                 throw new Exceptions.IDException("A Drone ID already exists", ex, droneDAL.ID);
             }
             dal.DroneCharge(droneDAL, stationNumToCharge); // add drone to charge
-          
+
 
             DroneToList droneToList = new DroneToList();
             droneToList.DroneLocation = new Location();
@@ -187,7 +187,7 @@ namespace BL
         /// </summary>
         /// <param name="id"></param>
         /// <param name="name"></param>
-        public void UpdateDroneName(int id, string name) 
+        public void UpdateDroneName(int id, string name)
         {
             DO.Drone droneDAL;
             if (!DroneList.Any(x => x.ID == id)) throw new BO.Exceptions.IDException("Drone ID not found", id);
@@ -203,7 +203,7 @@ namespace BL
             }
             DO.Drone droneDalTemp = droneDAL; // Update the name in the list in DAL
             droneDalTemp.Model = name;
-            try 
+            try
             {
                 dal.DeleteDrone(droneDAL);
                 dal.AddDrone(droneDalTemp);
@@ -227,12 +227,12 @@ namespace BL
                 DO.Station station = NearestStationToDrone(drone.ID);
                 double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, station.Latitude, station.Longitude, 3); // The amount of battery required for the drone to fly from its location to the station
 
-                if (drone.Battery < minBattery) throw new BO.Exceptions.SendingDroneToCharging("The drone can not reach the station, Not enough battery",drone.ID);
+                if (drone.Battery < minBattery) throw new BO.Exceptions.SendingDroneToCharging("The drone can not reach the station, Not enough battery", drone.ID);
 
                 // Can be sent for loading
                 DroneToList tempDrone = drone;
 
-                tempDrone.Battery -= (int) Math.Round(minBattery); // The drone flew to the station so it was necessary to reduce the battery from where it was to the station
+                tempDrone.Battery -= (int)Math.Round(minBattery); // The drone flew to the station so it was necessary to reduce the battery from where it was to the station
                 tempDrone.DroneLocation.Latitude = station.Latitude;
                 tempDrone.DroneLocation.Longitude = station.Longitude;
                 tempDrone.Status = DroneStatus.Maintenance;
@@ -240,8 +240,10 @@ namespace BL
                 dal.DroneCharge(dal.DroneById(drone.ID), station.ID); // Creating a DroneCharge and reducing the free slots in the station
 
             }
-            else { throw new BO.Exceptions.SendingDroneToCharging("Drone status is not Available", drone.ID); }
-
+            else
+            {
+                throw new BO.Exceptions.SendingDroneToCharging("Drone status is not Available", drone.ID);
+            }
         }
 
 
@@ -250,18 +252,18 @@ namespace BL
         /// </summary>
         /// <param name="droneID"></param>
         /// <param name="minutesCharging"></param>
-        public void FinishCharging(int droneID)   
+        public void FinishCharging(int droneID)
         {
-            
+
             if (!DroneList.Any(drone => drone.ID == droneID)) throw new BO.Exceptions.IDException("Drone ID not found", droneID);
-            if(DroneList.Find(d=> d.ID == droneID).Status != DroneStatus.Maintenance) throw new BO.Exceptions.EndDroneCharging("The status of the drone is not Maintenance", droneID);
+            if (DroneList.Find(d => d.ID == droneID).Status != DroneStatus.Maintenance) throw new BO.Exceptions.EndDroneCharging("The status of the drone is not Maintenance", droneID);
             if (!dal.droneChargesList().Any(d => d.DroneId == droneID)) throw new BO.Exceptions.EndDroneCharging("The status of the drone is charging but it is not in the droneCharges list", droneID);
             int indexDroneToList = DroneList.FindIndex(d => d.ID == droneID);
             if (DroneList.Find(drone => drone.ID == droneID).Status != DroneStatus.Maintenance) throw new BO.Exceptions.EndDroneCharging("Drone status is not Maintenance", droneID);
 
-            int minutesCharging =(int) ((DateTime.Now - dal.droneChargesList().First(x => x.DroneId == droneID).ChargingStartTime).TotalMinutes); // המרה מspentime
+            int minutesCharging = (int)((DateTime.Now - dal.droneChargesList().First(x => x.DroneId == droneID).ChargingStartTime).TotalMinutes); // המרה מspentime
 
-            int battary =(int)((minutesCharging / 60.0) * 100); // Calculate the new battery
+            int battary = (int)((minutesCharging / 60.0) * 100); // Calculate the new battery
             DroneList[indexDroneToList].Battery += battary;
             if (DroneList[indexDroneToList].Battery > 100) DroneList[indexDroneToList].Battery = 100;
             DroneList[indexDroneToList].Status = DroneStatus.Available;
@@ -310,15 +312,15 @@ namespace BL
                 Location destinationLocation = new Location();
 
                 // Initials of customers in the package
-                sender.ID = package.SenderId; 
+                sender.ID = package.SenderId;
                 sender.Name = dal.ClientById(sender.ID).Name;
-                receiver.ID = package.TargetId; 
+                receiver.ID = package.TargetId;
                 receiver.Name = dal.ClientById(receiver.ID).Name;
                 drone.DronePackageProcess.Sender = sender;
                 drone.DronePackageProcess.Receiver = receiver;
 
                 //Initials of customers' locations in the package
-                collectLocation.Latitude = dal.ClientById(sender.ID).Latitude; 
+                collectLocation.Latitude = dal.ClientById(sender.ID).Latitude;
                 collectLocation.Longitude = dal.ClientById(sender.ID).Longitude;
                 destinationLocation.Latitude = dal.ClientById(receiver.ID).Latitude;
                 destinationLocation.Longitude = dal.ClientById(receiver.ID).Longitude;
@@ -356,14 +358,14 @@ namespace BL
         /// </summary>
         /// <param name="DroneID"></param>
         /// <returns> closest dal station object </returns>
-        private DO.Station NearestStationToDrone(int DroneID) 
+        private DO.Station NearestStationToDrone(int DroneID)
         {
             DroneToList drone = DroneList.Find(x => x.ID == DroneID);
             DO.Station neareStatuon = new DO.Station();
             double distance = int.MaxValue;
 
-            if (dal.StationsFilter(s=> s.ChargeSlots > 0).Count() == 0) throw new BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station",DroneID); // If no charging slots are available at any station
-            foreach (var station in dal.StationsFilter(s=> s.ChargeSlots > 0))
+            if (dal.StationsFilter(s => s.ChargeSlots > 0).Count() == 0) throw new BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station", DroneID); // If no charging slots are available at any station
+            foreach (var station in dal.StationsFilter(s => s.ChargeSlots > 0))
             {
 
                 double tempDistance = DalObject.Coordinates.Distance(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, station.Latitude, station.Longitude);
@@ -372,7 +374,6 @@ namespace BL
                     distance = tempDistance;
                     neareStatuon = station;
                 }
-
             }
             return neareStatuon;
         }
@@ -388,7 +389,7 @@ namespace BL
         /// <param name="long2"></param>
         /// <param name="weight"></param>
         /// <returns></returns>
-        private double batteryConsumption(double lat1, double long1, double lat2, double long2, int weight) 
+        private double batteryConsumption(double lat1, double long1, double lat2, double long2, int weight)
         {
             double KM = DalObject.Coordinates.Distance(lat1, long1, lat2, long2);
             double battery = BatteryByKM(weight, KM);
@@ -404,7 +405,7 @@ namespace BL
         /// <param name="weight">weight option </param>
         /// <param name="KM"> kilometer </param>
         /// <returns> Battery value </returns>
-        private double BatteryByKM(int weight, double KM) 
+        private double BatteryByKM(int weight, double KM)
         {
 
             double power;
@@ -416,11 +417,6 @@ namespace BL
             return temp;
         }
     }
-
-
-
-
-
 
 }
 

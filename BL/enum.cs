@@ -5,39 +5,39 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-    namespace BO
+namespace BO
+{
+    public enum WeightCategories
     {
-        public enum WeightCategories
-        {
-             Light = 0, Medium = 1, Heavy = 2
-        }
-
-
-        public enum Priorities
-        {
-            Standard, Fast, Urgent 
-        }
-        public enum DroneStatus
-        {
-             Available = 0, Maintenance = 1, Shipping = 2, 
-        }
-
-        public enum ShipmentStatus
-        {
-            Waiting , OnGoing
-        }
-
-        public enum PackageStatus
-        {
-            Created, Associated, PickedUp, Delivered
-        }
-
-        public enum DroneModel
-        {
-            Dji_Mavic_2_Pro, Dji_Mavic_2_Air, Dji_Mavic_2_Zoom, Dji_FPV_Combo
-        }
-
+        Light = 0, Medium = 1, Heavy = 2
     }
+
+
+    public enum Priorities
+    {
+        Standard, Fast, Urgent
+    }
+    public enum DroneStatus
+    {
+        Available = 0, Maintenance = 1, Shipping = 2,
+    }
+
+    public enum ShipmentStatus
+    {
+        Waiting, OnGoing
+    }
+
+    public enum PackageStatus
+    {
+        Created, Associated, PickedUp, Delivered
+    }
+
+    public enum DroneModel
+    {
+        Dji_Mavic_2_Pro, Dji_Mavic_2_Air, Dji_Mavic_2_Zoom, Dji_FPV_Combo
+    }
+
+}
 
 
 

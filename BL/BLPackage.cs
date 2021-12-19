@@ -19,9 +19,9 @@ namespace BL
         /// <returns> id of the package added </returns>
         public int AddPackage(Package package)
         {
-            if (!dal.ClientsList().Any(client => client.ID == package.TargetClient.ID)) 
+            if (!dal.ClientsList().Any(client => client.ID == package.TargetClient.ID))
                 throw new Exceptions.IdNotFoundException("Receiver Id not found", package.TargetClient.ID);
-            if (!dal.ClientsList().Any(client => client.ID == package.SenderClient.ID)) 
+            if (!dal.ClientsList().Any(client => client.ID == package.SenderClient.ID))
                 throw new Exceptions.IdNotFoundException("Sender Id not found", package.TargetClient.ID);
 
             DO.Package dalPackage = new DO.Package();   //new then assign data then adding to datasource list
@@ -41,7 +41,7 @@ namespace BL
             {
                 id = dal.AddPackage(dalPackage);
             }
-            catch(DO.Exceptions.IDException ex )
+            catch (DO.Exceptions.IDException ex)
             {
                 throw new Exceptions.IDException("Package ID already exists", ex, dalPackage.ID);  //new bl exception
             }
@@ -54,26 +54,26 @@ namespace BL
         /// and assigns it a package that can belong to it according to urgency, weight, and battery
         /// </summary>
         /// <param name="droneID"> drone id user input </param>
-        public void packageToDrone( int droneID)
+        public void packageToDrone(int droneID)
         {
 
             if (!DroneList.Any(d => d.ID == droneID))
                 throw new BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
 
             DroneToList drone = DroneList.First(x => x.ID == droneID);
-            if(!(drone.Status == DroneStatus.Available))         //if Drone not available
+            if (!(drone.Status == DroneStatus.Available))         //if Drone not available
             {
                 throw new Exceptions.UnableAssociatPackage("Drone is not Available");// new except
             }
 
             List<DO.Package> dalPackages = new List<DO.Package>(dal.PackagesFilter(x => (int)(x.Weight) <= (int)drone.MaxWeight && x.Associated == null)); // All packages the drone may take
-            DO.Package package = new DO.Package() ;
+            DO.Package package = new DO.Package();
             int priority = 2, weight = (int)drone.MaxWeight; // Start with the high priority and high weight of the drone
-            bool flag = true; 
+            bool flag = true;
 
             while (flag) // We have not yet found a package
             {
-                List<DO.Package> filteredPackages = dalPackages.FindAll(p=> p.Priority == (DO.Priorities)priority); //From dalPackages we will only filter the packages in the current priority
+                List<DO.Package> filteredPackages = dalPackages.FindAll(p => p.Priority == (DO.Priorities)priority); //From dalPackages we will only filter the packages in the current priority
                 if (filteredPackages.Count() == 0) // If there are no packages
                 {
                     if (priority != 0)
@@ -88,14 +88,14 @@ namespace BL
                 filteredPackages = filteredPackages.FindAll(p => p.Weight == (DO.WeightCategories)weight); // From the list of packages with current priority we will filter the high weight that exists (current weight)
                 if (filteredPackages.Count() == 0)
                 {
-                    if(weight != 0)
+                    if (weight != 0)
                     {
                         weight--; // If we did not find at current weight so we drop in weight (still a current priority)
                         continue;
                     }
                     else
                     {
-                        if (priority != 0)priority--; // If we did not find at current priority a package that is suitable,so we drop at priority
+                        if (priority != 0) priority--; // If we did not find at current priority a package that is suitable,so we drop at priority
                         weight = (int)drone.MaxWeight; // And if we dropped priority we will reset the weight
                         continue;
                     }
@@ -129,7 +129,7 @@ namespace BL
         /// <param name="droneID"> drone id user input </param>
         public void PickedUpByDrone(int droneID)
         {
-            if (! DroneList.Any(d => d.ID == droneID)) throw new BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
+            if (!DroneList.Any(d => d.ID == droneID)) throw new BO.Exceptions.IdNotFoundException("Drone ID not found", droneID);
             DroneToList drone = DroneList.First(x => x.ID == droneID);
             if ((drone.Status != DroneStatus.Shipping)) throw new Exceptions.UnablePickedUpPackage("Drone is not Shipping", droneID); // A drone does not ship
             if (!dal.PackageList().Any(p => p.DroneId == droneID)) throw new BO.Exceptions.UnablePickedUpPackage("No package associated with the drone was found"); // There is no package associated with this drone
@@ -202,7 +202,7 @@ namespace BL
             // assigning 
             Package blPackage = new Package();
 
-            blPackage.ID = dalPackage.ID; 
+            blPackage.ID = dalPackage.ID;
             blPackage.Weight = (BO.WeightCategories)(dalPackage.Weight);
             blPackage.Priority = (BO.Priorities)(dalPackage.Priority);
 
@@ -219,7 +219,7 @@ namespace BL
             }
             catch (DO.Exceptions.IDException ex)
             {
-                throw new BO.Exceptions.IdNotFoundException("Unable to view package, senderID not found",ex);
+                throw new BO.Exceptions.IdNotFoundException("Unable to view package, senderID not found", ex);
             }
             try
             {
@@ -237,7 +237,7 @@ namespace BL
             blPackage.TargetClient.ID = target.ID;
             blPackage.TargetClient.Name = target.Name;
 
-            if(dalPackage.Associated == null) //if package is not associated we can return it
+            if (dalPackage.Associated == null) //if package is not associated we can return it
             {
                 blPackage.DroneOfPackage = null;
                 return blPackage;
@@ -265,7 +265,7 @@ namespace BL
         /// <returns> package list </returns>
         public IEnumerable<PackageToList> DisplayPackageList()
         {
-            List<PackageToList> packages = new List<PackageToList>(); 
+            List<PackageToList> packages = new List<PackageToList>();
 
             foreach (var dalPackage in dal.PackageList())                  //going through every package from package list and adding it to the list created
             {
@@ -306,7 +306,7 @@ namespace BL
         /// <param name="DroneID"> drone id </param>
         /// <param name="PackagesSuitableWeight">list of filtered package </param>
         /// <returns> package object </returns>
-        private DO.Package NearestPackageToDrone(int DroneID, List<DO.Package> PackagesSuitableWeight)  
+        private DO.Package NearestPackageToDrone(int DroneID, List<DO.Package> PackagesSuitableWeight)
         {
             DroneToList drone = DroneList.Find(x => x.ID == DroneID);       //finding the drone
             DO.Package tempPackage = new DO.Package();

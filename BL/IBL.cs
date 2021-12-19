@@ -194,11 +194,11 @@ namespace BlApi
         /// <returns> Client List </returns>
         public IEnumerable<ClientToList> DisplayClientList();
 
-       
 
-       IEnumerable<DroneToList> DisplayDroneListFilter(Predicate<DroneToList> match);
 
-       
+        IEnumerable<DroneToList> DisplayDroneListFilter(Predicate<DroneToList> match);
+
+
 
 
         //Exit

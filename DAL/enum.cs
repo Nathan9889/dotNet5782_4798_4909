@@ -1,17 +1,17 @@
 ﻿using System;
 
 
-    namespace DO
+namespace DO
+{
+
+    public enum WeightCategories
     {
-
-        public enum WeightCategories
-        {
-            Light, Medium, Heavy
-        }
-
-
-        public enum Priorities
-        {
-            Standard, Fast, Urgent
-        }
+        Light, Medium, Heavy
     }
+
+
+    public enum Priorities
+    {
+        Standard, Fast, Urgent
+    }
+}
