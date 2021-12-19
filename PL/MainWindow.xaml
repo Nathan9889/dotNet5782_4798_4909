@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="640" Width="800">
+        Title="MainWindow" Height="450" Width="800">
     <Grid >
         <Grid.Background>
-            <ImageBrush ImageSource="/רחפן.jpg"/>
+            <ImageBrush/>
         </Grid.Background>
-        <Button Content="Drones List" HorizontalAlignment="Center" Margin="0,450,0,0" VerticalAlignment="Top" Height="62" Width="296" Click="DroneListAccessButton" FontSize="15" FontFamily="Aharoni">
+        <Button Content="Drones List" HorizontalAlignment="Center" Margin="0,80,0,0" VerticalAlignment="Top" Height="62" Width="296" Click="DroneListAccessButton" FontSize="15" FontFamily="Aharoni">
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="#FF00FFD1" Offset="0"/>
@@ -18,6 +18,8 @@
             </Button.Background>
         </Button>
         <Label Content="Welcome" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="200" FontSize="36" FontFamily="Lucida Calligraphy" Foreground="#FF08B7B3"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="124,270,0,0" VerticalAlignment="Top" Height="45" Width="142"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="565,264,0,0" VerticalAlignment="Top" Height="51" Width="126"/>
 
 
     </Grid>

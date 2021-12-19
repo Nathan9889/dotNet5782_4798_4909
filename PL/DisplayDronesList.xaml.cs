@@ -224,7 +224,7 @@ namespace PL
         /// <param name="e"></param>
         private void ExitButton(object sender, RoutedEventArgs e)
         {
-            MainWindow.Content = null;
+            MainWindow.DisplayMain();
         }
 
         /// <summary>

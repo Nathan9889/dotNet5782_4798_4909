@@ -21,6 +21,8 @@ namespace PL
     public partial class MainWindow : Window
     {
         BlApi.IBL BL;
+        object content;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -28,9 +30,19 @@ namespace PL
             
         }
 
+
+
         private void DroneListAccessButton(object sender, RoutedEventArgs e)
         {
-            new DisplaysDronesList().Show();
+            content = this.Content;
+            DisplayDronesList page =  new DisplayDronesList(this);
+            //page.closePage += DiplayMain;
+            this.Content = page;
+        }
+
+        public void DisplayMain()
+        {
+            this.Content = content;
         }
     }
 }

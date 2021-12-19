@@ -7,15 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="רחפן.jpg" />
+    <Compile Remove="hhhh.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="hhhh.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="רחפן.jpg" />
   </ItemGroup>
 
 </Project>
