@@ -168,7 +168,7 @@ namespace DalApi
         /// remove item package from the list of package
         /// </summary>
         /// <param name="package"></param>
-        void DeletePackage(Package package);
+        void DeletePackage(int id);
 
         /// <summary>
         /// remove item droneCharge from the list of droneCharge

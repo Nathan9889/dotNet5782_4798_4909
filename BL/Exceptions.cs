@@ -378,6 +378,36 @@ namespace BO
             {
             }
         }
+
+        [Serializable]
+        internal class CantDelete : Exception
+        {
+            private int iD;
+      
+
+            public CantDelete(int iD, string v) : base(v)
+            {
+                this.iD = iD;
+            }
+
+            public CantDelete(string message) : base(message)
+            {
+            }
+
+            public CantDelete(int iD, string v, Exception ex)
+            {
+                this.iD = iD;
+               
+            }
+
+            public CantDelete(string message, Exception innerException) : base(message, innerException)
+            {
+            }
+
+            protected CantDelete(SerializationInfo info, StreamingContext context) : base(info, context)
+            {
+            }
+        }
     }
 }
 

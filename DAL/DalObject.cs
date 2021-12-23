@@ -637,10 +637,10 @@ namespace DalObject
         /// remove item package from the list of package
         /// </summary>
         /// <param name="package"></param>
-        public void DeletePackage(Package package)
+        public void DeletePackage(int id)
         {
-            if (!DataSource.PackageList.Any(x => x.ID == package.ID)) { throw new DO.Exceptions.IDException("id to remove not found", package.ID); }
-            DataSource.PackageList.Remove(package);
+            if (!DataSource.PackageList.Any(x => x.ID == id)) { throw new DO.Exceptions.IDException("id to remove not found", id); }
+            DataSource.PackageList.Remove(PackageById(id));
 
         }
 

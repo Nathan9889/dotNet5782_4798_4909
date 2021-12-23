@@ -259,6 +259,22 @@ namespace BL
             return blPackage;
         }
 
+        public void DeletePackage(int ID)
+        {
+            if(!DisplayPackageList().Any(p=> p.Id == ID)) throw new Exceptions.CantDelete(ID, "ID To Delete Not Found");
+            if (DisplayPackage(ID).Associated != null) throw new Exceptions.CantDelete(ID, "The Package Associated");
+            try
+            {
+                dal.DeletePackage(ID);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exceptions.IDException("ID To Delete Not Found" ,ex,ID);
+            }
+            
+        }
+
         /// <summary>
         /// The function Display list of all packages information
         /// </summary>
@@ -319,7 +335,15 @@ namespace BL
             return packages;
         }
 
+        public IEnumerable<IGrouping<string,PackageToList>> PackagesGroupingSender()
+        {
+            return DisplayPackageList().GroupBy(p => p.Sender);
+        }
 
+        public IEnumerable<IGrouping<string, PackageToList>> PackagesGroupingReceiver()
+        {
+            return DisplayPackageList().GroupBy(p => p.Receiver);
+        }
 
         /// <summary>
         /// The fonction finds the nearest package to drone from fitting package list that responded correctly from the conditions of highest priority and suitable weight 

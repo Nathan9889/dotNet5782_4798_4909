@@ -31,6 +31,11 @@ namespace Model
             return package;
         }
 
+        public void DeletePackage(int id)
+        {
+            BL.DeletePackage(id);
+        }
+
 
 
       

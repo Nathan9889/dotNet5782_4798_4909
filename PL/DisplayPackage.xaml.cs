@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Model;
 
 namespace PL
 {
@@ -22,6 +23,9 @@ namespace PL
     {
         private MainWindow mainWindow;
         private Model.PL pL;
+        Package Package;
+
+       
 
         public DisplayPackage(MainWindow mainWindow, Model.PL pL)
         {
@@ -36,9 +40,16 @@ namespace PL
             InitializeComponent();
             this.mainWindow = mainWindow;
             this.pL = pL;
+            this.Package = package;
             MainGrid.DataContext = package;
             Package_Priority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
             Package_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
+        }
+
+        private void Delete_Package_Click(object sender, RoutedEventArgs e)
+        {
+            pL.DeletePackage(Package.package.ID);
+            this.NavigationService.GoBack();
         }
     }
 }

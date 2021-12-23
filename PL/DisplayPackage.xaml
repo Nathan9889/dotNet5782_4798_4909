@@ -103,7 +103,7 @@
 
                 <ComboBox x:Name="Package_Priority" Grid.Column="1" Grid.Row="5"   FontFamily="Arial" FontWeight="Bold" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" VerticalContentAlignment="Center" SelectedIndex="{Binding package.Priority, Converter={StaticResource EnumToInt}}"   />
                 <TextBlock HorizontalAlignment="Left" Grid.Row="3" Text="Weight:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" Height="13" Width="48" />
-                <ComboBox x:Name="Package_Weight" Grid.Column="1"   Grid.Row="3" Height="Auto" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FontWeight="Bold" FontFamily="Arial" VerticalContentAlignment="Center" SelectedIndex="{Binding package.Weight, Converter={StaticResource EnumToInt}}"  >
+                <ComboBox x:Name="Package_Weight" Grid.Column="1"   Grid.Row="3" Height="Auto" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FontWeight="Bold" FontFamily="Arial" VerticalContentAlignment="Center" SelectedIndex="{Binding package.Weight, Converter={StaticResource EnumToInt}, Mode=OneWay}"  >
                 </ComboBox>
 
 
@@ -201,7 +201,7 @@
                     <RowDefinition Height ="2*"></RowDefinition>
                     <RowDefinition Height ="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Button Content="Delete Package" x:Name="Delete_Package"    Grid.Row="2" IsEnabled="{Binding package.Associated, Converter={StaticResource NullToTrue}, Mode=OneWay}" >
+                <Button Content="Delete Package" x:Name="Delete_Package"    Grid.Row="2" IsEnabled="{Binding package.Associated, Converter={StaticResource NullToTrue}, Mode=OneWay}" Click="Delete_Package_Click" >
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />

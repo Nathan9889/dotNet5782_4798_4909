@@ -198,7 +198,11 @@ namespace BlApi
 
         IEnumerable<DroneToList> DisplayDroneListFilter(Predicate<DroneToList> match);
 
+        IEnumerable<IGrouping<bool, StationToList>> GroupStationByExistingSlots();
+        IEnumerable<IGrouping<string, PackageToList>> PackagesGroupingReceiver();
+        IEnumerable<IGrouping<string, PackageToList>> PackagesGroupingSender();
 
+        void DeletePackage(int ID);
 
 
         //Exit

@@ -171,7 +171,16 @@ namespace BL
             return StationWithChargingSlots;
         }
 
+        public IEnumerable<IGrouping<bool,StationToList>> GroupStationByExistingSlots()
+        {
+           var list = DisplayStationList().GroupBy(s=> s.AvailableChargingSlots > 0);
+           return list;
+        }
 
+        public IEnumerable<IGrouping<int, StationToList>> GroupStationByNumSlots()
+        {
+            return DisplayStationList().GroupBy(s => s.AvailableChargingSlots);
+        }
 
     }
 }

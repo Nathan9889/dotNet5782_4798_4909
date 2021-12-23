@@ -58,7 +58,8 @@ namespace PL
 
         private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            MainWindow.Frame.Content = new DisplayPackage(MainWindow, PL, PL.GetPackage(((BO.PackageToList)PackageListView.SelectedItem).Id));
+           if(PackageListView.SelectedItem != null) MainWindow.Frame.Content = new DisplayPackage(MainWindow, PL, PL.GetPackage(((BO.PackageToList)PackageListView.SelectedItem).Id));
+            PackageListView.SelectedItems.Clear();
         }
 
         private void ExitButton(object sender, RoutedEventArgs e)
@@ -71,6 +72,7 @@ namespace PL
             packages.Clear();
             InitializeList();
             Show_Packages(this, new RoutedEventArgs()); // אחרי סינון
+           
         }
 
 
@@ -80,13 +82,13 @@ namespace PL
             {
                 if(Show_Normally.IsChecked == true)
                 {
-                    var p = (packages.OrderBy(p => p.Id)).ToList();
+                    var p = BL.DisplayPackageList();
                     packages.Clear();
                     foreach (var item in p) { packages.Add(item); }
                 }
                 else if(Show_Receiver.IsChecked == true)
                 {
-                    var p = packages.OrderBy(p => p.Id).GroupBy(p => p.Receiver).ToList();
+                    var p = BL.PackagesGroupingReceiver();
                     packages.Clear();
                     foreach (var group in p)
                     {
@@ -96,7 +98,7 @@ namespace PL
                 }
                 else
                 {
-                    var p = packages.OrderBy(p => p.Id).GroupBy(p => p.Sender).ToList(); // לרשימה כדי שיהיה העתק . לפי הסדר כדי יחזור למקורי ואז ימיין
+                    var p = BL.PackagesGroupingSender(); // לרשימה כדי שיהיה העתק . לפי הסדר כדי יחזור למקורי ואז ימיין
                     packages.Clear();
                     foreach (var group in p)
                     {
