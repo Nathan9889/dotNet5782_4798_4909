@@ -23,27 +23,6 @@ namespace PL
         BlApi.IBL BL;
         MainWindow MainWindow;
 
-        public delegate void closePageEventHandler(object sender, EventArgs e);
-        public event closePageEventHandler closePage;
-
-        ///// <summary>
-        /////  Deleting the X button
-        ///// </summary>
-        //private const int GWL_STYLE = -16;   //used to remove X button for bonus
-        //private const int WS_SYSMENU = 0x80000;
-
-        //[DllImport("user32.dll", SetLastError = true)]
-        //private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
-        //[DllImport("user32.dll")]
-        //private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-        //private void Window_Loaded(object sender, RoutedEventArgs e)  //function used to remove X button for bonus
-        //{
-        //    var hwnd = new WindowInteropHelper(this).Handle;
-        //    SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
-        //}
-        ////********
 
 
 
@@ -183,9 +162,8 @@ namespace PL
         /// <param name="e"></param>
         private void Add_New_Drone(object sender, RoutedEventArgs e)
         {
-            MainWindow.Content = new DisplayDrone(MainWindow);
-            //DroneWindow.Closed += RefreshListView;
-            //DroneWindow.Show();
+            MainWindow.Frame.Content = new DisplayDrone(MainWindow);
+           
         }
 
         /// <summary>
@@ -211,7 +189,7 @@ namespace PL
             {
                 DisplayDrone page = new DisplayDrone((BO.DroneToList)DronesListView.SelectedItem, MainWindow);
                 
-                MainWindow.Content = page;
+                MainWindow.Frame.Content = page;
                 
             }
             DronesListView.SelectedItems.Clear();

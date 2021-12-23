@@ -5,21 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="500" Width="800" >
     <Grid >
-        <Grid.Background>
-            <ImageBrush/>
-        </Grid.Background>
-        <Button Content="Drones List" HorizontalAlignment="Center" Margin="0,80,0,0" VerticalAlignment="Top" Height="62" Width="296" Click="DroneListAccessButton" FontSize="15" FontFamily="Aharoni">
-            <Button.Background>
-                <RadialGradientBrush>
-                    <GradientStop Color="#FF00FFD1" Offset="0"/>
-                </RadialGradientBrush>
-            </Button.Background>
-        </Button>
-        <Label Content="Welcome" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="200" FontSize="36" FontFamily="Lucida Calligraphy" Foreground="#FF08B7B3"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="124,270,0,0" VerticalAlignment="Top" Height="45" Width="142"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="565,264,0,0" VerticalAlignment="Top" Height="51" Width="126"/>
+        <Grid x:Name="MainWindowDisplay">
+            <Grid.Background>
+                <ImageBrush/>
+            </Grid.Background>
+            <Button Content="Drones List" HorizontalAlignment="Center" Margin="0,80,0,0" VerticalAlignment="Top" Height="62" Width="296" Click="DroneListAccessButton" FontSize="15" FontFamily="Aharoni">
+                <Button.Background>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#FF00FFD1" Offset="0"/>
+                    </RadialGradientBrush>
+                </Button.Background>
+            </Button>
+            <Label Content="Welcome" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="200" FontSize="36" FontFamily="Lucida Calligraphy" Foreground="#FF08B7B3"/>
+            <Button Content="Button" HorizontalAlignment="Left" Margin="124,270,0,0" VerticalAlignment="Top" Height="45" Width="142"/>
+            <Button Content="Button" HorizontalAlignment="Left" Margin="565,264,0,0" VerticalAlignment="Top" Height="51" Width="126"/>
+        </Grid>
+
+        <Grid x:Name="Buttons_For_Lists" Height="30" VerticalAlignment="Top"    >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width ="*"></ColumnDefinition>
+                <ColumnDefinition Width ="*"></ColumnDefinition>
+                <ColumnDefinition Width ="*"></ColumnDefinition>
+                <ColumnDefinition Width ="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Content="Package List" Grid.Column="3" FontFamily="Aharoni" Click="Button_Click"/>
+            <Button Content="Drones List" FontFamily="Aharoni" />
+            <Button Content="Button" Grid.Column="1" FontFamily="Aharoni"/>
+
+
+        </Grid>
+        <Grid x:Name="Pages_Grid" Height="434" VerticalAlignment="Bottom"   >
+            <Frame x:Name="Frame" Height="434" ></Frame>
+
+
+        </Grid>
+
 
 
     </Grid>

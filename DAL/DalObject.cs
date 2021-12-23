@@ -338,7 +338,7 @@ namespace DalObject
         /// <returns></returns>
         public Client ClientById(int id)
         {
-            foreach (var item in DataSource.ClientList)
+            foreach (Client item in DataSource.ClientList)
             {
                 if (item.ID == id) return item;
             }

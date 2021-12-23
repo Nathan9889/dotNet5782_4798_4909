@@ -37,12 +37,21 @@ namespace PL
             content = this.Content;
             DisplayDronesList page =  new DisplayDronesList(this);
             //page.closePage += DiplayMain;
-            this.Content = page;
+            MainWindowDisplay.Visibility = Visibility.Hidden;
+            this.Frame.Content = page;
         }
 
         public void DisplayMain()
         {
+            Frame.Visibility = Visibility.Hidden;
+            MainWindowDisplay.Visibility = Visibility.Visible;
             this.Content = content;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowDisplay.Visibility = Visibility.Hidden;
+            Frame.Content = new DisplayPackagesList(this);
         }
     }
 }

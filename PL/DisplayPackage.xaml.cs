@@ -20,9 +20,25 @@ namespace PL
     /// </summary>
     public partial class DisplayPackage : Page
     {
-        public DisplayPackage()
+        private MainWindow mainWindow;
+        private Model.PL pL;
+
+        public DisplayPackage(MainWindow mainWindow, Model.PL pL)
         {
             InitializeComponent();
+            this.mainWindow = mainWindow;
+            this.pL = pL;
+        }
+
+
+        public DisplayPackage(MainWindow mainWindow, Model.PL pL, Model.Package package)
+        {
+            InitializeComponent();
+            this.mainWindow = mainWindow;
+            this.pL = pL;
+            MainGrid.DataContext = package;
+            Package_Priority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
+            Package_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
         }
     }
 }

@@ -300,6 +300,27 @@ namespace BL
             return packagesWithoutDrone;
         }
 
+        public IEnumerable<PackageToList> GetPackageFilterByDate(DateTime from, DateTime to)
+        {
+            to = to.AddDays(1);
+            List<PackageToList> packages = new List<PackageToList>();
+            foreach (var dalPackage in dal.PackagesFilter(p=> p.Created >= from && p.Created <= to))
+            {
+                PackageToList packageToList = new PackageToList() { Id = dalPackage.ID, Priority = (Priorities)dalPackage.Priority, Receiver = dal.ClientById(dalPackage.TargetId).Name , Sender = dal.ClientById(dalPackage.SenderId).Name, 
+                 Weight = (WeightCategories)dalPackage.Weight};
+
+                if (dalPackage.Associated == null) packageToList.Status = PackageStatus.Created;
+                else if (dalPackage.PickedUp == null) packageToList.Status = PackageStatus.Associated;
+                else if (dalPackage.Delivered == null) packageToList.Status = PackageStatus.PickedUp;
+                else packageToList.Status = PackageStatus.Delivered;
+
+                packages.Add(packageToList);
+            }
+            return packages;
+        }
+
+
+
         /// <summary>
         /// The fonction finds the nearest package to drone from fitting package list that responded correctly from the conditions of highest priority and suitable weight 
         /// </summary>

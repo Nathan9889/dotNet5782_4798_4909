@@ -194,7 +194,7 @@ namespace BlApi
         /// <returns> Client List </returns>
         public IEnumerable<ClientToList> DisplayClientList();
 
-
+        IEnumerable<PackageToList> GetPackageFilterByDate(DateTime from, DateTime to);
 
         IEnumerable<DroneToList> DisplayDroneListFilter(Predicate<DroneToList> match);
 
