@@ -11,17 +11,17 @@ namespace Model
     {
         BlApi.IBL BL;
 
-        static IEnumerable<BO.PackageToList> packages = new List<BO.PackageToList>();
+       
 
         public PL()
         {
             this.BL = BlApi.BlFactory.GetBL();
-            packages = BL.DisplayPackageList();
+           
         }
 
         public IEnumerable<BO.PackageToList> getPackageList()
         {
-            return packages;
+            return new List<BO.PackageToList>();
         }
 
         public Package GetPackage(int id)

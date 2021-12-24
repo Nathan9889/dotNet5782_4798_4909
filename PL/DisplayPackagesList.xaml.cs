@@ -161,5 +161,14 @@ namespace PL
                 Show_Packages(this, new RoutedEventArgs()); // אחרי סינון
             }
         }
+
+        public void RefreshList()
+        {
+            var p = PL.getPackageList();
+            packages.Clear();
+            foreach (var package in p) packages.Add(package);
+            FilterdList(this);
+            Show_Packages(this, new RoutedEventArgs());
+        }
     }
 }
