@@ -156,7 +156,7 @@ namespace DalApi
         /// remove item station from the list of station
         /// </summary>
         /// <param name="station"></param>
-        void DeleteStation(Station station);
+        void DeleteStation(int id);
 
         /// <summary>
         /// remove item client from the list of client

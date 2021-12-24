@@ -64,7 +64,7 @@ namespace BL
             DO.Station stationTemp = dalStation;
             stationTemp.Name = name;
 
-            dal.DeleteStation(dalStation);  //switching station with the new name
+            dal.DeleteStation(dalStation.ID);  //switching station with the new name
             dal.AddStation(stationTemp);
         }
 
@@ -92,7 +92,7 @@ namespace BL
 
             stationTemp.ChargeSlots = numCharge;  //update
 
-            dal.DeleteStation(dalStation);   //switch
+            dal.DeleteStation(dalStation.ID);   //switch
             dal.AddStation(stationTemp);
         }
 
@@ -180,6 +180,21 @@ namespace BL
         public IEnumerable<IGrouping<int, StationToList>> GroupStationByNumSlots()
         {
             return DisplayStationList().GroupBy(s => s.AvailableChargingSlots);
+        }
+
+        public void DeleteStation(int ID)
+        {
+            if (!DisplayStationList().Any(p => p.ID == ID)) throw new Exceptions.CantDelete(ID, "ID To Delete Not Found");
+            try
+            {
+                dal.DeleteStation(ID);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exceptions.IDException("ID To Delete Not Found", ex, ID);
+            }
+
         }
 
     }

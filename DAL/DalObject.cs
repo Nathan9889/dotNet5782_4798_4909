@@ -627,10 +627,10 @@ namespace DalObject
         /// remove item station from the list of station
         /// </summary>
         /// <param name="station"></param>
-        public void DeleteStation(Station station)
+        public void DeleteStation(int id )
         {
-            if (!DataSource.StationList.Any(x => x.ID == station.ID)) { throw new DO.Exceptions.IDException("id to remove not found", station.ID); }
-            DataSource.StationList.Remove(station);
+            if (!DataSource.StationList.Any(x => x.ID == id)) { throw new DO.Exceptions.IDException("id to remove not found", id); }
+            DataSource.StationList.Remove(StationById(id));
         }
 
         /// <summary>
