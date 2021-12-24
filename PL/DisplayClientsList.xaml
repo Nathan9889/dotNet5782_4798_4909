@@ -8,7 +8,108 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DisplayClientsList">
 
-    <Grid>
+    <Page.Resources>
+        <local:ReternNull x:Key="retern_null"></local:ReternNull>
+
+        <Style  TargetType="{x:Type ComboBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="5" Background="#FFFFFFE1" BorderBrush="Black" BorderThickness="1" />
+                                            <Border Grid.Column="0" CornerRadius="5,0,0,5"  Margin="1"  Background="#FFFFFFE1"  BorderBrush="Black" BorderThickness="0,0,1,0" />
+                                            <Path x:Name="Arrow" Grid.Column="1"  Fill="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                                                <Setter TargetName="Border" Property="Background" Value="Green" />
+                                            </Trigger>
+                                            <Trigger Property="ToggleButton.IsChecked" Value="true">
+                                                <Setter TargetName="Border" Property="Background" Value="Green" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"  />
+                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
+                                <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder" Background="#FFFFFFE1" />
+                                    <ScrollViewer SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid Name="MainGrid">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height ="400*"/>
+
+            <RowDefinition Height="50*"/>
+
+        </Grid.RowDefinitions>
+
+
+        <Grid>
+            <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+                
+            </Grid>
+
+        </Grid>
+
+
+
+        <ListView x:Name ="ClientListView" Grid.Row="1"  ItemsSource="{Binding}"  FontSize="13" Margin="0,40,0,43" Grid.RowSpan="2" HorizontalAlignment="Left" Width="710" MouseDoubleClick="ClientListView_MouseDoubleClick" SelectionChanged="ClientListView_SelectionChanged" >
+            <ListView.View>
+                <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="information">
+                    <GridViewColumn DisplayMemberBinding="{Binding Id }" x:Name="Id" Header="ID" Width="50"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" x:Name="Name" Header="Name" Width="70"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Phone}" x:Name="Phone" Header="Phone" Width="70"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding sentAndDeliveredPackage}" x:Name="sentAndDeliveredPackage" Header="S-Delivered" Width="110"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding sentAndUndeliveredPackage}" x:Name="sentAndUndeliveredPackage" Header="S-Undelivered" Width="110"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndDeliveredPackage}" x:Name="ReceivedAndDeliveredPackage" Header="R-Delivered" Width="110"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndUnDeliveredPackage}" x:Name="ReceivedAndUnDeliveredPackage" Header="R-Undelivered" Width="110"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+
+        <Grid Name="DownGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="2" VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+            
+            <Button Content="Add New Client" Grid.Column="0" Click="Add_New_Client" Margin="10,0,0,10" Background="#FF11D86F"/>
+
+            <Button Content="Exit" Grid.Column="3"  Click="ExitButton"  FontFamily="Calisto MT" Background="#FFEF8C8C" Margin="0,0,10,10"/>
+
+
+        </Grid>
         
+
     </Grid>
+        
+    
 </Page>

@@ -16,14 +16,15 @@ namespace BlApi
         /// </summary>
         /// <param name="drone"></param>
         /// <param name="stationNumToCharge"></param>
-        public void AddDrone(Drone drone, int stationNumToCharge);
+        void AddDrone(Drone drone, int stationNumToCharge);
+        
 
 
         /// <summary>
         /// The function get a object station from user input and adds it to the station list in Datasource 
         /// </summary>
         /// <param name="station"> Station object from ConsoleUi </param>
-        public void AddStation(Station station);
+        void AddStation(Station station);
 
 
         /// <summary>
@@ -32,14 +33,14 @@ namespace BlApi
         /// </summary>
         /// <param name="package"></param>
         /// <returns></returns>
-        public int AddPackage(Package package);
+        int AddPackage(Package package);
 
 
         /// <summary>
         /// The function get a object client from user input and adds it to the clients list in Datasource 
         /// </summary>
         /// <param name="client"> Client object from ConsoleUi </param>
-        public void AddClient(Client client);
+        void AddClient(Client client);
 
 
 
@@ -50,14 +51,14 @@ namespace BlApi
         /// </summary>
         /// <param name="id"></param>
         /// <param name="name"></param>
-        public void UpdateDroneName(int id, string name);
+        void UpdateDroneName(int id, string name);
 
 
         /// <summary>
         /// The function receives a skimmer number and sends it for charging
         /// </summary>
         /// <param name="id"></param>
-        public void ChargeDrone(int id);
+        void ChargeDrone(int id);
 
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace BlApi
         /// </summary>
         /// <param name="droneID"></param>
         /// <param name="minutesCharging"></param>
-        public void FinishCharging(int droneID);
+        void FinishCharging(int droneID);
 
 
         /// <summary>
@@ -73,7 +74,7 @@ namespace BlApi
         /// and assigns it a package that can belong to it according to urgency, weight, and battery
         /// </summary>
         /// <param name="droneID"></param>
-        public void packageToDrone(int droneID);
+        void packageToDrone(int droneID);
 
 
         /// <summary>
@@ -96,7 +97,7 @@ namespace BlApi
         /// <param name="id"> id to find the client to update info </param>
         /// <param name="name"> new name to give to that </param>
         /// <param name="phone"> new phone to give to that client </param>
-        public void UpdateClient(int id, string name, string phone);
+        void UpdateClient(int id, string name, string phone);
 
 
         /// <summary>
@@ -104,7 +105,7 @@ namespace BlApi
         /// </summary>
         /// <param name="id">id to find which station user wants to change the name </param>
         /// <param name="numCharge">new number of charge slot to give to the given station </param>
-        public void UpdateStationNumCharge(int id, int numCharge);
+        void UpdateStationNumCharge(int id, int numCharge);
 
 
         /// <summary>
@@ -112,7 +113,7 @@ namespace BlApi
         /// </summary>
         /// <param name="id"> id to find which station user wants to change the name</param>
         /// <param name="name"> new name to give to the station</param>
-        public void UpdateStationName(int id, string name);
+        void UpdateStationName(int id, string name);
 
 
 
@@ -123,7 +124,7 @@ namespace BlApi
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Drone DisplayDrone(int id);
+        Drone DisplayDrone(int id);
 
 
         /// <summary>
@@ -131,7 +132,7 @@ namespace BlApi
         /// </summary>
         /// <param name="id"> id inputed in ConsoleUi to find which station to display </param>
         /// <returns> returns StationBl object </returns>
-        public Station DisplayStation(int id);
+        Station DisplayStation(int id);
 
 
         /// <summary>
@@ -139,7 +140,7 @@ namespace BlApi
         /// </summary>
         /// <param name="packageID"></param>
         /// <returns></returns>
-        public Package DisplayPackage(int packageID);
+        Package DisplayPackage(int packageID);
 
 
         /// <summary>
@@ -147,7 +148,7 @@ namespace BlApi
         /// </summary>
         /// <param name="id"> client id from console </param>
         /// <returns> Client object type </returns>
-        public Client DisplayClient(int id);
+        Client DisplayClient(int id);
 
 
 
@@ -157,42 +158,42 @@ namespace BlApi
         /// A function that returns the list of drones
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<DroneToList> DisplayDroneList();
+        IEnumerable<DroneToList> DisplayDroneList();
 
 
         /// <summary>
         /// The function Display list of all station information
         /// </summary>
         /// <returns> Returns List of stations </returns>
-        public IEnumerable<StationToList> DisplayStationList();
+        IEnumerable<StationToList> DisplayStationList();
 
 
         /// <summary>
         /// function that return list of station with available chargeSlot
         /// </summary>
         /// <returns> Returns List of stations </returns>
-        public IEnumerable<StationToList> DisplayStationListWitAvailableChargingSlots();
+        IEnumerable<StationToList> DisplayStationListWitAvailableChargingSlots();
 
 
         /// <summary>
         /// The function Display list of all packages information
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<PackageToList> DisplayPackageList();
+        IEnumerable<PackageToList> DisplayPackageList();
 
 
         /// <summary>
         /// function that return list of package that havent been associated
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<PackageToList> DisplayPackageListWithoutDrone();
+        IEnumerable<PackageToList> DisplayPackageListWithoutDrone();
 
 
         /// <summary>
         /// The function Display every Client attributes with a list of package info
         /// </summary>
         /// <returns> Client List </returns>
-        public IEnumerable<ClientToList> DisplayClientList();
+        IEnumerable<ClientToList> DisplayClientList();
 
         IEnumerable<PackageToList> GetPackageFilterByDate(DateTime from, DateTime to);
 
@@ -201,9 +202,10 @@ namespace BlApi
         IEnumerable<IGrouping<bool, StationToList>> GroupStationByExistingSlots();
         IEnumerable<IGrouping<string, PackageToList>> PackagesGroupingReceiver();
         IEnumerable<IGrouping<string, PackageToList>> PackagesGroupingSender();
-
+        IEnumerable<IGrouping<int, StationToList>> GroupStationByNumSlots();
         void DeletePackage(int ID);
-
+        void DeleteStation(int ID);
+        void DeleteClient(int ID);
 
         //Exit
 

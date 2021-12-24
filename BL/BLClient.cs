@@ -259,5 +259,22 @@ namespace BL
             if (!nums.Any(x => x == phone)) throw new BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
         }
 
+
+        public void DeleteClient(int ID)
+        {
+            if (!DisplayClientList().Any(p => p.Id == ID)) throw new Exceptions.CantDelete(ID, "ID To Delete Not Found");
+            try
+            {
+                dal.DeletePackage(ID);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exceptions.IDException("ID To Delete Not Found", ex, ID);
+            }
+
+        }
+
+
     }
 }

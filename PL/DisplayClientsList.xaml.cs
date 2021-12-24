@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,46 @@ namespace PL
     /// </summary>
     public partial class DisplayClientsList : Page
     {
-        public DisplayClientsList()
+
+        BlApi.IBL BL;
+        Model.PL PL;
+        MainWindow MainWindow;
+        private ObservableCollection<BO.ClientToList> clients = new ObservableCollection<BO.ClientToList>();
+
+        public DisplayClientsList(MainWindow mainWindow)
         {
             InitializeComponent();
+            this.BL = BlApi.BlFactory.GetBL();
+            this.PL = new Model.PL();
+            this.MainWindow = mainWindow;
+            ClientListView.DataContext = clients;
+            InitializeList();
         }
+
+        private void InitializeList()
+        {
+            foreach (var Client in PL.getClientList())
+            {
+                clients.Add(Client);
+            }
+        }
+
+        private void Add_New_Client(object sender, RoutedEventArgs e)
+        {
+            MainWindow.Frame.Content = new DisplayClient(MainWindow, PL);
+        }
+
+        private void ClientListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (ClientListView.SelectedItem != null)
+                MainWindow.Frame.Content = new DisplayClient(MainWindow, PL, PL.GetClient(((BO.ClientToList)ClientListView.SelectedItem).Id));
+            ClientListView.SelectedItems.Clear();
+        }
+        private void ExitButton(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        
     }
 }
