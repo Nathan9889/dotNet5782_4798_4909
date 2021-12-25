@@ -3,7 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:local="clr-namespace:PL"
+      xmlns:localModel="clr-namespace:Model" d:DataContext="{d:DesignInstance Type=localModel:Package}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DisplayPackage">
@@ -13,8 +15,17 @@
         <local:NullToTrue x:Key="NullToTrue"></local:NullToTrue>
         <local:TrueIfNotPickUp x:Key="TrueIfNotPickUp"></local:TrueIfNotPickUp>
         <local:TrueIfNotDelivery x:Key="TrueIfNotDelivery"></local:TrueIfNotDelivery>
+        <local:NullToHidden x:Key="NullToHidden"></local:NullToHidden>
+        <local:NullToFalse x:Key="NullToFalse"></local:NullToFalse>
+        <local:NullToVisible x:Key="NullToVisible"></local:NullToVisible>
+       
+        <localModel:Ticker x:Key="Ticker"></localModel:Ticker>
+        
+        <Style x:Key="clients" TargetType="ComboBox">
+            <Setter Property="ItemsSource" Value="{Binding}"></Setter>
+        </Style>
     </Page.Resources>
-    
+
     <Grid x:Name="MainGrid">
         <Grid x:Name ="Add_New_Drone" Visibility="Visible">
             <Grid.ColumnDefinitions>
@@ -54,19 +65,34 @@
 
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="id" HorizontalAlignment="Left" Grid.Row="1" Text="ID:" TextWrapping="Wrap" VerticalAlignment= "Center" FontSize="13" FontFamily="Aharoni" FontWeight="Normal" Height="13" Width="17" />
-                <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding package.ID }" VerticalContentAlignment="Center"   >
+                <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding package.ID}" VerticalContentAlignment="Center"  IsReadOnly="{Binding package, Converter={StaticResource NullToFalse }}"  >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
                         </Style>
                     </TextBox.Resources>
                 </TextBox>
-                <TextBox x:Name="Created" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" VerticalContentAlignment="Center" Text="{Binding package.Created}" >
+                <TextBox x:Name="Created" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" VerticalContentAlignment="Center"  >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
                         </Style>
                     </TextBox.Resources>
+                    <TextBox.Style>
+                        <Style TargetType ="TextBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding ="{Binding ElementName=Buttons, Path=Visibility}"  Value="Hidden">
+                                    <Setter Property="Text" Value="{Binding Source={StaticResource Ticker}, Path=Now, Mode=OneWay}"></Setter>
+                                </DataTrigger>
+
+                                <DataTrigger Binding ="{Binding ElementName=Buttons, Path=Visibility}"  Value="Visible">
+                                    <Setter Property="Text" Value="{Binding package.Created}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                    
+                    
                 </TextBox>
 
                 <TextBox x:Name="Associated" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap"  SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" TextAlignment="Left" VerticalContentAlignment="Center" Text="{Binding package.Associated}" >
@@ -77,7 +103,7 @@
                     </TextBox.Resources>
                 </TextBox>
 
-                <TextBox x:Name="PickedUp" Grid.Column="1" Grid.Row="11" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" Text="{Binding package.PickedUp}" VerticalContentAlignment="Center" >
+                <TextBox x:Name="PickedUp" Grid.Column="1" Grid.Row="11" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" Text="{Binding Path=package.PickedUp}" VerticalContentAlignment="Center" >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -101,10 +127,12 @@
                 <TextBlock x:Name="PickedUp_Label" HorizontalAlignment="Left" Grid.Row="11" Text="PickedUp:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="1,0,0,0" Height="13" Width="61" />
                 <TextBlock x:Name="Delivered_Label" HorizontalAlignment="Left" Grid.Row="13" Text="Delivered:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="1,0,0,0" Height="13" Width="63" />
 
-                <ComboBox x:Name="Package_Priority" Grid.Column="1" Grid.Row="5"   FontFamily="Arial" FontWeight="Bold" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" VerticalContentAlignment="Center" SelectedIndex="{Binding package.Priority, Converter={StaticResource EnumToInt}}"   />
-                <TextBlock HorizontalAlignment="Left" Grid.Row="3" Text="Weight:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" Height="13" Width="48" />
-                <ComboBox x:Name="Package_Weight" Grid.Column="1"   Grid.Row="3" Height="Auto" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FontWeight="Bold" FontFamily="Arial" VerticalContentAlignment="Center" SelectedIndex="{Binding package.Weight, Converter={StaticResource EnumToInt}, Mode=OneWay}"  >
+                <ComboBox x:Name="Package_Priority" Grid.Column="1" Grid.Row="5"   FontFamily="Arial" FontWeight="Bold"  VerticalContentAlignment="Center" SelectedIndex="{Binding package.Priority, Converter={StaticResource EnumToInt}, Mode=OneWay}" IsEnabled="{Binding package, Converter={StaticResource NullToTrue }}" SelectionChanged="Package_Priority_SelectionChanged" >
                 </ComboBox>
+                          
+                <TextBlock HorizontalAlignment="Left" Grid.Row="3" Text="Weight:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" Height="13" Width="48" />
+                <ComboBox x:Name="Package_Weight" Grid.Column="1"   Grid.Row="3" Height="Auto"  FontWeight="Bold" FontFamily="Arial" VerticalContentAlignment="Center" SelectedIndex="{Binding package.Weight, Converter={StaticResource EnumToInt}, Mode=OneWay}" IsEnabled="{Binding package, Converter={StaticResource NullToTrue }}" SelectionChanged="Package_Weight_SelectionChanged"  />
+
 
 
 
@@ -116,7 +144,7 @@
                         </RadialGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="Add_Drone_Button" Visibility="Hidden" Content="Add Drone" Height="32" VerticalAlignment="Bottom"  IsDefault="True" FontFamily="Arial Black" FontSize="15"  Grid.Column="1" Grid.Row="13"  Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="109,0,109,29">
+                <Button x:Name="Add_Package_Button" Visibility="Hidden" Content="Add Package" Height="32" VerticalAlignment="Bottom"  IsDefault="True" FontFamily="Arial Black" FontSize="15"  Grid.Column="1" Grid.Row="13"  Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="109,0,109,29" Click="Add_Package_Button_Click">
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="#FF3B5611" Offset="1"/>
@@ -133,7 +161,7 @@
                     </GroupBox.Header>
                     <StackPanel Height="77" RenderTransformOrigin="0.482,-0.114">
                         <TextBlock FontFamily="Arial Rounded MT Bold"><Run Text="ID:"/></TextBlock>
-                        <TextBox Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Text="{Binding package.SenderClient.ID}" />
+                        <TextBox x:Name="idSender"  Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Text="{Binding package.SenderClient.ID}" />
                         <TextBlock FontFamily="Arial Rounded MT Bold"><Run Text="Name:"/></TextBlock>
                         <TextBox Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" IsReadOnly="True" Text="{Binding package.SenderClient.Name }"/>
                     </StackPanel>
@@ -150,9 +178,10 @@
                         <TextBox Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Text ="{Binding package.TargetClient.ID}" />
                         <TextBlock FontFamily="Arial Rounded MT Bold"><Run Text="Name:"/></TextBlock>
                         <TextBox Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" IsReadOnly="True" Text ="{Binding package.TargetClient.Name}" />
+                        <ComboBox x:Name="ClientsList" Height="26" Width="140" Visibility="{Binding  package, Mode=OneWay, Converter={StaticResource NullToVisible}}" />
                     </StackPanel>
                 </GroupBox>
-                <GroupBox Grid.Row="14" RenderTransformOrigin="0.5,0.5" Margin="-13,5,0,-44" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                <GroupBox Grid.Row="14" Visibility="{Binding package, Mode=OneWay, Converter={StaticResource NullToHidden}}" RenderTransformOrigin="0.5,0.5" Margin="-13,5,0,-44" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.ColumnSpan="2" Grid.RowSpan="2">
                     <GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
 
@@ -179,7 +208,7 @@
             </Grid>
 
             <TextBlock Name="Stations_Labl" Visibility="Hidden" HorizontalAlignment="Left" Margin="431,53,0,0" Grid.Row="1" Text="List of stations with available charging slots:" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Grid.ColumnSpan="2" Height="42" FontSize="14" FontWeight="Bold" Grid.Column="1"/>
-            <Grid x:Name="Buttons" Grid.RowSpan="3" Margin="0,10,0,-10">
+            <Grid x:Name="Buttons" Grid.RowSpan="2" Margin="0,0,0,-10" Visibility="{Binding package, Mode=OneWay, Converter={StaticResource NullToHidden}}" Grid.Row="1">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height ="2*"></RowDefinition>
@@ -211,14 +240,14 @@
 
 
 
-                <Button Content="Pick Up Package" x:Name="PickUpButton" Grid.Row="4"  IsEnabled="{Binding package, Converter={StaticResource TrueIfNotPickUp }, Mode=OneWay}">
+                <Button Content="Pick Up Package" x:Name="PickUpButton" Grid.Row="4"  IsEnabled="{Binding package, Converter={StaticResource TrueIfNotPickUp }, Mode=OneWay}" Click="PickUpButton_Click">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button Content="Deliver Package"  x:Name="DeliverButton" Grid.Row="6"  IsEnabled="{Binding package, Converter={StaticResource TrueIfNotDelivery }, Mode=OneWay}">
+                <Button Content="Deliver Package"  x:Name="DeliverButton" Grid.Row="6"  IsEnabled="{Binding package, Converter={StaticResource TrueIfNotDelivery }, Mode=OneWay}" Click="DeliverButton_Click">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -226,9 +255,10 @@
                     </Button.Resources>
                 </Button>
             </Grid>
+            <Button Content="Back" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="20" Width="95"  FontSize="15" FontFamily="Calisto MT" Background="#FFEF8C8C"  Click="Back_Click" Margin="0,0,45,15"/>
 
         </Grid>
 
-        <Button Content="Exit" Grid.Column="1" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="28" Width="95"  FontSize="15" FontFamily="Calisto MT" Background="#FFEF8C8C" Margin="0,0,10,10"/>
+
     </Grid>
 </Page>

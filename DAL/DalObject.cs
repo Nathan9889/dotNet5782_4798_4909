@@ -568,7 +568,7 @@ namespace DalObject
         /// <returns></returns>
         public IEnumerable<Package> PackageList()
         {
-            List<Package> temp = new List<Package>(DataSource.PackageList);
+           IEnumerable<Package> temp = new List<Package>(DataSource.PackageList).OrderBy(p=>p.ID);
             return temp;
         }
 

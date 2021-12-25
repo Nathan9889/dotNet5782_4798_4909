@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Model
 {
@@ -16,21 +18,21 @@ namespace Model
         public PL()
         {
             this.BL = BlApi.BlFactory.GetBL();
-            packages = BL.DisplayPackageList();
+            
             stations = BL.DisplayStationList();
             clients = BL.DisplayClientList();
         }
 
         public IEnumerable<BO.PackageToList> getPackageList()
         {
-            return new List<BO.PackageToList>();
+            return BL.DisplayPackageList();
         }
 
-        public Package GetPackage(int id)
+        public BO.Package GetPackage(int id)
         {
-            Package package = new Package();
-            package.package = BL.DisplayPackage(id);
-            return package;
+            
+            return BL.DisplayPackage(id);
+           
         }
 
         public void DeletePackage(int id)
@@ -38,9 +40,18 @@ namespace Model
             BL.DeletePackage(id);
         }
 
+        public void PickUpPackage(int id)
+        {
+            BL.PickedUpByDrone(id);
+        }
+
+        public void DeliveredToClient(int id)
+        {
+            BL.DeliveredToClient(id);
+        }
 
 
-      
+
 
 
 
@@ -84,7 +95,29 @@ namespace Model
         }
     }
 
+      public class Ticker : INotifyPropertyChanged
+    {
+        public Ticker()
+        {
+            Timer timer = new Timer();
+            timer.Interval = 1000; // 1 second updates
+            timer.Elapsed += timer_Elapsed;
+            timer.Start();
+        }
 
+        public DateTime Now
+        {
+            get { return DateTime.Now; }
+        }
+
+        void timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("Now"));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+    }
 
 }
 

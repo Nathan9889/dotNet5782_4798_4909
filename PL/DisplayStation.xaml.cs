@@ -23,10 +23,12 @@ namespace PL
     /// </summary>
     public partial class DisplayStation : Page
     {
-        private MainWindow mainWindow;
+       
         private Model.PL pL;
         Station Station;
 
+        public delegate void Navigation();
+        public event Navigation Back;
 
         //public DisplayStation(MainWindow mainWindow)
         //{
@@ -36,23 +38,33 @@ namespace PL
         //    InitializeAddStation();
         //}
 
-        public DisplayStation(MainWindow mainWindow, Model.PL pL)
+        public DisplayStation()
         {
             InitializeComponent();
-            this.mainWindow = mainWindow;
-            this.pL = pL;
+            
+            this.pL = new Model.PL() ;
         }
 
 
-        public DisplayStation(MainWindow mainWindow, Model.PL pL, Model.Station station)
+        public DisplayStation(int id)
         {
             InitializeComponent();
-            this.mainWindow = mainWindow;
-            this.pL = pL;
-            this.Station = station;
-            MainGrid.DataContext = station;
+            
+            this.pL = new Model.PL();
+            this.Station = pL.GetStation(id);
+            MainGrid.DataContext = Station;
             //Package_Priority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
             //Package_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
+        }
+
+        private void Change_Station_Name_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Change_Slot_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         //public DisplayStation(BO.StationToList station, MainWindow mainWindow)

@@ -19,35 +19,37 @@ namespace PL
     /// <summary>
     /// Logique d'interaction pour DisplayClient.xaml
     /// </summary>
+    /// 
     public partial class DisplayClient : Page
     {
 
         private MainWindow mainWindow;
         private Model.PL pL;
         Client Client;
-
+        public delegate void Navigation();
+        public event Navigation Back;
         //
         BlApi.IBL BL;
         //
 
-        public DisplayClient(MainWindow mainWindow, Model.PL pL)
+        public DisplayClient()
         {
             InitializeComponent();
-            this.mainWindow = mainWindow;
-            this.pL = pL;
+           
+            this.pL = new Model.PL();
 
-            //
+            
             this.BL = BlApi.BlFactory.GetBL();
-            //
+            
         }
 
-        public DisplayClient(MainWindow mainWindow, Model.PL pL, Model.Client client)
+        public DisplayClient(int id)
         {
             InitializeComponent();
-            this.mainWindow = mainWindow;
-            this.pL = pL;
-            this.Client = client;
-            MainGrid.DataContext = client;
+           
+            this.pL =new Model.PL();
+            this.Client = pL.GetClient(id);
+            MainGrid.DataContext = Client;
         }
 
 

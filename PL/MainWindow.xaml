@@ -32,7 +32,8 @@
             </Grid.ColumnDefinitions>
             <Button Content="Package List" Grid.Column="3" FontFamily="Aharoni" Click="Button_Click"/>
             <Button Content="Drones List" FontFamily="Aharoni" />
-            <Button Content="Button" Grid.Column="1" FontFamily="Aharoni"/>
+            <Button Content="Clients List" Grid.Column="1" FontFamily="Aharoni" Click="Button_Click_1"/>
+            <Button x:Name="Stations" Content="StationsList" Grid.Column="2" FontFamily="Aharoni" Click="Stations_Click"/>
 
 
         </Grid>

@@ -297,7 +297,7 @@
                 </Button>
 
             </Grid>
-            <Button Content="Exit" Grid.Column="2" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="28" Width="95"  FontSize="15" FontFamily="Calisto MT"  Background="#FFEF8C8C" Margin="0,0,34,10" Grid.Row="2" Click="Button_Click"/>
+            <Button Content="Exit" Grid.Column="2" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="28" Width="95"  FontSize="15" FontFamily="Calisto MT"  Background="#FFEF8C8C" Margin="0,0,34,10" Grid.Row="2"/>
 
         </Grid>
 

@@ -23,18 +23,21 @@ namespace PL
     {
         BlApi.IBL BL;
         Model.PL PL;
-        MainWindow MainWindow;
-        private ObservableCollection<BO.StationToList> stations = new ObservableCollection<BO.StationToList>();
-
-
         
+        private ObservableCollection<BO.StationToList> stations = new ObservableCollection<BO.StationToList>();
+        public delegate void StationPage(int id);
+        public event StationPage AddClik;
+        public event StationPage DoubleClik;
 
-        public DisplayStationsList(MainWindow mainWindow)
+
+
+        public DisplayStationsList()
         {
-            InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
+            InitializeComponent();
+            
             this.PL = new Model.PL();
-            this.MainWindow = mainWindow;
+            
             StationsListView.ItemsSource = BL.DisplayStationList();
             StationsListView.DataContext = stations;
             InitializeList();
@@ -52,19 +55,23 @@ namespace PL
 
         private void StationsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (StationsListView.SelectedItem != null) 
-                MainWindow.Frame.Content = new DisplayStation(MainWindow, PL, PL.GetStation(((BO.StationToList)StationsListView.SelectedItem).ID));
+            if (StationsListView.SelectedItem != null)
+            {
+                if (DoubleClik != null) DoubleClik(((BO.StationToList)StationsListView.SelectedItem).ID);
+            }
+               // MainWindow.Frame.Content = new DisplayStation(MainWindow, PL, PL.GetStation(((BO.StationToList)StationsListView.SelectedItem).ID));
             StationsListView.SelectedItems.Clear();
         }
 
         private void Add_New_Station(object sender, RoutedEventArgs e)
         {
-            MainWindow.Frame.Content = new DisplayStation(MainWindow,PL);
+            if(AddClik!=null) AddClik(-1);
+            //MainWindow.Frame.Content = new DisplayStation(MainWindow,PL);
         }
 
         private void Exit_Button(object sender, RoutedEventArgs e)
         {
-            MainWindow.DisplayMain();
+            //MainWindow.DisplayMain();
         }
 
 
@@ -101,5 +108,19 @@ namespace PL
             }
         }
 
+        private void ExitButton(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Reset_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void RefreshList()
+        {
+
+        }
     }
 }

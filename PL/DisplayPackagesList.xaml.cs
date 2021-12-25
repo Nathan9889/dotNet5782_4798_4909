@@ -26,15 +26,19 @@ namespace PL
     {
         BlApi.IBL BL;
         Model.PL PL;
-        MainWindow MainWindow;
+    
         private ObservableCollection<BO.PackageToList> packages = new ObservableCollection<BO.PackageToList>();
 
-        public DisplayPackagesList(MainWindow mainWindow)
+        public delegate void PackagePage(int id);
+        public event PackagePage AddClik;
+        public event PackagePage DoubleClik;
+
+
+        public DisplayPackagesList()
         {
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
             this.PL  = new Model.PL();
-            this.MainWindow = mainWindow;
             PackageListView.DataContext = packages;
             InitializeList();
 
@@ -42,6 +46,8 @@ namespace PL
             StatusSelector.ItemsSource = Enum.GetValues(typeof(BO.PackageStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
         }
+
+
 
         private void InitializeList()
         {
@@ -53,12 +59,12 @@ namespace PL
 
         private void Add_New_Package(object sender, RoutedEventArgs e)
         {
-            MainWindow.Frame.Content = new DisplayPackage(MainWindow, PL);
+            if(AddClik!=null) AddClik(-1);
         }
 
         private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-           if(PackageListView.SelectedItem != null) MainWindow.Frame.Content = new DisplayPackage(MainWindow, PL, PL.GetPackage(((BO.PackageToList)PackageListView.SelectedItem).Id));
+           if(PackageListView.SelectedItem != null && DoubleClik!=null) DoubleClik(((BO.PackageToList)PackageListView.SelectedItem).Id);
             PackageListView.SelectedItems.Clear();
         }
 
