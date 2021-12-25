@@ -33,7 +33,7 @@ namespace PL
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return (int)value;
         }
     }
 
@@ -120,6 +120,25 @@ namespace PL
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class ClientListToClientPackage : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+           if(value!=null)
+            {
+                BO.ClientPackage clientPackage = new BO.ClientPackage();
+                clientPackage.ID = ((BO.ClientToList)value).Id;
+                return clientPackage;
+            }
+            return null;
         }
     }
 

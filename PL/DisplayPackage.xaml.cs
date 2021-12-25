@@ -36,8 +36,9 @@ namespace PL
             Package_Priority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
             Package_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             ClientsList.ItemsSource = pL.getClientList();
-            Package_Weight.Style = (Style)this.FindResource("ComboBoxTest2");
-            Package_Priority.Style = (Style)this.FindResource("ComboBoxTest2");
+            ClientsList2.ItemsSource = pL.getClientList();
+
+            Package.package = new BO.Package();
         }
 
 
@@ -72,7 +73,17 @@ namespace PL
 
         private void Add_Package_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                pL.AddPackage(Package.package);
+                if (Back != null) Back();
+                MessageBox.Show($"The package was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.NavigationService.GoBack();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unable to add package {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -113,12 +124,28 @@ namespace PL
 
         private void Package_Weight_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(Buttons.Visibility == Visibility.Hidden)Package_Weight.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
+          Package_Weight.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
         }
 
         private void Package_Priority_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Buttons.Visibility == Visibility.Hidden) Package_Priority.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
+            Package_Priority.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
+        }
+
+        private void ClientsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+           ClientsList.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
+        }
+
+        private void ClientsList2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ClientsList2.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
+        }
+
+        private void Cancel(object sender, RoutedEventArgs e)
+        {
+            if (Back != null) Back();
+            this.NavigationService.GoBack();
         }
     }
 }

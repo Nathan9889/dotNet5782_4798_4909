@@ -50,7 +50,10 @@ namespace Model
             BL.DeliveredToClient(id);
         }
 
-
+        public void AddPackage(BO.Package package)
+        {
+            BL.AddPackage(package);
+        }
 
 
 
