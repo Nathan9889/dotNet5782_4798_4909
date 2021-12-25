@@ -89,27 +89,33 @@ namespace PL
                 if(Show_Normally.IsChecked == true)
                 {
                     var p = BL.DisplayPackageList();
+                    var temp = new ObservableCollection<BO.PackageToList>( packages);
                     packages.Clear();
-                    foreach (var item in p) { packages.Add(item); }
+                    foreach (var item in p)
+                    {
+                        if(temp.Any(p=> p.Id==item.Id)) packages.Add(item);
+                    }
                 }
                 else if(Show_Receiver.IsChecked == true)
                 {
                     var p = BL.PackagesGroupingReceiver();
+                    var temp = new ObservableCollection<BO.PackageToList>(packages);
                     packages.Clear();
                     foreach (var group in p)
                     {
                         foreach (BO.PackageToList item in group)
-                        { packages.Add(item); }
+                        { if (temp.Any(p => p.Id == item.Id)) packages.Add(item); }
                     }
                 }
                 else
                 {
                     var p = BL.PackagesGroupingSender(); // לרשימה כדי שיהיה העתק . לפי הסדר כדי יחזור למקורי ואז ימיין
+                    var temp = new ObservableCollection<BO.PackageToList>(packages);
                     packages.Clear();
                     foreach (var group in p)
                     {
                         foreach (BO.PackageToList item in group)
-                        {packages.Add(item);}
+                        { if (temp.Any(p => p.Id == item.Id)) packages.Add(item);}
                     }
                 }
             }

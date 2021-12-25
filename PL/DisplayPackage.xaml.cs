@@ -113,12 +113,12 @@ namespace PL
 
         private void Package_Weight_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Package_Weight.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
+            if(Buttons.Visibility == Visibility.Hidden)Package_Weight.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
         }
 
         private void Package_Priority_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           Package_Priority.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
+            if (Buttons.Visibility == Visibility.Hidden) Package_Priority.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
         }
     }
 }
