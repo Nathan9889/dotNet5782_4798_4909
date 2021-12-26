@@ -32,14 +32,7 @@ namespace PL
 
 
 
-        private void DroneListAccessButton(object sender, RoutedEventArgs e)
-        {
-            content = this.Content;
-            DisplayDronesList page = new DisplayDronesList(this);
-            //page.closePage += DiplayMain;
-            MainWindowDisplay.Visibility = Visibility.Hidden;
-            this.Frame.Content = page;
-        }
+     
 
         public void DisplayMain()
         {
@@ -64,6 +57,12 @@ namespace PL
             page.Back += ((DisplayPackagesList)this.Frame.Content).RefreshList;
             this.Frame.Content = page;
         }
+        private void AddDronePage(int num) // פתיחת עמוד הוספת רחפן 
+        {
+            var page = new DisplayDrone();
+            page.Back += ((DisplayDronesList)this.Frame.Content).RefreshList;
+            this.Frame.Content = page;
+        }
         private void AddClientPage(int num) // פתיחת חלון הוספת לקוח
         {
             var page = new DisplayClient();
@@ -75,6 +74,15 @@ namespace PL
         {
             var page = new DisplayPackage(id);
             page.Back += ((DisplayPackagesList)this.Frame.Content).RefreshList;
+            page.ClientPage += ClientDisplyPageFromePackage;
+            page.DronePage += DroneDisplyPageFromePackage;
+            this.Frame.Content = page;
+        }
+
+        private void DroneDisplyPage(int id)//פתיחת עמוד פעולות רחפן
+        {
+            var page = new DisplayDrone(id);
+            page.Back += ((DisplayDronesList)this.Frame.Content).RefreshList;
             this.Frame.Content = page;
         }
 
@@ -99,9 +107,21 @@ namespace PL
             this.Frame.Content = page;
         }
 
+        private void ClientDisplyPageFromePackage(int id)//  פתיחת חלון פעולות לקוח מתוך עמוד עדכון חבילה
+        {
+            var page = new DisplayClient(id);
+            this.Frame.Content = page;
+        }
+
+        private void DroneDisplyPageFromePackage(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
+        {
+            var page = new DisplayDrone(id);
+            this.Frame.Content = page;
+        }
+
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            MainWindowDisplay.Visibility = Visibility.Hidden;
+           
             DisplayClientsList page = new DisplayClientsList();
             page.AddClik += AddClientPage;
             page.DoubleClik += ClientDisplyPage;
@@ -110,11 +130,31 @@ namespace PL
 
         private void Stations_Click(object sender, RoutedEventArgs e)
         {
-            MainWindowDisplay.Visibility = Visibility.Hidden;
+           
             DisplayStationsList page = new DisplayStationsList();
             page.AddClik += AddStationPage;
             page.DoubleClik += StationDisplyPage;
             this.Frame.Content = page;
+        }
+
+        private void Drones_List_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowDisplay.Visibility = Visibility.Hidden;
+            DisplayDronesList page = new DisplayDronesList();
+            page.AddClik += AddDronePage;
+            page.DoubleClik += DroneDisplyPage;
+            this.Frame.Content = page;
+        }
+
+        private void Manager_login_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Manager_login_Click_1(object sender, RoutedEventArgs e)
+        {
+            Buttons_For_Lists.Visibility = Visibility.Visible;
+            MainWindowDisplay.Visibility = Visibility.Hidden;
         }
     }
 }

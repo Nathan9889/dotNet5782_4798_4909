@@ -174,7 +174,7 @@ namespace PL
             }
         }
 
-        public void RefreshList()
+        public void RefreshList(int t)
         {
             var p = PL.getPackageList();
             packages.Clear();

@@ -5,35 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800" >
+        Title="MainWindow" Height="530" Width="800" >
+    <Window.Resources>
+        <local:ClickModeToVisible x:Key="ClickModeToVisible"></local:ClickModeToVisible>
+    </Window.Resources>
+    
     <Grid >
         <Grid x:Name="MainWindowDisplay">
             <Grid.Background>
                 <ImageBrush/>
             </Grid.Background>
-            <Button Content="Drones List" HorizontalAlignment="Center" Margin="0,80,0,0" VerticalAlignment="Top" Height="62" Width="296" Click="DroneListAccessButton" FontSize="15" FontFamily="Aharoni">
-                <Button.Background>
-                    <RadialGradientBrush>
-                        <GradientStop Color="#FF00FFD1" Offset="0"/>
-                    </RadialGradientBrush>
-                </Button.Background>
-            </Button>
-            <Label Content="Welcome" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="200" FontSize="36" FontFamily="Lucida Calligraphy" Foreground="#FF08B7B3"/>
-            <Button Content="Button" HorizontalAlignment="Left" Margin="124,270,0,0" VerticalAlignment="Top" Height="45" Width="142"/>
-            <Button Content="Button" HorizontalAlignment="Left" Margin="565,264,0,0" VerticalAlignment="Top" Height="51" Width="126"/>
+
+            <Label Content="Welcome" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="200" FontSize="36" FontFamily="Lucida Calligraphy" Foreground="#FF08B7B3" Margin="0,98,0,0"/>
+            <Button x:Name="Manager_login" Content="Manager login" HorizontalAlignment="Center" Margin="0,194,0,0" VerticalAlignment="Top" Height="45" Width="247" Click="Manager_login_Click_1"  />
+            <Button Content="Client login" HorizontalAlignment="Center" Margin="0,257,0,0" VerticalAlignment="Top" Height="45" Width="247"/>
+
+            <Button Content="Sign Up" HorizontalAlignment="Center" Margin="0,326,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.415,-0.935" FontSize="14" FontFamily="Arial Rounded MT Bold" FontStyle="Normal" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         </Grid>
 
-        <Grid x:Name="Buttons_For_Lists" Height="30" VerticalAlignment="Top"    >
+        <Grid x:Name="Buttons_For_Lists" Height="60" VerticalAlignment="Top"  Visibility="{Binding ElementName=Manager_login, Path=ClickMode, Converter={StaticResource ClickModeToVisible}}"  >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width ="*"></ColumnDefinition>
                 <ColumnDefinition Width ="*"></ColumnDefinition>
                 <ColumnDefinition Width ="*"></ColumnDefinition>
                 <ColumnDefinition Width ="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Content="Package List" Grid.Column="3" FontFamily="Aharoni" Click="Button_Click"/>
-            <Button Content="Drones List" FontFamily="Aharoni" />
-            <Button Content="Clients List" Grid.Column="1" FontFamily="Aharoni" Click="Button_Click_1"/>
-            <Button x:Name="Stations" Content="StationsList" Grid.Column="2" FontFamily="Aharoni" Click="Stations_Click"/>
+            <Button Content="Package List" Grid.Column="3" FontFamily="Aharoni" Click="Button_Click" Margin="0,0,0,30"/>
+            <Button Content="Drones List" FontFamily="Aharoni" Click=" Drones_List_Click" Height="30" VerticalAlignment="Top" />
+            <Button Content="Clients List" Grid.Column="1" FontFamily="Aharoni" Click="Button_Click_1" Margin="0,0,0,30"/>
+            <Button x:Name="Stations" Content="StationsList" Grid.Column="2" FontFamily="Aharoni" Click="Stations_Click" Margin="0,0,0,30"/>
 
 
         </Grid>

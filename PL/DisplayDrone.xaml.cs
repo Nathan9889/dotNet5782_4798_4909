@@ -21,8 +21,11 @@ namespace PL
     public partial class DisplayDrone : Page
     {
         BlApi.IBL BL;
-        BO.Drone selectedDrone;
-        MainWindow MainWindow;
+        BO.Drone Drone;
+       
+
+        public delegate void Navigation(int id);
+        public event Navigation Back;
         
 
         ///// <summary>
@@ -53,11 +56,10 @@ namespace PL
         ///Constructor for adding a drone window
         /// </summary>
         /// <param name="bL"></param>
-        public DisplayDrone(MainWindow mainWindow)
+        public DisplayDrone()
         {
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
-            this.MainWindow = mainWindow;
             InitializeAddDrone();
         }
 
@@ -67,12 +69,12 @@ namespace PL
         /// <param name="bL"></param>
         /// <param name="drone"></param>
         /// <param name="droneListWindow"></param>
-        public DisplayDrone(BO.DroneToList drone, MainWindow mainWindow)
+        public DisplayDrone(int DroneId)
         {
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
-            this.MainWindow = mainWindow;
-            InitializeDisplayDrone(drone.ID);
+            this.Drone = BL.DisplayDrone(DroneId);
+            InitializeDisplayDrone(DroneId);
 
         }
 
@@ -121,40 +123,40 @@ namespace PL
         /// <param name="DroneId"></param>
         void InitializeDisplayDrone(int DroneId)
         {
-            selectedDrone = BL.DisplayDrone(DroneId);
+            Drone = BL.DisplayDrone(DroneId);
 
             var bc = new BrushConverter();
             DroneModel.Background = (Brush)bc.ConvertFrom("#FFFFFFE1");
 
-            IdInput.Text = $"{selectedDrone.ID}";
+            IdInput.Text = $"{Drone.ID}";
             IdInput.IsReadOnly = true;
-            Battery.Text = $"{selectedDrone.Battery}";
+            Battery.Text = $"{Drone.Battery}";
 
             Drone_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
-            Drone_Weight.SelectedItem = selectedDrone.MaxWeight;
+            Drone_Weight.SelectedItem = Drone.MaxWeight;
             Drone_Weight.IsReadOnly = true;
             Drone_Weight.IsEnabled = false;
             Drone_Weight.Style = (Style)this.FindResource("ComboBoxTestInDisplayDrone");
 
-            DroneModel.Text = selectedDrone.Model;
+            DroneModel.Text = Drone.Model;
 
-            StatusSelector.Text = selectedDrone.Status.ToString();
+            StatusSelector.Text = Drone.Status.ToString();
 
-            Location.Text = $"{selectedDrone.DroneLocation}";
+            Location.Text = $"{Drone.DroneLocation}";
 
 
-            if (selectedDrone.DronePackageProcess == null)
+            if (Drone.DronePackageProcess == null)
             {
                 Package_Process.Visibility = Visibility.Hidden;
                 Shipping_Label.Visibility = Visibility.Hidden;
             }
             else
             {
-                Package_Process.Text = $"{selectedDrone.DronePackageProcess}";
+                Package_Process.Text = $"{Drone.DronePackageProcess}";
             }
 
             //Only the buttons that can perform an action will be available for pressing
-            switch (selectedDrone.Status)
+            switch (Drone.Status)
             {
                 case BO.DroneStatus.Available:
                     ChargeButton.IsEnabled = true;
@@ -173,7 +175,7 @@ namespace PL
                     break;
 
                 case BO.DroneStatus.Shipping:
-                    switch (selectedDrone.DronePackageProcess.PackageShipmentStatus)
+                    switch (Drone.DronePackageProcess.PackageShipmentStatus)
                     {
                         case BO.ShipmentStatus.Waiting:
                             PickUpButton.IsEnabled = true;
@@ -261,7 +263,8 @@ namespace PL
         /// <param name="e"></param>
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.Content = new DisplayDronesList(MainWindow);
+            if (Back != null) Back(-1);
+            this.NavigationService.GoBack();
         }
 
         /// <summary>
@@ -290,7 +293,8 @@ namespace PL
                     BL.AddDrone(drone, int.Parse(StationID.Text));
 
                     MessageBox.Show("Drone have been Added Successfully !", "Drone Added", MessageBoxButton.OK, MessageBoxImage.Information);
-                    MainWindow.Content = new DisplayDronesList(MainWindow);
+                    if (Back != null) Back(-1);
+                    this.NavigationService.GoBack();
                 }
                 catch (Exception ex)
                 {
@@ -334,10 +338,10 @@ namespace PL
         {
             try
             {
-                BL.ChargeDrone(selectedDrone.ID);
+                BL.ChargeDrone(Drone.ID);
 
                 MessageBox.Show("Drone sent to charge", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                InitializeDisplayDrone(selectedDrone.ID);
+                InitializeDisplayDrone(Drone.ID);
             }
             catch (Exception ex)
             {
@@ -356,15 +360,15 @@ namespace PL
             if (SolidColorBrush.Equals(((SolidColorBrush)DroneModel.BorderBrush).Color, red.Color))
             {
                 MessageBox.Show("Please enter correct Name", "Error input", MessageBoxButton.OK, MessageBoxImage.Error);
-                DroneModel.Text = selectedDrone.Model;
+                DroneModel.Text = Drone.Model;
             }
             else
             {
                 try
                 {
-                    BL.UpdateDroneName(selectedDrone.ID, DroneModel.Text);
+                    BL.UpdateDroneName(Drone.ID, DroneModel.Text);
                     MessageBox.Show($"Name have been changed to {DroneModel.Text} !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    InitializeDisplayDrone(selectedDrone.ID);
+                    InitializeDisplayDrone(Drone.ID);
                 }
                 catch (Exception ex)
                 {
@@ -382,10 +386,10 @@ namespace PL
         {
             try
             {
-                BL.FinishCharging(selectedDrone.ID);
+                BL.FinishCharging(Drone.ID);
 
-                MessageBox.Show($"Drone have been unplugged, Battery left: {selectedDrone.Battery}%", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                InitializeDisplayDrone(selectedDrone.ID);
+                MessageBox.Show($"Drone have been unplugged, Battery left: {Drone.Battery}%", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                InitializeDisplayDrone(Drone.ID);
             }
             catch (Exception ex)
             {
@@ -402,10 +406,10 @@ namespace PL
         {
             try
             {
-                BL.packageToDrone(selectedDrone.ID);
+                BL.packageToDrone(Drone.ID);
 
                 MessageBox.Show("Package have been Associated to drone successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                InitializeDisplayDrone(selectedDrone.ID);
+                InitializeDisplayDrone(Drone.ID);
             }
             catch (Exception ex)
             {
@@ -422,10 +426,10 @@ namespace PL
         {
             try
             {
-                BL.PickedUpByDrone(selectedDrone.ID);
+                BL.PickedUpByDrone(Drone.ID);
 
                 MessageBox.Show("Package have been picked up successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                InitializeDisplayDrone(selectedDrone.ID);
+                InitializeDisplayDrone(Drone.ID);
             }
             catch (Exception ex)
             {
@@ -442,10 +446,10 @@ namespace PL
         {
             try
             {
-                BL.DeliveredToClient(selectedDrone.ID);
+                BL.DeliveredToClient(Drone.ID);
 
                 MessageBox.Show("Package have been delivered successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                InitializeDisplayDrone(selectedDrone.ID);
+                InitializeDisplayDrone(Drone.ID);
             }
             catch (Exception ex)
             {
@@ -460,8 +464,9 @@ namespace PL
         /// <param name="e"></param>
         private void Exit_Button(object sender, RoutedEventArgs e)
         {
-            MainWindow.Content = new DisplayDronesList(MainWindow);
-           // Close();
+            if (Back != null) Back(-1);
+            this.NavigationService.GoBack();
+            // Close();
         }
 
     }

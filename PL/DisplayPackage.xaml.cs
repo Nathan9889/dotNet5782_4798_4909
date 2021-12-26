@@ -21,17 +21,19 @@ namespace PL
     /// </summary>
     public partial class DisplayPackage : Page
     {
-        
+
         private Model.PL pL;
         Package Package = new Package();
 
-        public delegate void Navigation();
+        public delegate void Navigation(int id);
         public event Navigation Back;
+        public event Navigation ClientPage;
+        public event Navigation DronePage;
 
         public DisplayPackage()
         {
             InitializeComponent();
-            this.pL  = new Model.PL();
+            this.pL = new Model.PL();
             MainGrid.DataContext = Package;
             Package_Priority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
             Package_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
@@ -47,28 +49,28 @@ namespace PL
             this.pL = new Model.PL();
             Package.package = pL.GetPackage(id);
             InitializeComponent();
-           
-           
+
+            if (Package.package.Associated == null) Package.package.DroneOfPackage = new BO.DroneOfPackage();
             MainGrid.DataContext = Package;
             Package_Priority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
             Package_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
         }
 
-     
+
 
         private void Delete_Package_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 pL.DeletePackage(Package.package.ID);
-                if (Back != null) Back();
+                if (Back != null) Back(-1);
                 MessageBox.Show($"The package has been deleted !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.NavigationService.GoBack();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Unable to delete package {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            } 
+            }
         }
 
         private void Add_Package_Button_Click(object sender, RoutedEventArgs e)
@@ -76,7 +78,7 @@ namespace PL
             try
             {
                 pL.AddPackage(Package.package);
-                if (Back != null) Back();
+                if (Back != null) Back(-1);
                 MessageBox.Show($"The package was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.NavigationService.GoBack();
             }
@@ -88,7 +90,7 @@ namespace PL
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            if (Back != null) Back();
+            if (Back != null) Back(-1);
             this.NavigationService.GoBack();
         }
 
@@ -124,17 +126,17 @@ namespace PL
 
         private void Package_Weight_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-          Package_Weight.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
+            if (Package.package.DroneOfPackage == null) Package_Weight.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
         }
 
         private void Package_Priority_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Package_Priority.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
+            if (Package.package.DroneOfPackage == null) Package_Priority.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
         }
 
         private void ClientsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           ClientsList.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
+            ClientsList.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
         }
 
         private void ClientsList2_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -144,8 +146,22 @@ namespace PL
 
         private void Cancel(object sender, RoutedEventArgs e)
         {
-            if (Back != null) Back();
+            if (Back != null) Back(-1);
             this.NavigationService.GoBack();
         }
-    }
+
+        private void Sender_Page_Click(object sender, RoutedEventArgs e)
+        {
+            if(ClientPage!=null)ClientPage(int.Parse(idSender.Text));
+        }
+        private void Reciver_Page_Click(object sender, RoutedEventArgs e)
+        {
+            if (ClientPage != null) ClientPage(int.Parse(idReciver.Text));
+        }
+        private void Drone_Page_Click(object sender, RoutedEventArgs e)
+        {
+            if (DronePage != null && int.Parse(Drone_id.Text)!=0) DronePage(int.Parse(Drone_id.Text));
+        }
+
+    } 
 }

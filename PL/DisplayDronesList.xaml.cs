@@ -21,7 +21,10 @@ namespace PL
     public partial class DisplayDronesList : Page
     {
         BlApi.IBL BL;
-        MainWindow MainWindow;
+
+        public delegate void PackagePage(int id);
+        public event PackagePage AddClik;
+        public event PackagePage DoubleClik;
 
 
 
@@ -30,11 +33,11 @@ namespace PL
         /// Initialize the drone list view window
         /// </summary>
         /// <param name="bL"></param>
-        public DisplayDronesList(MainWindow mainWindow) 
+        public DisplayDronesList() 
         {
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
-            this.MainWindow = mainWindow;
+       
             DronesListView.ItemsSource = BL.DisplayDroneList();
             StatusSelector.ItemsSource = Enum.GetValues(typeof(BO.DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
@@ -162,7 +165,7 @@ namespace PL
         /// <param name="e"></param>
         private void Add_New_Drone(object sender, RoutedEventArgs e)
         {
-            MainWindow.Frame.Content = new DisplayDrone(MainWindow);
+            if (AddClik != null) AddClik(-1);
            
         }
 
@@ -187,10 +190,7 @@ namespace PL
         {
             if ((BO.DroneToList)DronesListView.SelectedItem != null)
             {
-                DisplayDrone page = new DisplayDrone((BO.DroneToList)DronesListView.SelectedItem, MainWindow);
-                
-                MainWindow.Frame.Content = page;
-                
+                if (DoubleClik != null) DoubleClik(((BO.DroneToList)DronesListView.SelectedItem).ID);  
             }
             DronesListView.SelectedItems.Clear();
         }
@@ -202,7 +202,7 @@ namespace PL
         /// <param name="e"></param>
         private void ExitButton(object sender, RoutedEventArgs e)
         {
-            MainWindow.DisplayMain();
+            this.NavigationService.GoBack();
         }
 
         /// <summary>
@@ -214,6 +214,10 @@ namespace PL
         {
             StatusSelector.SelectedItem = null;
             WeightSelector.SelectedItem = null;
+        }
+        public void RefreshList(int t)
+        {
+            RefreshListView(this, EventArgs.Empty);
         }
     }
 }
