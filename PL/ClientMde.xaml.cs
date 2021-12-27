@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,11 +22,15 @@ namespace PL
     public partial class ClientMde : Page
     {
         BlApi.IBL bL = BlApi.BlFactory.GetBL();
+        private ObservableCollection<BO.PackageToList> SentPackages = new ObservableCollection<BO.PackageToList>();
+        private ObservableCollection<BO.PackageToList> ReceivePackages = new ObservableCollection<BO.PackageToList>();
         public ClientMde()
         {
             InitializeComponent();
-            Client_Packages.ItemsSource = bL.DisplayClientList();
-           
+            Client_Packages_Sent.DataContext = SentPackages;
+            Client_Packages_receive.DataContext = ReceivePackages;
+
+
         }
 
         private void Client_Packages_SubmenuOpened(object sender, RoutedEventArgs e)
@@ -48,6 +53,8 @@ namespace PL
                         MessageBox.Show($"You have logged in successfully !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                         Login.Visibility = Visibility.Hidden;
                         Main_Display.Visibility = Visibility.Visible;
+                        foreach (var package in bL.GetPackagesSentBySpecificClient(int.Parse(Login_ID.Text))) SentPackages.Add(package);
+                        foreach (var package in bL.GetPackagesSentToSpecificClient(int.Parse(Login_ID.Text))) ReceivePackages.Add(package);
                     }
                    
 

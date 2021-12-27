@@ -12,7 +12,7 @@
     </Page.Resources>
 
     <Grid>
-        <Grid x:Name="Login">
+        <Grid x:Name="Login" >
             <TextBlock HorizontalAlignment="Left" Margin="315,111,0,0" Text="Enter your ID:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" FontFamily="Arial Rounded MT Bold"/>
             <TextBox x:Name="Login_ID" HorizontalAlignment="Left" Margin="315,127,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="145" Height="27" BorderBrush="{Binding ElementName=Login_ID, Path=Text, Converter={StaticResource  FrameColorForNumbers}}"/>
             <TextBlock HorizontalAlignment="Left" Margin="315,186,0,0" Text="Enter your Phone:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" FontFamily="Arial Rounded MT Bold"/>
@@ -27,7 +27,7 @@
             </Button>
         </Grid>
 
-        <Grid x:Name="Main_Display" Visibility="Hidden">
+        <Grid x:Name="Main_Display" Visibility="Hidden" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -36,16 +36,39 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <ListView x:Name="Client_Packages" Grid.Row="1" Grid.ColumnSpan="2" >
+            <ListView x:Name="Client_Packages_Sent" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,25,0,0" ItemsSource="{Binding}">
                 <ListView.View>
-                    <GridView>
-                        <GridViewColumn/>
+                    <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="information">
+                        <GridViewColumn DisplayMemberBinding="{Binding Id }" x:Name="Id" Header="ID" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" x:Name="Name" Header="Name" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Phone}" x:Name="Phone" Header="Phone" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding sentAndDeliveredPackage}" x:Name="sentAndDeliveredPackage" Header="S-Delivered" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding sentAndUndeliveredPackage}" x:Name="sentAndUndeliveredPackage" Header="S-Undelivered" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndDeliveredPackage}" x:Name="ReceivedAndDeliveredPackage" Header="R-Delivered" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndUnDeliveredPackage}" x:Name="ReceivedAndUnDeliveredPackage" Header="R-Undelivered" Width="Auto"/>
                     </GridView>
                 </ListView.View>
             </ListView>
 
-            <Grid x:Name="Add_Package"  Grid.Column="1"  Grid.RowSpan="2" Grid.ColumnSpan="2" Height="450" Margin="266,0,0,0" VerticalAlignment="Bottom">
+            <ListView x:Name="Client_Packages_receive" Grid.Row="3" Height="125" Grid.ColumnSpan="2" Margin="0,26,0,0" ItemsSource="{Binding}">
+                <ListView.View>
+                    <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="information">
+                        <GridViewColumn DisplayMemberBinding="{Binding Id }" x:Name="Id_R" Header="ID" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" x:Name="Name_R" Header="Name" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Phone}" x:Name="Phone_R" Header="Phone" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding sentAndDeliveredPackage}" x:Name="sentAndDeliveredPackage_R" Header="S-Delivered" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding sentAndUndeliveredPackage}" x:Name="sentAndUndeliveredPackage_R" Header="S-Undelivered" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndDeliveredPackage}" x:Name="ReceivedAndDeliveredPackage_R" Header="R-Delivered" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndUnDeliveredPackage}" x:Name="ReceivedAndUnDeliveredPackage_R" Header="R-Undelivered" Width="Auto"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+
+            <Grid x:Name="Add_Package"  Grid.Column="1"  Grid.RowSpan="4" Grid.ColumnSpan="2" Height="450" Margin="266,0,0,0" VerticalAlignment="Bottom">
                 <TextBlock HorizontalAlignment="Center" Margin="0,15,0,0" Text="Send a new package" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" FontStyle="Oblique" LineStackingStrategy="MaxHeight" Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Background="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" FontWeight="Bold"/>
                 <ComboBox HorizontalAlignment="Center" Margin="0,104,0,0" VerticalAlignment="Top" Width="120">
                 </ComboBox>

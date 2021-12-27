@@ -316,6 +316,22 @@ namespace BL
             return packagesWithoutDrone;
         }
 
+        public IEnumerable<PackageToList> GetPackagesSentToSpecificClient(int ClientId)
+        {
+            IEnumerable<PackageToList> PackagesSent = DisplayPackageList();     //getting new list from the bl package list fonctions
+            if (!DisplayClientList().Any(p => p.Id == ClientId)) throw new Exceptions.IDException("ID not found",ClientId);
+            PackagesSent = PackagesSent.Where(p => (DisplayPackage(p.Id)).TargetClient.ID == ClientId);
+            return PackagesSent;
+        }
+
+        public IEnumerable<PackageToList> GetPackagesSentBySpecificClient(int ClientId)
+        {
+            IEnumerable<PackageToList> PackagesSent = DisplayPackageList();     //getting new list from the bl package list fonctions
+            if (!DisplayClientList().Any(p => p.Id == ClientId)) throw new Exceptions.IDException("ID not found", ClientId);
+            PackagesSent = PackagesSent.Where(p => (DisplayPackage(p.Id)).SenderClient.ID == ClientId);
+            return PackagesSent;
+        }
+
         public IEnumerable<PackageToList> GetPackageFilterByDate(DateTime from, DateTime to)
         {
             to = to.AddDays(1);

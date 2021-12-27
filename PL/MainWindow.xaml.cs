@@ -114,6 +114,7 @@ namespace PL
         private void ClientDisplayPageFromPackage(int id)//  פתיחת חלון פעולות לקוח מתוך עמוד עדכון חבילה
         {
             var page = new DisplayClient(id);
+            page.PackagePage += PackageDisplayFromClient;
             this.Frame.Content = page;
         }
 
@@ -132,6 +133,8 @@ namespace PL
         private void PackageDisplayFromClient(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
         {
             var page = new DisplayPackage(id);
+            page.DronePage += DroneDisplayPageFromPackage;
+            page.ClientPage += ClientDisplayPageFromPackage;
             this.Frame.Content = page;
         }
 

@@ -131,7 +131,7 @@ namespace PL
         private void SenderList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             BO.PackageAtClient p = SenderPackageList.SelectedItem as BO.PackageAtClient;
-            if (PackagePage != null && p.Id != 0)
+            if (p != null && PackagePage != null && p.Id != 0)
                 PackagePage(p.Id);
         }
         private void ReceiverList_MouseDoubleClick(object sender, MouseButtonEventArgs e)

@@ -33,15 +33,45 @@
             <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
-        <TextBox Grid.Column="1" Name="ID"  Grid.Row="2"  TextWrapping="Wrap" Text="{Binding client.ID, Mode=OneWayToSource}"  BorderBrush="{Binding ElementName=ID, Path=Text, Converter={StaticResource FrameColorForNumbers}}" />
-        <TextBox Grid.Column="1" Name="Name"  Grid.Row="4"  TextWrapping="Wrap" Text="{Binding client.Name, Mode=OneWayToSource}"  BorderBrush="{Binding ElementName=Name, Path=Text, Converter={StaticResource  FrameColorForString}}" />
-        <TextBox Grid.Column="1" Name="Phone" Grid.Row="6"  TextWrapping="Wrap" Text="{Binding client.Phone, Mode=OneWayToSource}" BorderBrush="{Binding ElementName=Phone, Path=Text, Converter={StaticResource FrameColorForNumbers}}"  />
+        <TextBox Grid.Column="1" Name="ID"  Grid.Row="2"  TextWrapping="Wrap" Text="{Binding client.ID, Mode=OneWayToSource}"  BorderBrush="{Binding ElementName=ID, Path=Text, Converter={StaticResource FrameColorForNumbers}}" >
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="7" />
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+        <TextBox Grid.Column="1" Name="Name"  Grid.Row="4"  TextWrapping="Wrap" Text="{Binding client.Name, Mode=OneWayToSource}"  BorderBrush="{Binding ElementName=Name, Path=Text, Converter={StaticResource  FrameColorForString}}" >
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="7" />
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+        <TextBox Grid.Column="1" Name="Phone" Grid.Row="6"  TextWrapping="Wrap" Text="{Binding client.Phone, Mode=OneWayToSource}" BorderBrush="{Binding ElementName=Phone, Path=Text, Converter={StaticResource FrameColorForNumbers}}"  >
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="7" />
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
         <TextBlock Grid.Column="1" Grid.Row="1" Text="ID:" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="14" FontFamily="Arial Rounded MT Bold" TextDecorations="{x:Null}"/>
         <TextBlock Grid.Column="1"  FontSize="14" FontFamily="Arial Rounded MT Bold"  Grid.Row="3" Text="Name:" TextWrapping="Wrap" VerticalAlignment="Bottom"/>
         <TextBlock Grid.Column="1" Grid.Row="5" Text="Phone:"  FontSize="14" FontFamily="Arial Rounded MT Bold"  TextWrapping="Wrap" VerticalAlignment="Bottom"/>
         <TextBlock Grid.Column="1"  Grid.Row="7" Text="Location:" TextWrapping="Wrap"  FontSize="14" FontFamily="Arial Rounded MT Bold"  VerticalAlignment="Bottom"/>
-        <TextBox Grid.Column="1" Name="lat"  Grid.Row="8" TextWrapping="Wrap" Margin="45,0,0,21" Grid.RowSpan="2" BorderBrush="{Binding ElementName=lat, Path=Text, Converter={StaticResource FrameColorForLatLong}}"  Text="{Binding client.ClientLocation.Latitude, Mode=OneWayToSource}"/>
-        <TextBox Grid.Column="1" Name="long"  Grid.Row="9"  TextWrapping="Wrap" Margin="45,0,0,0" BorderBrush="{Binding ElementName=long, Path=Text, Converter={StaticResource FrameColorForLatLong}}" Text="{Binding client.ClientLocation.Longitude, Mode=OneWayToSource}"/>
+        <TextBox Grid.Column="1" Name="lat"  Grid.Row="8" TextWrapping="Wrap" Margin="45,0,0,21" Grid.RowSpan="2" BorderBrush="{Binding ElementName=lat, Path=Text, Converter={StaticResource FrameColorForLatLong}}"  Text="{Binding client.ClientLocation.Latitude, Mode=OneWayToSource}">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="7" />
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+        <TextBox Grid.Column="1" Name="long"  Grid.Row="9"  TextWrapping="Wrap" Margin="45,0,0,0" BorderBrush="{Binding ElementName=long, Path=Text, Converter={StaticResource FrameColorForLatLong}}" Text="{Binding client.ClientLocation.Longitude, Mode=OneWayToSource}">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="7" />
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
         <TextBlock Grid.Column="1" Grid.Row="8" Text="Lat:" TextWrapping="Wrap" VerticalAlignment="Center" Width="40" Margin="0,0,160,0" Height="18"/>
         <TextBlock Grid.Column="1"  Grid.Row="9" Text="Long:" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,160,0"  />
         <Button Content="Singh Up" Grid.Column="1" HorizontalAlignment="Center" Margin="0,22,0,0" Grid.RowSpan="3" Grid.Row="10" VerticalAlignment="Top" Height="34" Width="180" Background="#FF2A4FC9" FontSize="14" FontFamily="Arial Rounded MT Bold" Click="Button_Click">
