@@ -163,4 +163,51 @@ namespace PL
         }
     }
 
+    public class FrameColorForNumbers : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null && value.ToString() != string.Empty && (value.ToString()).All(char.IsDigit)) return "#FF99B4D1";
+            return "#FFE92617";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class FrameColorForString : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if(value != null && value.ToString() != "" && char.IsLetter(value.ToString().ElementAt(0))) return "#FF99B4D1";
+            else return "#FFE92617";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    public class FrameColorForLatLong : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string temp;
+            if (value.ToString().Length > 3) temp = value.ToString().Substring(1);
+            else temp = value.ToString();
+
+            if (value != null && value.ToString() != string.Empty && (char.IsDigit(value.ToString().ElementAt(0))) && (temp.All(char.IsDigit) || temp.Any(a => a == '.')) ) return "#FF99B4D1";
+            return "#FFE92617";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

@@ -150,28 +150,26 @@ namespace PL
             this.Frame.Content = page;
         }
 
-        private void DroneDiplayFromStaion(int id)
-        {
-            var page = new DisplayDrone(id);
-            this.Frame.Content = page;
-
-        }
-        private void PackageDisplayFromClient(int id)
-        {
-            var page = new DisplayPackage(id);
-            this.Frame.Content = page;
-        }
-
-
-        private void Manager_login_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void Manager_login_Click_1(object sender, RoutedEventArgs e)
         {
             Buttons_For_Lists.Visibility = Visibility.Visible;
             MainWindowDisplay.Visibility = Visibility.Hidden;
+        }
+
+        private void Sign_Up_Click(object sender, RoutedEventArgs e)
+        {
+            new SignUpClient().Show();
+        }
+
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            this.Content = new ClientMde();
         }
     }
 }
