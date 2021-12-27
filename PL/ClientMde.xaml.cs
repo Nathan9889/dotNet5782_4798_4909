@@ -33,9 +33,32 @@ namespace PL
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Login_Click(object sender, RoutedEventArgs e)
         {
-            new SignUpClient().Show();
+            SolidColorBrush red = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFE92617"));
+            if (! SolidColorBrush.Equals(((SolidColorBrush)Login_ID.BorderBrush).Color, red.Color) && ! SolidColorBrush.Equals(((SolidColorBrush)Login_Phone.BorderBrush).Color, red.Color))
+            {
+                try
+                {
+                    Model.Client client = new Model.Client();
+                    client.client = bL.DisplayClient(int.Parse(Login_ID.Text));
+                    if (client.client.Phone != Login_Phone.Text.ToString()) MessageBox.Show($"The cell phone number is incorrect ", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    else
+                    {
+                        MessageBox.Show($"You have logged in successfully !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        Login.Visibility = Visibility.Hidden;
+                        Main_Display.Visibility = Visibility.Visible;
+                    }
+                   
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Login failed {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+
+            else MessageBox.Show($"Please enter proper input !", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

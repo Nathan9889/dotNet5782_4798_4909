@@ -5,17 +5,20 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PL"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="ClientMde">
+      d:DesignHeight="450" d:DesignWidth="800" Title="ClientMde">
+
+    <Page.Resources>
+        <local:FrameColorForNumbers x:Key="FrameColorForNumbers"></local:FrameColorForNumbers>
+    </Page.Resources>
 
     <Grid>
         <Grid x:Name="Login">
-            <TextBlock HorizontalAlignment="Left" Margin="355,111,0,0" Text="Enter your ID:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" FontFamily="Arial Rounded MT Bold"/>
-            <TextBox HorizontalAlignment="Left" Margin="355,132,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="145" Height="27"/>
-            <TextBlock HorizontalAlignment="Left" Margin="355,193,0,0" Text="Enter your Phone:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" FontFamily="Arial Rounded MT Bold"/>
-            <TextBox HorizontalAlignment="Left" Margin="355,214,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="145" Height="27"/>
+            <TextBlock HorizontalAlignment="Left" Margin="315,111,0,0" Text="Enter your ID:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" FontFamily="Arial Rounded MT Bold"/>
+            <TextBox x:Name="Login_ID" HorizontalAlignment="Left" Margin="315,127,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="145" Height="27" BorderBrush="{Binding ElementName=Login_ID, Path=Text, Converter={StaticResource  FrameColorForNumbers}}"/>
+            <TextBlock HorizontalAlignment="Left" Margin="315,186,0,0" Text="Enter your Phone:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" FontFamily="Arial Rounded MT Bold"/>
+            <TextBox x:Name="Login_Phone" HorizontalAlignment="Left" Margin="315,202,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="145" Height="26" BorderBrush="{Binding ElementName=Login_Phone, Path=Text, Converter={StaticResource  FrameColorForNumbers}}"/>
 
-            <Button Content="Login" HorizontalAlignment="Left" Margin="338,278,0,0" VerticalAlignment="Top" Height="34" Width="180" Background="#FF2A4FC9" FontSize="14" FontFamily="Arial Rounded MT Bold" Click="Button_Click">
+            <Button Name="Login_bu"  Content="Login" HorizontalAlignment="Left" Margin="298,277,0,0" VerticalAlignment="Top" Height="34" Width="180" Background="#FF2A4FC9" FontSize="14" FontFamily="Arial Rounded MT Bold" Click="Login_Click">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="7" />
@@ -57,7 +60,7 @@
                 <TextBlock HorizontalAlignment="Left" Margin="73,87,0,0" Text="Weight:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="13" FontFamily="Arial Rounded MT Bold"/>
                 <TextBlock HorizontalAlignment="Left" Margin="73,160,0,0" Text="Priority:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="13" FontFamily="Arial Rounded MT Bold"/>
                 <TextBlock HorizontalAlignment="Left" Margin="74,231,0,0" Text="Reciver ID:" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.601,-2.305" FontSize="13" FontFamily="Arial Rounded MT Bold"/>
-                <Button x:Name="addClient" Content="The receiving customer does not exist in the &#xA; system? Please click here to add" HorizontalAlignment="Center" Margin="0,358,0,0" VerticalAlignment="Top" Height="37" Width="247" AutomationProperties.HelpText="" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Click="Button_Click" FontWeight="Normal" FontStyle="Italic"/>
+                <Button x:Name="addClient" Content="The receiving customer does not exist in the &#xA; system? Please click here to add" HorizontalAlignment="Center" Margin="0,358,0,0" VerticalAlignment="Top" Height="37" Width="247" AutomationProperties.HelpText="" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" FontWeight="Normal" FontStyle="Italic"/>
                 <Button Content="Send" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top" Width="175" Background="#FF494EC7" FontSize="13">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
