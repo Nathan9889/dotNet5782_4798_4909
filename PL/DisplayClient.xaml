@@ -19,6 +19,7 @@
         <local:NullToFalse x:Key="NullToFalse"></local:NullToFalse>
         <local:NullToVisible x:Key="NullToVisible"></local:NullToVisible>
         <local:ClientListToClientPackage x:Key="ClientListToClientPackage"></local:ClientListToClientPackage>
+        <local:TrueToHidden x:Key="TrueToHidden"></local:TrueToHidden>
 
         <Style x:Key="clients" TargetType="ComboBox">
             <Setter Property="ItemsSource" Value="{Binding}"></Setter>
@@ -90,7 +91,7 @@
 
 
 
-                <ListBox  x:Name="SenderPackageList" Grid.Column="2" Grid.Row="2" Margin="10,1,-70,18" Grid.RowSpan="8" ItemsSource="{Binding}"  Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}" MouseDoubleClick="SenderList_MouseDoubleClick"/>
+                <ListBox  x:Name="SenderPackageList" Grid.Column="2" Grid.Row="2" Margin="10,1,-70,18" Grid.RowSpan="8" ItemsSource="{Binding}"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToHidden}}" MouseDoubleClick="SenderList_MouseDoubleClick"/>
 
                 <ListBox x:Name="ReceiverPackageList" Grid.Column="2" Grid.Row="12" Margin="10,0,-70,18" Grid.RowSpan="8"  ItemsSource="{Binding}" Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}" MouseDoubleClick="ReceiverList_MouseDoubleClick"/>
 
@@ -201,6 +202,7 @@
 
 
             </Grid>
+            <CheckBox x:Name="Mode" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="False"/>
 
         </Grid>
 

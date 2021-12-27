@@ -36,10 +36,11 @@ namespace PL
             this.pL = new Model.PL();
             MainGrid.DataContext = Client;
 
-
+            Mode.IsChecked = true;
             //**
-            Client.client.ClientLocation = new BO.Location();
             Client.client = new BO.Client();
+            Client.client.ClientLocation = new BO.Location();
+           
             //**
 
         }
