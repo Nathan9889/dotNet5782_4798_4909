@@ -32,7 +32,7 @@ namespace PL
 
 
 
-     
+
 
         public void DisplayMain()
         {
@@ -47,7 +47,7 @@ namespace PL
             MainWindowDisplay.Visibility = Visibility.Hidden;
             DisplayPackagesList page = new DisplayPackagesList();
             page.AddClik += AddPackagePage;
-            page.DoubleClik += PackageDisplyPage;
+            page.DoubleClik += PackageDisplayPage;
             this.Frame.Content = page;
         }
 
@@ -70,16 +70,16 @@ namespace PL
             this.Frame.Content = page;
         }
 
-        private void PackageDisplyPage(int id)// פתיחת חלון פעולות חבילה
+        private void PackageDisplayPage(int id)// פתיחת חלון פעולות חבילה
         {
             var page = new DisplayPackage(id);
             page.Back += ((DisplayPackagesList)this.Frame.Content).RefreshList;
-            page.ClientPage += ClientDisplyPageFromePackage;
-            page.DronePage += DroneDisplyPageFromePackage;
+            page.ClientPage += ClientDisplayPageFromPackage;
+            page.DronePage += DroneDisplayPageFromPackage;
             this.Frame.Content = page;
         }
 
-        private void DroneDisplyPage(int id)//פתיחת עמוד פעולות רחפן
+        private void DroneDisplayPage(int id)//פתיחת עמוד פעולות רחפן
         {
             var page = new DisplayDrone(id);
             page.Back += ((DisplayDronesList)this.Frame.Content).RefreshList;
@@ -87,7 +87,7 @@ namespace PL
             this.Frame.Content = page;
         }
 
-        private void ClientDisplyPage(int id)// פתיחת חלון פעולות לקוח
+        private void ClientDisplayPage(int id)// פתיחת חלון פעולות לקוח
         {
             var page = new DisplayClient(id);
             page.Back += ((DisplayClientsList)this.Frame.Content).RefreshList;
@@ -102,42 +102,54 @@ namespace PL
             this.Frame.Content = page;
         }
 
-        private void StationDisplyPage(int id)// פתיחת חלון פעולות תחנה
+        private void StationDisplayPage(int id)// פתיחת חלון פעולות תחנה
         {
             var page = new DisplayStation(id);
             page.Back += ((DisplayStationsList)this.Frame.Content).RefreshList;
-            page.DronePage += DroneDiplayFromStaion;
+            page.DronePage += DroneDiplayFromStation;
             this.Frame.Content = page;
 
         }
 
-        private void ClientDisplyPageFromePackage(int id)//  פתיחת חלון פעולות לקוח מתוך עמוד עדכון חבילה
+        private void ClientDisplayPageFromPackage(int id)//  פתיחת חלון פעולות לקוח מתוך עמוד עדכון חבילה
         {
             var page = new DisplayClient(id);
             this.Frame.Content = page;
         }
 
-        private void DroneDisplyPageFromePackage(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
+        private void DroneDisplayPageFromPackage(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
         {
             var page = new DisplayDrone(id);
             this.Frame.Content = page;
         }
 
+        private void DroneDiplayFromStation(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
+        {
+            var page = new DisplayDrone(id);
+            this.Frame.Content = page;
+        }
+
+        private void PackageDisplayFromClient(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
+        {
+            var page = new DisplayPackage(id);
+            this.Frame.Content = page;
+        }
+
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-           
+
             DisplayClientsList page = new DisplayClientsList();
             page.AddClik += AddClientPage;
-            page.DoubleClik += ClientDisplyPage;
+            page.DoubleClik += ClientDisplayPage;
             this.Frame.Content = page;
         }
 
         private void Stations_Click(object sender, RoutedEventArgs e)
         {
-           
+
             DisplayStationsList page = new DisplayStationsList();
             page.AddClik += AddStationPage;
-            page.DoubleClik += StationDisplyPage;
+            page.DoubleClik += StationDisplayPage;
             this.Frame.Content = page;
         }
 
@@ -146,7 +158,7 @@ namespace PL
             MainWindowDisplay.Visibility = Visibility.Hidden;
             DisplayDronesList page = new DisplayDronesList();
             page.AddClik += AddDronePage;
-            page.DoubleClik += DroneDisplyPage;
+            page.DoubleClik += DroneDisplayPage;
             this.Frame.Content = page;
         }
 
