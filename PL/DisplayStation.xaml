@@ -3,159 +3,27 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:local="clr-namespace:PL"
+      xmlns:localModel="clr-namespace:Model" d:DataContext="{d:DesignInstance Type=localModel:Station}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DisplayStation">
 
-
     <Page.Resources>
-        <Style x:Key="ComboBoxTest2" TargetType="{x:Type ComboBox}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ComboBox">
-                        <Grid>
-                            <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
-                                <ToggleButton.Template>
-                                    <ControlTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="5*" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="5" Background="#FFFFFFE1" BorderBrush="#FFE92617" BorderThickness="1" />
-                                            <Border Grid.Column="0" CornerRadius="5,0,0,5"  Margin="1"  Background="#FFFFFFE1"  BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                            <Path x:Name="Arrow" Grid.Column="1"  Fill="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                                                <Setter TargetName="Border" Property="Background" Value="Green" />
-                                            </Trigger>
-                                            <Trigger Property="ToggleButton.IsChecked" Value="true">
-                                                <Setter TargetName="Border" Property="Background" Value="Green" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </ToggleButton.Template>
-                            </ToggleButton>
-                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"  />
-                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
-                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
-                                <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                    <Border x:Name="DropDownBorder" Background="#FFFFFFE1" />
-                                    <ScrollViewer SnapsToDevicePixels="True">
-                                        <StackPanel IsItemsHost="True" />
-                                    </ScrollViewer>
-                                </Grid>
-                            </Popup>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-            </Style.Triggers>
-        </Style>
+        <local:EnumToInt x:Key="EnumToInt"></local:EnumToInt>
+        <local:NullToTrue x:Key="NullToTrue"></local:NullToTrue>
+        <local:TrueIfNotPickUp x:Key="TrueIfNotPickUp"></local:TrueIfNotPickUp>
+        <local:TrueIfNotDelivery x:Key="TrueIfNotDelivery"></local:TrueIfNotDelivery>
+        <local:NullToHidden x:Key="NullToHidden"></local:NullToHidden>
+        <local:NullToFalse x:Key="NullToFalse"></local:NullToFalse>
+        <local:NullToVisible x:Key="NullToVisible"></local:NullToVisible>
 
-
-        <Style x:Key="ComboBoxTestAfterCorrectInput" TargetType="{x:Type ComboBox}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ComboBox">
-                        <Grid>
-                            <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
-                                <ToggleButton.Template>
-                                    <ControlTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="5*" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="5" Background="#FFFFFFE1" BorderBrush="#FF99B4D1" BorderThickness="1" />
-                                            <Border Grid.Column="0" CornerRadius="5,0,0,5"  Margin="1"  Background="#FFFFFFE1"  BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                            <Path x:Name="Arrow" Grid.Column="1"  Fill="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                                                <Setter TargetName="Border" Property="Background" Value="Green" />
-                                            </Trigger>
-                                            <Trigger Property="ToggleButton.IsChecked" Value="true">
-                                                <Setter TargetName="Border" Property="Background" Value="Green" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </ToggleButton.Template>
-                            </ToggleButton>
-                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"  />
-                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
-                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
-                                <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                    <Border x:Name="DropDownBorder" Background="#FFFFFFE1" />
-                                    <ScrollViewer SnapsToDevicePixels="True">
-                                        <StackPanel IsItemsHost="True" />
-                                    </ScrollViewer>
-                                </Grid>
-                            </Popup>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="ComboBoxTestInDisplayDrone" TargetType="{x:Type ComboBox}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ComboBox">
-                        <Grid>
-                            <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
-                                <ToggleButton.Template>
-                                    <ControlTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="5*" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="5" Background="#FFF0F0F0" BorderBrush="#FFABADB3" BorderThickness="1" />
-                                            <Border Grid.Column="0" CornerRadius="5,0,0,5"  Margin="1"  Background="#FFF0F0F0"  BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                            <Path x:Name="Arrow" Grid.Column="1"   HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                                                <Setter TargetName="Border" Property="Background" Value="Green" />
-                                            </Trigger>
-                                            <Trigger Property="ToggleButton.IsChecked" Value="true">
-                                                <Setter TargetName="Border" Property="Background" Value="Green" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </ToggleButton.Template>
-                            </ToggleButton>
-                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"  />
-                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
-                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
-                                <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                    <Border x:Name="DropDownBorder" Background="#FFFFFFE1" />
-                                    <ScrollViewer SnapsToDevicePixels="True">
-                                        <StackPanel IsItemsHost="True" />
-                                    </ScrollViewer>
-                                </Grid>
-                            </Popup>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-            </Style.Triggers>
-        </Style>
-
+        <localModel:Ticker x:Key="Ticker"></localModel:Ticker>
 
     </Page.Resources>
 
-
-
     <Grid x:Name="MainGrid">
-
         <Grid x:Name ="Add_New_Station" Visibility="Visible">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"></ColumnDefinition>
@@ -168,47 +36,36 @@
                 <RowDefinition Height ="8*"></RowDefinition>
                 <RowDefinition Height ="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Grid Grid.Column="1" Margin="76,25,99,18" Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <Grid Grid.Column="1" Margin="76,25,99,18" Grid.RowSpan="2" Grid.ColumnSpan="4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" ></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
-                    <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
-                    <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
+                    <RowDefinition />
+                    <RowDefinition Height ="24*"></RowDefinition>
+                    <RowDefinition Height ="20*"></RowDefinition>
+                    <RowDefinition Height ="24*"></RowDefinition>
+                    <RowDefinition Height ="20*"></RowDefinition>
+                    <RowDefinition Height ="24*"></RowDefinition>
                     <RowDefinition Height ="16.573"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
+                    <RowDefinition Height ="24*"></RowDefinition>
                     <RowDefinition Height ="16.821"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
-                    <RowDefinition Height ="17*"></RowDefinition>
+                    <RowDefinition Height ="24*"></RowDefinition>
+                    <RowDefinition Height ="20*"></RowDefinition>
                     <RowDefinition Height ="24.736"></RowDefinition>
-                    <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
-                    <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
+                    <RowDefinition Height ="20*"></RowDefinition>
+                    <RowDefinition Height ="24*"></RowDefinition>
+                    <RowDefinition Height ="20*"></RowDefinition>
+                    <RowDefinition Height ="29.106"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width ="*"></ColumnDefinition>
+                    <ColumnDefinition/>
                     <ColumnDefinition Width ="150"></ColumnDefinition>
-                    <ColumnDefinition Width ="183"></ColumnDefinition>
+                    <ColumnDefinition Width ="217"></ColumnDefinition>
 
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="id" HorizontalAlignment="Left" Grid.Row="1" Text="ID:" TextWrapping="Wrap" VerticalAlignment= "Center" FontSize="13" FontFamily="Aharoni" FontWeight="Normal" />
-                <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Width="150" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" VerticalContentAlignment="Center">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-                <TextBox x:Name="NameInput" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Width="150"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" VerticalContentAlignment="Center" Margin="0,20,0,0" Grid.RowSpan="2">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-                <TextBox x:Name="Charge_slot_input" Grid.Column="1" Grid.Row="5" TextWrapping="Wrap" Width="150"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0"  VerticalContentAlignment="Center">
+               
+                
+
+                <TextBlock x:Name="id" HorizontalAlignment="Left" Grid.Row="1" Text="ID:" TextWrapping="Wrap" VerticalAlignment= "Center" FontSize="13" FontFamily="Aharoni" FontWeight="Normal" Height="13" Width="17" />
+                <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Width="150" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" VerticalContentAlignment="Center"  IsReadOnly="{Binding station.ChargingDronesList, Converter={StaticResource NullToFalse }}"  Text="{Binding station.ID}">
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -216,7 +73,15 @@
                     </TextBox.Resources>
                 </TextBox>
 
-                <TextBox x:Name="StationLocation" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap" Width="150"  SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0"  VerticalContentAlignment="Center" Margin="0,0,0,28" Grid.RowSpan="3">
+
+                <TextBox x:Name="NameInput" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Width="150"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" VerticalContentAlignment="Center" Margin="0,22,0,0" Grid.RowSpan="2" Text="{Binding station.Name}">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+                <TextBox x:Name="Charge_slot_input" Grid.Column="1" Grid.Row="5" TextWrapping="Wrap" Width="150"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0"  VerticalContentAlignment="Center" Text="{Binding station.AvailableChargeSlots}">
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -224,12 +89,32 @@
                     </TextBox.Resources>
                 </TextBox>
 
-                <TextBlock x:Name="Station_location" HorizontalAlignment="Left" Grid.Row="7" Text="Station Location:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
+
+                <TextBox x:Name="StationLatitude" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap" Width="150"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0"  VerticalContentAlignment="Center"  Text="{Binding station.StationLocation.Latitude }" IsReadOnly="{Binding station.ChargingDronesList, Converter={StaticResource NullToFalse }}" >
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+
+                <TextBox x:Name="StationLongitude" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap" Width="150"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0"  VerticalContentAlignment="Center" Text="{Binding station.StationLocation.Longitude}" IsReadOnly="{Binding station.ChargingDronesList, Converter={StaticResource NullToFalse }}">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+
+                <TextBlock x:Name="Station_latitude" HorizontalAlignment="Left" Grid.Row="7" Text="Latitude:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
+                <TextBlock x:Name="Station_longitude" HorizontalAlignment="Left" Grid.Row="9" Text="Longitude:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
+
                 <TextBlock x:Name="StationChargeSlot" HorizontalAlignment="Left" Grid.Row="5" Text="ChargeSlots:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
                 <TextBlock x:Name="StationName" HorizontalAlignment="Left" Grid.Row="3" Text="Name:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" />
 
 
-                <Button x:Name="cancel" Visibility="Hidden" Width="125" Height="32" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Bottom"   IsCancel="True" FontFamily="Arial Black" FontSize="15"   Grid.Row="13" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="78,0,0,29"  >
+
+                <!--<Button x:Name="cancel" Visibility="Hidden" Width="125" Height="32" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Center"   IsCancel="True" FontFamily="Arial Black" FontSize="15"  Grid.Row="14" Grid.ColumnSpan="2" Margin="81,0,0,0" Click="cancel_Click"  >
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="Black" Offset="1"/>
@@ -237,7 +122,23 @@
                         </RadialGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="Add_Station_Button" Visibility="Hidden" Content="Add Drone" Width="125" Height="32" VerticalAlignment="Bottom"  IsDefault="True" FontFamily="Arial Black" FontSize="15"  Grid.Column="1" Grid.Row="13"  Grid.ColumnSpan="2" Grid.RowSpan="2" >
+                <Button x:Name="Add_Station_Button" Visibility="Hidden" Content="Add Station" Height="32" VerticalAlignment="Bottom"  IsDefault="True" FontFamily="Arial Black" FontSize="15"  Grid.Column="1" Grid.Row="13"  Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="109,0,109,29" Click="Add_Station_Button_Click" >
+                    <Button.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#FF3B5611" Offset="1"/>
+                            <GradientStop Color="#FF9DFF00" Offset="0.1"/>
+                        </RadialGradientBrush>
+                    </Button.Background>
+                </Button>-->
+                <Button x:Name="cancel" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToVisible}}" Width="125" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="15" Grid.ColumnSpan="2" Margin="35,0,98,0"  >
+                    <Button.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="Black" Offset="1"/>
+                            <GradientStop Color="Red" Offset="0.2"/>
+                        </RadialGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="Add_Station_Button" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Add Station" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Station_Button_Click" Grid.Column="1" Margin="112,19,130,0" Grid.RowSpan="2" Height="33" VerticalAlignment="Top">
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="#FF3B5611" Offset="1"/>
@@ -246,18 +147,19 @@
                     </Button.Background>
                 </Button>
 
+
+
+
+
+                <TextBlock x:Name="ChargingDrone_Labl" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToHidden}}" HorizontalAlignment="Center"  Grid.Row="3" Text="Charging drone:" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="42" FontSize="14" FontWeight="Bold" Margin="0,2,0,0" Grid.RowSpan="2" Grid.Column="2"/>
+                <ListBox  x:Name ="ChargingDroneList" Grid.Column="2" Grid.Row="4" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToHidden}}"  ItemsSource="{Binding}"   Margin="24,10,-54,10" Grid.RowSpan="9" MouseDoubleClick="ChargingDroneList_DoubleClick"  />
+
+
+
             </Grid>
 
-            <ListView Name="Charging_Drone_List" Grid.Column="1" Grid.Row="1" Margin="461,95,39,137" Grid.ColumnSpan="2" Visibility="Hidden">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
 
-            <TextBlock Name="ChargingDrone_Labl" Visibility="Hidden" HorizontalAlignment="Left" Margin="431,53,0,0" Grid.Row="1" Text="List of charging drone:" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Grid.ColumnSpan="2" Height="42" FontSize="14" FontWeight="Bold" Grid.Column="1"/>
-            <Grid x:Name="Buttons" Grid.RowSpan="3" Margin="0,10,0,-10">
+            <Grid x:Name="Buttons" Grid.RowSpan="2" Margin="0,0,0,-10"  Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToHidden}}" Grid.Row="1">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height ="2*"></RowDefinition>
@@ -279,7 +181,9 @@
                     <RowDefinition Height ="2*"></RowDefinition>
                     <RowDefinition Height ="*"></RowDefinition>
                 </Grid.RowDefinitions>
-               
+                
+
+
                 <Button Content="Change Name"  x:Name="Change_Name"  Grid.Row="2" IsEnabled="True" Click="Change_Station_Name_Click" >
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -296,14 +200,15 @@
                     </Button.Resources>
                 </Button>
 
+
+
             </Grid>
-            <Button Content="Exit" Grid.Column="2" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="28" Width="95"  FontSize="15" FontFamily="Calisto MT"  Background="#FFEF8C8C" Margin="0,0,34,10" Grid.Row="2"/>
+            <Button Content="Back" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="20" Width="95"  FontSize="15" FontFamily="Calisto MT" Background="#FFEF8C8C"   Margin="0,0,45,15" Click="Back_Click"/>
+
 
         </Grid>
 
 
-
-
-
     </Grid>
 </Page>
+

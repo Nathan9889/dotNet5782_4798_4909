@@ -199,10 +199,11 @@ namespace BlApi
 
         IEnumerable<DroneToList> DisplayDroneListFilter(Predicate<DroneToList> match);
 
-        IEnumerable<IGrouping<bool, StationToList>> GroupStationByExistingSlots();
+        //IEnumerable<IGrouping<bool, StationToList>> GroupStationByExistingSlots();
         IEnumerable<IGrouping<string, PackageToList>> PackagesGroupingReceiver();
         IEnumerable<IGrouping<string, PackageToList>> PackagesGroupingSender();
         IEnumerable<IGrouping<int, StationToList>> GroupStationByNumSlots();
+        void DeleteDrone(int id);
         void DeletePackage(int ID);
         void DeleteStation(int ID);
         void DeleteClient(int ID);

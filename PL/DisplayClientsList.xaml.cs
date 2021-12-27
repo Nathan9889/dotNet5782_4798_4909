@@ -21,20 +21,20 @@ namespace PL
     /// </summary>
     public partial class DisplayClientsList : Page
     {
-
         BlApi.IBL BL;
         Model.PL PL;
+        
+        private ObservableCollection<BO.ClientToList> clients = new ObservableCollection<BO.ClientToList>();
+
         public delegate void ClientPage(int id);
         public event ClientPage AddClik;
         public event ClientPage DoubleClik;
-        private ObservableCollection<BO.ClientToList> clients = new ObservableCollection<BO.ClientToList>();
 
         public DisplayClientsList()
         {
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
             this.PL = new Model.PL();
-            
             ClientListView.DataContext = clients;
             InitializeList();
         }
@@ -50,28 +50,21 @@ namespace PL
         private void Add_New_Client(object sender, RoutedEventArgs e)
         {
             AddClik(-1);
-            //MainWindow.Frame.Content = new DisplayClient(MainWindow, PL);
         }
 
         private void ClientListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (ClientListView.SelectedItem != null) DoubleClik(((BO.ClientToList)ClientListView.SelectedItem).Id);
-            // MainWindow.Frame.Content = new DisplayClient(MainWindow, PL, PL.GetClient(((BO.ClientToList)ClientListView.SelectedItem).Id));
             ClientListView.SelectedItems.Clear();
         }
-        private void ExitButton(object sender, RoutedEventArgs e)
+
+
+
+        public void RefreshList(int t)
         {
-
-        }
-
-        private void ClientListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        public void RefreshList()
-        {
-
+            var p = PL.getClientList();
+            clients.Clear();
+            foreach (var client in p) clients.Add(client);
         }
     }
 }

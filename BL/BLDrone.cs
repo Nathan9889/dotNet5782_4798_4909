@@ -181,6 +181,22 @@ namespace BL
         }
 
 
+        public void DeleteDrone(int ID)
+        {
+            if (!DisplayDroneList().Any(p => p.ID == ID)) throw new Exceptions.CantDelete(ID, "ID To Delete Not Found");
+           
+            try
+            {
+                dal.DeleteDrone(ID);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exceptions.IDException("ID To Delete Not Found", ex, ID);
+            }
+
+        }
+
 
         /// <summary>
         /// A function that gets a new name for the station and updates the station name if the input is not empty
@@ -205,7 +221,7 @@ namespace BL
             droneDalTemp.Model = name;
             try
             {
-                dal.DeleteDrone(droneDAL);
+                dal.DeleteDrone(droneDAL.ID);
                 dal.AddDrone(droneDalTemp);
             }
             catch (DO.Exceptions.IDException ex) { throw new BO.Exceptions.IDException("Fault in drone update. Was not supposed to be an exception because we have already checked before", ex, id); }

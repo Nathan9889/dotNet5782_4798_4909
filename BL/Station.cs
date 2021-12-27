@@ -29,7 +29,6 @@ namespace BO
                     result += $"{chargingDrone} \n";
                 }
             }
-
             return result;
         }
     }

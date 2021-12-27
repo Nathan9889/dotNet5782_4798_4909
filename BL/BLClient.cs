@@ -71,7 +71,7 @@ namespace BL
             if (phone != "")
                 clientTemp.Phone = phone;
 
-            dal.DeleteClient(dalClient);
+            dal.DeleteClient(dalClient.ID);
             dal.AddClient(clientTemp);
         }
 
@@ -265,7 +265,7 @@ namespace BL
             if (!DisplayClientList().Any(p => p.Id == ID)) throw new Exceptions.CantDelete(ID, "ID To Delete Not Found");
             try
             {
-                dal.DeletePackage(ID);
+                dal.DeleteClient(ID);
             }
             catch (Exception ex)
             {

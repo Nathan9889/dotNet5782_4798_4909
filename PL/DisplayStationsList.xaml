@@ -162,6 +162,25 @@
 
         </Grid.RowDefinitions>
 
+       
+
+
+        <Grid>
+            <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="135"/>
+                </Grid.ColumnDefinitions >
+
+                <RadioButton x:Name="Show_Open" GroupName="grouping" Content="Available Slot" Grid.Column="7" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial Rounded MT Bold" FontSize="13" Margin="0,1,0,0" Checked="Show_Stations" Height="14"  />
+                <!--<RadioButton x:Name="Show_Existing" GroupName="grouping" Content="Existing Slot" Grid.Column="7" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial Rounded MT Bold" FontSize="13" Checked="Show_Stations" Height="14" Width="133" />-->
+                <RadioButton x:Name="Show_Normally" GroupName="grouping" Content="Default" Grid.Column="7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="13"   Checked="Show_Stations"  Height="14" Width="114" IsChecked="True"  />
+
+            </Grid>
+
+        </Grid>
+
+
         <ListView x:Name ="StationsListView" Grid.Row="1"  MouseDoubleClick="StationsListView_MouseDoubleClick" ItemsSource="{Binding}"  FontSize="13" Margin="0,40,0,43" Grid.RowSpan="2" HorizontalAlignment="Left" Width="710" >
             <ListView.View>
                 <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="information">
@@ -174,34 +193,6 @@
         </ListView>
 
 
-        <Grid>
-            <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="135"/>
-                </Grid.ColumnDefinitions >
-
-                <RadioButton x:Name="Show_Open" GroupName="grouping" Content="Open Slot" Grid.Column="7" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial Rounded MT Bold" FontSize="13" Margin="0,1,0,0" Checked="Show_Stations" Height="14"  />
-                <RadioButton x:Name="Show_Existing" GroupName="grouping" Content="Existing Slot" Grid.Column="7" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Arial Rounded MT Bold" FontSize="13" Checked="Show_Stations" Height="14" Width="133" />
-                <RadioButton x:Name="Show_Normally" GroupName="grouping" Content="Default" Grid.Column="7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="13"   Checked="Show_Stations"  Height="14" Width="114" IsChecked="True"  />
-
-            </Grid>
-
-        </Grid>
-
-
-
-
-
-
-      
-
         <Grid Name="DownGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="2" VerticalAlignment="Stretch" Width="auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -211,7 +202,7 @@
             </Grid.ColumnDefinitions >
             <Button Content="Add New Station" Grid.Column="0" Click="Add_New_Station" Margin="10,0,0,10" Background="#FF11D86F"/>
 
-            <Button Content="Exit" Grid.Column="3"  Click="ExitButton"  FontFamily="Calisto MT" Background="#FFEF8C8C" Margin="0,0,10,10"/>
+            <!--<Button Content="Exit" Grid.Column="3"  Click="ExitButton"  FontFamily="Calisto MT" Background="#FFEF8C8C" Margin="0,0,10,10"/>-->
 
 
         </Grid>

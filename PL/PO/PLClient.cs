@@ -16,24 +16,32 @@ namespace Model
 
         public IEnumerable<BO.ClientToList> getClientList()
         {
-            return clients;
+            return BL.DisplayClientList();
         }
 
-        public Client GetClient(int id)
+        public BO.Client GetClient(int id)
         {
-            Client client = new Client();
-            client.client = BL.DisplayClient(id);
-            return client;
+            return BL.DisplayClient(id);
         }
 
         public void DeleteClient(int id)
         {
             BL.DeleteClient(id);
         }
+        public void UpdateName(int id, string name, string phone)
+        {
+            BL.UpdateClient(id, name, "");
+        }
+        public void UpdatePhone(int id, string name, string phone)
+        {
+            BL.UpdateClient(id, "", phone);
+        }
 
+        public void AddClient(BO.Client client)
+        {
+            BL.AddClient(client);
 
-
-
+        }
     }
 
 

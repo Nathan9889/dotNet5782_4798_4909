@@ -3,7 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:local="clr-namespace:PL"
+      xmlns:localModel="clr-namespace:Model" d:DataContext="{d:DesignInstance Type=localModel:Client}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DisplayClient">
@@ -13,7 +15,16 @@
         <local:NullToTrue x:Key="NullToTrue"></local:NullToTrue>
         <local:TrueIfNotPickUp x:Key="TrueIfNotPickUp"></local:TrueIfNotPickUp>
         <local:TrueIfNotDelivery x:Key="TrueIfNotDelivery"></local:TrueIfNotDelivery>
+        <local:NullToHidden x:Key="NullToHidden"></local:NullToHidden>
+        <local:NullToFalse x:Key="NullToFalse"></local:NullToFalse>
+        <local:NullToVisible x:Key="NullToVisible"></local:NullToVisible>
+        <local:ClientListToClientPackage x:Key="ClientListToClientPackage"></local:ClientListToClientPackage>
+
+        <Style x:Key="clients" TargetType="ComboBox">
+            <Setter Property="ItemsSource" Value="{Binding}"></Setter>
+        </Style>
     </Page.Resources>
+
 
     <Grid x:Name="MainGrid">
         <Grid x:Name ="Add_New_Client" Visibility="Visible">
@@ -28,7 +39,11 @@
                 <RowDefinition Height ="8*"></RowDefinition>
                 <RowDefinition Height ="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Grid Grid.Column="1" Margin="76,25,99,18" Grid.RowSpan="2" Grid.ColumnSpan="4">
+
+
+
+
+            <Grid Grid.Column="1" Margin="76,25,99,18" Grid.RowSpan="3" Grid.ColumnSpan="4">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height ="24*"></RowDefinition>
@@ -45,7 +60,11 @@
                     <RowDefinition Height ="20*"></RowDefinition>
                     <RowDefinition Height ="24*"></RowDefinition>
                     <RowDefinition Height ="20*"></RowDefinition>
-                    <RowDefinition Height ="29.106"></RowDefinition>
+                    <RowDefinition Height ="20*"></RowDefinition>
+                    <RowDefinition Height ="24*"></RowDefinition>
+                    <RowDefinition Height ="24"></RowDefinition>
+                    <RowDefinition Height ="20*"></RowDefinition>
+                    <RowDefinition Height ="24*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -54,14 +73,14 @@
 
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="id" HorizontalAlignment="Left" Grid.Row="1" Text="ID:" TextWrapping="Wrap" VerticalAlignment= "Center" FontSize="13" FontFamily="Aharoni" FontWeight="Normal" Height="13" Width="17" />
-                <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding client.ID }" VerticalContentAlignment="Center"   >
+                <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding client.ID }" VerticalContentAlignment="Center" IsReadOnly="{Binding client, Converter={StaticResource NullToFalse }}"   >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
                         </Style>
                     </TextBox.Resources>
                 </TextBox>
-                <TextBox x:Name="Location" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" VerticalContentAlignment="Center" Text="{Binding client.ClientLocation}" >
+                <TextBox x:Name="Clientlatitude" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="{Binding client, Converter={StaticResource NullToFalse }}" VerticalContentAlignment="Center" Text="{Binding client.ClientLocation.Latitude}"  >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -69,43 +88,20 @@
                     </TextBox.Resources>
                 </TextBox>
 
-                <!--<TextBox x:Name="Associated" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap"  SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" TextAlignment="Left" VerticalContentAlignment="Center" Text="{Binding package.Associated}" >
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>-->
-
-                <TextBox  x:Name="ClientsSender" Grid.Column="1" IsReadOnly="True" TextWrapping="Wrap" HorizontalScrollBarVisibility="Disabled" Text="{Binding client.ClientsSender}"
-                         
-              VerticalScrollBarVisibility="Auto" Grid.Row="9" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.RowSpan="3" Grid.ColumnSpan="1" />
 
 
+                <ListBox  x:Name="SenderPackageList" Grid.Column="2" Grid.Row="2" Margin="10,1,-70,18" Grid.RowSpan="8" ItemsSource="{Binding}"  Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}" MouseDoubleClick="SenderList_MouseDoubleClick"/>
 
-                <!--<TextBox x:Name="PickedUp" Grid.Column="1" Grid.Row="11" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" Text="{Binding package.PickedUp}" VerticalContentAlignment="Center" >
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>-->
-
-                <TextBox  x:Name="ClientsReceiver" Grid.Column="1" IsReadOnly="True" TextWrapping="Wrap" HorizontalScrollBarVisibility="Disabled" Text="{Binding client.ClientsReceiver}" 
-                         
-              VerticalScrollBarVisibility="Auto" Grid.Row="13" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.RowSpan="3" Grid.ColumnSpan="1"  />
-
-
+                <ListBox x:Name="ReceiverPackageList" Grid.Column="2" Grid.Row="12" Margin="10,0,-70,18" Grid.RowSpan="8"  ItemsSource="{Binding}" Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}" MouseDoubleClick="ReceiverList_MouseDoubleClick"/>
 
 
 
 
                 <TextBlock x:Name="Phone_label" HorizontalAlignment="Left" Grid.Row="5" Text="Phone:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="50" />
-                <TextBlock x:Name="Loaction_Label" HorizontalAlignment="Left" Grid.Row="7" Text="Location:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="52" />
-                <TextBlock x:Name="ClientsSender_label" HorizontalAlignment="Left" Grid.Row="9" Text="Se_List:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="70" />
-                <TextBlock x:Name="ClientsReceiver_label" HorizontalAlignment="Left" Grid.Row="13" Text="Re_List:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="61" />
+                <TextBlock x:Name="Latitude_Label" HorizontalAlignment="Left" Grid.Row="7" Text="Latitude:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="52"   />
+                <TextBlock x:Name="ClientsSender_label" HorizontalAlignment="Left" Grid.Row="1" Text="Se_List:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="70" Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}" Grid.Column="2" Margin="16,9,0,0" />
+                <TextBlock x:Name="ClientsReceiver_label" HorizontalAlignment="Left" Grid.Row="11" Text="Re_List:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="61" Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}" Grid.Column="2" Margin="16,2,0,0" />
 
-                <!--<ComboBox x:Name="Package_Priority" Grid.Column="1" Grid.Row="5"   FontFamily="Arial" FontWeight="Bold" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" VerticalContentAlignment="Center" SelectedIndex="{Binding package.Priority, Converter={StaticResource EnumToInt}}"   />-->
                 <TextBox x:Name="Client_Phone" Grid.Column="1" Grid.Row="5" Height="Auto" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding client.Phone }" VerticalContentAlignment="Center"   >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -116,8 +112,7 @@
 
 
                 <TextBlock x:Name="Name_label" HorizontalAlignment="Left" Grid.Row="3" Text="Name:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" Height="13" Width="48" />
-                <!--<ComboBox x:Name="Package_Weight" Grid.Column="1"   Grid.Row="3" Height="Auto" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FontWeight="Bold" FontFamily="Arial" VerticalContentAlignment="Center" SelectedIndex="{Binding package.Weight, Converter={StaticResource EnumToInt}, Mode=OneWay}"  >
-                </ComboBox>-->
+
                 <TextBox x:Name="Client_Name" Grid.Column="1" Grid.Row="3" Height="Auto" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding client.Name }" VerticalContentAlignment="Center"   >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -127,8 +122,16 @@
                 </TextBox>
 
 
+                <TextBlock x:Name="Longitude_label"  HorizontalAlignment="Left" Grid.Row="9" Text="Longitude:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="80" />
+                <TextBox x:Name="ClientLongitude" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="{Binding client, Converter={StaticResource NullToFalse }}" VerticalContentAlignment="Center" Text="{Binding client.ClientLocation.Longitude}" >
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
 
-                <Button x:Name="cancel" Visibility="Hidden" Width="125" Height="32" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Center"   IsCancel="True" FontFamily="Arial Black" FontSize="15"  Grid.Row="14" Grid.ColumnSpan="2" Margin="81,0,0,0"  >
+                <Button x:Name="cancel" Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToVisible}}" Width="125" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="33,6,100,23" Grid.RowSpan="3"  >
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="Black" Offset="1"/>
@@ -136,7 +139,7 @@
                         </RadialGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="Add_Client_Button" Visibility="Hidden" Content="Add Client" Height="32" VerticalAlignment="Bottom"  IsDefault="True" FontFamily="Arial Black" FontSize="15"  Grid.Column="1" Grid.Row="13"  Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="109,0,109,29">
+                <Button x:Name="Add_Client_Button" Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Add Client" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Client_Button_Click" Grid.Column="1" Margin="111,6,131,0" Grid.RowSpan="3" Height="33" VerticalAlignment="Top">
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="#FF3B5611" Offset="1"/>
@@ -147,12 +150,9 @@
 
 
 
-
-
             </Grid>
 
-            <!--<TextBlock Name="Stations_Labl" Visibility="Hidden" HorizontalAlignment="Left" Margin="431,53,0,0" Grid.Row="1" Text="List of stations with available charging slots:" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Grid.ColumnSpan="2" Height="42" FontSize="14" FontWeight="Bold" Grid.Column="1"/>-->
-            <Grid x:Name="Buttons" Grid.RowSpan="3" Margin="0,10,0,-10">
+            <Grid x:Name="Buttons" Grid.RowSpan="3" Margin="0,10,0,-10"  Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height ="2*"></RowDefinition>
@@ -174,8 +174,11 @@
                     <RowDefinition Height ="2*"></RowDefinition>
                     <RowDefinition Height ="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Button Content="Update Name" x:Name="Update_Name" Grid.Row="2" Click="UpdateName_Button"  >
-                    <!--IsEnabled="{Binding client.Associated, Converter={StaticResource NullToTrue}, Mode=OneWay}"-->
+
+
+
+                <Button Content="Update Name" x:Name="Update_Name" Grid.Row="2" Click="UpdateName_Button"  Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}"  >
+
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -185,19 +188,22 @@
 
 
 
-                <Button Content="Update Phone" x:Name="Update_Phone" Grid.Row="4" Click="Update_Button">
-                    <!--IsEnabled="{Binding package, Converter={StaticResource TrueIfNotPickUp }, Mode=OneWay}">-->
+                <Button Content="Update Phone" x:Name="Update_Phone" Grid.Row="4" Click="UpdatePhone_Button">
+
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
                         </Style>
                     </Button.Resources>
                 </Button>
+
+                <Button Content="Back" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="20" Width="95"  FontSize="15" FontFamily="Calisto MT" Background="#FFEF8C8C"  Click="Back_Click" Margin="0,0,45,15"/>
+
 
             </Grid>
 
         </Grid>
 
-        <Button Content="Exit" Grid.Column="1" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="28" Width="95"  FontSize="15" FontFamily="Calisto MT" Background="#FFEF8C8C" Margin="0,0,10,10" Click="Exit_Button_Click"/>
+
     </Grid>
 </Page>

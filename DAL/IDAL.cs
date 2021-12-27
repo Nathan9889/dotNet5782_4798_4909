@@ -150,7 +150,7 @@ namespace DalApi
         /// remove item drone from the list of drones
         /// </summary>
         /// <param name="drone"></param>
-        void DeleteDrone(Drone drone);
+        void DeleteDrone(int id);
 
         /// <summary>
         /// remove item station from the list of station
@@ -162,7 +162,7 @@ namespace DalApi
         /// remove item client from the list of client
         /// </summary>
         /// <param name="client"></param>
-        void DeleteClient(Client client);
+        void DeleteClient(int id);
 
         /// <summary>
         /// remove item package from the list of package

@@ -617,10 +617,10 @@ namespace DalObject
         /// remove item drone from the list of drones
         /// </summary>
         /// <param name="drone"></param>
-        public void DeleteDrone(Drone drone)
+        public void DeleteDrone(int id)
         {
-            if (!DataSource.DroneList.Any(x => x.ID == drone.ID)) { throw new DO.Exceptions.IDException("id to remove not found", drone.ID); }
-            DataSource.DroneList.Remove(drone);
+            if (!DataSource.DroneList.Any(x => x.ID == id)) { throw new DO.Exceptions.IDException("id to remove not found", id); }
+            DataSource.DroneList.Remove(DroneById(id));
         }
 
         /// <summary>
@@ -648,10 +648,10 @@ namespace DalObject
         /// remove item client from the list of client
         /// </summary>
         /// <param name="client"></param>
-        public void DeleteClient(Client client)
+        public void DeleteClient(int id)
         {
-            if (!DataSource.ClientList.Any(x => x.ID == client.ID)) { throw new DO.Exceptions.IDException("id to remove not found", client.ID); }
-            DataSource.ClientList.Remove(client);
+            if (!DataSource.ClientList.Any(x => x.ID == id)) { throw new DO.Exceptions.IDException("id to remove not found", id); }
+            DataSource.ClientList.Remove(ClientById(id));
         }
 
         /// <summary>

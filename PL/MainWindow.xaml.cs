@@ -83,6 +83,7 @@ namespace PL
         {
             var page = new DisplayDrone(id);
             page.Back += ((DisplayDronesList)this.Frame.Content).RefreshList;
+
             this.Frame.Content = page;
         }
 
@@ -90,6 +91,7 @@ namespace PL
         {
             var page = new DisplayClient(id);
             page.Back += ((DisplayClientsList)this.Frame.Content).RefreshList;
+            page.PackagePage += PackageDisplayFromClient;
             this.Frame.Content = page;
         }
 
@@ -104,7 +106,9 @@ namespace PL
         {
             var page = new DisplayStation(id);
             page.Back += ((DisplayStationsList)this.Frame.Content).RefreshList;
+            page.DronePage += DroneDiplayFromStaion;
             this.Frame.Content = page;
+
         }
 
         private void ClientDisplyPageFromePackage(int id)//  פתיחת חלון פעולות לקוח מתוך עמוד עדכון חבילה
@@ -145,6 +149,19 @@ namespace PL
             page.DoubleClik += DroneDisplyPage;
             this.Frame.Content = page;
         }
+
+        private void DroneDiplayFromStaion(int id)
+        {
+            var page = new DisplayDrone(id);
+            this.Frame.Content = page;
+
+        }
+        private void PackageDisplayFromClient(int id)
+        {
+            var page = new DisplayPackage(id);
+            this.Frame.Content = page;
+        }
+
 
         private void Manager_login_Click(object sender, RoutedEventArgs e)
         {

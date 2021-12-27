@@ -33,12 +33,9 @@ namespace PL
 
         public DisplayStationsList()
         {
-            this.BL = BlApi.BlFactory.GetBL();
             InitializeComponent();
-            
+            this.BL = BlApi.BlFactory.GetBL();
             this.PL = new Model.PL();
-            
-            StationsListView.ItemsSource = BL.DisplayStationList();
             StationsListView.DataContext = stations;
             InitializeList();
         }
@@ -59,19 +56,7 @@ namespace PL
             {
                 if (DoubleClik != null) DoubleClik(((BO.StationToList)StationsListView.SelectedItem).ID);
             }
-               // MainWindow.Frame.Content = new DisplayStation(MainWindow, PL, PL.GetStation(((BO.StationToList)StationsListView.SelectedItem).ID));
             StationsListView.SelectedItems.Clear();
-        }
-
-        private void Add_New_Station(object sender, RoutedEventArgs e)
-        {
-            if(AddClik!=null) AddClik(-1);
-            //MainWindow.Frame.Content = new DisplayStation(MainWindow,PL);
-        }
-
-        private void Exit_Button(object sender, RoutedEventArgs e)
-        {
-            //MainWindow.DisplayMain();
         }
 
 
@@ -82,45 +67,66 @@ namespace PL
                 if (Show_Normally.IsChecked == true)
                 {
                     var s = BL.DisplayStationList();
+                    var temp = new ObservableCollection<BO.StationToList>(stations);
                     stations.Clear();
-                    foreach (var item in s) { stations.Add(item); }
-                }
-                else if (Show_Existing.IsChecked == true)
-                {
-                    var s = BL.GroupStationByExistingSlots();
-                    stations.Clear();
-                    foreach (var group in s)
+                    foreach (var item in s)
                     {
-                        foreach (BO.StationToList item in group)
-                        { stations.Add(item); }
+                        if (temp.Any(s => s.ID == item.ID))
+                            stations.Add(item);
                     }
                 }
-                else
+                //else if (Show_Existing.IsChecked == true)
+                //{
+                //    var s = BL.GroupStationByExistingSlots();
+                //    var temp = new ObservableCollection<BO.StationToList>(stations);
+                //    stations.Clear();
+                //    foreach (var group in s)
+                //    {
+                //        foreach (BO.StationToList item in group)
+                //        {
+                //            if (temp.Any(s => s.ID == item.ID))
+                //                stations.Add(item);
+                //        }
+                //    }
+                //}
+                else if (Show_Open.IsChecked == true)
                 {
                     var s = BL.GroupStationByNumSlots();  // לרשימה כדי שיהיה העתק . לפי הסדר כדי יחזור למקורי ואז ימיין
+                    var temp = new ObservableCollection<BO.StationToList>(stations);
                     stations.Clear();
+
                     foreach (var group in s)
                     {
                         foreach (BO.StationToList item in group)
-                        { stations.Add(item); }
+                        {
+                            if (temp.Any(s => s.ID == item.ID))
+                                stations.Add(item);
+                        }
                     }
                 }
             }
         }
 
-        private void ExitButton(object sender, RoutedEventArgs e)
+        private void Add_New_Station(object sender, RoutedEventArgs e)
         {
-
+            if(AddClik!=null) AddClik(-1);
         }
 
+        
         private void Reset_Button_Click(object sender, RoutedEventArgs e)
         {
+            stations.Clear();
+            InitializeList();
+            Show_Stations(this, new RoutedEventArgs()); 
 
         }
 
-        public void RefreshList()
+        public void RefreshList(int x)
         {
-
+            var p = PL.GetStationList();
+            stations.Clear();
+            foreach (var station in p) stations.Add(station);
+            Show_Stations(this, new RoutedEventArgs());
         }
     }
 }

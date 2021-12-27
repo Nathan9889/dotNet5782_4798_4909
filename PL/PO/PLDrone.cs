@@ -9,43 +9,40 @@ namespace Model
 {
     public partial class PL
     {
-        
-        static IEnumerable<BO.StationToList> stations = new List<BO.StationToList>();
 
-        
+        static IEnumerable<BO.DroneToList> drones = new List<BO.DroneToList>();
 
-        public IEnumerable<BO.StationToList> GetStationList()
+
+
+        public IEnumerable<BO.DroneToList> GetDroneList()
         {
-            return BL.DisplayStationList();
+            return BL.DisplayDroneList();
         }
 
-        public BO.Station GetStation(int id)
+        public BO.Drone GetDrone(int id)
         {
-            return BL.DisplayStation(id);
+            return BL.DisplayDrone(id);
         }
 
-        public void DeleteStation(int id)
+        public void DeleteDrone(int id)
         {
-            BL.DeleteStation(id);
+            BL.DeleteDrone(id);
         }
 
-        public void UpdateStationName(int id, string name)
+        public void UpdateDroneName(int id, string name)
         {
-            BL.UpdateStationName(id, name);
-            
+
+            BL.UpdateDroneName(id, name);
+
         }
 
-        public void UpdateSlotNumber(int id, int num)
+
+        public void UpdateStationNumCharge(int id, int num)
         {
             BL.UpdateStationNumCharge(id, num);
 
         }
 
-        public void AddStation(BO.Station station)
-        {
-            BL.AddStation(station);
-
-        }
 
     }
 

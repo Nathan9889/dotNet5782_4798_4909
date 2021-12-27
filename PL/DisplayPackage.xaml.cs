@@ -41,6 +41,7 @@ namespace PL
             ClientsList2.ItemsSource = pL.getClientList();
 
             Package.package = new BO.Package();
+
         }
 
 
@@ -160,7 +161,8 @@ namespace PL
         }
         private void Drone_Page_Click(object sender, RoutedEventArgs e)
         {
-            if (DronePage != null && int.Parse(Drone_id.Text)!=0) DronePage(int.Parse(Drone_id.Text));
+            if (DronePage != null && int.Parse(Drone_id.Text)!=0)
+                DronePage(int.Parse(Drone_id.Text));
         }
 
     } 
