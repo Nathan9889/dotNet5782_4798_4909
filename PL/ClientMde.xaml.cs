@@ -20,9 +20,22 @@ namespace PL
     /// </summary>
     public partial class ClientMde : Page
     {
+        BlApi.IBL bL = BlApi.BlFactory.GetBL();
         public ClientMde()
         {
             InitializeComponent();
+            Client_Packages.ItemsSource = bL.DisplayClientList();
+           
+        }
+
+        private void Client_Packages_SubmenuOpened(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

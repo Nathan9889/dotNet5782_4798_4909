@@ -157,5 +157,15 @@ namespace PL
         {
             new SignUpClient().Show();
         }
+
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            this.Content = new ClientMde();
+        }
     }
 }
