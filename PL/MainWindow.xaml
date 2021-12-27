@@ -20,7 +20,7 @@
             <Button x:Name="Manager_login" Content="Manager login" HorizontalAlignment="Center" Margin="0,194,0,0" VerticalAlignment="Top" Height="45" Width="247" Click="Manager_login_Click_1"  />
             <Button Content="Client login" HorizontalAlignment="Center" Margin="0,257,0,0" VerticalAlignment="Top" Height="45" Width="247"/>
 
-            <Button Content="Sign Up" HorizontalAlignment="Center" Margin="0,326,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.415,-0.935" FontSize="14" FontFamily="Arial Rounded MT Bold" FontStyle="Normal" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Button x:Name="Sign_Up"  Content="Sign Up" HorizontalAlignment="Center" Margin="0,326,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.415,-0.935" FontSize="14" FontFamily="Arial Rounded MT Bold" FontStyle="Normal" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Click="Sign_Up_Click" />
         </Grid>
 
         <Grid x:Name="Buttons_For_Lists" Height="60" VerticalAlignment="Top"  Visibility="{Binding ElementName=Manager_login, Path=ClickMode, Converter={StaticResource ClickModeToVisible}}"  >
@@ -38,7 +38,7 @@
 
         </Grid>
         <Grid x:Name="Pages_Grid" Height="434" VerticalAlignment="Bottom"   >
-            <Frame x:Name="Frame" Height="434" ></Frame>
+            <Frame x:Name="Frame" Height="434"  ></Frame>
 
 
         </Grid>

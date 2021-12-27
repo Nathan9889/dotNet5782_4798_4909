@@ -146,15 +146,16 @@ namespace PL
             this.Frame.Content = page;
         }
 
-        private void Manager_login_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void Manager_login_Click_1(object sender, RoutedEventArgs e)
         {
             Buttons_For_Lists.Visibility = Visibility.Visible;
             MainWindowDisplay.Visibility = Visibility.Hidden;
+        }
+
+        private void Sign_Up_Click(object sender, RoutedEventArgs e)
+        {
+            new SignUpClient().Show();
         }
     }
 }
