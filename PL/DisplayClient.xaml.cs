@@ -138,14 +138,13 @@ namespace PL
 
         private void Add_Client_Button_Click(object sender, RoutedEventArgs e)
         {
-
             try
             {
                 pL.AddClient(Client.client);
                 if (Back != null) Back(-1);
                 MessageBox.Show($"The Client was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 if (MainWindow != null) MainWindow(this, new RoutedEventArgs());
-                if (this.NavigationService != null && this.NavigationService.CanGoBack) this.NavigationService.GoBack(); this.NavigationService.GoBack();
+                if (this.NavigationService != null && this.NavigationService.CanGoBack) this.NavigationService.GoBack();
             }
             catch (Exception ex)
             {

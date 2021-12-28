@@ -41,6 +41,7 @@ namespace PL
 
             Station.station = new BO.Station();
             Station.station.StationLocation = new BO.Location();
+            Mode.IsChecked = true;
 
         }
 
@@ -52,7 +53,7 @@ namespace PL
             InitializeComponent();
 
             MainGrid.DataContext = Station;
-
+           
             ChargingDroneList.ItemsSource = Station.station.ChargingDronesList;
 
 

@@ -224,6 +224,16 @@ namespace PL
         }
     }
 
+
+
+
+
+
+
+
+
+
+
     public class TrueToVisible : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -246,6 +256,54 @@ namespace PL
             if ((bool)value == true) return false;
             else return true;
 
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+
+    public class TrueToTrue : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((bool)value == true) return true;
+            else return false;
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class TrueifAvailable : IValueConverter // packade to list
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null && ((BO.DroneStatus)value) == BO.DroneStatus.Available)
+                return true;
+            else return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    public class TrueifMaintenance : IValueConverter // packade to list
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null && ((BO.DroneStatus)value) == BO.DroneStatus.Maintenance)
+                return true;
+            else return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -315,7 +373,9 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return((BO.Location)value).ToString();
+            if (value != null)
+                return ((BO.Location)value).ToString();
+            else return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

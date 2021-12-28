@@ -131,7 +131,7 @@
             </Grid.ColumnDefinitions >
             <Button Name="Add_Drone" Content="Add New Drone" Grid.Column="0" Click="Add_New_Drone" Margin="10,0,0,10" Background="#FF11D86F"/>
 
-            <Button Content="Exit" Grid.Column="3"  Click="ExitButton"  FontFamily="Calisto MT" Background="#FFEF8C8C" Margin="0,0,10,10"/>
+            <!--<Button Content="Exit" Grid.Column="3"  Click="ExitButton"  FontFamily="Calisto MT" Background="#FFEF8C8C" Margin="0,0,10,10"/>-->
 
 
         </Grid>

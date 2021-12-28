@@ -18,6 +18,14 @@
         <local:NullToHidden x:Key="NullToHidden"></local:NullToHidden>
         <local:NullToFalse x:Key="NullToFalse"></local:NullToFalse>
         <local:NullToVisible x:Key="NullToVisible"></local:NullToVisible>
+        <local:TrueToHidden x:Key="TrueToHidden"></local:TrueToHidden>
+        <local:LocationToString x:Key="LocationToString"></local:LocationToString>
+        <local:TrueToVisible x:Key="TrueToVisible"></local:TrueToVisible>
+
+        
+        
+
+
 
         <localModel:Ticker x:Key="Ticker"></localModel:Ticker>
 
@@ -61,8 +69,8 @@
                     <ColumnDefinition Width ="217"></ColumnDefinition>
 
                 </Grid.ColumnDefinitions>
-               
-                
+
+
 
                 <TextBlock x:Name="id" HorizontalAlignment="Left" Grid.Row="1" Text="ID:" TextWrapping="Wrap" VerticalAlignment= "Center" FontSize="13" FontFamily="Aharoni" FontWeight="Normal" Height="13" Width="17" />
                 <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Width="150" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" VerticalContentAlignment="Center"  IsReadOnly="{Binding station.ChargingDronesList, Converter={StaticResource NullToFalse }}"  Text="{Binding station.ID}">
@@ -90,7 +98,7 @@
                 </TextBox>
 
 
-                <TextBox x:Name="StationLatitude" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap" Width="150"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0"  VerticalContentAlignment="Center"  Text="{Binding station.StationLocation.Latitude }" IsReadOnly="{Binding station.ChargingDronesList, Converter={StaticResource NullToFalse }}" >
+                <TextBox x:Name="StationLatitude" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap" Width="150"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0"  VerticalContentAlignment="Center"  Text="{Binding station.StationLocation.Latitude }" IsReadOnly="{Binding station.ChargingDronesList, Converter={StaticResource NullToFalse }}" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}" >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -98,7 +106,7 @@
                     </TextBox.Resources>
                 </TextBox>
 
-                <TextBox x:Name="StationLongitude" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap" Width="150"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0"  VerticalContentAlignment="Center" Text="{Binding station.StationLocation.Longitude}" IsReadOnly="{Binding station.ChargingDronesList, Converter={StaticResource NullToFalse }}">
+                <TextBox x:Name="StationLongitude" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap" Width="150"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0"  VerticalContentAlignment="Center" Text="{Binding station.StationLocation.Longitude}" IsReadOnly="{Binding station.ChargingDronesList, Converter={StaticResource NullToFalse }}" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}" >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -106,8 +114,22 @@
                     </TextBox.Resources>
                 </TextBox>
 
-                <TextBlock x:Name="Station_latitude" HorizontalAlignment="Left" Grid.Row="7" Text="Latitude:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
-                <TextBlock x:Name="Station_longitude" HorizontalAlignment="Left" Grid.Row="9" Text="Longitude:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
+
+                <TextBox x:Name="Location" Grid.Column="1" Grid.Row="6" TextWrapping="Wrap"  SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" Text="{Binding station.StationLocation, Mode=OneWay}"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToHidden}}" VerticalContentAlignment="Center" Margin="0,16,0,4" Grid.RowSpan="3" >
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+
+
+
+
+                <TextBlock x:Name="Location_label" HorizontalAlignment="Left" Grid.Row="7" Text="Location:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="1,0,0,0" Height="13" Width="61"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToHidden}}"/>
+
+                <TextBlock x:Name="Station_latitude" HorizontalAlignment="Left" Grid.Row="7" Text="Latitude:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}" />
+                <TextBlock x:Name="Station_longitude" HorizontalAlignment="Left" Grid.Row="9" Text="Longitude:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}"/>
 
                 <TextBlock x:Name="StationChargeSlot" HorizontalAlignment="Left" Grid.Row="5" Text="ChargeSlots:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
                 <TextBlock x:Name="StationName" HorizontalAlignment="Left" Grid.Row="3" Text="Name:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" />
@@ -181,7 +203,7 @@
                     <RowDefinition Height ="2*"></RowDefinition>
                     <RowDefinition Height ="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                
+
 
 
                 <Button Content="Change Name"  x:Name="Change_Name"  Grid.Row="2" IsEnabled="True" Click="Change_Station_Name_Click" >
@@ -205,7 +227,7 @@
             </Grid>
             <Button Content="Back" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="20" Width="95"  FontSize="15" FontFamily="Calisto MT" Background="#FFEF8C8C"   Margin="0,0,45,15" Click="Back_Click"/>
 
-
+            <CheckBox x:Name="Mode" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="False"/>
         </Grid>
 
 

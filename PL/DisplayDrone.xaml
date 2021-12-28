@@ -1,362 +1,4 @@
-﻿<!--<Page x:Class="PL.DisplayDrone"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:PL"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="DisplayDrone">
-
-
-    <Page.Resources>
-        <Style x:Key="ComboBoxTest2" TargetType="{x:Type ComboBox}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ComboBox">
-                        <Grid>
-                            <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
-                                <ToggleButton.Template>
-                                    <ControlTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="5*" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="5" Background="#FFFFFFE1" BorderBrush="#FFE92617" BorderThickness="1" />
-                                            <Border Grid.Column="0" CornerRadius="5,0,0,5"  Margin="1"  Background="#FFFFFFE1"  BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                            <Path x:Name="Arrow" Grid.Column="1"  Fill="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                                                <Setter TargetName="Border" Property="Background" Value="Green" />
-                                            </Trigger>
-                                            <Trigger Property="ToggleButton.IsChecked" Value="true">
-                                                <Setter TargetName="Border" Property="Background" Value="Green" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </ToggleButton.Template>
-                            </ToggleButton>
-                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"  />
-                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
-                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
-                                <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                    <Border x:Name="DropDownBorder" Background="#FFFFFFE1" />
-                                    <ScrollViewer SnapsToDevicePixels="True">
-                                        <StackPanel IsItemsHost="True" />
-                                    </ScrollViewer>
-                                </Grid>
-                            </Popup>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-            </Style.Triggers>
-        </Style>
-
-
-        <Style x:Key="ComboBoxTestAfterCorrectInput" TargetType="{x:Type ComboBox}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ComboBox">
-                        <Grid>
-                            <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
-                                <ToggleButton.Template>
-                                    <ControlTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="5*" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="5" Background="#FFFFFFE1" BorderBrush="#FF99B4D1" BorderThickness="1" />
-                                            <Border Grid.Column="0" CornerRadius="5,0,0,5"  Margin="1"  Background="#FFFFFFE1"  BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                            <Path x:Name="Arrow" Grid.Column="1"  Fill="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                                                <Setter TargetName="Border" Property="Background" Value="Green" />
-                                            </Trigger>
-                                            <Trigger Property="ToggleButton.IsChecked" Value="true">
-                                                <Setter TargetName="Border" Property="Background" Value="Green" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </ToggleButton.Template>
-                            </ToggleButton>
-                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"  />
-                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
-                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
-                                <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                    <Border x:Name="DropDownBorder" Background="#FFFFFFE1" />
-                                    <ScrollViewer SnapsToDevicePixels="True">
-                                        <StackPanel IsItemsHost="True" />
-                                    </ScrollViewer>
-                                </Grid>
-                            </Popup>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="ComboBoxTestInDisplayDrone" TargetType="{x:Type ComboBox}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ComboBox">
-                        <Grid>
-                            <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
-                                <ToggleButton.Template>
-                                    <ControlTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="5*" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="5" Background="#FFF0F0F0" BorderBrush="#FFABADB3" BorderThickness="1" />
-                                            <Border Grid.Column="0" CornerRadius="5,0,0,5"  Margin="1"  Background="#FFF0F0F0"  BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                            <Path x:Name="Arrow" Grid.Column="1"   HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                                                <Setter TargetName="Border" Property="Background" Value="Green" />
-                                            </Trigger>
-                                            <Trigger Property="ToggleButton.IsChecked" Value="true">
-                                                <Setter TargetName="Border" Property="Background" Value="Green" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </ToggleButton.Template>
-                            </ToggleButton>
-                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"  />
-                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
-                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
-                                <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                    <Border x:Name="DropDownBorder" Background="#FFFFFFE1" />
-                                    <ScrollViewer SnapsToDevicePixels="True">
-                                        <StackPanel IsItemsHost="True" />
-                                    </ScrollViewer>
-                                </Grid>
-                            </Popup>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-            </Style.Triggers>
-        </Style>
-
-
-    </Page.Resources>
-
-
-
-    <Grid x:Name="MainGrid">
-        <Grid x:Name ="Add_New_Drone" Visibility="Visible">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"></ColumnDefinition>
-                <ColumnDefinition Width="10*"></ColumnDefinition>
-                <ColumnDefinition Width="3*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height ="*"></RowDefinition>
-                <RowDefinition Height ="8*"></RowDefinition>
-                <RowDefinition Height ="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid Grid.Column="1" Margin="76,25,99,18" Grid.RowSpan="2" Grid.ColumnSpan="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" ></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
-                    <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
-                    <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
-                    <RowDefinition Height ="16.573"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
-                    <RowDefinition Height ="16.821"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
-                    <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="24.736"></RowDefinition>
-                    <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
-                    <RowDefinition Height ="17*"></RowDefinition>
-                    <RowDefinition Height ="25*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width ="*"></ColumnDefinition>
-                    <ColumnDefinition Width ="150"></ColumnDefinition>
-                    <ColumnDefinition Width ="183"></ColumnDefinition>
-
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Name="id" HorizontalAlignment="Left" Grid.Row="1" Text="ID:" TextWrapping="Wrap" VerticalAlignment= "Center" FontSize="13" FontFamily="Aharoni" FontWeight="Normal" />
-                <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Width="150"  TextChanged="idInput_TextChanged" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" VerticalContentAlignment="Center">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-                <TextBox x:Name="Battery" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap" Width="150"  TextChanged="idInput_TextChanged" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" VerticalContentAlignment="Center">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-
-                <TextBox x:Name="StatusSelector" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap" Width="150"  TextChanged="idInput_TextChanged" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" TextAlignment="Left" VerticalContentAlignment="Center">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-
-                <TextBox x:Name="Location" Grid.Column="1" Grid.Row="10" TextWrapping="Wrap" Width="150"  TextChanged="idInput_TextChanged" SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" VerticalContentAlignment="Center" Margin="0,19,0,27" Grid.RowSpan="4">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-
-                <TextBox Grid.Column="1"  x:Name="Package_Process" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled"
-                         
-              VerticalScrollBarVisibility="Auto" Grid.Row="13" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="0,16,78,-51" />
-
-                <TextBlock HorizontalAlignment="Left" Grid.Row="5" Text="Drone Max Weight:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
-                <TextBlock x:Name="Battary_Label" HorizontalAlignment="Left" Grid.Row="7" Text="Battery:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
-                <TextBlock x:Name="Status_Label" HorizontalAlignment="Left" Grid.Row="9" Text="Status:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
-                <TextBlock x:Name="Location_Label" HorizontalAlignment="Left" Grid.Row="11" Text="Location:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="1,0,0,0" />
-                <TextBlock x:Name="Shipping_Label" HorizontalAlignment="Left" Grid.Row="13" Text="Shipping:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Grid.RowSpan="2" />
-                <ComboBox x:Name="Drone_Weight" Grid.Column="1" Grid.Row="5"  Style="{StaticResource ComboBoxTestInDisplayDrone}" SelectionChanged="Drone_Weight_SelectionChanged" SelectedIndex="3" FontFamily="Arial" FontWeight="Bold" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" VerticalContentAlignment="Center"   />
-                <TextBlock HorizontalAlignment="Left" Grid.Row="3" Text="Drone Model:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" />
-                <TextBox x:Name="DroneModel" Grid.Column="1"  TextWrapping="Wrap" Grid.Row="3" Width="150" Height="Auto" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" TextChanged="DroneModel_TextChanged" FontWeight="Bold" FontFamily="Arial" VerticalContentAlignment="Center" >
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-
-                <TextBlock x:Name ="Station_Id_Labl"  HorizontalAlignment="Left" Grid.Row="7" Text="Station ID:" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="13" FontFamily="Aharoni" Visibility="Hidden" />
-                <TextBox x:Name="StationID" Visibility="Hidden" Grid.Column="1"  Grid.Row="7" TextWrapping="Wrap"  Width="150" TextChanged="StationID_TextChanged" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontFamily="Arial" FontWeight="Bold" VerticalContentAlignment="Center" >
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-                <Button x:Name="cancel" Visibility="Hidden" Width="125" Height="32" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Bottom"   IsCancel="True" FontFamily="Arial Black" FontSize="15" Click="cancel_Click"  Grid.Row="13" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="81,0,0,25"  >
-                    <Button.Background>
-                        <RadialGradientBrush>
-                            <GradientStop Color="Black" Offset="1"/>
-                            <GradientStop Color="Red" Offset="0.2"/>
-                        </RadialGradientBrush>
-                    </Button.Background>
-                </Button>
-                <Button x:Name="Add_Drone_Button" Visibility="Hidden" Content="Add Drone" Width="125" Height="32" VerticalAlignment="Bottom"  IsDefault="True" FontFamily="Arial Black" FontSize="15" Click="Add_Drone_Button_Click" Grid.Column="1" Grid.Row="13"  Grid.ColumnSpan="2" Grid.RowSpan="2">
-                    <Button.Background>
-                        <RadialGradientBrush>
-                            <GradientStop Color="#FF3B5611" Offset="1"/>
-                            <GradientStop Color="#FF9DFF00" Offset="0.1"/>
-                        </RadialGradientBrush>
-                    </Button.Background>
-                </Button>
-            </Grid>
-            <ComboBox Name="Stations_List" Visibility="Hidden" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="431,95,0,0" Grid.Row="1" VerticalAlignment="Top" Width="204" SelectionChanged="Stations_List_SelectionChanged" FontFamily="Arial" FontSize="10" Grid.Column="1">
-                <ComboBox.Background>
-                    <LinearGradientBrush EndPoint="0,1">
-                        <GradientStop Color="#FFF0F0F0"/>
-                        <GradientStop Color="#FF6EC54E" Offset="1"/>
-                    </LinearGradientBrush>
-                </ComboBox.Background>
-            </ComboBox>
-            <TextBlock Name="Stations_Labl" Visibility="Hidden" HorizontalAlignment="Left" Margin="431,53,0,0" Grid.Row="1" Text="List of stations with available charging slots:" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Grid.ColumnSpan="2" Height="42" FontSize="14" FontWeight="Bold" Grid.Column="1"/>
-            <Grid x:Name="Buttons" Grid.RowSpan="3" Margin="0,10,0,-10">
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height ="2*"></RowDefinition>
-                    <RowDefinition Height ="*"></RowDefinition>
-                    <RowDefinition Height ="2*"></RowDefinition>
-                    <RowDefinition Height ="*"></RowDefinition>
-                    <RowDefinition Height ="2*"></RowDefinition>
-                    <RowDefinition Height ="*"></RowDefinition>
-                    <RowDefinition Height ="2*"></RowDefinition>
-                    <RowDefinition Height ="*"></RowDefinition>
-                    <RowDefinition Height ="2*"></RowDefinition>
-                    <RowDefinition Height ="*"></RowDefinition>
-                    <RowDefinition Height ="2*"></RowDefinition>
-                    <RowDefinition Height ="*"></RowDefinition>
-                    <RowDefinition Height ="2*"></RowDefinition>
-                    <RowDefinition Height ="*"></RowDefinition>
-                    <RowDefinition Height ="2*"></RowDefinition>
-                    <RowDefinition Height ="*"></RowDefinition>
-                    <RowDefinition Height ="2*"></RowDefinition>
-                    <RowDefinition Height ="*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Button Content="Update Model" x:Name="Change_Name"   Click="Change_Name_Click" Grid.Row="2" >
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Button Content="Charge Drone"  x:Name="ChargeButton" Click="ChargeButton_Click" Grid.Row="4" IsEnabled="False">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Button  Content="Release Drone" x:Name="ReleaseButton"  Click="ReleaseButton_Click" Grid.Row="6" IsEnabled="False" >
-
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Button Content="Associate Package" x:Name="AssociateButton" Click="AssociateButton_Click" Grid.Row="8" IsEnabled="False">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Button Content="Pick UpPackage" x:Name="PickUpButton" Grid.Row="10" Click="PickUpButton_Click" IsEnabled="False">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Button Content="Deliver Package"  x:Name="DeliverButton" Grid.Row="12" Click="DeliverButton_Click" IsEnabled="False">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </Button.Resources>
-                </Button>
-            </Grid>
-
-        </Grid>
-
-        <Button Content="Exit" Grid.Column="1" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="28" Width="95"  FontSize="15" FontFamily="Calisto MT" Click="Exit_Button" Background="#FFEF8C8C" Margin="0,0,10,10"/>
-    </Grid>
-
-</Page>-->
-
-
-
-
-
-
-<Page x:Class="PL.DisplayDrone"
+﻿<Page x:Class="PL.DisplayDrone"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -377,6 +19,13 @@
         <local:NullToFalse x:Key="NullToFalse"></local:NullToFalse>
         <local:NullToVisible x:Key="NullToVisible"></local:NullToVisible>
         <local:ClientListToClientPackage x:Key="ClientListToClientPackage"></local:ClientListToClientPackage>
+        <local:TrueToHidden x:Key="TrueToHidden"></local:TrueToHidden>
+        <local:TrueToVisible x:Key="TrueToVisible"></local:TrueToVisible>
+        <local:TrueToFalse x:Key="TrueToFalse"></local:TrueToFalse>
+        <local:TrueToTrue x:Key="TrueToTrue"></local:TrueToTrue>
+        <local:TrueifAvailable x:Key="TrueifAvailable"></local:TrueifAvailable>
+        <local:TrueifMaintenance x:Key="TrueifMaintenance"></local:TrueifMaintenance>
+        
 
         <localModel:Ticker x:Key="Ticker"></localModel:Ticker>
 
@@ -384,7 +33,6 @@
             <Setter Property="ItemsSource" Value="{Binding}"></Setter>
         </Style>
     </Page.Resources>
-
 
 
 
@@ -427,8 +75,8 @@
 
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="id" HorizontalAlignment="Left" Grid.Row="1" Text="ID:" TextWrapping="Wrap" VerticalAlignment= "Center" FontSize="13" FontFamily="Aharoni" FontWeight="Normal" Height="13" Width="17" />
-                <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding drone.ID}" VerticalContentAlignment="Center" IsReadOnly="{Binding drone.DronePackageProcess, Converter={StaticResource NullToFalse }}">
-                    <!--Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToHidden}}" >-->
+                <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding drone.ID}" VerticalContentAlignment="Center" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}">
+
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -437,7 +85,7 @@
 
 
                 </TextBox>
-                <TextBox x:Name="Battery" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" VerticalContentAlignment="Center" Text="{Binding drone.Battery}" >
+                <TextBox x:Name="Battery" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" VerticalContentAlignment="Center" Text="{Binding drone.Battery}" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}">
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -468,7 +116,12 @@
                     </TextBox.Resources>
                 </TextBox>
 
-                <TextBox x:Name="Location" Grid.Column="1" Grid.Row="10" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" Text="{Binding drone.DroneLocation.Latitude}" VerticalContentAlignment="Center" Margin="0,22,0,26" Grid.RowSpan="4">
+
+
+
+
+
+                <TextBox x:Name="Location" Grid.Column="1" Grid.Row="10" TextWrapping="Wrap"  SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" Text="{Binding drone.DroneLocation, Mode=OneWay}"  VerticalContentAlignment="Center" Margin="0,22,0,26" Grid.RowSpan="4" >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -476,24 +129,20 @@
                     </TextBox.Resources>
                 </TextBox>
 
-                <TextBox Grid.Column="2"  x:Name="Package_Proces" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" Text="{Binding drone.DronePackageProcess, Mode=OneWay}"  Visibility="{Binding drone, Mode=OneWay, Converter={StaticResource NullToHidden}}"
+                <TextBox Grid.Column="2"  x:Name="Package_Process" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" Text="{Binding drone.DronePackageProcess, Mode=OneWay}"   Visibility="{Binding ElementName=ShipVisibility, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}"
                          
               VerticalScrollBarVisibility="Auto" Grid.Row="7" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.RowSpan="5" Margin="24,1,-97,4" MouseDoubleClick="Package_Process_MouseDoubleClick" Cursor="Arrow" />
-
-
-                <!--<ListBox  x:Name="Package_Process" Grid.Column="2" Grid.Row="2" Margin="10,1,-70,18" Grid.RowSpan="8" ItemsSource="{Binding}"  Visibility="{Binding drone, Mode=OneWay, Converter={StaticResource NullToHidden}}" MouseDoubleClick="Package_Process_MouseDoubleClick"/>-->
-
 
 
 
                 <TextBlock HorizontalAlignment="Left" Grid.Row="5" Text="Weight:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="50" />
                 <TextBlock x:Name="Battery_label" HorizontalAlignment="Left" Grid.Row="7" Text="Battery:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="52" />
-                <TextBlock x:Name="Status_label" HorizontalAlignment="Left" Grid.Row="9" Text="Status:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="70" Visibility="{Binding drone.DronePackageProcess, Mode=OneWay, Converter={StaticResource NullToHidden}}" />
-                <TextBlock x:Name="Location_label" HorizontalAlignment="Left" Grid.Row="11" Text="Location:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="1,0,0,0" Height="13" Width="61" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToHidden}}" />
-                <TextBlock x:Name="PackageProcess_label" HorizontalAlignment="Left" Grid.Row="5" Text="Delivery:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="24,20,0,0" Height="13" Width="64" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToHidden}}" Grid.Column="2" Grid.RowSpan="2"/>
+                <TextBlock x:Name="Status_label" HorizontalAlignment="Left" Grid.Row="9" Text="Status:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="70" />
+                <TextBlock x:Name="Location_label" HorizontalAlignment="Left" Grid.Row="11" Text="Location:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="1,0,0,0" Height="13" Width="61"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToHidden}}"/>
+                <TextBlock x:Name="PackageProcess_label" HorizontalAlignment="Left" Grid.Row="5" Text="Delivery:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="24,20,0,0" Height="13" Width="64" Visibility="{Binding ElementName=ShipVisibility, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}" Grid.Column="2" Grid.RowSpan="2"/>
 
-                <ComboBox x:Name="Drone_MaxWeight" Grid.Column="1" Grid.Row="5"   FontFamily="Arial" FontWeight="Bold"  VerticalContentAlignment="Center" SelectedIndex="{Binding drone.MaxWeight, Converter={StaticResource EnumToInt}, Mode=OneWay}"  IsEnabled="{Binding drone, Converter={StaticResource NullToTrue }}" SelectedItem="{Binding drone.MaxWeight, Mode=OneWayToSource}">
-                    <!--SelectionChanged="Package_Priority_SelectionChanged"-->
+                <ComboBox x:Name="Drone_MaxWeight" Grid.Column="1" Grid.Row="5"   FontFamily="Arial" FontWeight="Bold"  VerticalContentAlignment="Center" SelectedIndex="{Binding drone.MaxWeight, Converter={StaticResource EnumToInt}, Mode=OneWay}" IsEnabled="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToTrue}}" SelectedItem="{Binding drone.MaxWeight, Mode=OneWayToSource}">
+
                 </ComboBox>
 
                 <TextBlock HorizontalAlignment="Left" Grid.Row="3" Text="Model:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" Height="13" Width="48" />
@@ -501,7 +150,7 @@
 
 
 
-                <Button x:Name="cancel" Visibility="{Binding drone.DronePackageProcess, Mode=OneWay, Converter={StaticResource NullToVisible}}" Width="125" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="15" Grid.ColumnSpan="2" Margin="35,0,98,0"  >
+                <Button x:Name="cancel"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}" Width="125" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="15" Grid.ColumnSpan="2" Margin="35,0,98,0"  >
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="Black" Offset="1"/>
@@ -509,7 +158,7 @@
                         </RadialGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="Add_Drone_Button" Visibility="{Binding drone.DronePackageProcess, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Add Drone" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Drone_Button_Click" Grid.Column="1" Margin="112,19,130,0" Grid.RowSpan="2" Height="33" VerticalAlignment="Top">
+                <Button x:Name="Add_Drone_Button"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}" Content="Add Drone" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Drone_Button_Click" Grid.Column="1" Margin="112,19,130,0" Grid.RowSpan="2" Height="33" VerticalAlignment="Top">
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="#FF3B5611" Offset="1"/>
@@ -519,21 +168,12 @@
                 </Button>
 
 
-                <TextBox x:Name="DroneModel" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding drone.Model}" VerticalContentAlignment="Center" Margin="0,22,0,0" Grid.RowSpan="2" >
+                <TextBox x:Name="DroneModel" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding drone.Model}" VerticalContentAlignment="Center" Margin="0,22,0,0" Grid.RowSpan="2" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}" >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
                         </Style>
                     </TextBox.Resources>
-
-                    <!--<TextBox.IsReadOnly>
-                        <Binding Converter="{StaticResource NullToFalse}" Path="package"/>
-                    </TextBox.IsReadOnly>
-                    <TextBox.Visibility>
-                        <Binding Converter="{StaticResource NullToHidden}" Mode="OneWay" Path="package.DroneOfPackage"/>
-                    </TextBox.Visibility>-->
-
-
                 </TextBox>
 
 
@@ -547,14 +187,11 @@
                     </TextBox.Resources>
                 </TextBox>
 
-
-
-
             </Grid>
 
-            <TextBlock Name="Stations_Labl"  Visibility="{Binding drone.DronePackageProcess, Mode=OneWay, Converter={StaticResource NullToVisible}}" HorizontalAlignment="Left" Margin="431,0,0,0" Grid.Row="1" Text="List of stations with available charging slots:" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Grid.ColumnSpan="2" Height="42" FontSize="14" FontWeight="Bold" Grid.Column="1"/>
-            <ComboBox Name="Stations_List"  Visibility="{Binding drone.DronePackageProcess, Mode=OneWay, Converter={StaticResource NullToVisible}}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="431,47,0,0" Grid.Row="1" VerticalAlignment="Top" Width="204" FontFamily="Arial" FontSize="10" Grid.Column="1" SelectionChanged="Stations_List_SelectionChanged">
-                
+            <TextBlock Name="Stations_Labl" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}" HorizontalAlignment="Left" Margin="395,21,0,0" Grid.Row="1" Text="List of stations with available charging slots:" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Grid.ColumnSpan="2" Height="42" FontSize="14" FontWeight="Bold" Grid.Column="1"/>
+            <ComboBox Name="Stations_List"   Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="391,68,0,0" Grid.Row="1" VerticalAlignment="Top" Width="232" FontFamily="Arial" FontSize="10" Grid.Column="1" SelectionChanged="Stations_List_SelectionChanged" Height="51" >
+
                 <ComboBox.Background>
                     <LinearGradientBrush EndPoint="0,1">
                         <GradientStop Color="#FFF0F0F0"/>
@@ -565,7 +202,7 @@
 
 
 
-            <Grid x:Name="Buttons" Grid.RowSpan="2" Margin="0,0,0,-10" Visibility="{Binding drone, Mode=OneWay, Converter={StaticResource NullToHidden}}" Grid.Row="1">
+            <Grid x:Name="Buttons" Grid.RowSpan="2" Margin="0,0,0,-10" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToHidden}}" Grid.Row="1">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height ="2*"></RowDefinition>
@@ -587,13 +224,7 @@
                     <RowDefinition Height ="2*"></RowDefinition>
                     <RowDefinition Height ="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <!--<Button Content="Delete Package" x:Name="Delete_Package"    Grid.Row="2" IsEnabled="{Binding package.Associated, Converter={StaticResource NullToTrue}, Mode=OneWay}" Click="Delete_Package_Click" >
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </Button.Resources>
-                </Button>-->
+                
                 <Button Content="Update Model" x:Name="Update_Model"   Grid.Row="2" Click="Change_Name_Click">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -604,7 +235,8 @@
 
 
 
-                <Button Content="Charge Drone" x:Name="ChargeDrone" Grid.Row="4"  Click="ChargeButton_Click" > <!--change here-->
+                <Button Content="Charge Drone" x:Name="ChargeDrone" Grid.Row="4"  Click="ChargeButton_Click"  IsEnabled="{Binding drone.Status, Converter={StaticResource TrueifAvailable}, Mode=OneWay}" >
+                   
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -612,7 +244,7 @@
                     </Button.Resources>
                 </Button>
 
-                <Button  Content="Release Drone" x:Name="ReleaseButton"  Click="ReleaseButton_Click" Grid.Row="6"  >
+                <Button  Content="Release Drone" x:Name="ReleaseButton"  Click="ReleaseButton_Click" Grid.Row="6"  IsEnabled="{Binding drone.Status, Converter={StaticResource TrueifMaintenance}, Mode=OneWay}"  >
 
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -621,7 +253,7 @@
                     </Button.Resources>
                 </Button>
 
-                <Button Content="Associate Package" x:Name="AssociateButton" Click="AssociateButton_Click" Grid.Row="8">
+                <Button Content="Associate Package" x:Name="AssociateButton" Click="AssociateButton_Click" Grid.Row="8"  IsEnabled="{Binding drone.Status, Converter={StaticResource TrueifAvailable}, Mode=OneWay}">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -629,23 +261,11 @@
                     </Button.Resources>
                 </Button>
 
-
-                <!--<Button Content="Pick Up Package" x:Name="PickUpButton" Grid.Row="10"  IsEnabled="{Binding package, Converter={StaticResource TrueIfNotPickUp }, Mode=OneWay}" Click="PickUpButton_Click">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Button Content="Deliver Package"  x:Name="DeliverButton" Grid.Row="12"  IsEnabled="{Binding package, Converter={StaticResource TrueIfNotDelivery }, Mode=OneWay}" Click="DeliverButton_Click">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </Button.Resources>
-                </Button>-->
             </Grid>
             <Button Content="Back" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="20" Width="95"  FontSize="15" FontFamily="Calisto MT" Background="#FFEF8C8C"  Click="Back_Click" Margin="0,0,45,15"/>
+
+            <CheckBox x:Name="Mode" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="False"/>
+            <CheckBox x:Name="ShipVisibility" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="False"/>
 
         </Grid>
 

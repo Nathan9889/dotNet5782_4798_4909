@@ -44,12 +44,15 @@ namespace PL
             //ClientsList.ItemsSource = pL.getClientList();
             //ClientsList2.ItemsSource = pL.getClientList();
 
+            Mode.IsChecked = true;
+
+
             Drone.drone = new BO.Drone();
             Drone.drone.DronePackageProcess = new BO.PackageProcess();
             Drone.drone.DronePackageProcess.Sender = new BO.ClientPackage();
             Drone.drone.DronePackageProcess.Receiver = new BO.ClientPackage();
             Drone.drone.DronePackageProcess.CollectLocation = new BO.Location();
-
+            Stations_List.ItemsSource = pL.DiplayStationWithChargSlot();
         }
 
         public DisplayDrone(int id)
@@ -58,11 +61,14 @@ namespace PL
             Drone.drone = pL.GetDrone(id);
             InitializeComponent();
 
+            if (Drone.drone.Status == BO.DroneStatus.Shipping)
+                ShipVisibility.IsChecked = true;
+
             if (Drone.drone.DronePackageProcess == null) Drone.drone.DronePackageProcess = new BO.PackageProcess();
             MainGrid.DataContext = Drone;
            
             Drone_MaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
-
+            
 
         }
 
@@ -167,58 +173,6 @@ namespace PL
 
 
 
-
-
-
-
-        ///// <summary>
-        ///// Picking up a package by a drone, displaying an appropriate message, and refreshing the display as needed
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void PickUpButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        BL.PickedUpByDrone(Drone.drone.ID);
-
-        //        MessageBox.Show("Package have been picked up successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-        //        InitializeDisplayDrone(Drone.drone.ID);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //}
-
-
-
-        ///// <summary>
-        ///// Delivery of a package to the customer by a drone, displaying an appropriate message, and refreshing the display as needed
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void DeliverButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        BL.DeliveredToClient(Drone.ID);
-
-        //        MessageBox.Show("Package have been delivered successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-        //        InitializeDisplayDrone(Drone.ID);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //}
-
-
-
-
-
-
-
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             if (Back != null) Back(-1);
@@ -247,6 +201,17 @@ namespace PL
                 PackagePage(id);
         }
 
+        /// <summary>
+        /// Closing a Drone window and activating the event 'CloseWindowEvent', for which a refresh function of the drone list is registered
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Exit_Button(object sender, RoutedEventArgs e)
+        {
+            if (Back != null) Back(-1);
+            this.NavigationService.GoBack();
+            // Close();
+        }
 
 
 
@@ -275,9 +240,6 @@ namespace PL
         }
 
 
-
-
-
         /// <summary>
         /// Select a station for adding a drone
         /// </summary>
@@ -288,169 +250,6 @@ namespace PL
             Stations_List.SelectedItem = Stations_List.SelectedItem.ToString().ElementAt(5);
             StationID.Text = ((BO.StationToList)Stations_List.SelectedItem).ID.ToString();
         }
-
-
-
-
-        ///// <summary>
-        ///// Initialize for adding a drone window
-        ///// </summary>
-        //void InitializeAddDrone()
-        //{
-        //    Add_New_Drone.Visibility = Visibility.Visible;
-        //    Drone_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
-        //    Stations_List.ItemsSource = BL.DisplayStationListWitAvailableChargingSlots();
-        //    Add_New_Drone.Visibility = Visibility.Visible;
-
-        //    var bc = new BrushConverter();
-        //    IdInput.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
-        //    IdInput.Background = (Brush)bc.ConvertFrom("#FFFFFFE1");
-
-        //    DroneModel.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
-        //    DroneModel.Background = (Brush)bc.ConvertFrom("#FFFFFFE1");
-
-        //    StationID.Visibility = Visibility.Visible;
-        //    Station_Id_Labl.Visibility = Visibility.Visible;
-        //    StationID.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
-        //    StationID.Background = (Brush)bc.ConvertFrom("#FFFFFFE1");
-        //    Drone_Weight.Style = (Style)this.FindResource("ComboBoxTest2");
-
-        //    Stations_Labl.Visibility = Visibility.Visible;
-        //    Stations_List.Visibility = Visibility.Visible;
-
-        //    Add_Drone_Button.Visibility = Visibility.Visible;
-        //    cancel.Visibility = Visibility.Visible;
-
-        //    Buttons.Visibility = Visibility.Hidden;   //hiding update window buttons
-        //    Shipping_Label.Visibility = Visibility.Hidden;
-        //    Package_Process.Visibility = Visibility.Hidden;
-        //    Battery.Visibility = Visibility.Hidden;
-        //    Battary_Label.Visibility = Visibility.Hidden;
-
-        //    StatusSelector.Text = BO.DroneStatus.Maintenance.ToString();
-        //}
-
-
-        ///// <summary>
-        ///// Initialize for drone updates window
-        ///// </summary>
-        ///// <param name="DroneId"></param>
-        //void InitializeDisplayDrone(int DroneId)
-        //{
-        //    Drone = BL.DisplayDrone(DroneId);
-
-        //    var bc = new BrushConverter();
-        //    DroneModel.Background = (Brush)bc.ConvertFrom("#FFFFFFE1");
-
-        //    IdInput.Text = $"{Drone.ID}";
-        //    IdInput.IsReadOnly = true;
-        //    Battery.Text = $"{Drone.Battery}";
-
-        //    Drone_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
-        //    Drone_Weight.SelectedItem = Drone.MaxWeight;
-        //    Drone_Weight.IsReadOnly = true;
-        //    Drone_Weight.IsEnabled = false;
-        //    Drone_Weight.Style = (Style)this.FindResource("ComboBoxTestInDisplayDrone");
-
-        //    DroneModel.Text = Drone.Model;
-
-        //    StatusSelector.Text = Drone.Status.ToString();
-
-        //    Location.Text = $"{Drone.DroneLocation}";
-
-
-        //    if (Drone.DronePackageProcess == null)
-        //    {
-        //        Package_Process.Visibility = Visibility.Hidden;
-        //        Shipping_Label.Visibility = Visibility.Hidden;
-        //    }
-        //    else
-        //    {
-        //        Package_Process.Text = $"{Drone.DronePackageProcess}";
-        //    }
-
-        //    //Only the buttons that can perform an action will be available for pressing
-        //    switch (Drone.Status)
-        //    {
-        //        case BO.DroneStatus.Available:
-        //            ChargeButton.IsEnabled = true;
-        //            AssociateButton.IsEnabled = true;
-        //            ReleaseButton.IsEnabled = false;
-        //            PickUpButton.IsEnabled = false;
-        //            DeliverButton.IsEnabled = false;
-        //            break;
-
-        //        case BO.DroneStatus.Maintenance:
-        //            ReleaseButton.IsEnabled = true;
-        //            ChargeButton.IsEnabled = false;
-        //            AssociateButton.IsEnabled = false;
-        //            PickUpButton.IsEnabled = false;
-        //            DeliverButton.IsEnabled = false;
-        //            break;
-
-        //        case BO.DroneStatus.Shipping:
-        //            switch (Drone.DronePackageProcess.PackageShipmentStatus)
-        //            {
-        //                case BO.ShipmentStatus.Waiting:
-        //                    PickUpButton.IsEnabled = true;
-        //                    ReleaseButton.IsEnabled = false;
-        //                    ChargeButton.IsEnabled = false;
-        //                    AssociateButton.IsEnabled = false;
-        //                    DeliverButton.IsEnabled = false;
-        //                    break;
-
-        //                case BO.ShipmentStatus.OnGoing:
-        //                    DeliverButton.IsEnabled = true;
-        //                    ReleaseButton.IsEnabled = false;
-        //                    ChargeButton.IsEnabled = false;
-        //                    AssociateButton.IsEnabled = false;
-        //                    PickUpButton.IsEnabled = false;
-        //                    break;
-
-        //            }
-        //            break;
-        //    }
-        //}
-
-
-
-
-
-
-
-
-
-        ///// <summary>
-        ///// Change the frame color if the ID input is incorrect
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void idInput_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    var bc = new BrushConverter();
-        //    if (IdInput.Text != null && IdInput.Text != string.Empty && (IdInput.Text).All(char.IsDigit))
-        //    {
-        //        IdInput.BorderBrush = (Brush)bc.ConvertFrom("#FF99B4D1");
-        //    }
-        //    else IdInput.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
-
-        //}
-
-        ///// <summary>
-        ///// Change the frame color if the DroneModel input is incorrect
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void DroneModel_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    var bc = new BrushConverter();
-        //    string text = DroneModel.Text;
-        //    if (text != null && text != "" && char.IsLetter(text.ElementAt(0)))
-        //    {
-        //        DroneModel.BorderBrush = (Brush)bc.ConvertFrom("#FF99B4D1");
-        //    }
-        //    else DroneModel.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
-        //}
 
         /// <summary>
         ///  Change the frame color if the StationID input is incorrect
@@ -478,90 +277,7 @@ namespace PL
             }
         }
 
-
-        ///// <summary>
-        ///// Adding a drone.
-        /////Check that the inputs are correct and add.
-        /////And display an appropriate message
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void Add_Drone_Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    SolidColorBrush red = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFE92617"));
-        //    if (SolidColorBrush.Equals(((SolidColorBrush)StationID.BorderBrush).Color, red.Color) || SolidColorBrush.Equals(((SolidColorBrush)DroneModel.BorderBrush).Color, red.Color)
-        //        || SolidColorBrush.Equals(((SolidColorBrush)IdInput.BorderBrush).Color, red.Color) || Drone_Weight.Style == (Style)this.FindResource("ComboBoxTest2"))
-        //    {
-        //        MessageBox.Show("Please enter correct input", "Error input", MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //    else
-        //    {
-        //        BO.Drone drone = new BO.Drone();
-        //        drone.ID = int.Parse(IdInput.Text);
-        //        drone.Model = DroneModel.Text;
-        //        drone.MaxWeight = (BO.WeightCategories)Drone_Weight.SelectedItem;
-        //        try
-        //        {
-        //            BL.AddDrone(drone, int.Parse(StationID.Text));
-
-        //            MessageBox.Show("Drone have been Added Successfully !", "Drone Added", MessageBoxButton.OK, MessageBoxImage.Information);
-        //            if (Back != null) Back(-1);
-        //            this.NavigationService.GoBack();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        //        }
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Change the frame color if the  Drone_Weight input is incorrect
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void Drone_Weight_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    if (Drone_Weight.SelectedItem != null)
-        //    {
-        //        Drone_Weight.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
-        //    }
-        //    else Drone_Weight.Style = (Style)this.FindResource("ComboBoxTest2");
-        //}
-
-
-        ///// <summary>
-        ///// Select a station for adding a drone
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void Stations_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    Stations_List.SelectedItem = Stations_List.SelectedItem.ToString().ElementAt(5);
-        //    StationID.Text = ((BO.StationToList)Stations_List.SelectedItem).ID.ToString();
-        //}
-
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// Closing a Drone window and activating the event 'CloseWindowEvent', for which a refresh function of the drone list is registered
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Exit_Button(object sender, RoutedEventArgs e)
-        {
-            if (Back != null) Back(-1);
-            this.NavigationService.GoBack();
-            // Close();
-        }
-
+        
         
     }
 }

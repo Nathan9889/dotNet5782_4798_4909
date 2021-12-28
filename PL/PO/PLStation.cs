@@ -47,6 +47,10 @@ namespace Model
 
         }
 
+        public IEnumerable<BO.StationToList> DiplayStationWithChargSlot()
+        {
+            return BL.DisplayStationListWitAvailableChargingSlots();
+        }
     }
 
     //public static class CopyProperties

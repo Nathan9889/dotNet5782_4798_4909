@@ -77,18 +77,18 @@ namespace PL
         }
 
 
-        /// <summary>
-        /// Closes the drone list window
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ExitButton(object sender, RoutedEventArgs e)
-        {
-            this.NavigationService.GoBack();
+        ///// <summary>
+        ///// Closes the drone list window
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void ExitButton(object sender, RoutedEventArgs e)
+        //{
+        //    this.NavigationService.GoBack();
 
-            ////////********************************************************
+        //    ////////********************************************************
             
-        }
+        //}
 
 
         private void Reset_Button_Click(object sender, RoutedEventArgs e)
@@ -141,6 +141,7 @@ namespace PL
         private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BO.DroneStatus? status;
+            drones.Clear();
 
             if (StatusSelector.SelectedItem == null) status = null;
             else status = (BO.DroneStatus)StatusSelector.SelectedItem;
@@ -150,19 +151,19 @@ namespace PL
                 switch (status)
                 {
                     case BO.DroneStatus.Available:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Available);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Available)) drones.Add(d);
                         break;
 
                     case BO.DroneStatus.Maintenance:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Maintenance);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Maintenance))  drones.Add(d);
                         break;
 
                     case BO.DroneStatus.Shipping:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Shipping);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Shipping)) drones.Add(d);
                         break;
 
                     case null:
-                        DronesListView.ItemsSource = BL.DisplayDroneList();
+                        InitializeList();
                         break;
                 }
             }
@@ -171,19 +172,19 @@ namespace PL
                 switch (status)
                 {
                     case BO.DroneStatus.Available:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Available && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Available && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem)) drones.Add(d);
                         break;
 
                     case BO.DroneStatus.Maintenance:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Maintenance && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Maintenance && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem)) drones.Add(d);
                         break;
 
                     case BO.DroneStatus.Shipping:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Shipping && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Shipping && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem)) drones.Add(d);
                         break;
 
                     case null:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem)) drones.Add(d);
                         break;
 
                 }
@@ -199,6 +200,7 @@ namespace PL
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BO.WeightCategories? weight;
+            drones.Clear();
 
             if (WeightSelector.SelectedItem == null) weight = null;
             else weight = (BO.WeightCategories)WeightSelector.SelectedItem;
@@ -208,19 +210,18 @@ namespace PL
                 switch (weight)
                 {
                     case BO.WeightCategories.Heavy:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Heavy);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Heavy)) drones.Add(d);
                         break;
 
                     case BO.WeightCategories.Light:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Light);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Light)) drones.Add(d);
                         break;
 
                     case BO.WeightCategories.Medium:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Medium);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Medium)) drones.Add(d);
                         break;
-
                     case null:
-                        DronesListView.ItemsSource = BL.DisplayDroneList();
+                        InitializeList();
                         break;
                 }
             }
@@ -229,21 +230,22 @@ namespace PL
                 switch (weight)
                 {
                     case BO.WeightCategories.Heavy:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Heavy && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem);
+
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Heavy && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem)) drones.Add(d);
                         break;
 
                     case BO.WeightCategories.Light:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Light && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Light && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem)) drones.Add(d);
                         break;
 
                     case BO.WeightCategories.Medium:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Medium && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Medium && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem)) drones.Add(d);
                         break;
 
                     case null:
-                        DronesListView.ItemsSource = BL.DisplayDroneListFilter(d => d.Status == (BO.DroneStatus)StatusSelector.SelectedItem);
-                        break;
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == (BO.DroneStatus)StatusSelector.SelectedItem)) drones.Add(d);
 
+                        break;
                 }
             }
         }

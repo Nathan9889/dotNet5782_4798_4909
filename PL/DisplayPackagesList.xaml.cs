@@ -69,10 +69,10 @@ namespace PL
         }
 
 
-        private void ExitButton(object sender, RoutedEventArgs e)
-        {
+        //private void ExitButton(object sender, RoutedEventArgs e)
+        //{
 
-        }
+        //}
 
         private void Reset_Button_Click(object sender, RoutedEventArgs e)
         {
