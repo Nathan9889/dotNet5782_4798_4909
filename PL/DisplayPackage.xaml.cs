@@ -27,9 +27,9 @@ namespace PL
         Package Package = new Package();
 
         public delegate void Navigation(int id);
-        public event Navigation Back;
-        public event Navigation ClientPage;
-        public event Navigation DronePage;
+        public event Navigation Back; //Event Back to Previous Page (For List Refresh)
+        public event Navigation ClientPage; //New page opening event from the current page
+        public event Navigation DronePage; //New page opening event from the current page
 
         public DisplayPackage()
         {
@@ -45,7 +45,10 @@ namespace PL
 
         }
 
-
+        /// <summary>
+        /// Constructor for display and add operations
+        /// </summary>
+        /// <param name="id">ID of package</param>
         public DisplayPackage(int id)
         {
             this.pL = new Model.PL();
@@ -59,7 +62,11 @@ namespace PL
         }
 
 
-
+        /// <summary>
+        /// Package delete button - only if it has not yet been associated with a drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Delete_Package_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -75,6 +82,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Add package button, display user message and navigate back to previous page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Add_Package_Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -90,12 +102,22 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Back to previous mode button - and refresh list if needed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             if (Back != null) Back(-1);
             this.NavigationService.GoBack();
         }
 
+        /// <summary>
+        /// Package collection button - by the drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PickUpButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -111,6 +133,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Package delivery button to the customer - by the drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeliverButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -126,40 +153,44 @@ namespace PL
             }
         }
 
-        private void Package_Weight_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (Package.package.DroneOfPackage == null) Package_Weight.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
-        }
 
-        private void Package_Priority_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (Package.package.DroneOfPackage == null) Package_Priority.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
-        }
 
-        private void ClientsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ClientsList.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
-        }
-
-        private void ClientsList2_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ClientsList2.Style = (Style)this.FindResource("ComboBoxTestAfterCorrectInput");
-        }
-
+        /// <summary>
+        /// Cancel Add button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Cancel(object sender, RoutedEventArgs e)
         {
             if (Back != null) Back(-1);
             this.NavigationService.GoBack();
         }
 
+        /// <summary>
+        /// Button for displaying a sending customer's page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Sender_Page_Click(object sender, RoutedEventArgs e)
         {
             if(ClientPage!=null)ClientPage(int.Parse(idSender.Text));
         }
+
+        /// <summary>
+        /// Customer Page Receive Button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Reciver_Page_Click(object sender, RoutedEventArgs e)
         {
             if (ClientPage != null) ClientPage(int.Parse(idReciver.Text));
         }
+
+        /// <summary>
+        /// Button display page of the drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Drone_Page_Click(object sender, RoutedEventArgs e)
         {
             if (DronePage != null && int.Parse(Drone_id.Text)!=0)

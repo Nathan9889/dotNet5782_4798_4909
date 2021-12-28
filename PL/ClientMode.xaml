@@ -84,7 +84,7 @@
                 <TextBlock HorizontalAlignment="Left" Margin="73,160,0,0" Text="Priority:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="13" FontFamily="Arial Rounded MT Bold"/>
                 <TextBlock HorizontalAlignment="Left" Margin="74,231,0,0" Text="Reciver ID:" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.601,-2.305" FontSize="13" FontFamily="Arial Rounded MT Bold"/>
                 <Button x:Name="addClient" Content="The receiving customer does not exist in the &#xA; system? Please click here to add" HorizontalAlignment="Center" Margin="0,358,0,0" VerticalAlignment="Top" Height="37" Width="247" AutomationProperties.HelpText="" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" FontWeight="Normal" FontStyle="Italic" />
-                <Button Content="Send" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top" Width="175" Background="#FF565CFF" FontSize="13" Click="Button_Click">
+                <Button Content="Send" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top" Width="175" Background="#FF565CFF" FontSize="13" Click="Add_Package_Click">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />

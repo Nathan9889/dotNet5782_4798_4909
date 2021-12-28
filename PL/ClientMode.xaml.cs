@@ -27,8 +27,6 @@ namespace PL
         private ObservableCollection<BO.PackageToList> ReceivePackages = new ObservableCollection<BO.PackageToList>();
         Package Package = new Package();
 
-        public delegate void Navigation(int id);
-        public event Navigation AddClientPage;
         public ClientMde()
         {
             InitializeComponent();
@@ -42,8 +40,12 @@ namespace PL
             Add_Package.DataContext = Package;
         }
 
-      
 
+        /// <summary>
+        /// Login button as a customer - check whether the ID and cell phone are correct and provide login or not
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Login_Click(object sender, RoutedEventArgs e)
         {
             SolidColorBrush red = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFE92617"));
@@ -76,7 +78,11 @@ namespace PL
         }
 
 
-
+        /// <summary>
+        /// Delete a customer's package button - if not yet associated with the drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Delete_Package_Click(object sender, RoutedEventArgs e)
         {
 
@@ -94,6 +100,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Package Pick Button - The customer confirms that a package he sent was collected from him
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pick_up_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -112,6 +123,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Package Delivery Button - The customer confirms that a package he needs to receive has reached him
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Delivered_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -131,8 +147,12 @@ namespace PL
         }
 
 
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Add package button - the customer sends a new package
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Add_Package_Click(object sender, RoutedEventArgs e)
         {
             try
             {

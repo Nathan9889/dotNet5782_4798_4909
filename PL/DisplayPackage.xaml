@@ -20,6 +20,7 @@
         <local:NullToVisible x:Key="NullToVisible"></local:NullToVisible>
         <local:ClientListToClientPackage x:Key="ClientListToClientPackage"></local:ClientListToClientPackage>
         <local:LocationToString x:Key="LocationToString"></local:LocationToString>
+        <local:StyleForConboBox x:Key="StyleForConboBox"></local:StyleForConboBox>
 
         <localModel:Ticker x:Key="Ticker"></localModel:Ticker>
 
@@ -131,11 +132,11 @@
                 <TextBlock x:Name="PickedUp_Label" HorizontalAlignment="Left" Grid.Row="11" Text="PickedUp:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="1,0,0,0" Height="13" Width="61" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToHidden}}" />
                 <TextBlock x:Name="Delivered_Label" HorizontalAlignment="Left" Grid.Row="13" Text="Delivered:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="1,0,0,0" Height="13" Width="63" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToHidden}}"/>
 
-                <ComboBox x:Name="Package_Priority" Grid.Column="1" Grid.Row="5"   FontFamily="Arial" FontWeight="Bold"  VerticalContentAlignment="Center" SelectedIndex="{Binding package.Priority, Converter={StaticResource EnumToInt}, Mode=OneWay}"  IsEnabled="{Binding package.DroneOfPackage, Converter={StaticResource NullToTrue }}" SelectionChanged="Package_Priority_SelectionChanged" SelectedItem="{Binding package.Priority, Mode=OneWayToSource}">
+                <ComboBox x:Name="Package_Priority" Grid.Column="1" Grid.Row="5"   FontFamily="Arial" FontWeight="Bold"  VerticalContentAlignment="Center" SelectedIndex="{Binding package.Priority, Converter={StaticResource EnumToInt}, Mode=OneWay}"  IsEnabled="{Binding package.DroneOfPackage, Converter={StaticResource NullToTrue }}"  SelectedItem="{Binding package.Priority, Mode=OneWayToSource}" Style="{Binding ElementName=Package_Priority, Path=SelectedItem, Converter={StaticResource StyleForConboBox}}">
                 </ComboBox>
 
                 <TextBlock HorizontalAlignment="Left" Grid.Row="3" Text="Weight:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" Height="13" Width="48" />
-                <ComboBox x:Name="Package_Weight" Grid.Column="1"   Grid.Row="3" Height="Auto"  FontWeight="Bold" FontFamily="Arial" VerticalContentAlignment="Center" SelectedIndex="{Binding package.Weight, Converter={StaticResource EnumToInt}, Mode=OneWay}" IsEnabled="{Binding package.DroneOfPackage, Converter={StaticResource NullToTrue }}" SelectionChanged="Package_Weight_SelectionChanged" SelectedItem="{Binding package.Weight, Mode=OneWayToSource}" />
+                <ComboBox x:Name="Package_Weight" Grid.Column="1"   Grid.Row="3" Height="Auto"  FontWeight="Bold" FontFamily="Arial" VerticalContentAlignment="Center" SelectedIndex="{Binding package.Weight, Converter={StaticResource EnumToInt}, Mode=OneWay}" IsEnabled="{Binding package.DroneOfPackage, Converter={StaticResource NullToTrue }}"  SelectedItem="{Binding package.Weight, Mode=OneWayToSource}" Style="{Binding ElementName=Package_Weight, Path=SelectedItem, Converter={StaticResource StyleForConboBox}}" />
 
 
 
@@ -187,7 +188,7 @@
                             <TextBox Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" IsReadOnly="True" Text="{Binding package.SenderClient.Name }"/>
 
                         </StackPanel>
-                        <ComboBox x:Name="ClientsList2" Height="26" Width="140"  Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToVisible}}" Style="{StaticResource ComboBoxTest2}" SelectionChanged="ClientsList2_SelectionChanged"  SelectedItem="{Binding package.SenderClient,Mode=TwoWay, Converter={StaticResource ClientListToClientPackage}}" />
+                        <ComboBox x:Name="ClientsList2" Height="26" Width="140"  Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToVisible}}"   SelectedItem="{Binding package.SenderClient,Mode=TwoWay, Converter={StaticResource ClientListToClientPackage}}" Style="{Binding ElementName=ClientsList2, Path=SelectedItem, Converter={StaticResource StyleForConboBox}}" />
                     </Grid>
                 </GroupBox>
 
@@ -223,7 +224,7 @@
                             <TextBox Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" IsReadOnly="True" Text ="{Binding package.TargetClient.Name}" />
 
                         </StackPanel>
-                        <ComboBox x:Name="ClientsList" Height="26" Width="140" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToVisible}}" Style="{StaticResource ComboBoxTest2}" SelectionChanged="ClientsList_SelectionChanged" SelectedItem="{Binding package.TargetClient, Mode=TwoWay, Converter={StaticResource ClientListToClientPackage}}"/>
+                        <ComboBox x:Name="ClientsList" Height="26" Width="140" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToVisible}}"   SelectedItem="{Binding package.TargetClient, Mode=TwoWay, Converter={StaticResource ClientListToClientPackage}}" Style="{Binding ElementName=ClientsList, Path=SelectedItem, Converter={StaticResource StyleForConboBox}}"/>
                     </Grid>
 
                 </GroupBox>
