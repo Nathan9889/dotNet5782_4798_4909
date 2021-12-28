@@ -30,7 +30,6 @@ namespace PL
             content = this.Content;
         }
 
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MainWindowDisplay.Visibility = Visibility.Hidden;
@@ -210,8 +209,5 @@ namespace PL
             MainWindowDisplay.Visibility = Visibility.Visible;
 
         }
-
-
-
     }
 }

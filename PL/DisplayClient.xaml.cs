@@ -62,7 +62,10 @@ namespace PL
             ReceiverPackageList.ItemsSource = Client.client.ClientsReceiver;
         }
 
-
+        /// <summary>
+        /// ctor for new client that sign up for the bonus
+        /// </summary>
+        /// <param name="s"></param>
         public DisplayClient(string s)
         {
             InitializeComponent();
@@ -78,7 +81,11 @@ namespace PL
         }
 
 
-
+        /// <summary>
+        /// functionn that updates client name
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UpdateName_Button(object sender, RoutedEventArgs e)
         {
             try
@@ -94,6 +101,12 @@ namespace PL
             }
         }
 
+
+        /// <summary>
+        /// function to update phone number
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UpdatePhone_Button(object sender, RoutedEventArgs e)
         {
             try
@@ -110,6 +123,11 @@ namespace PL
         }
 
 
+        /// <summary>
+        ///  Back click button 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             if (Back != null)
@@ -118,7 +136,11 @@ namespace PL
         }
 
 
-
+        /// <summary>
+        /// cancel adding click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
             if (Back != null) Back(-1);

@@ -433,9 +433,10 @@ namespace BL
             return temp;
         }
 
-
-
-
+        /// <summary>
+        /// grouping function to group by status
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<IGrouping<DroneStatus, DroneToList>> DroneGroupbyStatus()
         {
             return DisplayDroneList().GroupBy(x => x.Status);

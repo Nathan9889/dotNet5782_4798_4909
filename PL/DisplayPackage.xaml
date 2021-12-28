@@ -144,7 +144,6 @@
                 <Button x:Name="cancel" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToVisible}}" Width="125" Content="Cancel" Click="Cancel"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="15" Grid.ColumnSpan="2" Margin="35,0,98,0"  >
                     <Button.Background>
                         <RadialGradientBrush>
-                            <GradientStop Color="Black" Offset="1"/>
                             <GradientStop Color="Red" Offset="0.2"/>
                         </RadialGradientBrush>
                     </Button.Background>
@@ -152,7 +151,6 @@
                 <Button x:Name="Add_Package_Button" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Add Package" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Package_Button_Click" Grid.Column="1" Margin="112,19,130,0" Grid.RowSpan="2" Height="33" VerticalAlignment="Top">
                     <Button.Background>
                         <RadialGradientBrush>
-                            <GradientStop Color="#FF3B5611" Offset="1"/>
                             <GradientStop Color="#FF9DFF00" Offset="0.1"/>
                         </RadialGradientBrush>
                     </Button.Background>
