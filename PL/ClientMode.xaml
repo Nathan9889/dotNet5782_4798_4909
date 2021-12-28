@@ -83,7 +83,7 @@
                 <TextBlock HorizontalAlignment="Left" Margin="73,87,0,0" Text="Weight:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="13" FontFamily="Arial Rounded MT Bold"/>
                 <TextBlock HorizontalAlignment="Left" Margin="73,160,0,0" Text="Priority:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="13" FontFamily="Arial Rounded MT Bold"/>
                 <TextBlock HorizontalAlignment="Left" Margin="74,231,0,0" Text="Reciver ID:" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.601,-2.305" FontSize="13" FontFamily="Arial Rounded MT Bold"/>
-                <Button x:Name="addClient" Content="The receiving customer does not exist in the &#xA; system? Please click here to add" HorizontalAlignment="Center" Margin="0,358,0,0" VerticalAlignment="Top" Height="37" Width="247" AutomationProperties.HelpText="" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" FontWeight="Normal" FontStyle="Italic" Click="addClient_Click"/>
+                <Button x:Name="addClient" Content="The receiving customer does not exist in the &#xA; system? Please click here to add" HorizontalAlignment="Center" Margin="0,358,0,0" VerticalAlignment="Top" Height="37" Width="247" AutomationProperties.HelpText="" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" FontWeight="Normal" FontStyle="Italic" />
                 <Button Content="Send" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top" Width="175" Background="#FF565CFF" FontSize="13" Click="Button_Click">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -103,7 +103,10 @@
             <Label Content="The packages sent to you:" HorizontalAlignment="Left" Margin="91,0,0,0" Grid.Row="3" VerticalAlignment="Top" Grid.ColumnSpan="2" FontSize="14" FontFamily="Arial Rounded MT Bold"/>
 
             <Grid Margin="103,0,0,0" Name="ButtonsForSent" Grid.Column="1" Grid.Row="2" >
-                <Button Content="Collected" x:Name="pick_up" Height="30"  Margin="0,98,34,22" Background="#FFFF7706" ToolTip="Has the package been collected from you? Please click here" Click="pick_up_Click">
+                <Button Content="Confirm Collection" x:Name="pick_up" Height="30"  Margin="0,98,34,22" Background="#FFFF7706" Click="pick_up_Click">
+                    <Button.ToolTip>
+                        <ToolTip Content="Has the package been collected from you? Please click here" FontSize="14" FontFamily="Arial Rounded MT Bold"/>
+                    </Button.ToolTip>
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -125,7 +128,10 @@
                 </Button>
             </Grid>
 
-            <Button Content="Delivered" x:Name="Delivered" Height="30"  Margin="103,55,30,65" Background="#FF19FF6C" ToolTip="The package was delivered to you? Please click here" Grid.Column="1" Grid.Row="3" Click="Delivered_Click" >
+            <Button Content="Confirm Delivery" x:Name="Delivered" Height="30"  Margin="103,55,30,65" Background="#FF19FF6C" Grid.Column="1" Grid.Row="3" Click="Delivered_Click" >
+                <Button.ToolTip>
+                    <ToolTip Content="Has the package been delivered to you? Please click here" FontSize="14" FontFamily="Arial Rounded MT Bold"/>
+                </Button.ToolTip>
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="5" />
@@ -135,7 +141,8 @@
                     <Binding Converter="{StaticResource TrueIfStatusPickedUp}" ElementName="Client_Packages_receive" Mode="OneWay" Path="SelectedItem"/>
                 </Button.IsEnabled>
             </Button>
-            <Label Content="Hello" HorizontalAlignment="Left" Margin="193,13,0,0" VerticalAlignment="Top" Width="72" Foreground="#FF2E6DC7" FontFamily="Lucida Calligraphy" FontSize="20"/>
+            <Label Content="Hello" HorizontalAlignment="Left" Margin="179,0,0,0" VerticalAlignment="Center" Width="83" Foreground="#FF2E6DC7" FontFamily="Algerian" FontSize="24" FontWeight="Normal" RenderTransformOrigin="0.867,0.504"/>
+            <Label Name="ClientName" HorizontalAlignment="Left" VerticalAlignment="Center" Width="236" Foreground="#FF2E6DC7" FontFamily="Algerian" FontSize="24" FontWeight="Normal" Height="41" Grid.Column="1"/>
         </Grid>
         <Rectangle HorizontalAlignment="Left" Height="1" Margin="550,-6,0,0" Stroke="Black" VerticalAlignment="Top" Width="223" RenderTransformOrigin="0.5,0.5">
             <Rectangle.RenderTransform>

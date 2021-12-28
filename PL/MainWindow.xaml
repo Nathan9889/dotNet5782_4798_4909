@@ -23,18 +23,42 @@
             <Button x:Name="Sign_Up"  Content="Sign Up" HorizontalAlignment="Center" Margin="0,326,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.415,-0.935" FontSize="14" FontFamily="Arial Rounded MT Bold" FontStyle="Normal" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Click="Sign_Up_Click" />
         </Grid>
 
-        <Grid x:Name="Buttons_For_Lists" Height="60" VerticalAlignment="Top"  Visibility="{Binding ElementName=Manager_login, Path=ClickMode, Converter={StaticResource ClickModeToVisible}}"  >
+        <Grid x:Name="Buttons_For_Lists" Height="60" VerticalAlignment="Top"   >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width ="*"></ColumnDefinition>
                 <ColumnDefinition Width ="*"></ColumnDefinition>
                 <ColumnDefinition Width ="*"></ColumnDefinition>
                 <ColumnDefinition Width ="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Content="Package List" Grid.Column="3" FontFamily="Aharoni" Click="Button_Click" Margin="0,0,0,30"/>
-            <Button Content="Drones List" FontFamily="Aharoni" Click=" Drones_List_Click" Height="30" VerticalAlignment="Top" />
-            <Button Content="Clients List" Grid.Column="1" FontFamily="Aharoni" Click="Button_Click_1" Margin="0,0,0,30"/>
-            <Button x:Name="Stations" Content="StationsList" Grid.Column="2" FontFamily="Aharoni" Click="Stations_Click" Margin="0,0,0,30"/>
-            <Button Content="return to main Window" HorizontalAlignment="Left" Margin="38,35,0,0" VerticalAlignment="Top" Click="Button_Click_3"/>
+            <Button Content="Package List" Grid.Column="3" FontFamily="Aharoni" Click="Button_Click" Margin="0,0,0,30" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="20" />
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="Drones List" FontFamily="Aharoni" Click=" Drones_List_Click" Height="30" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" >
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="20" />
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="Clients List" Grid.Column="1" FontFamily="Aharoni" Click="Button_Click_1" Margin="0,0,0,30" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="20" />
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="Stations" Content="StationsList" Grid.Column="2" FontFamily="Aharoni" Click="Stations_Click" Margin="0,0,0,30" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="20" />
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="return to main Window" HorizontalAlignment="Left" Margin="38,35,0,0" VerticalAlignment="Top" Click="MainWindowDis"/>
 
 
         </Grid>

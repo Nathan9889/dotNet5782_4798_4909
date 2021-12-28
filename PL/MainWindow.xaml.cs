@@ -171,7 +171,16 @@ namespace PL
 
         private void Sign_Up_Click(object sender, RoutedEventArgs e)
         {
-            new SignUpClient().Show();
+            var page = new DisplayClient(" ");
+            page.MainWindow += MainWindowDis;
+            this.Content = page;
+
+        }
+        private void Sign_Up_From_ClientMode(object sender, RoutedEventArgs e)
+        {
+            var page = new DisplayClient(" ");
+            this.Frame.Content = page;
+
         }
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
@@ -181,11 +190,15 @@ namespace PL
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            this.Content = new ClientMde();
+            MainWindowDisplay.Visibility = Visibility.Hidden;
+            var page = new ClientMde();
+            page.addClient.Click += Sign_Up_From_ClientMode;
+            this.Frame.Content = page;
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
+        private void MainWindowDis(object sender, RoutedEventArgs e)
         {
+            this.Content = content;
             this.Frame.Visibility = Visibility.Hidden;
             Buttons_For_Lists.Visibility = Visibility.Hidden;
             MainWindowDisplay.Visibility = Visibility.Visible;

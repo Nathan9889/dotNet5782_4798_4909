@@ -22,7 +22,8 @@
         <local:TrueToHidden x:Key="TrueToHidden"></local:TrueToHidden>
         <local:TrueToVisible x:Key="TrueToVisible"></local:TrueToVisible>
         <local:TrueToFalse x:Key="TrueToFalse"></local:TrueToFalse>
-        
+
+
         <Style x:Key="clients" TargetType="ComboBox">
             <Setter Property="ItemsSource" Value="{Binding}"></Setter>
         </Style>
@@ -83,6 +84,21 @@
                         </Style>
                     </TextBox.Resources>
                 </TextBox>
+                <Button Name="Sign_up"  Content="Sign Up" HorizontalAlignment="Left" Visibility="Hidden" Grid.Row="12" Grid.ColumnSpan="2" Grid.RowSpan="2" VerticalAlignment="Top" Height="34" Width="180" Background="#FF2A4FC9" FontSize="14" FontFamily="Arial Rounded MT Bold" Click="Add_Client_Button_Click" Margin="51,0,0,0">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Name="Cancel_Sign_up"  Content="Cancel" HorizontalAlignment="Left" Visibility="Hidden" Grid.Row="14" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="22" Width="162" Background="Red" FontSize="14" FontFamily="Arial Rounded MT Bold" Click="Sign_up_Cancel_Click" Margin="60,9,0,0" Grid.RowSpan="2">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
                 <TextBox x:Name="Clientlatitude" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}" VerticalContentAlignment="Center" Text="{Binding client.ClientLocation.Latitude}"  >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">

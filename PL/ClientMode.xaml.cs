@@ -26,7 +26,9 @@ namespace PL
         private ObservableCollection<BO.PackageToList> SentPackages = new ObservableCollection<BO.PackageToList>();
         private ObservableCollection<BO.PackageToList> ReceivePackages = new ObservableCollection<BO.PackageToList>();
         Package Package = new Package();
-        
+
+        public delegate void Navigation(int id);
+        public event Navigation AddClientPage;
         public ClientMde()
         {
             InitializeComponent();
@@ -59,6 +61,7 @@ namespace PL
                         Main_Display.Visibility = Visibility.Visible;
                         foreach (var package in bL.GetPackagesSentBySpecificClient(int.Parse(Login_ID.Text))) SentPackages.Add(package);
                         foreach (var package in bL.GetPackagesSentToSpecificClient(int.Parse(Login_ID.Text))) ReceivePackages.Add(package);
+                        ClientName.Content = bL.DisplayClient(int.Parse(Login_ID.Text)).Name;
                     }
                    
 
@@ -127,10 +130,7 @@ namespace PL
             }
         }
 
-        private void addClient_Click(object sender, RoutedEventArgs e)
-        {
-            new SignUpClient().Show();
-        }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

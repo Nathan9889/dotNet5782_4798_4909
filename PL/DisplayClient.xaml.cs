@@ -28,7 +28,9 @@ namespace PL
         public delegate void Navigation(int id);
         public event Navigation Back;
         public event Navigation PackagePage;
-       
+        public delegate void Navigation_(object sender, RoutedEventArgs e);
+        public event Navigation_ MainWindow; // פעיל רק במצב תצוגת לקוח
+
 
         public DisplayClient()
         {
@@ -56,7 +58,24 @@ namespace PL
             SenderPackageList.ItemsSource = Client.client.ClientsSender;
             ReceiverPackageList.ItemsSource = Client.client.ClientsReceiver;
         }
-      
+        public DisplayClient(string s)
+        {
+            InitializeComponent();
+            this.pL = new Model.PL();
+            MainGrid.DataContext = Client;
+            Sign_up.Visibility = Visibility.Visible;
+            Cancel_Sign_up.Visibility = Visibility.Visible;
+            Add_Client_Button.Visibility = Visibility.Hidden;
+            cancel.Visibility = Visibility.Hidden;
+            Mode.IsChecked = true;
+            //**
+            Client.client = new BO.Client();
+            Client.client.ClientLocation = new BO.Location();
+        }
+
+
+
+
 
 
         private void UpdateName_Button(object sender, RoutedEventArgs e)
@@ -107,7 +126,14 @@ namespace PL
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
             if (Back != null) Back(-1);
-            this.NavigationService.GoBack();
+            if (this.NavigationService != null && this.NavigationService.CanGoBack) this.NavigationService.GoBack();
+
+        }
+
+        private void Sign_up_Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainWindow != null) MainWindow(this, new RoutedEventArgs());
+            if (this.NavigationService != null && this.NavigationService.CanGoBack) this.NavigationService.GoBack();
         }
 
         private void Add_Client_Button_Click(object sender, RoutedEventArgs e)
@@ -118,7 +144,8 @@ namespace PL
                 pL.AddClient(Client.client);
                 if (Back != null) Back(-1);
                 MessageBox.Show($"The Client was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.NavigationService.GoBack();
+                if (MainWindow != null) MainWindow(this, new RoutedEventArgs());
+                if (this.NavigationService != null && this.NavigationService.CanGoBack) this.NavigationService.GoBack(); this.NavigationService.GoBack();
             }
             catch (Exception ex)
             {

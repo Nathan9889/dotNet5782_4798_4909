@@ -19,6 +19,7 @@
         <local:NullToFalse x:Key="NullToFalse"></local:NullToFalse>
         <local:NullToVisible x:Key="NullToVisible"></local:NullToVisible>
         <local:ClientListToClientPackage x:Key="ClientListToClientPackage"></local:ClientListToClientPackage>
+        <local:LocationToString x:Key="LocationToString"></local:LocationToString>
 
         <localModel:Ticker x:Key="Ticker"></localModel:Ticker>
 
@@ -230,7 +231,7 @@
                         <TextBlock Grid.ColumnSpan="1" Text="ID:" Margin="0,0,102,45" RenderTransformOrigin="4.616,0.267"/>
                         <TextBlock Grid.ColumnSpan="1" Text="Battery:" Margin="0,34,74,11" RenderTransformOrigin="4.616,0.267"/>
                         <TextBlock Text="Location:" Margin="0,-2,49,47" RenderTransformOrigin="4.616,0.267" Grid.Column="1"/>
-                        <TextBox HorizontalAlignment="Left" Margin="0,16,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="110" Height="34" Grid.Column="1" DataContext="{Binding package.DroneOfPackage}" Text="{Binding CurrentLocation}" IsReadOnly="True" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                        <TextBox HorizontalAlignment="Left" Margin="0,16,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="110" Height="34" Grid.Column="1" DataContext="{Binding package.DroneOfPackage, Mode=OneWay}" Text="{Binding CurrentLocation, Converter={StaticResource LocationToString}}" IsReadOnly="True" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
                         <TextBox x:Name="Drone_id"  HorizontalAlignment="Left" Margin="0,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="73" Text="{Binding package.DroneOfPackage.Id}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" IsReadOnly="True"/>
                         <TextBox HorizontalAlignment="Left" Margin="0,50,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="73" Text="{Binding package.DroneOfPackage.Battery}" IsReadOnly="True" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
 
