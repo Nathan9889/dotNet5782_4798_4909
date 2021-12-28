@@ -9,10 +9,14 @@
 
     <Page.Resources>
         <local:FrameColorForNumbers x:Key="FrameColorForNumbers"></local:FrameColorForNumbers>
+        <local:TrueIfStatusCreated x:Key="TrueIfStatusCreated"></local:TrueIfStatusCreated>
+        <local:TrueIfStatusAssociated x:Key="TrueIfStatusAssociated"></local:TrueIfStatusAssociated>
+        <local:TrueIfStatusPickedUp x:Key="TrueIfStatusPickedUp"></local:TrueIfStatusPickedUp>
+        <local:StyleForConboBox x:Key="StyleForConboBox"></local:StyleForConboBox>
     </Page.Resources>
 
     <Grid>
-        <Grid x:Name="Login" >
+        <Grid x:Name="Login" Visibility="Visible" >
             <TextBlock HorizontalAlignment="Left" Margin="315,111,0,0" Text="Enter your ID:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" FontFamily="Arial Rounded MT Bold"/>
             <TextBox x:Name="Login_ID" HorizontalAlignment="Left" Margin="315,127,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="145" Height="27" BorderBrush="{Binding ElementName=Login_ID, Path=Text, Converter={StaticResource  FrameColorForNumbers}}"/>
             <TextBlock HorizontalAlignment="Left" Margin="315,186,0,0" Text="Enter your Phone:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" FontFamily="Arial Rounded MT Bold"/>
@@ -39,30 +43,26 @@
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <ListView x:Name="Client_Packages_Sent" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,25,0,0" ItemsSource="{Binding}">
+            <ListView x:Name="Client_Packages_Sent" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,25,164,0" ItemsSource="{Binding}" >
                 <ListView.View>
                     <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="information">
                         <GridViewColumn DisplayMemberBinding="{Binding Id }" x:Name="Id" Header="ID" Width="Auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Name}" x:Name="Name" Header="Name" Width="Auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Phone}" x:Name="Phone" Header="Phone" Width="Auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding sentAndDeliveredPackage}" x:Name="sentAndDeliveredPackage" Header="S-Delivered" Width="Auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding sentAndUndeliveredPackage}" x:Name="sentAndUndeliveredPackage" Header="S-Undelivered" Width="Auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndDeliveredPackage}" x:Name="ReceivedAndDeliveredPackage" Header="R-Delivered" Width="Auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndUnDeliveredPackage}" x:Name="ReceivedAndUnDeliveredPackage" Header="R-Undelivered" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Receiver}" x:Name="Receiver" Header="Receiver" Width="70"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Weight}" x:Name="Weight" Header="Weight" Width="70"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Priority}" x:Name="Priority" Header="Priority" Width="70"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Status}" x:Name="Status" Header="Status" />
                     </GridView>
                 </ListView.View>
             </ListView>
 
-            <ListView x:Name="Client_Packages_receive" Grid.Row="3" Height="125" Grid.ColumnSpan="2" Margin="0,26,0,0" ItemsSource="{Binding}">
+            <ListView x:Name="Client_Packages_receive" Grid.Row="3" Height="125" Grid.ColumnSpan="2" Margin="0,26,164,-1" ItemsSource="{Binding}">
                 <ListView.View>
                     <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="information">
                         <GridViewColumn DisplayMemberBinding="{Binding Id }" x:Name="Id_R" Header="ID" Width="Auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Name}" x:Name="Name_R" Header="Name" Width="Auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Phone}" x:Name="Phone_R" Header="Phone" Width="Auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding sentAndDeliveredPackage}" x:Name="sentAndDeliveredPackage_R" Header="S-Delivered" Width="Auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding sentAndUndeliveredPackage}" x:Name="sentAndUndeliveredPackage_R" Header="S-Undelivered" Width="Auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndDeliveredPackage}" x:Name="ReceivedAndDeliveredPackage_R" Header="R-Delivered" Width="Auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndUnDeliveredPackage}" x:Name="ReceivedAndUnDeliveredPackage_R" Header="R-Undelivered" Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Sender}" x:Name="Sender_R" Header="Sender" Width="70"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Weight}" x:Name="Weight_R" Header="Weight" Width="70"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Priority}" x:Name="Priority_R" Header="Priority" Width="70"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Status}" x:Name="Status_R" Header="Status" />
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -70,10 +70,10 @@
 
             <Grid x:Name="Add_Package"  Grid.Column="1"  Grid.RowSpan="4" Grid.ColumnSpan="2" Height="450" Margin="266,0,0,0" VerticalAlignment="Bottom">
                 <TextBlock HorizontalAlignment="Center" Margin="0,15,0,0" Text="Send a new package" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" FontStyle="Oblique" LineStackingStrategy="MaxHeight" Foreground="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Background="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" FontWeight="Bold"/>
-                <ComboBox HorizontalAlignment="Center" Margin="0,104,0,0" VerticalAlignment="Top" Width="120">
+                <ComboBox  x:Name="Weight_Combo"  HorizontalAlignment="Center" Margin="0,104,0,0" VerticalAlignment="Top" Width="120" Style="{Binding ElementName=Weight_Combo, Path=SelectedItem, Converter={StaticResource StyleForConboBox}}" SelectedItem="{Binding package.Weight, Mode=OneWayToSource}" >
                 </ComboBox>
-                <ComboBox HorizontalAlignment="Center" Margin="0,176,0,0" VerticalAlignment="Top" Width="120"/>
-                <TextBox HorizontalAlignment="Center" Margin="0,246,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
+                <ComboBox Name="Priority_Combo"  HorizontalAlignment="Center" Margin="0,176,0,0" VerticalAlignment="Top" Width="120"  Style="{Binding ElementName=Priority_Combo, Path=SelectedItem, Converter={StaticResource StyleForConboBox}}" SelectedItem="{Binding package.Priority, Mode=OneWayToSource}"/>
+                <TextBox x:Name="IDInput" HorizontalAlignment="Center" Margin="0,246,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" BorderBrush="{Binding ElementName=IDInput, Path=Text, Converter={StaticResource FrameColorForNumbers}}" Text="{Binding package.TargetClient.ID, Mode=OneWayToSource}">
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -83,8 +83,8 @@
                 <TextBlock HorizontalAlignment="Left" Margin="73,87,0,0" Text="Weight:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="13" FontFamily="Arial Rounded MT Bold"/>
                 <TextBlock HorizontalAlignment="Left" Margin="73,160,0,0" Text="Priority:" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="13" FontFamily="Arial Rounded MT Bold"/>
                 <TextBlock HorizontalAlignment="Left" Margin="74,231,0,0" Text="Reciver ID:" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.601,-2.305" FontSize="13" FontFamily="Arial Rounded MT Bold"/>
-                <Button x:Name="addClient" Content="The receiving customer does not exist in the &#xA; system? Please click here to add" HorizontalAlignment="Center" Margin="0,358,0,0" VerticalAlignment="Top" Height="37" Width="247" AutomationProperties.HelpText="" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" FontWeight="Normal" FontStyle="Italic"/>
-                <Button Content="Send" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top" Width="175" Background="#FF494EC7" FontSize="13">
+                <Button x:Name="addClient" Content="The receiving customer does not exist in the &#xA; system? Please click here to add" HorizontalAlignment="Center" Margin="0,358,0,0" VerticalAlignment="Top" Height="37" Width="247" AutomationProperties.HelpText="" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" FontWeight="Normal" FontStyle="Italic" Click="addClient_Click"/>
+                <Button Content="Send" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top" Width="175" Background="#FF565CFF" FontSize="13" Click="Button_Click">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -98,7 +98,55 @@
 
 
             </Grid>
+
+            <Label Content="The packages you sent:" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Width="171" FontSize="14" FontFamily="Arial Rounded MT Bold" Margin="91,0,0,0"/>
+            <Label Content="The packages sent to you:" HorizontalAlignment="Left" Margin="91,0,0,0" Grid.Row="3" VerticalAlignment="Top" Grid.ColumnSpan="2" FontSize="14" FontFamily="Arial Rounded MT Bold"/>
+
+            <Grid Margin="103,0,0,0" Name="ButtonsForSent" Grid.Column="1" Grid.Row="2" >
+                <Button Content="Collected" x:Name="pick_up" Height="30"  Margin="0,98,34,22" Background="#FFFF7706" ToolTip="Has the package been collected from you? Please click here" Click="pick_up_Click">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </Button.Resources>
+                    <Button.IsEnabled>
+                        <Binding Converter="{StaticResource TrueIfStatusAssociated}" ElementName="Client_Packages_Sent" Mode="OneWay" Path="SelectedItem"/>
+                    </Button.IsEnabled>
+                </Button>
+                <Button Content="Delete Package" x:Name="Delete_Package" Height="30"  Margin="0,51,34,69" Background="#FFE03737" Click="Delete_Package_Click">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </Button.Resources>
+                    <Button.IsEnabled>
+                        <Binding Converter="{StaticResource TrueIfStatusCreated}" ElementName="Client_Packages_Sent" Mode="OneWay" Path="SelectedItem"/>
+                    </Button.IsEnabled>
+                </Button>
+            </Grid>
+
+            <Button Content="Delivered" x:Name="Delivered" Height="30"  Margin="103,55,30,65" Background="#FF19FF6C" ToolTip="The package was delivered to you? Please click here" Grid.Column="1" Grid.Row="3" Click="Delivered_Click" >
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5" />
+                    </Style>
+                </Button.Resources>
+                <Button.IsEnabled>
+                    <Binding Converter="{StaticResource TrueIfStatusPickedUp}" ElementName="Client_Packages_receive" Mode="OneWay" Path="SelectedItem"/>
+                </Button.IsEnabled>
+            </Button>
+            <Label Content="Hello" HorizontalAlignment="Left" Margin="193,13,0,0" VerticalAlignment="Top" Width="72" Foreground="#FF2E6DC7" FontFamily="Lucida Calligraphy" FontSize="20"/>
         </Grid>
+        <Rectangle HorizontalAlignment="Left" Height="1" Margin="550,-6,0,0" Stroke="Black" VerticalAlignment="Top" Width="223" RenderTransformOrigin="0.5,0.5">
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
 
     </Grid>
 </Page>

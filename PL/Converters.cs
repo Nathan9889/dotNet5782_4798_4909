@@ -223,4 +223,61 @@ namespace PL
             throw new NotImplementedException();
         }
     }
+
+    public class TrueIfStatusCreated : IValueConverter // packade to list
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null && ((BO.PackageToList)value).Status == BO.PackageStatus.Created) return true;
+            else return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class TrueIfStatusAssociated : IValueConverter // packade to list
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null && ((BO.PackageToList)value).Status == BO.PackageStatus.Associated) return true;
+            else return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class TrueIfStatusPickedUp : IValueConverter // packade to list
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value != null && ((BO.PackageToList)value).Status == BO.PackageStatus.PickedUp) return true;
+            else return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class StyleForConboBox : IValueConverter 
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if(value == null) return (Style)Application.Current.FindResource("ComboBoxTest2");
+            else return (Style)Application.Current.FindResource("ComboBoxTestAfterCorrectInput");
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

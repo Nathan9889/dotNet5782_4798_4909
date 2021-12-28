@@ -27,23 +27,12 @@ namespace PL
         {
             InitializeComponent();
             BL = BlApi.BlFactory.GetBL();
-
+            content = this.Content;
         }
 
-
-
-
-
-        public void DisplayMain()
-        {
-            Frame.Visibility = Visibility.Hidden;
-            MainWindowDisplay.Visibility = Visibility.Visible;
-            this.Content = content;
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
             MainWindowDisplay.Visibility = Visibility.Hidden;
             DisplayPackagesList page = new DisplayPackagesList();
             page.AddClik += AddPackagePage;
@@ -170,6 +159,7 @@ namespace PL
         {
             Buttons_For_Lists.Visibility = Visibility.Visible;
             MainWindowDisplay.Visibility = Visibility.Hidden;
+            Frame.Visibility = Visibility.Visible;
         }
 
         private void Sign_Up_Click(object sender, RoutedEventArgs e)
@@ -185,6 +175,14 @@ namespace PL
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             this.Content = new ClientMde();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Visibility = Visibility.Hidden;
+            Buttons_For_Lists.Visibility = Visibility.Hidden;
+            MainWindowDisplay.Visibility = Visibility.Visible;
+
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Model;
 
 namespace PL
 {
@@ -24,19 +25,22 @@ namespace PL
         BlApi.IBL bL = BlApi.BlFactory.GetBL();
         private ObservableCollection<BO.PackageToList> SentPackages = new ObservableCollection<BO.PackageToList>();
         private ObservableCollection<BO.PackageToList> ReceivePackages = new ObservableCollection<BO.PackageToList>();
+        Package Package = new Package();
+        
         public ClientMde()
         {
             InitializeComponent();
             Client_Packages_Sent.DataContext = SentPackages;
             Client_Packages_receive.DataContext = ReceivePackages;
+            Priority_Combo.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
+            Weight_Combo.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
 
-
+            Package.package = new BO.Package();
+            Package.package.TargetClient = new BO.ClientPackage();
+            Add_Package.DataContext = Package;
         }
 
-        private void Client_Packages_SubmenuOpened(object sender, RoutedEventArgs e)
-        {
-
-        }
+      
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
@@ -66,6 +70,95 @@ namespace PL
             }
 
             else MessageBox.Show($"Please enter proper input !", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+
+
+        private void Delete_Package_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                Model.PackageToList PackageToList = new Model.PackageToList();
+                PackageToList.packageToList = SentPackages.First(p => p.Id == ((BO.PackageToList)Client_Packages_Sent.SelectedItem).Id);
+                bL.DeletePackage(((BO.PackageToList)Client_Packages_Sent.SelectedItem).Id);
+                SentPackages.Remove(PackageToList.packageToList);
+                MessageBox.Show($"Package successfully deleted !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Can not delete package {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void pick_up_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Model.PackageToList PackageToList = new Model.PackageToList();
+                PackageToList.packageToList = SentPackages.First(p => p.Id == ((BO.PackageToList)Client_Packages_Sent.SelectedItem).Id);
+                bL.PickedUpByDrone(bL.DisplayPackage(((BO.PackageToList)Client_Packages_Sent.SelectedItem).Id).DroneOfPackage.Id);
+                SentPackages.Remove(PackageToList.packageToList);
+                PackageToList.packageToList.Status = BO.PackageStatus.PickedUp;
+                SentPackages.Add(PackageToList.packageToList);
+                MessageBox.Show($"Thank you for your confirmation. \nThe package was successfully collected !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error collecting package {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void Delivered_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Model.PackageToList PackageToList = new Model.PackageToList();
+                PackageToList.packageToList = ReceivePackages.First(p => p.Id == ((BO.PackageToList)Client_Packages_receive.SelectedItem).Id);
+                bL.DeliveredToClient(bL.DisplayPackage(((BO.PackageToList)Client_Packages_receive.SelectedItem).Id).DroneOfPackage.Id);
+                ReceivePackages.Remove(PackageToList.packageToList);
+                PackageToList.packageToList.Status = BO.PackageStatus.Delivered;
+                ReceivePackages.Add(PackageToList.packageToList);
+                MessageBox.Show($"Thank you for your confirmation. \nThe package was delivered successfully !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Delivery confirmation error {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void addClient_Click(object sender, RoutedEventArgs e)
+        {
+            new SignUpClient().Show();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Package.package.SenderClient = new BO.ClientPackage();
+                Package.package.SenderClient.ID = int.Parse(Login_ID.Text);
+                int newId = bL.AddPackage(Package.package);
+
+                Package.package = bL.DisplayPackage(newId);
+                Model.PackageToList PackageToList = new Model.PackageToList() { packageToList = new BO.PackageToList() { Id = Package.package.ID, Priority = Package.package.Priority, Receiver = Package.package.TargetClient.Name, Sender = Package.package.SenderClient.Name,
+                Status = BO.PackageStatus.Created, Weight = Package.package.Weight} };
+                SentPackages.Add(PackageToList.packageToList);
+
+                Package = new Package();
+                Package.package = new BO.Package();
+                Package.package.TargetClient = new BO.ClientPackage();
+                IDInput.Text = null;
+                Priority_Combo.SelectedItem = null;
+                Weight_Combo.SelectedItem = null;
+                Add_Package.DataContext = Package;
+
+                MessageBox.Show($"The package was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unable to add package {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

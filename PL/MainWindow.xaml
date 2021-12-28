@@ -34,6 +34,7 @@
             <Button Content="Drones List" FontFamily="Aharoni" Click=" Drones_List_Click" Height="30" VerticalAlignment="Top" />
             <Button Content="Clients List" Grid.Column="1" FontFamily="Aharoni" Click="Button_Click_1" Margin="0,0,0,30"/>
             <Button x:Name="Stations" Content="StationsList" Grid.Column="2" FontFamily="Aharoni" Click="Stations_Click" Margin="0,0,0,30"/>
+            <Button Content="return to main Window" HorizontalAlignment="Left" Margin="38,35,0,0" VerticalAlignment="Top" Click="Button_Click_3"/>
 
 
         </Grid>
