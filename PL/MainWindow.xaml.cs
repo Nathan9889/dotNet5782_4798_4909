@@ -68,11 +68,12 @@ namespace PL
             this.Frame.Content = page;
         }
 
+
         private void DroneDisplayPage(int id)//פתיחת עמוד פעולות רחפן
         {
             var page = new DisplayDrone(id);
             page.Back += ((DisplayDronesList)this.Frame.Content).RefreshList;
-
+            page.PackagePage += PackageDisplayFromDrone;
             this.Frame.Content = page;
         }
 
@@ -124,6 +125,12 @@ namespace PL
             var page = new DisplayPackage(id);
             page.DronePage += DroneDisplayPageFromPackage;
             page.ClientPage += ClientDisplayPageFromPackage;
+            this.Frame.Content = page;
+        }
+
+        private void PackageDisplayFromDrone(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
+        {
+            var page = new DisplayPackage(id);
             this.Frame.Content = page;
         }
 
@@ -184,5 +191,8 @@ namespace PL
             MainWindowDisplay.Visibility = Visibility.Visible;
 
         }
+
+
+
     }
 }

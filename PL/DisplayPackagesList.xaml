@@ -104,7 +104,7 @@
 
 
 
-        <ListView x:Name ="PackageListView" Grid.Row="1" MouseDoubleClick="DronesListView_MouseDoubleClick" ItemsSource="{Binding}"  FontSize="13" Margin="0,40,0,43" Grid.RowSpan="2" HorizontalAlignment="Left" Width="710" >
+        <ListView x:Name ="PackageListView" Grid.Row="1" MouseDoubleClick="PackagesListView_MouseDoubleClick" ItemsSource="{Binding}"  FontSize="13" Margin="0,40,0,43" Grid.RowSpan="2" HorizontalAlignment="Left" Width="710" >
             <ListView.View>
                 <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="information">
                     <GridViewColumn DisplayMemberBinding="{Binding Id }" x:Name="ID" Header="ID" Width="70"/>

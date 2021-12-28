@@ -203,6 +203,10 @@ namespace BlApi
         IEnumerable<IGrouping<string, PackageToList>> PackagesGroupingReceiver();
         IEnumerable<IGrouping<string, PackageToList>> PackagesGroupingSender();
         IEnumerable<IGrouping<int, StationToList>> GroupStationByNumSlots();
+
+        IEnumerable<IGrouping<DroneStatus, DroneToList>> DroneGroupbyStatus();
+
+        
         IEnumerable<PackageToList> GetPackagesSentBySpecificClient(int ClientId);
         IEnumerable<PackageToList> GetPackagesSentToSpecificClient(int ClientId);
         void DeleteDrone(int id);

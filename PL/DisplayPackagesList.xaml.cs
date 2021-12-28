@@ -62,11 +62,12 @@ namespace PL
             if(AddClik!=null) AddClik(-1);
         }
 
-        private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void PackagesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
            if(PackageListView.SelectedItem != null && DoubleClik!=null) DoubleClik(((BO.PackageToList)PackageListView.SelectedItem).Id);
             PackageListView.SelectedItems.Clear();
         }
+
 
         private void ExitButton(object sender, RoutedEventArgs e)
         {

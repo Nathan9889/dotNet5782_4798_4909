@@ -44,6 +44,37 @@ namespace Model
         }
 
 
+        public void AddDrone(BO.Drone drone)
+        {
+            BL.AddDrone(drone,10);
+        }
+
+
+
+        public void ChargeDrone(int id)
+        {
+            BL.ChargeDrone(id);
+        }
+
+        public void FinishCharging(int id)
+        {
+            BL.FinishCharging(id);
+        }
+
+
+        public void packageToDrone(int id)
+        {
+            BL.packageToDrone(id);
+
+        }
+
+
+
+
+
+
+
+
     }
 
     //public static class CopyProperties

@@ -65,7 +65,6 @@ namespace PL
             {
                 pL.UpdateName(Client.client.ID, Client_Name.Text, "");
 
-
                 MessageBox.Show("Client Name have been Changed Successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Client.client = pL.GetClient(Client.client.ID);
             }
@@ -73,14 +72,13 @@ namespace PL
             {
                 MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            
         }
 
         private void UpdatePhone_Button(object sender, RoutedEventArgs e)
         {
             try
             {
-                pL.UpdateName(Client.client.ID, "", Client_Phone.Text);
+                pL.UpdatePhone(Client.client.ID, "", Client_Phone.Text);
 
                 MessageBox.Show("Client Phone have been Changed Successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Client.client = pL.GetClient(Client.client.ID);

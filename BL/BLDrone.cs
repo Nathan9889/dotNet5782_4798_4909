@@ -432,7 +432,19 @@ namespace BL
             double temp = (KM * power);
             return temp;
         }
+
+
+
+
+        public IEnumerable<IGrouping<DroneStatus, DroneToList>> DroneGroupbyStatus()
+        {
+            return DisplayDroneList().GroupBy(x => x.Status);
+        }
+
     }
+
+
+
 
 }
 

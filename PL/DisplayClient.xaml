@@ -20,7 +20,9 @@
         <local:NullToVisible x:Key="NullToVisible"></local:NullToVisible>
         <local:ClientListToClientPackage x:Key="ClientListToClientPackage"></local:ClientListToClientPackage>
         <local:TrueToHidden x:Key="TrueToHidden"></local:TrueToHidden>
-
+        <local:TrueToVisible x:Key="TrueToVisible"></local:TrueToVisible>
+        <local:TrueToFalse x:Key="TrueToFalse"></local:TrueToFalse>
+        
         <Style x:Key="clients" TargetType="ComboBox">
             <Setter Property="ItemsSource" Value="{Binding}"></Setter>
         </Style>
@@ -74,14 +76,14 @@
 
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="id" HorizontalAlignment="Left" Grid.Row="1" Text="ID:" TextWrapping="Wrap" VerticalAlignment= "Center" FontSize="13" FontFamily="Aharoni" FontWeight="Normal" Height="13" Width="17" />
-                <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding client.ID }" VerticalContentAlignment="Center" IsReadOnly="{Binding client, Converter={StaticResource NullToFalse }}"   >
+                <TextBox x:Name="IdInput" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding client.ID }" VerticalContentAlignment="Center" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}"   >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
                         </Style>
                     </TextBox.Resources>
                 </TextBox>
-                <TextBox x:Name="Clientlatitude" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="{Binding client, Converter={StaticResource NullToFalse }}" VerticalContentAlignment="Center" Text="{Binding client.ClientLocation.Latitude}"  >
+                <TextBox x:Name="Clientlatitude" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}" VerticalContentAlignment="Center" Text="{Binding client.ClientLocation.Latitude}"  >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -93,15 +95,15 @@
 
                 <ListBox  x:Name="SenderPackageList" Grid.Column="2" Grid.Row="2" Margin="10,1,-70,18" Grid.RowSpan="8" ItemsSource="{Binding}"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToHidden}}" MouseDoubleClick="SenderList_MouseDoubleClick"/>
 
-                <ListBox x:Name="ReceiverPackageList" Grid.Column="2" Grid.Row="12" Margin="10,0,-70,18" Grid.RowSpan="8"  ItemsSource="{Binding}" Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}" MouseDoubleClick="ReceiverList_MouseDoubleClick"/>
+                <ListBox x:Name="ReceiverPackageList" Grid.Column="2" Grid.Row="12" Margin="10,0,-70,18" Grid.RowSpan="8"  ItemsSource="{Binding}" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToHidden}}" MouseDoubleClick="ReceiverList_MouseDoubleClick"/>
 
 
 
 
                 <TextBlock x:Name="Phone_label" HorizontalAlignment="Left" Grid.Row="5" Text="Phone:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="50" />
                 <TextBlock x:Name="Latitude_Label" HorizontalAlignment="Left" Grid.Row="7" Text="Latitude:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="52"   />
-                <TextBlock x:Name="ClientsSender_label" HorizontalAlignment="Left" Grid.Row="1" Text="Se_List:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="70" Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}" Grid.Column="2" Margin="16,9,0,0" />
-                <TextBlock x:Name="ClientsReceiver_label" HorizontalAlignment="Left" Grid.Row="11" Text="Re_List:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="61" Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}" Grid.Column="2" Margin="16,2,0,0" />
+                <TextBlock x:Name="ClientsSender_label" HorizontalAlignment="Left" Grid.Row="1" Text="Se_List:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="70" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToHidden}}" Grid.Column="2" Margin="16,9,0,0" />
+                <TextBlock x:Name="ClientsReceiver_label" HorizontalAlignment="Left" Grid.Row="11" Text="Re_List:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="61" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToHidden}}" Grid.Column="2" Margin="16,2,0,0" />
 
                 <TextBox x:Name="Client_Phone" Grid.Column="1" Grid.Row="5" Height="Auto" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding client.Phone }" VerticalContentAlignment="Center"   >
                     <TextBox.Resources>
@@ -124,7 +126,7 @@
 
 
                 <TextBlock x:Name="Longitude_label"  HorizontalAlignment="Left" Grid.Row="9" Text="Longitude:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="80" />
-                <TextBox x:Name="ClientLongitude" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="{Binding client, Converter={StaticResource NullToFalse }}" VerticalContentAlignment="Center" Text="{Binding client.ClientLocation.Longitude}" >
+                <TextBox x:Name="ClientLongitude" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}" VerticalContentAlignment="Center" Text="{Binding client.ClientLocation.Longitude}" >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -132,7 +134,7 @@
                     </TextBox.Resources>
                 </TextBox>
 
-                <Button x:Name="cancel" Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToVisible}}" Width="125" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="33,6,100,23" Grid.RowSpan="3"  >
+                <Button x:Name="cancel" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}"  Width="125" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="33,6,100,23" Grid.RowSpan="3"  >
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="Black" Offset="1"/>
@@ -140,7 +142,7 @@
                         </RadialGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="Add_Client_Button" Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Add Client" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Client_Button_Click" Grid.Column="1" Margin="111,6,131,0" Grid.RowSpan="3" Height="33" VerticalAlignment="Top">
+                <Button x:Name="Add_Client_Button"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}"  Content="Add Client" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Client_Button_Click" Grid.Column="1" Margin="111,6,131,0" Grid.RowSpan="3" Height="33" VerticalAlignment="Top">
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="#FF3B5611" Offset="1"/>
@@ -153,7 +155,7 @@
 
             </Grid>
 
-            <Grid x:Name="Buttons" Grid.RowSpan="3" Margin="0,10,0,-10"  Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}">
+            <Grid x:Name="Buttons" Grid.RowSpan="3" Margin="0,10,0,-10" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToHidden}}">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height ="2*"></RowDefinition>
