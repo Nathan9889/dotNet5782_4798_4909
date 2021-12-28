@@ -69,7 +69,6 @@
         </Grid.RowDefinitions>
 
 
-
         <ListView x:Name ="ClientListView" Grid.Row="1"  ItemsSource="{Binding}"  FontSize="13" Margin="0,40,0,43" Grid.RowSpan="2" HorizontalAlignment="Left" Width="710" MouseDoubleClick="ClientListView_MouseDoubleClick"  >
             <ListView.View>
                 <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="information">
@@ -83,7 +82,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
-
 
         <Grid Name="DownGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="2" VerticalAlignment="Stretch" Width="auto">
             <Grid.ColumnDefinitions>

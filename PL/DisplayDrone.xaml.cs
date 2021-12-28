@@ -21,19 +21,16 @@ namespace PL
     /// </summary>
     public partial class DisplayDrone : Page
     {
-        //BlApi.IBL BL;
-        //BO.Drone Drone;
-
-
         private Model.PL pL;
         Drone Drone = new Drone();
-
 
         public delegate void Navigation(int id);
         public event Navigation Back;
         public event Navigation PackagePage;
 
-
+        /// <summary>
+        /// ctor for creating new drone from user input in that page
+        /// </summary>
         public DisplayDrone()
         {
             InitializeComponent();
@@ -41,13 +38,9 @@ namespace PL
             MainGrid.DataContext = Drone;
            
             Drone_MaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
-            //ClientsList.ItemsSource = pL.getClientList();
-            //ClientsList2.ItemsSource = pL.getClientList();
-
             Mode.IsChecked = true;
 
-
-            Drone.drone = new BO.Drone();
+            Drone.drone = new BO.Drone();           //init object 
             Drone.drone.DronePackageProcess = new BO.PackageProcess();
             Drone.drone.DronePackageProcess.Sender = new BO.ClientPackage();
             Drone.drone.DronePackageProcess.Receiver = new BO.ClientPackage();
@@ -55,26 +48,26 @@ namespace PL
             Stations_List.ItemsSource = pL.DiplayStationWithChargSlot();
         }
 
+        /// <summary>
+        /// ctor to display the drone page of selected item
+        /// </summary>
+        /// <param name="id"></param>
         public DisplayDrone(int id)
         {
             this.pL = new Model.PL();
             Drone.drone = pL.GetDrone(id);
             InitializeComponent();
+            MainGrid.DataContext = Drone;
 
             if (Drone.drone.Status == BO.DroneStatus.Shipping)
                 ShipVisibility.IsChecked = true;
-
-            if (Drone.drone.DronePackageProcess == null) Drone.drone.DronePackageProcess = new BO.PackageProcess();
-            MainGrid.DataContext = Drone;
-           
-            Drone_MaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
+            if (Drone.drone.DronePackageProcess == null) 
+                Drone.drone.DronePackageProcess = new BO.PackageProcess();
             
-
+            Drone_MaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
         }
 
-
-
-         /// <summary>
+        /// <summary>
         /// Sending a drone for charging and displaying an appropriate message and refreshing the display as needed
         /// </summary>
         /// <param name="sender"></param>
@@ -93,8 +86,6 @@ namespace PL
                 MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-
 
         /// <summary>
         /// Renaming the drone. Checking the correctness of the name, and sending it to BL and displaying an appropriate message and refreshing the display as needed
@@ -125,8 +116,6 @@ namespace PL
             }
         }
 
-
-
         /// <summary>
         /// Releasing a drone from charging, displaying an appropriate message and refreshing the display as needed
         /// </summary>
@@ -146,10 +135,6 @@ namespace PL
                 MessageBox.Show($"{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-
-
-
 
         /// <summary>
         /// Assigning a drone to a package, displaying an appropriate message and refreshing the display as needed
@@ -171,29 +156,11 @@ namespace PL
             }
         }
 
-
-
-        private void Back_Click(object sender, RoutedEventArgs e)
-        {
-            if (Back != null) Back(-1);
-            this.NavigationService.GoBack();
-        }
-
-
-
-
         /// <summary>
-        /// Cancel insert and close window
+        /// open package page of package delivery from the drone page
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cancel_Click(object sender, RoutedEventArgs e)
-        {
-            if (Back != null) Back(-1);
-            this.NavigationService.GoBack();
-        }
-
-
         private void Package_Process_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             int id =  Drone.drone.DronePackageProcess.Id;
@@ -210,11 +177,7 @@ namespace PL
         {
             if (Back != null) Back(-1);
             this.NavigationService.GoBack();
-            // Close();
         }
-
-
-
 
         /// <summary>
         /// Adding a drone.
@@ -238,7 +201,6 @@ namespace PL
             }
 
         }
-
 
         /// <summary>
         /// Select a station for adding a drone
@@ -277,8 +239,29 @@ namespace PL
             }
         }
 
-        
-        
+        /// <summary>
+        /// going to previous page click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            if (Back != null) Back(-1);
+            this.NavigationService.GoBack();
+        }
+
+        /// <summary>
+        /// Cancel insert and close window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (Back != null) Back(-1);
+            this.NavigationService.GoBack();
+        }
+
+
     }
 }
 

@@ -30,7 +30,9 @@ namespace PL
         public event StationPage DoubleClik;
 
 
-
+        /// <summary>
+        /// Ctoe with init elements
+        /// </summary>
         public DisplayStationsList()
         {
             InitializeComponent();
@@ -40,7 +42,9 @@ namespace PL
             InitializeList();
         }
 
-
+        /// <summary>
+        /// func that initialize observable  list
+        /// </summary>
         void InitializeList()
         {
 
@@ -50,6 +54,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// open station page of selected station
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StationsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (StationsListView.SelectedItem != null)
@@ -60,6 +69,11 @@ namespace PL
         }
 
 
+        /// <summary>
+        /// function that filter the display of the list with grouping by num slot for example
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Show_Stations(object sender, RoutedEventArgs e)
         {
             if (StationsListView != null)
@@ -71,24 +85,10 @@ namespace PL
                     stations.Clear();
                     foreach (var item in s)
                     {
-                        if (temp.Any(s => s.ID == item.ID))
+                        if (temp.Any(s => s.ID == item.ID))  //init again
                             stations.Add(item);
                     }
                 }
-                //else if (Show_Existing.IsChecked == true)
-                //{
-                //    var s = BL.GroupStationByExistingSlots();
-                //    var temp = new ObservableCollection<BO.StationToList>(stations);
-                //    stations.Clear();
-                //    foreach (var group in s)
-                //    {
-                //        foreach (BO.StationToList item in group)
-                //        {
-                //            if (temp.Any(s => s.ID == item.ID))
-                //                stations.Add(item);
-                //        }
-                //    }
-                //}
                 else if (Show_Open.IsChecked == true)
                 {
                     var s = BL.GroupStationByNumSlots();  // לרשימה כדי שיהיה העתק . לפי הסדר כדי יחזור למקורי ואז ימיין
@@ -107,12 +107,22 @@ namespace PL
             }
         }
 
+
+        /// <summary>
+        /// adding new station to the list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Add_New_Station(object sender, RoutedEventArgs e)
         {
             if(AddClik!=null) AddClik(-1);
         }
 
-        
+        /// <summary>
+        /// reset the display list from filters
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Reset_Button_Click(object sender, RoutedEventArgs e)
         {
             stations.Clear();
@@ -121,6 +131,10 @@ namespace PL
 
         }
 
+        /// <summary>
+        /// Refresh the list of stations from changes
+        /// </summary>
+        /// <param name="x"></param>
         public void RefreshList(int x)
         {
             var p = PL.GetStationList();

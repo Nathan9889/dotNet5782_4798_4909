@@ -31,10 +31,8 @@ namespace PL
         public event DronePage AddClik;
         public event DronePage DoubleClik;
 
-
-
         /// <summary>
-        /// Initialize the drone list view window
+        /// Initialize the drone list view page
         /// </summary>
         /// <param name="bL"></param>
         public DisplayDronesList() 
@@ -49,7 +47,9 @@ namespace PL
             WeightSelector.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
         }
 
-
+        /// <summary>
+        /// initialize observable list
+        /// </summary>
         private void InitializeList()
         {
             foreach (var Drone in PL.GetDroneList())
@@ -58,6 +58,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// open drone page of drone selected from the Drone list 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (DronesListView.SelectedItem != null && DoubleClik != null) 
@@ -77,29 +82,25 @@ namespace PL
         }
 
 
-        ///// <summary>
-        ///// Closes the drone list window
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void ExitButton(object sender, RoutedEventArgs e)
-        //{
-        //    this.NavigationService.GoBack();
-
-        //    ////////********************************************************
-            
-        //}
-
-
+        /// <summary>
+        /// reseting the list from changes of filters 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Reset_Button_Click(object sender, RoutedEventArgs e)
         {
             drones.Clear();
             InitializeList();
-            Show_Drones(this, new RoutedEventArgs()); // אחרי סינון
+            Show_Drones(this, new RoutedEventArgs()); //after filter
 
         }
 
 
+        /// <summary>
+        /// function that uses the grouping function in Bl that group element of list by their status
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Show_Drones(object sender, RoutedEventArgs e)
         {
             if (DronesListView != null)
@@ -128,9 +129,6 @@ namespace PL
               
             }
         }
-
-
-
 
 
         /// <summary>
@@ -256,7 +254,7 @@ namespace PL
         /// A function that refreshes the list of drones
         /// </summary>
         /// <param name="ob"></param>
-        private void RefreshListView(object sender, EventArgs e) // עדכון לרשימות
+        private void RefreshListView(object sender, EventArgs e) //updates
         {
             DronesListView.Items.Refresh();
             if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null) DronesListView.ItemsSource = BL.DisplayDroneList();
@@ -264,70 +262,33 @@ namespace PL
             if (StatusSelector.SelectedItem != null) StatusSelector_SelectionChanged(this, null);
         }
 
-
+        /// <summary>
+        /// func that refresh the list 
+        /// </summary>
+        /// <param name="t"></param>
         public void RefreshList(int t)
         {
             var d = PL.GetDroneList();
             drones.Clear();
             foreach (var drone in d) drones.Add(drone);
-            //FilterdList(this);
             Show_Drones(this, new RoutedEventArgs());
-
-            //?
             RefreshListView(this, EventArgs.Empty);
         }
 
 
 
-
-
-
-
-
-
-
-
-
-        //private void DroneFilterdList(object sender, SelectionChangedEventArgs e = null) // מעדכנת את הרשימה בהתאם
-        //{
-        //    IEnumerable<BO.PackageToList> filtered;
-        //    if (PrioritySelector.SelectedItem == null && WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null) filtered = PL.getPackageList();
-        //    else if (PrioritySelector.SelectedItem == null && WeightSelector.SelectedItem == null && StatusSelector.SelectedItem != null) filtered = PL.getPackageList().Where(p => p.Status == (BO.PackageStatus)StatusSelector.SelectedItem).ToList();
-        //    else if (PrioritySelector.SelectedItem == null && WeightSelector.SelectedItem != null && StatusSelector.SelectedItem != null) filtered = PL.getPackageList().Where(p => p.Status == (BO.PackageStatus)StatusSelector.SelectedItem && p.Weight == (BO.WeightCategories)WeightSelector.SelectedItem).ToList();
-        //    else if (PrioritySelector.SelectedItem != null && WeightSelector.SelectedItem == null && StatusSelector.SelectedItem != null) filtered = PL.getPackageList().Where(p => p.Status == (BO.PackageStatus)StatusSelector.SelectedItem && p.Priority == (BO.Priorities)PrioritySelector.SelectedItem).ToList();
-
-        //    else if (PrioritySelector.SelectedItem == null && WeightSelector.SelectedItem != null && StatusSelector.SelectedItem == null) filtered = PL.getPackageList().Where(p => p.Weight == (BO.WeightCategories)WeightSelector.SelectedItem).ToList();
-        //    else if (PrioritySelector.SelectedItem != null && WeightSelector.SelectedItem != null && StatusSelector.SelectedItem == null) filtered = PL.getPackageList().Where(p => p.Weight == (BO.WeightCategories)WeightSelector.SelectedItem && p.Priority == (BO.Priorities)PrioritySelector.SelectedItem).ToList();
-
-        //    else if (PrioritySelector.SelectedItem != null && WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null) filtered = PL.getPackageList().Where(p => p.Priority == (BO.Priorities)PrioritySelector.SelectedItem).ToList();
-
-        //    else filtered = PL.getPackageList().Where(p => p.Status == (BO.PackageStatus)StatusSelector.SelectedItem && p.Priority == (BO.Priorities)WeightSelector.SelectedItem && p.Weight == (BO.WeightCategories)WeightSelector.SelectedItem).ToList();
-        //    packages.Clear();
-        //    if (filtered != null) foreach (var package in filtered) { packages.Add(package); }
-        //    Show_Packages(this, new RoutedEventArgs()); // אחרי סינון צריך לשמור על ההצגה
-
-        //}
-
-
         ///// <summary>
-        ///// Reset the drone list filter
+        ///// Closes the drone list window
         ///// </summary>
         ///// <param name="sender"></param>
         ///// <param name="e"></param>
-        //private void Reset_Button_Click(object sender, RoutedEventArgs e)
+        //private void ExitButton(object sender, RoutedEventArgs e)
         //{
-        //    StatusSelector.SelectedItem = null;
-        //    WeightSelector.SelectedItem = null;
+        //    this.NavigationService.GoBack();
+
+        //    ////////********************************************************
+
         //}
-
-        //public void RefreshList(int t)
-        //{
-        //    RefreshListView(this, EventArgs.Empty);
-        //}
-
-
-
-
 
 
     }

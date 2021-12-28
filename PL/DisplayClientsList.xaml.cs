@@ -30,6 +30,10 @@ namespace PL
         public event ClientPage AddClik;
         public event ClientPage DoubleClik;
 
+
+        /// <summary>
+        /// ctor to display client list and initlialize datacontext and observable list
+        /// </summary>
         public DisplayClientsList()
         {
             InitializeComponent();
@@ -39,6 +43,9 @@ namespace PL
             InitializeList();
         }
 
+        /// <summary>
+        /// init observable list
+        /// </summary>
         private void InitializeList()
         {
             foreach (var Client in PL.getClientList())
@@ -47,11 +54,22 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// add new client
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Add_New_Client(object sender, RoutedEventArgs e)
         {
             AddClik(-1);
         }
 
+
+        /// <summary>
+        /// opening the selected client page from the list 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ClientListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (ClientListView.SelectedItem != null) DoubleClik(((BO.ClientToList)ClientListView.SelectedItem).Id);
@@ -59,7 +77,10 @@ namespace PL
         }
 
 
-
+        /// <summary>
+        /// refreshing the list of clients
+        /// </summary>
+        /// <param name="t"></param>
         public void RefreshList(int t)
         {
             var p = PL.getClientList();

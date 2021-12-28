@@ -99,23 +99,6 @@
                     </Button.Resources>
                 </Button>
 
-                <!--<TextBox x:Name="Clientlatitude" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}" VerticalContentAlignment="Center" Text="{Binding client.ClientLocation.Latitude}"  >
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-                
-                <TextBox x:Name="ClientLongitude" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}" VerticalContentAlignment="Center" Text="{Binding client.ClientLocation.Longitude}" >
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>-->
-
-
 
                 <TextBox x:Name="Clientlatitude" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap" Width="150"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0"  VerticalContentAlignment="Center"  Text="{Binding client.ClientLocation.Latitude}" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}" >
                     <TextBox.Resources>
@@ -187,7 +170,6 @@
                 <Button x:Name="cancel" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}"  Width="125" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="33,6,100,23" Grid.RowSpan="3"  >
                     <Button.Background>
                         <RadialGradientBrush>
-                            <GradientStop Color="Black" Offset="1"/>
                             <GradientStop Color="Red" Offset="0.2"/>
                         </RadialGradientBrush>
                     </Button.Background>
@@ -195,12 +177,10 @@
                 <Button x:Name="Add_Client_Button"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}"  Content="Add Client" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Client_Button_Click" Grid.Column="1" Margin="111,6,131,0" Grid.RowSpan="3" Height="33" VerticalAlignment="Top">
                     <Button.Background>
                         <RadialGradientBrush>
-                            <GradientStop Color="#FF3B5611" Offset="1"/>
                             <GradientStop Color="#FF9DFF00" Offset="0.1"/>
                         </RadialGradientBrush>
                     </Button.Background>
                 </Button>
-
 
 
             </Grid>

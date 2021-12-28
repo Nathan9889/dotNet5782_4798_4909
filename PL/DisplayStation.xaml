@@ -22,8 +22,8 @@
         <local:LocationToString x:Key="LocationToString"></local:LocationToString>
         <local:TrueToVisible x:Key="TrueToVisible"></local:TrueToVisible>
 
-        
-        
+
+
 
 
 
@@ -134,36 +134,16 @@
                 <TextBlock x:Name="StationChargeSlot" HorizontalAlignment="Left" Grid.Row="5" Text="ChargeSlots:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
                 <TextBlock x:Name="StationName" HorizontalAlignment="Left" Grid.Row="3" Text="Name:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" />
 
-
-
-                <!--<Button x:Name="cancel" Visibility="Hidden" Width="125" Height="32" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Center"   IsCancel="True" FontFamily="Arial Black" FontSize="15"  Grid.Row="14" Grid.ColumnSpan="2" Margin="81,0,0,0" Click="cancel_Click"  >
+                <Button x:Name="cancel" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="-5,15,134,2" Grid.RowSpan="2"  >
                     <Button.Background>
                         <RadialGradientBrush>
-                            <GradientStop Color="Black" Offset="1"/>
                             <GradientStop Color="Red" Offset="0.2"/>
                         </RadialGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="Add_Station_Button" Visibility="Hidden" Content="Add Station" Height="32" VerticalAlignment="Bottom"  IsDefault="True" FontFamily="Arial Black" FontSize="15"  Grid.Column="1" Grid.Row="13"  Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="109,0,109,29" Click="Add_Station_Button_Click" >
+                <Button x:Name="Add_Station_Button" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Add Station" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Station_Button_Click" Grid.Column="1" Margin="75,15,165,2" Grid.RowSpan="2">
                     <Button.Background>
                         <RadialGradientBrush>
-                            <GradientStop Color="#FF3B5611" Offset="1"/>
-                            <GradientStop Color="#FF9DFF00" Offset="0.1"/>
-                        </RadialGradientBrush>
-                    </Button.Background>
-                </Button>-->
-                <Button x:Name="cancel" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToVisible}}" Width="125" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="15" Grid.ColumnSpan="2" Margin="35,0,98,0"  >
-                    <Button.Background>
-                        <RadialGradientBrush>
-                            <GradientStop Color="Black" Offset="1"/>
-                            <GradientStop Color="Red" Offset="0.2"/>
-                        </RadialGradientBrush>
-                    </Button.Background>
-                </Button>
-                <Button x:Name="Add_Station_Button" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Add Station" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Station_Button_Click" Grid.Column="1" Margin="112,19,130,0" Grid.RowSpan="2" Height="33" VerticalAlignment="Top">
-                    <Button.Background>
-                        <RadialGradientBrush>
-                            <GradientStop Color="#FF3B5611" Offset="1"/>
                             <GradientStop Color="#FF9DFF00" Offset="0.1"/>
                         </RadialGradientBrush>
                     </Button.Background>

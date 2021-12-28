@@ -25,7 +25,7 @@
         <local:TrueToTrue x:Key="TrueToTrue"></local:TrueToTrue>
         <local:TrueifAvailable x:Key="TrueifAvailable"></local:TrueifAvailable>
         <local:TrueifMaintenance x:Key="TrueifMaintenance"></local:TrueifMaintenance>
-        
+
 
         <localModel:Ticker x:Key="Ticker"></localModel:Ticker>
 
@@ -150,18 +150,16 @@
 
 
 
-                <Button x:Name="cancel"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}" Width="125" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="15" Grid.ColumnSpan="2" Margin="35,0,98,0"  >
+                <Button x:Name="cancel"  Visibility="Visible" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="6,16,132,3" Grid.RowSpan="2"  >
                     <Button.Background>
                         <RadialGradientBrush>
-                            <GradientStop Color="Black" Offset="1"/>
                             <GradientStop Color="Red" Offset="0.2"/>
                         </RadialGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="Add_Drone_Button"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}" Content="Add Drone" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Drone_Button_Click" Grid.Column="1" Margin="112,19,130,0" Grid.RowSpan="2" Height="33" VerticalAlignment="Top">
+                <Button x:Name="Add_Drone_Button"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}" Content="Add Drone" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Drone_Button_Click" Grid.Column="1" Margin="67,16,175,3" Grid.RowSpan="2">
                     <Button.Background>
                         <RadialGradientBrush>
-                            <GradientStop Color="#FF3B5611" Offset="1"/>
                             <GradientStop Color="#FF9DFF00" Offset="0.1"/>
                         </RadialGradientBrush>
                     </Button.Background>
@@ -224,7 +222,7 @@
                     <RowDefinition Height ="2*"></RowDefinition>
                     <RowDefinition Height ="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                
+
                 <Button Content="Update Model" x:Name="Update_Model"   Grid.Row="2" Click="Change_Name_Click">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -236,7 +234,7 @@
 
 
                 <Button Content="Charge Drone" x:Name="ChargeDrone" Grid.Row="4"  Click="ChargeButton_Click"  IsEnabled="{Binding drone.Status, Converter={StaticResource TrueifAvailable}, Mode=OneWay}" >
-                   
+
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />

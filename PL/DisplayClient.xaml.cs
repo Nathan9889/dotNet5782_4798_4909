@@ -28,25 +28,28 @@ namespace PL
         public delegate void Navigation(int id);
         public event Navigation Back;
         public event Navigation PackagePage;
+
         public delegate void Navigation_(object sender, RoutedEventArgs e);
-        public event Navigation_ MainWindow; // פעיל רק במצב תצוגת לקוח
+        public event Navigation_ MainWindow; //only in display client data
 
-
+        /// <summary>
+        /// ctor for adding a client to the list according to user input
+        /// </summary>
         public DisplayClient()
         {
             InitializeComponent();
             this.pL = new Model.PL();
             MainGrid.DataContext = Client;
 
-            Mode.IsChecked = true;
-            //**
-            Client.client = new BO.Client();
+            Mode.IsChecked = true; // for visibility
+            Client.client = new BO.Client(); //init objects
             Client.client.ClientLocation = new BO.Location();
-           
-            //**
-
         }
 
+        /// <summary>
+        /// ctor for displaying selected client data 
+        /// </summary>
+        /// <param name="id"></param>
         public DisplayClient(int id)
         {
             
@@ -58,6 +61,8 @@ namespace PL
             SenderPackageList.ItemsSource = Client.client.ClientsSender;
             ReceiverPackageList.ItemsSource = Client.client.ClientsReceiver;
         }
+
+
         public DisplayClient(string s)
         {
             InitializeComponent();
@@ -68,13 +73,9 @@ namespace PL
             Add_Client_Button.Visibility = Visibility.Hidden;
             cancel.Visibility = Visibility.Hidden;
             Mode.IsChecked = true;
-            //**
             Client.client = new BO.Client();
             Client.client.ClientLocation = new BO.Location();
         }
-
-
-
 
 
 
@@ -109,11 +110,6 @@ namespace PL
         }
 
 
-
-
-
-
-
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             if (Back != null)
@@ -130,12 +126,22 @@ namespace PL
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Sign_up_Cancel_Click(object sender, RoutedEventArgs e)
         {
             if (MainWindow != null) MainWindow(this, new RoutedEventArgs());
             if (this.NavigationService != null && this.NavigationService.CanGoBack) this.NavigationService.GoBack();
         }
 
+        /// <summary>
+        /// button to add a client with datat inputed in the client page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Add_Client_Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -152,12 +158,24 @@ namespace PL
             }
         }
 
+        
+        /// <summary>
+        /// open client sended packages from list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SenderList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             BO.PackageAtClient p = SenderPackageList.SelectedItem as BO.PackageAtClient;
             if (p != null && PackagePage != null && p.Id != 0)
                 PackagePage(p.Id);
         }
+
+        /// <summary>
+        /// open client received packages from list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ReceiverList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             BO.PackageAtClient p = ReceiverPackageList.SelectedItem as BO.PackageAtClient;
