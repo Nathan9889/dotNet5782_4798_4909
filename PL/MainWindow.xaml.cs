@@ -191,6 +191,7 @@ namespace PL
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             MainWindowDisplay.Visibility = Visibility.Hidden;
+            this.Frame.Visibility = Visibility.Visible;
             var page = new ClientMde();
             page.addClient.Click += Sign_Up_From_ClientMode;
             this.Frame.Content = page;
@@ -199,6 +200,7 @@ namespace PL
         private void MainWindowDis(object sender, RoutedEventArgs e)
         {
             this.Content = content;
+            this.Frame.Content = null;
             this.Frame.Visibility = Visibility.Hidden;
             Buttons_For_Lists.Visibility = Visibility.Hidden;
             MainWindowDisplay.Visibility = Visibility.Visible;
