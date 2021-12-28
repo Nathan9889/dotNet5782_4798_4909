@@ -133,7 +133,7 @@ namespace PL
         private void ChargingDroneList_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             BO.ChargingDrone ch = ChargingDroneList.SelectedItem as BO.ChargingDrone;
-            if (DronePage != null && ch.ID != 0)
+            if (DronePage != null && ch!=null && ch.ID != 0)
                 DronePage(ch.ID);
         }
 

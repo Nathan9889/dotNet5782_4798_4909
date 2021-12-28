@@ -111,12 +111,14 @@ namespace PL
         private void DroneDisplayPageFromPackage(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
         {
             var page = new DisplayDrone(id);
+            page.PackagePage += PackageDisplayFromDrone;
             this.Frame.Content = page;
         }
 
         private void DroneDiplayFromStation(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
         {
             var page = new DisplayDrone(id);
+            
             this.Frame.Content = page;
         }
 
@@ -131,6 +133,8 @@ namespace PL
         private void PackageDisplayFromDrone(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
         {
             var page = new DisplayPackage(id);
+            page.ClientPage += ClientDisplayPageFromPackage;
+            page.DronePage += DroneDisplayPageFromPackage;
             this.Frame.Content = page;
         }
 
