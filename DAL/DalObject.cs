@@ -282,6 +282,8 @@ namespace DalObject
         static DalObject() { }
         DalObject() { DataSource.Initialize(); }
 
+        
+
 
         /// <summary>
         /// The function receives an object Station and adds it to the list

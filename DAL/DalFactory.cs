@@ -19,6 +19,11 @@ namespace DalApi
                 case "List":
 
                     return DalObject.DalObject.Instance;
+                  
+
+                case "xml":
+                    return DalXml.Instance;
+                    
 
                 default:
                     throw new DO.Exceptions.IDalNotFound("Idal only have List/xml type", type);
