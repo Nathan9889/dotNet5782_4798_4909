@@ -39,6 +39,21 @@ namespace xml
         }
 
 
+        public static void Config(string configPath)//
+        {
+            XElement rootElemStations = new XElement("Config",
+                                                    new XElement("PackageId", 1010),
+                                                    new XElement("PowerAvailableDrone", 1),
+                                                    new XElement("PowerLightDrone", 2),
+                                                    new XElement("PowerMediumDrone", 3),
+                                                    new XElement("PowerHeavyDrone", 4),
+                                                    new XElement("ChargeRate", 100)
+                                                );
+
+            rootElemStations.Save(dirPath + configPath);
+        }
+
+
         public static void SaveListToXmlElement(XElement rootElem, string filePath)
         {
             try
@@ -85,7 +100,6 @@ namespace xml
 
 
         //////////
-
 
 
         public static void SaveListToXMLSerializer<T>(List<T> list, string filePath)
