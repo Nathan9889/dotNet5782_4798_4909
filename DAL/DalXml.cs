@@ -20,14 +20,22 @@ namespace DalApi
         readonly string clientPath = "Clients.xml";
         readonly string dronePath = "Drones.xml";
         readonly string packagePath = "Packages.xml";
+        readonly string droneCharge = "DroneCharge.xml";
+
+
 
 
         DalXml()
         {
             DalObject.DataSource.Initialize();
             xml.XMLTools.SetStationListToFile(DalObject.DataSource.StationList, stationPath);
-           // IEnumerable<Station> s = StationsList();
+            //IEnumerable<Station> s = StationsList();
             //IEnumerable<Station> ss = StationsFilter(s => s.ID == 30);
+            xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.ClientList, clientPath);
+
+            DalObject.DataSource.Config config = new DalObject.DataSource.Config();
+
+
         }
 
 
@@ -39,9 +47,9 @@ namespace DalApi
             List<Client> clientList = XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
             if(clientList.Any(c=>c.ID == client.ID)) throw new Exceptions.IDException("A client ID Not Found", client.ID);
 
-            Client myClient = clientList.Find(c => c.ID == client.ID);
+          //  Client myClient = clientList.Find(c => c.ID == client.ID);
 
-            clientList.Add(myClient);
+            clientList.Add(client);
             XMLTools.SaveListToXMLSerializer(clientList, clientPath);
         }
 
@@ -59,7 +67,7 @@ namespace DalApi
         public int AddPackage(Package package)
         {
             List<Package> PackagesList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
-            if (PackagesList.Any(c => c.ID == package.ID)) throw new Exceptions.IDException("A client ID Not Found", drone.ID);
+            if (PackagesList.Any(c => c.ID == package.ID)) throw new Exceptions.IDException("A client ID Not Found", package.ID);
 
             Package mypackage = PackagesList.Find(p => p.ID == package.ID);
 
@@ -68,6 +76,8 @@ namespace DalApi
 
             PackagesList.Add(package);
             XMLTools.SaveListToXMLSerializer(PackagesList, packagePath);
+
+            throw new Exception("test");
         }
 
         public void AddStation(Station station) // נבדק ועובד
@@ -116,25 +126,42 @@ namespace DalApi
         public Client ClientById(int id)
         {
             var ClientList = XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
-            var client = ClientList.Find(c => c.ID == id);
+
+            if (!ClientList.Any(c => c.ID == id))
+                throw new Exceptions.IDException("client not found", id);
+
+            Client client = ClientList.Find(c => c.ID == id);
 
             return client;
-           //add axception
         }
 
         public IEnumerable<Client> ClientsFilter(Predicate<Client> match)
         {
-            //LoadListFromXMLSerializer
+            var ClientList = XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
+
+            return ClientList.FindAll(match);
+
         }
 
         public IEnumerable<Client> ClientsList()
         {
-            throw new NotImplementedException();
+            return XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
         }
 
         public void DeleteClient(int id)
         {
-            throw new NotImplementedException();
+            var ClientList = XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
+            
+
+            if (!ClientList.Any(c => c.ID == id))
+                throw new Exceptions.IDException("client not found", id);
+
+            Client client = ClientList.Find(c => c.ID == id);
+
+            ClientList.Remove(client);
+
+            XMLTools.SaveListToXMLSerializer(ClientList, clientPath);
+
         }
 
         public void DeleteDrone(int id)

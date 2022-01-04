@@ -104,31 +104,6 @@ namespace xml
         }
 
 
-
-
-        public static T LoadCountersFromXMLSerializer<T>(string filePath)
-        {
-            try
-            {
-                if (File.Exists(dirPath + filePath))
-                {
-                    T obj;
-                    XmlSerializer x = new XmlSerializer(typeof(T));
-                    FileStream file = new FileStream(dirPath + filePath, FileMode.Open);
-                    obj = (T)x.Deserialize(file);
-                    file.Close();
-                    return obj;
-                }
-                else
-                    return default;
-            }
-            catch (Exception ex)
-            {
-                throw new DO.Exceptions.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
-            }
-        }
-
-
         public static List<T> LoadListFromXMLSerializer<T>(string filePath)
         {
             try
@@ -150,14 +125,6 @@ namespace xml
                 throw new DO.Exceptions.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
         }
-
-
-
-
-
-
-
-
 
 
 

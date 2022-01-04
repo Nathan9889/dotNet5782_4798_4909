@@ -445,7 +445,7 @@ namespace DalObject
 
             Drone drone = DroneById(package.DroneId);
             Drone droneTemp = drone;
-            // droneTemp.Status = DroneStatus.Available; // Updates in temp of drone
+            
             DataSource.DroneList.Add(droneTemp); // Add temp to list and delete old
             DataSource.DroneList.Remove(drone);
 
