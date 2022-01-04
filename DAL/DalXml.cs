@@ -17,21 +17,32 @@ namespace DalApi
 
         private string stationPath = "Stations.xml";
 
+        readonly string clientPath = "Clients.xml";
+        readonly string dronePath = "Drones.xml";
+        readonly string packagePath = "Packages.xml";
+
+
         DalXml()
         {
             DalObject.DataSource.Initialize();
             xml.XMLTools.SetStationListToFile(DalObject.DataSource.StationList, stationPath);
         }
 
-       
-
-
 
 
 
         public void AddClient(Client client)
         {
-            throw new NotImplementedException();
+
+            var clientList = XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
+
+            //var myClient = clientList.Find(c => c.ID = client.ID);
+
+            if (myClient != null)
+                throw;
+
+            clientList.Add(myClient);
+            XMLTools.SaveListToXMLSerializer(clientList, clientPath);
         }
 
         public void AddDrone(Drone drone)
@@ -89,7 +100,11 @@ namespace DalApi
 
         public Client ClientById(int id)
         {
-            throw new NotImplementedException();
+            var ClientList = XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
+            var client = ClientList.Find(c => c.ID == id);
+
+            return client;
+           //add axception
         }
 
         public IEnumerable<Client> ClientsFilter(Predicate<Client> match)
