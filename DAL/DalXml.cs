@@ -332,7 +332,7 @@ namespace DalApi
             DroneCharge droneCharg = new DroneCharge() // Initialization of a new instance for DroneCharge
             {
                 DroneId = drone.ID,
-                StationId = drone.ID,
+                StationId = stationID,
                 ChargingStartTime = DateTime.Now
             };
             
