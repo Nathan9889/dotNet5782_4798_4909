@@ -16,7 +16,6 @@ namespace DalApi
         static DalXml() { }
 
         private string stationPath = "Stations.xml";
-
         readonly string clientPath = "Clients.xml";
         readonly string dronePath = "Drones.xml";
         readonly string packagePath = "Packages.xml";
@@ -24,20 +23,17 @@ namespace DalApi
         readonly string configPath = "Config.xml";
 
 
-
-
         DalXml()
         {
             DalObject.DataSource.Initialize();
             xml.XMLTools.SetStationListToFile(DalObject.DataSource.StationList, stationPath);
-            //IEnumerable<Station> s = StationsList();
-            //IEnumerable<Station> ss = StationsFilter(s => s.ID == 30);
             xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.ClientList, clientPath);
+            xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.DroneList, dronePath);
+            xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.PackageList, packagePath);
+            xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.droneCharge, droneChargePath);
 
-            PowerConsumptionByDrone();
-            getPackageID();
 
-            //xml.XMLTools.Config(configPath);
+            xml.XMLTools.Config(configPath);
         }
 
 
@@ -49,8 +45,6 @@ namespace DalApi
             List<Client> clientList = XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
             if(clientList.Any(c=>c.ID == client.ID)) throw new Exceptions.IDException("A client ID Not Found", client.ID);
 
-          //  Client myClient = clientList.Find(c => c.ID == client.ID);
-
             clientList.Add(client);
             XMLTools.SaveListToXMLSerializer(clientList, clientPath);
         }
@@ -59,8 +53,6 @@ namespace DalApi
         {
             List<Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronePath);
             if (dronesList.Any(c => c.ID == drone.ID)) throw new Exceptions.IDException("A client ID Not Found", drone.ID);
-
-            Drone myDrone = dronesList.Find(d => d.ID == drone.ID);
 
             dronesList.Add(drone);
             XMLTools.SaveListToXMLSerializer(dronesList, dronePath);
@@ -71,10 +63,7 @@ namespace DalApi
             List<Package> PackagesList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
             if (PackagesList.Any(c => c.ID == package.ID)) throw new Exceptions.IDException("A client ID Not Found", package.ID);
 
-            Package mypackage = PackagesList.Find(p => p.ID == package.ID);
-
-            ////////
-            ///
+            package.ID = getPackageID();
 
             PackagesList.Add(package);
             XMLTools.SaveListToXMLSerializer(PackagesList, packagePath);
@@ -82,6 +71,9 @@ namespace DalApi
             throw new Exception("test");
         }
 
+
+
+        #region XmlElement
         public void AddStation(Station station) // נבדק ועובד
         {
            
@@ -109,6 +101,80 @@ namespace DalApi
         }
 
 
+
+        public Station StationById(int id) // נבדק ועובד
+        {
+            XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
+            XElement stationElem = (from s in stationRootElem.Elements()
+                                    where Convert.ToInt32(s.Element("ID").Value) == id
+                                    select s
+                                    ).FirstOrDefault();
+
+            if (stationElem == null) throw new Exceptions.IDException("A Station ID Not Found", id);
+
+            Station station = new Station()
+            {
+                ID = Convert.ToInt32(stationElem.Element("ID").Value),
+                Name = stationElem.Element("Name").Value.ToString(),
+                Latitude = Convert.ToDouble(stationElem.Element("Latitude").Value),
+                Longitude = Convert.ToDouble(stationElem.Element("Longitude").Value),
+                ChargeSlots = Convert.ToInt32(stationElem.Element("ChargeSlots").Value)
+            };
+
+            return station;
+        }
+
+        public IEnumerable<Station> StationsFilter(Predicate<Station> match) // עובד
+        {
+            List<Station> stations = new List<Station>();
+            XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
+
+            stations = (from s in stationRootElem.Elements()
+                        select new Station()
+                        {
+                            ID = Convert.ToInt32(s.Element("ID").Value),
+                            Name = s.Element("Name").Value.ToString(),
+                            Latitude = Convert.ToDouble(s.Element("Latitude").Value),
+                            Longitude = Convert.ToDouble(s.Element("Longitude").Value),
+                            ChargeSlots = Convert.ToInt32(s.Element("ChargeSlots").Value)
+                        }).ToList();
+
+            return stations.FindAll(match);
+        }
+
+        public IEnumerable<Station> StationsList() // עובד
+        {
+            List<Station> stations = new List<Station>();
+            XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
+
+            stations = (from s in stationRootElem.Elements()
+                        select new Station()
+                        {
+                            ID = Convert.ToInt32(s.Element("ID").Value),
+                            Name = s.Element("Name").Value.ToString(),
+                            Latitude = Convert.ToDouble(s.Element("Latitude").Value),
+                            Longitude = Convert.ToDouble(s.Element("Longitude").Value),
+                            ChargeSlots = Convert.ToInt32(s.Element("ChargeSlots").Value)
+                        }).ToList();
+
+            return stations;
+        }
+
+        private void finishChargingStation(int stationID) //
+        {
+            XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
+            XElement stationElem = (from d in stationRootElem.Elements()
+                                    where int.Parse(d.Element("ID").Value) == stationID
+                                    select d).FirstOrDefault();
+
+            if (stationElem == null) throw new Exceptions.IDException("A Station ID Not Found", stationID);
+
+            stationElem.Element("ChargeSlots").Value = (int.Parse(stationElem.Element("ChargeSlots").Value) + 1).ToString();
+
+            XMLTools.SaveListToXmlElement(stationRootElem, stationPath);
+        }
+
+
         public Station ChargingStation(int stationID) // עובד
         {
             XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
@@ -124,20 +190,55 @@ namespace DalApi
             return StationById(Convert.ToInt32( stationElem.Element("ID").Value));
         }
 
-
-        private void finishChargingStation(int stationID) //
+        public void DeleteStation(int id) // עובד
         {
             XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
             XElement stationElem = (from d in stationRootElem.Elements()
-                                    where int.Parse(d.Element("ID").Value) == stationID
+                                    where int.Parse(d.Element("ID").Value) == id
                                     select d).FirstOrDefault();
+            if (stationElem == null) throw new Exceptions.IDException("A Station ID Not Found", id);
 
-            if (stationElem == null) throw new Exceptions.IDException("A Station ID Not Found", stationID);
-
-            stationElem.Element("ChargeSlots").Value = (int.Parse(stationElem.Element("ChargeSlots").Value) + 1).ToString();
-
+            stationElem.Remove();
             XMLTools.SaveListToXmlElement(stationRootElem, stationPath);
         }
+
+
+
+        public double[] PowerConsumptionByDrone()//
+        {
+            XElement configRootElem = XMLTools.LoadListFromXmlElement(configPath);
+
+            double[] arr = new double[5];
+            arr[0] = Convert.ToInt32(configRootElem.Element("PowerAvailableDrone").Value);
+            arr[1] = Convert.ToInt32(configRootElem.Element("PowerLightDrone").Value);
+            arr[2] = Convert.ToInt32(configRootElem.Element("PowerMediumDrone").Value);
+            arr[3] = Convert.ToInt32(configRootElem.Element("PowerHeavyDrone").Value);
+            arr[4] = Convert.ToInt32(configRootElem.Element("ChargeRate").Value);
+            return arr;
+        }
+
+        private int getPackageID()//
+        {
+            XElement configRootElem = XMLTools.LoadListFromXmlElement(configPath);
+            XElement stationElem = configRootElem.Element("PackageId");
+
+            int id = Convert.ToInt32(stationElem.Value);
+
+            stationElem.Value = (Convert.ToInt32(stationElem.Value) + 1).ToString();
+
+            XMLTools.SaveListToXmlElement(configRootElem, configPath);
+            return id;
+        }
+        #endregion
+
+
+
+
+
+
+
+
+
 
 
         public Client ClientById(int id)
@@ -201,27 +302,10 @@ namespace DalApi
             XMLTools.SaveListToXMLSerializer(droneChargeList, droneChargePath);
         }
 
-        public void DeletePackage(int id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public void DeleteStation(int id) // עובד
-        {
-            XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
-            XElement stationElem = (from d in stationRootElem.Elements()
-                                    where int.Parse(d.Element("ID").Value) == id
-                                    select d).FirstOrDefault();
-            if (stationElem == null) throw new Exceptions.IDException("A Station ID Not Found", id);
+      
 
-            stationElem.Remove();
-            XMLTools.SaveListToXmlElement(stationRootElem, stationPath);
-        }
-
-        public void DeliveredToClient(Package package)
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public Drone DroneById(int id)//
         {
@@ -289,6 +373,20 @@ namespace DalApi
             return XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronePath);
         }
 
+
+        public IEnumerable<Package> PackageList()
+        {
+            return XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
+        }
+
+        public IEnumerable<Package> PackagesFilter(Predicate<Package> match)
+        {
+            var PackageList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
+
+            return PackageList.FindAll(match);
+        }
+
+
         public void FinishCharging(DroneCharge droneCharge)//
         {
             List<DroneCharge> droneList = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dronePath);
@@ -302,21 +400,6 @@ namespace DalApi
 
             droneChargeList.Remove(droneCharge); // Deleting the instance from the list
             XMLTools.SaveListToXMLSerializer(droneChargeList, droneChargePath);
-        }
-
-        public Package PackageById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Package> PackageList()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Package> PackagesFilter(Predicate<Package> match)
-        {
-            throw new NotImplementedException();
         }
 
         public void packageToDrone(Package package, int DroneID)
@@ -354,89 +437,57 @@ namespace DalApi
             XMLTools.SaveListToXMLSerializer(packagesList, packagePath);
         }
 
-        public double[] PowerConsumptionByDrone()//
-        {
-            XElement configRootElem = XMLTools.LoadListFromXmlElement(configPath);
+      
+      
 
-            double[] arr = new double[5];
-            arr[0] = Convert.ToInt32(configRootElem.Element("PowerAvailableDrone").Value);
-            arr[1] = Convert.ToInt32(configRootElem.Element("PowerLightDrone").Value);
-            arr[2] = Convert.ToInt32(configRootElem.Element("PowerMediumDrone").Value);
-            arr[3] = Convert.ToInt32(configRootElem.Element("PowerHeavyDrone").Value);
-            arr[4] = Convert.ToInt32(configRootElem.Element("ChargeRate").Value);
-            return arr;
+
+
+        public void DeletePackage(int id)
+        {
+            var PackageList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
+
+
+            if (!PackageList.Any(p => p.ID == id))
+                throw new Exceptions.IDException("Package not found", id);
+
+            Package package = PackageList.Find(p => p.ID == id);
+
+            PackageList.Remove(package);
+
+            XMLTools.SaveListToXMLSerializer(PackageList, packagePath);
         }
 
-        private int getPackageID()//
+
+        public Package PackageById(int id)
         {
-            XElement configRootElem = XMLTools.LoadListFromXmlElement(configPath);
-            XElement stationElem = configRootElem.Element("PackageId");
+            var PackageList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
 
-            int id = Convert.ToInt32(stationElem.Value);
-
-            stationElem.Value = (Convert.ToInt32(stationElem.Value)+1).ToString();
-
-            XMLTools.SaveListToXmlElement(configRootElem, configPath);
-            return id;
+            if (!PackageList.Any(p => p.ID == id))
+                throw new Exceptions.IDException("Package not found", id);
+            Package package = PackageList.Find(p => p.ID == id);
+            return package;
         }
 
-        public Station StationById(int id) // נבדק ועובד
+      
+
+        public void DeliveredToClient(Package package)
         {
-            XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
-            XElement stationElem = (from s in stationRootElem.Elements()
-                                    where Convert.ToInt32(s.Element("ID").Value) == id
-                                    select s
-                                    ).FirstOrDefault();
+            List<DO.Package> PackageList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
 
-            if (stationElem == null) throw new Exceptions.IDException("A Station ID Not Found", id);
+            if (!PackageList.Any(p => p.ID == package.ID))
+                throw new Exceptions.IDException("Package not found", package.ID);
 
-            Station station = new Station()
-            {
-                ID = Convert.ToInt32(stationElem.Element("ID").Value),
-                Name = stationElem.Element("Name").Value.ToString(),
-                Latitude = Convert.ToDouble(stationElem.Element("Latitude").Value),
-                Longitude = Convert.ToDouble(stationElem.Element("Longitude").Value),
-                ChargeSlots = Convert.ToInt32(stationElem.Element("ChargeSlots").Value)
-            };
+            var myPackage = PackageList.First(x => x.ID == package.ID);
 
-            return station;
+            var index = PackageList.IndexOf(package);
+
+            package.Delivered = DateTime.Now;
+
+            PackageList[index] = package;
+
+            XMLTools.SaveListToXMLSerializer(PackageList, packagePath);
+
         }
-
-        public IEnumerable<Station> StationsFilter(Predicate<Station> match) // עובד
-        {
-            List<Station> stations = new List<Station>();
-            XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
-
-            stations = (from s in stationRootElem.Elements()
-                        select new Station()
-                        {
-                            ID = Convert.ToInt32(s.Element("ID").Value),
-                            Name = s.Element("Name").Value.ToString(),
-                            Latitude = Convert.ToDouble(s.Element("Latitude").Value),
-                            Longitude = Convert.ToDouble(s.Element("Longitude").Value),
-                            ChargeSlots = Convert.ToInt32(s.Element("ChargeSlots").Value)
-                        }).ToList();
-            return stations.FindAll(match);
-        }
-
-        public IEnumerable<Station> StationsList() // עובד
-        {
-            List<Station> stations = new List<Station>();
-            XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
-
-            stations = (from s in stationRootElem.Elements()
-                        select new Station()
-                        {
-                            ID = Convert.ToInt32(s.Element("ID").Value),
-                            Name = s.Element("Name").Value.ToString(),
-                            Latitude = Convert.ToDouble(s.Element("Latitude").Value),
-                            Longitude = Convert.ToDouble(s.Element("Longitude").Value),
-                            ChargeSlots = Convert.ToInt32(s.Element("ChargeSlots").Value)
-                        }).ToList();
-
-            return stations;
-        }
-
 
     }
 }

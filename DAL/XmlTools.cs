@@ -25,7 +25,7 @@ namespace xml
             XElement rootElemStations;
 
             var v = from station in stations
-                    select new XElement("student",
+                    select new XElement("Stations",
                                                     new XElement("ID", station.ID),
                                                     new XElement("Name", station.Name),
                                                     new XElement("Latitude", station.Latitude),
@@ -33,7 +33,7 @@ namespace xml
                                                     new XElement("ChargeSlots", station.ChargeSlots)
                                                     
                                                 );
-            rootElemStations = new XElement("students", v);
+            rootElemStations = new XElement("Stations", v);
 
             rootElemStations.Save(dirPath+stationPath);
         }
