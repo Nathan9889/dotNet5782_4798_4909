@@ -26,8 +26,8 @@ namespace xml
 
             var v = from station in stations
                     select new XElement("student",
-                                                    new XElement("id", station.ID),
-                                                    new XElement("name", station.Name),
+                                                    new XElement("ID", station.ID),
+                                                    new XElement("Name", station.Name),
                                                     new XElement("Latitude", station.Latitude),
                                                     new XElement("Longitude", station.Longitude),
                                                     new XElement("ChargeSlots", station.ChargeSlots)

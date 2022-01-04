@@ -30,6 +30,7 @@ namespace BL
         {
             dal = DalApi.DalFactory.GetDal("xml");
 
+
             //Battery consumption fields by weight, and charge rate
             PowerVacantDrone = (dal.PowerConsumptionByDrone())[0];
             PowerLightDrone = (dal.PowerConsumptionByDrone())[1];
