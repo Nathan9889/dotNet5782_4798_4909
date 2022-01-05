@@ -21,7 +21,7 @@ namespace DalApi
                     return DalObject.DalObject.Instance;
                   
 
-                case "xml":
+                case "XML":
                     return DalXml.Instance;
                     
 

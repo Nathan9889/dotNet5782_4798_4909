@@ -28,7 +28,7 @@ namespace BL
 
         BL()
         {
-            dal = DalApi.DalFactory.GetDal("xml");
+            dal = DalApi.DalFactory.GetDal("XML");
 
 
             //Battery consumption fields by weight, and charge rate
@@ -38,7 +38,10 @@ namespace BL
             PowerHeavyDrone = (dal.PowerConsumptionByDrone())[3];
             ChargeRate = (dal.PowerConsumptionByDrone())[4];
 
-            initializeDrone();
+
+            //List or first time in XML - List
+            //In XML mode not for the first time - XML
+            initializeDrone("XML");// XML or List
 
         }
 
@@ -46,7 +49,7 @@ namespace BL
         /// <summary>
         /// A function that initializes the list of drones in BL by calling the list from DAL
         /// </summary>
-        private void initializeDrone()
+        private void initializeDrone(string mode)
         {
 
             foreach (var drone in dal.DroneList()) //Check on each drone in DAL what data it will receive
@@ -103,41 +106,81 @@ namespace BL
                     }
                 }
 
-                if (!flag) // If the drone is not associated with a package that has not yet been delivered
+                if(mode == "List")
                 {
-                    droneToList.Status = (DroneStatus)(rand.Next(0, 2)); // Status between available and maintained
-                    if (droneToList.Status == DroneStatus.Maintenance) // If it is in maintenance
+                    if (!flag) // If the drone is not associated with a package that has not yet been delivered
                     {
-                        DO.Station station = dal.StationsFilter(s => s.ChargeSlots > 0).ElementAt(rand.Next(0, dal.StationsFilter(s => s.ChargeSlots > 0).Count())); // Lottery location between stations with charging stations available
-                        droneToList.DroneLocation.Latitude = station.Latitude;
-                        droneToList.DroneLocation.Longitude = station.Longitude;
-                        droneToList.Battery = rand.Next(0, 21);
-
-                        dal.DroneCharge(drone, station.ID); // Adding a drone for charging
-                    }
-                    else // If the status is available
-                    {
-                        int index = rand.Next(0, 10);
-                        while (dal.PackageList().ElementAt(index).Delivered == null) //The location will be in the customer who has a package delivered to him. (There is one that we created at boot)
+                        droneToList.Status = (DroneStatus)(rand.Next(0, 2)); // Status between available and maintained
+                        if (droneToList.Status == DroneStatus.Maintenance) // If it is in maintenance
                         {
-                            index = rand.Next(0, 10);
+                            DO.Station station = dal.StationsFilter(s => s.ChargeSlots > 0).ElementAt(rand.Next(0, dal.StationsFilter(s => s.ChargeSlots > 0).Count())); // Lottery location between stations with charging stations available
+                            droneToList.DroneLocation.Latitude = station.Latitude;
+                            droneToList.DroneLocation.Longitude = station.Longitude;
+                            droneToList.Battery = rand.Next(0, 21);
+
+                            dal.DroneCharge(drone, station.ID); // Adding a drone for charging
                         }
-                        int clientID = dal.PackageList().ElementAt(index).TargetId; //The customer selected - having a package delivered to him                                                                
+                        else // If the status is available
+                        {
+                            int index = rand.Next(0, 10);
+                            while (dal.PackageList().ElementAt(index).Delivered == null) //The location will be in the customer who has a package delivered to him. (There is one that we created at boot)
+                            {
+                                index = rand.Next(0, 10);
+                            }
+                            int clientID = dal.PackageList().ElementAt(index).TargetId; //The customer selected - having a package delivered to him                                                                
 
-                        droneToList.DroneLocation.Latitude = dal.ClientById(clientID).Latitude;
-                        droneToList.DroneLocation.Longitude = dal.ClientById(clientID).Longitude;
+                            droneToList.DroneLocation.Latitude = dal.ClientById(clientID).Latitude;
+                            droneToList.DroneLocation.Longitude = dal.ClientById(clientID).Longitude;
 
-                        double minBattery;
-                        DO.Station stationLocation = NearestStationToClient(dal.ClientById(clientID).ID);
-                        minBattery = batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude, 3); //
-                        //minBattery = BatteryByKM(3, KM);
-                        droneToList.Battery = rand.Next((int)minBattery + 1, 101); //
+                            double minBattery;
+                            DO.Station stationLocation = NearestStationToClient(dal.ClientById(clientID).ID);
+                            minBattery = batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude, 3); //
+                                                                                                                                                                                              //minBattery = BatteryByKM(3, KM);
+                            droneToList.Battery = rand.Next((int)minBattery + 1, 101); //
 
+                        }
+                    }
+                }
+                else // xml mode
+                {
+                    if (!flag) // If the drone is not associated with a package that has not yet been delivered
+                    {
+                        try
+                        {
+                            DO.DroneCharge droneCharge = dal.DroneChargeByIdDrone(drone.ID);
+
+                            droneToList.Status = DroneStatus.Maintenance;
+                            DO.Station station = dal.StationById(droneCharge.StationId);
+                            droneToList.DroneLocation.Latitude = station.Latitude;
+                            droneToList.DroneLocation.Longitude = station.Longitude;
+                            droneToList.Battery = rand.Next(0, 21);
+                        }
+                        catch (Exception ex)
+                        {
+                            droneToList.Status = DroneStatus.Available;
+                            if (ex.Message != "Drone not found in Chargeing") throw new Exceptions.StationException("In BL constructor in XML mode - no drone station was found to charge, even though the drone is charging at this station", ex);
+                            int index = rand.Next(0, 10);
+                            while (dal.PackageList().ElementAt(index).Delivered == null) //The location will be in the customer who has a package delivered to him. (There is one that we created at boot)
+                            {
+                                index = rand.Next(0, 10);
+                            }
+                            int clientID = dal.PackageList().ElementAt(index).TargetId; //The customer selected - having a package delivered to him                                                                
+
+                            droneToList.DroneLocation.Latitude = dal.ClientById(clientID).Latitude;
+                            droneToList.DroneLocation.Longitude = dal.ClientById(clientID).Longitude;
+
+                            double minBattery;
+                            DO.Station stationLocation = NearestStationToClient(dal.ClientById(clientID).ID);
+                            minBattery = batteryConsumption(droneToList.DroneLocation.Latitude, droneToList.DroneLocation.Longitude, stationLocation.Latitude, stationLocation.Longitude, 3); //
+                                                                                                                                                                                              //minBattery = BatteryByKM(3, KM);
+                            droneToList.Battery = rand.Next((int)minBattery + 1, 101); //
+                        }
                     }
                 }
                 DroneList.Add(droneToList);
             }
         }
+
 
 
         /// <summary>

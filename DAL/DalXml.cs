@@ -25,15 +25,15 @@ namespace DalApi
 
         DalXml()
         {
-            DalObject.DataSource.Initialize();
-            xml.XMLTools.SetStationListToFile(DalObject.DataSource.StationList, stationPath);
-            xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.ClientList, clientPath);
-            xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.DroneList, dronePath);
-            xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.PackageList, packagePath);
-            xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.droneCharge, droneChargePath);
+            //DalObject.DataSource.Initialize();
+            //xml.XMLTools.SetStationListToFile(DalObject.DataSource.StationList, stationPath);
+            //xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.ClientList, clientPath);
+            //xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.DroneList, dronePath);
+            //xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.PackageList, packagePath);
+            //xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.droneCharge, droneChargePath);
 
 
-            xml.XMLTools.Config(configPath);
+            //xml.XMLTools.Config(configPath);
         }
 
 
