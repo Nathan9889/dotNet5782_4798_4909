@@ -32,7 +32,6 @@ namespace DalApi
             //xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.PackageList, packagePath);
             //xml.XMLTools.SaveListToXMLSerializer(DalObject.DataSource.droneCharge, droneChargePath);
 
-
             //xml.XMLTools.Config(configPath);
         }
 

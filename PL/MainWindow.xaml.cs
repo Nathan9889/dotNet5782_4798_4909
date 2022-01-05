@@ -30,35 +30,56 @@ namespace PL
             content = this.Content;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindowDisplay.Visibility = Visibility.Hidden;
-            DisplayPackagesList page = new DisplayPackagesList();
-            page.AddClik += AddPackagePage;
-            page.DoubleClik += PackageDisplayPage;
-            this.Frame.Content = page;
-        }
 
-        private void AddPackagePage(int num) // פתיחת עמוד הוספת חבילה 
+        /// <summary>
+        /// Opening page for adding a Package 
+        /// </summary>
+        /// <param name="num"></param>
+        private void AddPackagePage(int num) 
         {
             var page = new DisplayPackage();
             page.Back += ((DisplayPackagesList)this.Frame.Content).RefreshList;
             this.Frame.Content = page;
         }
-        private void AddDronePage(int num) // פתיחת עמוד הוספת רחפן 
+
+        /// <summary>
+        /// Opening page for adding a Drone 
+        /// </summary>
+        /// <param name="num"></param>
+        private void AddDronePage(int num)
         {
             var page = new DisplayDrone();
             page.Back += ((DisplayDronesList)this.Frame.Content).RefreshList;
             this.Frame.Content = page;
         }
-        private void AddClientPage(int num) // פתיחת חלון הוספת לקוח
+
+        /// <summary>
+        /// Opening page for adding a Client
+        /// </summary>
+        /// <param name="num"></param>
+        private void AddClientPage(int num) 
         {
             var page = new DisplayClient();
             page.Back += ((DisplayClientsList)this.Frame.Content).RefreshList;
             this.Frame.Content = page;
         }
 
-        private void PackageDisplayPage(int id)// פתיחת חלון פעולות חבילה
+        /// <summary>
+        /// Opening page for adding a Station
+        /// </summary>
+        /// <param name="num"></param>
+        private void AddStationPage(int num) 
+        {
+            var page = new DisplayStation();
+            page.Back += ((DisplayStationsList)this.Frame.Content).RefreshList;
+            this.Frame.Content = page;
+        }
+
+        /// <summary>
+        /// Opening page for Updating a Package 
+        /// </summary>
+        /// <param name="id"></param>
+        private void PackageDisplayPage(int id) 
         {
             var page = new DisplayPackage(id);
             page.Back += ((DisplayPackagesList)this.Frame.Content).RefreshList;
@@ -67,8 +88,11 @@ namespace PL
             this.Frame.Content = page;
         }
 
-
-        private void DroneDisplayPage(int id)//פתיחת עמוד פעולות רחפן
+        /// <summary>
+        /// Opening page for Updating a Drone 
+        /// </summary>
+        /// <param name="id"></param>
+        private void DroneDisplayPage(int id) 
         {
             var page = new DisplayDrone(id);
             page.Back += ((DisplayDronesList)this.Frame.Content).RefreshList;
@@ -76,7 +100,11 @@ namespace PL
             this.Frame.Content = page;
         }
 
-        private void ClientDisplayPage(int id)// פתיחת חלון פעולות לקוח
+        /// <summary>
+        /// Opening page for Updating a Client 
+        /// </summary>
+        /// <param name="id"></param>
+        private void ClientDisplayPage(int id) 
         {
             var page = new DisplayClient(id);
             page.Back += ((DisplayClientsList)this.Frame.Content).RefreshList;
@@ -84,44 +112,56 @@ namespace PL
             this.Frame.Content = page;
         }
 
-        private void AddStationPage(int num) // פתיחת חלון הוספת תחנה
-        {
-            var page = new DisplayStation();
-            page.Back += ((DisplayStationsList)this.Frame.Content).RefreshList;
-            this.Frame.Content = page;
-        }
-
-        private void StationDisplayPage(int id)// פתיחת חלון פעולות תחנה
+        /// <summary>
+        /// Opening page for Updating a Station 
+        /// </summary>
+        /// <param name="id"></param>
+        private void StationDisplayPage(int id) 
         {
             var page = new DisplayStation(id);
             page.Back += ((DisplayStationsList)this.Frame.Content).RefreshList;
             page.DronePage += DroneDiplayFromStation;
             this.Frame.Content = page;
-
         }
 
-        private void ClientDisplayPageFromPackage(int id)//  פתיחת חלון פעולות לקוח מתוך עמוד עדכון חבילה
+        /// <summary>
+        /// Opening a Client page from the package page
+        /// </summary>
+        /// <param name="id"></param>
+        private void ClientDisplayPageFromPackage(int id)
         {
             var page = new DisplayClient(id);
             page.PackagePage += PackageDisplayFromClient;
             this.Frame.Content = page;
         }
 
-        private void DroneDisplayPageFromPackage(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
+        /// <summary>
+        ///  Opening a Drone page from the package page
+        /// </summary>
+        /// <param name="id"></param>
+        private void DroneDisplayPageFromPackage(int id)
         {
             var page = new DisplayDrone(id);
             page.PackagePage += PackageDisplayFromDrone;
             this.Frame.Content = page;
         }
 
-        private void DroneDiplayFromStation(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
+        /// <summary>
+        ///  Opening a Drone page from the Station page
+        /// </summary>
+        /// <param name="id"></param>
+        private void DroneDiplayFromStation(int id)
         {
             var page = new DisplayDrone(id);
             
             this.Frame.Content = page;
         }
 
-        private void PackageDisplayFromClient(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
+        /// <summary>
+        /// Opening a Package page from the Client page
+        /// </summary>
+        /// <param name="id"></param>
+        private void PackageDisplayFromClient(int id)
         {
             var page = new DisplayPackage(id);
             page.DronePage += DroneDisplayPageFromPackage;
@@ -129,7 +169,11 @@ namespace PL
             this.Frame.Content = page;
         }
 
-        private void PackageDisplayFromDrone(int id)//  פתיחת חלון פעולות רחפן מתוך עמוד פעולות חבילה
+        /// <summary>
+        /// Opening a Package page from the Drone page
+        /// </summary>
+        /// <param name="id"></param>
+        private void PackageDisplayFromDrone(int id)
         {
             var page = new DisplayPackage(id);
             page.ClientPage += ClientDisplayPageFromPackage;
@@ -137,7 +181,12 @@ namespace PL
             this.Frame.Content = page;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Opening Client List page with double click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClientsListButton_Click(object sender, RoutedEventArgs e)
         {
 
             DisplayClientsList page = new DisplayClientsList();
@@ -146,6 +195,25 @@ namespace PL
             this.Frame.Content = page;
         }
 
+        /// <summary>
+        /// Opening Package List page with double click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PackageListButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowDisplay.Visibility = Visibility.Hidden;
+            DisplayPackagesList page = new DisplayPackagesList();
+            page.AddClik += AddPackagePage;
+            page.DoubleClik += PackageDisplayPage;
+            this.Frame.Content = page;
+        }
+
+        /// <summary>
+        /// Opening Station List page with double click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Stations_Click(object sender, RoutedEventArgs e)
         {
 
@@ -155,6 +223,11 @@ namespace PL
             this.Frame.Content = page;
         }
 
+        /// <summary>
+        /// Opening Drone List page with double click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Drones_List_Click(object sender, RoutedEventArgs e)
         {
             MainWindowDisplay.Visibility = Visibility.Hidden;
@@ -186,12 +259,7 @@ namespace PL
 
         }
 
-        private void Frame_Navigated(object sender, NavigationEventArgs e)
-        {
-            
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void ClientloginButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowDisplay.Visibility = Visibility.Hidden;
             this.Frame.Visibility = Visibility.Visible;
@@ -207,6 +275,10 @@ namespace PL
             this.Frame.Visibility = Visibility.Hidden;
             Buttons_For_Lists.Visibility = Visibility.Hidden;
             MainWindowDisplay.Visibility = Visibility.Visible;
+
+        }
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
 
         }
     }

@@ -24,8 +24,7 @@ namespace BL
         internal static IBL Instance { get => instance; }
 
         static BL() { }
-         
-
+        
         BL()
         {
             dal = DalApi.DalFactory.GetDal("XML");
