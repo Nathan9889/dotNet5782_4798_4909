@@ -68,7 +68,7 @@ namespace DalApi
             PackagesList.Add(package);
             XMLTools.SaveListToXMLSerializer(PackagesList, packagePath);
 
-            throw new Exception("test");
+            return package.ID;
         }
 
 
