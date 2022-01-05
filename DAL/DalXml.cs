@@ -63,6 +63,7 @@ namespace DalApi
             List<Package> PackagesList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
             if (PackagesList.Any(c => c.ID == package.ID)) throw new Exceptions.IDException("A client ID Not Found", package.ID);
 
+            package.Created = DateTime.Now;
             package.ID = getPackageID();
 
             PackagesList.Add(package);
