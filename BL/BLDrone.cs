@@ -526,7 +526,7 @@ namespace BL
 
         public void StartSimulator(int id, Action action, Func<bool> stop)
         {
-            Simulator(this, id, action, stop);
+            Simulator simulator = new Simulator(this, id, action, stop);
         }
 
     }

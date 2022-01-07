@@ -264,6 +264,8 @@
 
             <CheckBox x:Name="Mode" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="False"/>
             <CheckBox x:Name="ShipVisibility" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="False"/>
+            <Button Name="Simulator" Content="Simulator" Grid.Column="1" HorizontalAlignment="Left" Margin="268,0,0,0" Grid.Row="2" VerticalAlignment="Top" Click="Simulator_Click"/>
+            <Button x:Name="Cancellation" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="391,0,0,25" Grid.Row="2" VerticalAlignment="Bottom" Click="Cancellation_Click"/>
 
         </Grid>
 

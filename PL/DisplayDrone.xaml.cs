@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,9 @@ namespace PL
     public partial class DisplayDrone : Page
     {
         private Model.PL pL;
+        private BlApi.IBL bl;
         Drone Drone = new Drone();
+        BackgroundWorker backgroundWorker;
 
         public delegate void Navigation(int id);
         public event Navigation Back;
@@ -36,7 +39,8 @@ namespace PL
             InitializeComponent();
             this.pL = new Model.PL();
             MainGrid.DataContext = Drone;
-           
+            bl = BlApi.BlFactory.GetBL();
+
             Drone_MaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             Mode.IsChecked = true;
 
@@ -261,7 +265,36 @@ namespace PL
             this.NavigationService.GoBack();
         }
 
+        private void Simulator_Click(object sender, RoutedEventArgs e)
+        {
+            backgroundWorker = new BackgroundWorker();
 
+            backgroundWorker.DoWork += Simulator_DoWork;
+
+            backgroundWorker.WorkerReportsProgress = true;
+            backgroundWorker.WorkerSupportsCancellation = true;
+
+           
+        }
+
+        private void Cancellation_Click(object sender, RoutedEventArgs e)
+        {
+            backgroundWorker.CancelAsync();
+        }
+
+
+
+        private void Simulator_DoWork(object sender, DoWorkEventArgs e)
+        {
+            bl.StartSimulator(Drone.drone.ID, , stop);
+        }
+
+        bool stop()
+        {
+            return backgroundWorker.CancellationPending;
+        }
+
+        
     }
 }
 
