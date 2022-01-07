@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using xml;
+using System.Runtime.CompilerServices;
 
 namespace DalApi
 {
@@ -37,7 +38,7 @@ namespace DalApi
 
 
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddClient(Client client)
         {
 
@@ -48,6 +49,8 @@ namespace DalApi
             XMLTools.SaveListToXMLSerializer(clientList, clientPath);
         }
 
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone drone)
         {
             List<Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronePath);
@@ -57,6 +60,7 @@ namespace DalApi
             XMLTools.SaveListToXMLSerializer(dronesList, dronePath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int AddPackage(Package package)
         {
             List<Package> PackagesList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
@@ -74,6 +78,7 @@ namespace DalApi
 
 
         #region XmlElement
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station station) // נבדק ועובד
         {
            
@@ -101,7 +106,7 @@ namespace DalApi
         }
 
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station StationById(int id) // נבדק ועובד
         {
             XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
@@ -124,6 +129,7 @@ namespace DalApi
             return station;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> StationsFilter(Predicate<Station> match) // עובד
         {
             List<Station> stations = new List<Station>();
@@ -142,6 +148,7 @@ namespace DalApi
             return stations.FindAll(match);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> StationsList() // עובד
         {
             List<Station> stations = new List<Station>();
@@ -160,6 +167,7 @@ namespace DalApi
             return stations;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private void finishChargingStation(int stationID) //
         {
             XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
@@ -174,7 +182,7 @@ namespace DalApi
             XMLTools.SaveListToXmlElement(stationRootElem, stationPath);
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station ChargingStation(int stationID) // עובד
         {
             XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
@@ -190,6 +198,7 @@ namespace DalApi
             return StationById(Convert.ToInt32( stationElem.Element("ID").Value));
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int id) // עובד
         {
             XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
@@ -203,7 +212,7 @@ namespace DalApi
         }
 
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] PowerConsumptionByDrone()//
         {
             XElement configRootElem = XMLTools.LoadListFromXmlElement(configPath);
@@ -240,7 +249,7 @@ namespace DalApi
 
 
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Client ClientById(int id)
         {
             var ClientList = XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
@@ -253,6 +262,7 @@ namespace DalApi
             return client;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Client> ClientsFilter(Predicate<Client> match)
         {
             var ClientList = XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
@@ -261,11 +271,13 @@ namespace DalApi
 
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Client> ClientsList()
         {
             return XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteClient(int id)
         {
             var ClientList = XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
@@ -282,6 +294,7 @@ namespace DalApi
 
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id) //
         {
             var droneList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronePath);
@@ -294,6 +307,7 @@ namespace DalApi
             XMLTools.SaveListToXMLSerializer(droneList, clientPath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDroneCharge(DroneCharge droneCharge) //
         {
             List<DroneCharge> droneChargeList = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargePath);
@@ -303,10 +317,10 @@ namespace DalApi
         }
 
 
-      
 
-      
 
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone DroneById(int id)//
         {
             List<Drone> droneList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronePath);
@@ -318,6 +332,7 @@ namespace DalApi
             return drone;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneCharge(Drone drone, int stationID)//
         {
             List<Drone> droneList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronePath);
@@ -340,6 +355,7 @@ namespace DalApi
             XMLTools.SaveListToXMLSerializer(droneChargeList, droneChargePath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCharge DroneChargeByIdDrone(int id)//
         {
             List<DroneCharge> droneChargeList = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargePath);
@@ -351,34 +367,39 @@ namespace DalApi
             return drone;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> DroneChargeFilter(Predicate<DroneCharge> match)//
         {
             List<DroneCharge> droneChargeList = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargePath);
             return droneChargeList.FindAll(match);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> droneChargesList()//
         {
             return XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargePath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> DronedFilter(Predicate<Drone> match)//
         {
             List<Drone> droneChargeList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronePath);
             return droneChargeList.FindAll(match);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> DroneList()//
         {
             return XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronePath);
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Package> PackageList()
         {
             return XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Package> PackagesFilter(Predicate<Package> match)
         {
             var PackageList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
@@ -386,7 +407,7 @@ namespace DalApi
             return PackageList.FindAll(match);
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void FinishCharging(DroneCharge droneCharge)//
         {
             List<DroneCharge> droneList = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dronePath);
@@ -402,6 +423,7 @@ namespace DalApi
             XMLTools.SaveListToXMLSerializer(droneChargeList, droneChargePath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void packageToDrone(Package package, int DroneID)
         {
             List<Package> packagesList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
@@ -423,6 +445,7 @@ namespace DalApi
             XMLTools.SaveListToXMLSerializer(packagesList, packagePath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void PickedUpByDrone(Package package)//
         {
             List<Package> packagesList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
@@ -437,11 +460,12 @@ namespace DalApi
             XMLTools.SaveListToXMLSerializer(packagesList, packagePath);
         }
 
-      
-      
 
 
 
+
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeletePackage(int id)
         {
             var PackageList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
@@ -457,7 +481,7 @@ namespace DalApi
             XMLTools.SaveListToXMLSerializer(PackageList, packagePath);
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Package PackageById(int id)
         {
             var PackageList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
@@ -468,8 +492,8 @@ namespace DalApi
             return package;
         }
 
-      
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeliveredToClient(Package package)
         {
             List<DO.Package> PackageList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);

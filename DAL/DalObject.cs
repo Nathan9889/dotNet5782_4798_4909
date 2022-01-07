@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DO;
 using DalApi;
+using System.Runtime.CompilerServices;
 
 
 namespace DalObject
@@ -282,13 +283,14 @@ namespace DalObject
         static DalObject() { }
         DalObject() { DataSource.Initialize(); }
 
-        
+
 
 
         /// <summary>
         /// The function receives an object Station and adds it to the list
         /// </summary>
         /// <param name="station"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station station)
         {
             if (DataSource.StationList.FindIndex(x => x.ID == station.ID) != -1)
@@ -301,6 +303,7 @@ namespace DalObject
         /// The function gets a drone object and adds it to the list
         /// </summary>
         /// <param name="drone"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone drone)
         {
             if (DataSource.DroneList.FindIndex(x => x.ID == drone.ID) != -1)
@@ -313,6 +316,7 @@ namespace DalObject
         /// The function accepts a client-type object and adds it to the list of clients
         /// </summary>
         /// <param name="client"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddClient(Client client)
         {
             if (DataSource.ClientList.FindIndex(x => x.ID == client.ID) != -1)
@@ -325,6 +329,7 @@ namespace DalObject
         /// The function receives a package type object and adds it to the list of packages
         /// </summary>
         /// <param name="package"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int AddPackage(Package package)
         {
             package.ID = DataSource.Config.PackageId++;
@@ -338,6 +343,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Client ClientById(int id)
         {
             foreach (Client item in DataSource.ClientList)
@@ -353,6 +359,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Package PackageById(int id)
         {
             foreach (var item in DataSource.PackageList)
@@ -368,6 +375,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone DroneById(int id)
         {
             foreach (var item in DataSource.DroneList)
@@ -383,6 +391,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station StationById(int id)
         {
             foreach (var item in DataSource.StationList)
@@ -398,6 +407,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCharge DroneChargeByIdDrone(int id)
         {
             foreach (var item in DataSource.droneCharge)
@@ -413,6 +423,7 @@ namespace DalObject
         /// </summary>
         /// <param name="package"></param>
         /// <param name="DroneID"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void packageToDrone(Package package, int DroneID)
         {
             Package packageTemp = package;
@@ -426,6 +437,7 @@ namespace DalObject
         /// The function receives a Package object and updates the pick-up time by the drone
         /// </summary>
         /// <param name="package"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void PickedUpByDrone(Package package)// Package collection by drone
         {
             Package packageTemp = package;
@@ -440,6 +452,7 @@ namespace DalObject
         ///Updates the delivery time and the drone is available
         /// </summary>
         /// <param name="package"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeliveredToClient(Package package) // The package was delivered to the client
         {
 
@@ -462,6 +475,7 @@ namespace DalObject
         /// </summary>
         /// <param name="stationID"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station ChargingStation(int stationID) // The function handles the station
         {
             Station station = StationById(stationID);
@@ -479,6 +493,7 @@ namespace DalObject
         /// </summary>
         /// <param name="drone"></param>
         /// <param name="stationID"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneCharge(Drone drone, int stationID)
         {
             Station station = ChargingStation(stationID); // The station that the user choose
@@ -501,6 +516,7 @@ namespace DalObject
         /// The function receives a DroneCharge instance and updates the station and drone upon completion of charging
         /// </summary>
         /// <param name="droneCharge"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void FinishCharging(DroneCharge droneCharge) // Finish drone Chargeing, update drone status and update station
         {
             Drone drone = DroneById(droneCharge.DroneId);
@@ -524,6 +540,7 @@ namespace DalObject
         /// returns dronecharge list type
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> droneChargesList()
         {
             List<DroneCharge> droneChargeTemp = new List<DroneCharge>(DataSource.droneCharge);
@@ -535,6 +552,7 @@ namespace DalObject
         /// The function returns the list of stations
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> StationsList()
         {
             List<Station> temp = new List<Station>(DataSource.StationList);
@@ -546,6 +564,7 @@ namespace DalObject
         /// The function returns the list of drones
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> DroneList()
         {
             List<Drone> temp = new List<Drone>(DataSource.DroneList);
@@ -557,6 +576,7 @@ namespace DalObject
         /// The function returns the list of clients
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Client> ClientsList()
         {
             List<Client> temp = new List<Client>(DataSource.ClientList);
@@ -568,6 +588,7 @@ namespace DalObject
         /// The function returns the list of packages
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Package> PackageList()
         {
            IEnumerable<Package> temp = new List<Package>(DataSource.PackageList).OrderBy(p=>p.ID);
@@ -579,6 +600,7 @@ namespace DalObject
         /// The function creates and returns a list of packages that have not yet been assigned to the glider
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Package> PackagesFilter(Predicate<Package> match)
         {
             List<Package> packagesFilter = new List<Package>(DataSource.PackageList).FindAll(match);
@@ -590,25 +612,28 @@ namespace DalObject
         /// The function creates and returns a list of stations with available charging slots
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> StationsFilter(Predicate<Station> match)
         {
             List<Station> stationsFilter = new List<Station>(DataSource.StationList).FindAll(match);
             return stationsFilter;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> DronedFilter(Predicate<Drone> match)
         {
             List<Drone> dronedFilter = new List<Drone>(DataSource.DroneList).FindAll(match);
             return dronedFilter;
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Client> ClientsFilter(Predicate<Client> match)
         {
             List<Client> clientsFilter = new List<Client>(DataSource.ClientList).FindAll(match);
             return clientsFilter;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> DroneChargeFilter(Predicate<DroneCharge> match)
         {
             List<DroneCharge> droneChargeFilter = new List<DroneCharge>(DataSource.droneCharge).FindAll(match);
@@ -619,6 +644,7 @@ namespace DalObject
         /// remove item drone from the list of drones
         /// </summary>
         /// <param name="drone"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
             if (!DataSource.DroneList.Any(x => x.ID == id)) { throw new DO.Exceptions.IDException("id to remove not found", id); }
@@ -629,6 +655,7 @@ namespace DalObject
         /// remove item station from the list of station
         /// </summary>
         /// <param name="station"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int id )
         {
             if (!DataSource.StationList.Any(x => x.ID == id)) { throw new DO.Exceptions.IDException("id to remove not found", id); }
@@ -639,6 +666,7 @@ namespace DalObject
         /// remove item package from the list of package
         /// </summary>
         /// <param name="package"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeletePackage(int id)
         {
             if (!DataSource.PackageList.Any(x => x.ID == id)) { throw new DO.Exceptions.IDException("id to remove not found", id); }
@@ -650,6 +678,7 @@ namespace DalObject
         /// remove item client from the list of client
         /// </summary>
         /// <param name="client"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteClient(int id)
         {
             if (!DataSource.ClientList.Any(x => x.ID == id)) { throw new DO.Exceptions.IDException("id to remove not found", id); }
@@ -660,6 +689,7 @@ namespace DalObject
         /// remove item droneCharge from the list of droneCharge
         /// </summary>
         /// <param name="droneCharge"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDroneCharge(DroneCharge droneCharge)
         {
             if (!DataSource.droneCharge.Any(x => x.DroneId == droneCharge.DroneId)) { throw new DO.Exceptions.IDException("id to remove not found", droneCharge.DroneId); }
@@ -670,6 +700,7 @@ namespace DalObject
         /// double array to store attributes of powerneed of different type of drone
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] PowerConsumptionByDrone()
         {
             double[] arr = new double[5];

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -14,6 +15,7 @@ namespace BL
         /// The function get a object client from user input and adds it to the clients list in Datasource 
         /// </summary>
         /// <param name="client"> Client object from ConsoleUi </param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddClient(Client client)
         {
 
@@ -39,7 +41,10 @@ namespace BL
 
             try    // adding it to client list in datasource
             {
-                dal.AddClient(dalClient);
+                lock (dal)
+                {
+                    dal.AddClient(dalClient);
+                }
             }
             catch (DO.Exceptions.IDException ex)
             {
@@ -53,26 +58,30 @@ namespace BL
         /// <param name="id"> id to find the client to update info </param>
         /// <param name="name"> new name to give to that </param>
         /// <param name="phone"> new phone to give to that client </param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateClient(int id, string name, string phone)
         {
             DO.Client dalClient;
 
-            if (!dal.ClientsList().Any(x => x.ID == id))
-                throw new BO.Exceptions.IDException("Client ID not found", id);
+            lock (dal)
+            {
+                if (!dal.ClientsList().Any(x => x.ID == id))
+                    throw new BO.Exceptions.IDException("Client ID not found", id);
 
-            correctPhone(phone);        //check if phone number is correct
+                correctPhone(phone);        //check if phone number is correct
 
-            dalClient = dal.ClientById(id);
+                dalClient = dal.ClientById(id);
 
-            DO.Client clientTemp = dalClient;
+                DO.Client clientTemp = dalClient;
 
-            if (name != "")         //changing name or phone or both, if no input (only enter), no changes
-                clientTemp.Name = name;
-            if (phone != "")
-                clientTemp.Phone = phone;
+                if (name != "")         //changing name or phone or both, if no input (only enter), no changes
+                    clientTemp.Name = name;
+                if (phone != "")
+                    clientTemp.Phone = phone;
 
-            dal.DeleteClient(dalClient.ID);
-            dal.AddClient(clientTemp);
+                dal.DeleteClient(dalClient.ID);
+                dal.AddClient(clientTemp);
+            }
         }
 
         /// <summary>
@@ -80,102 +89,106 @@ namespace BL
         /// </summary>
         /// <param name="id"> client id from console </param>
         /// <returns> Client object type </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Client DisplayClient(int id)
         {
-            if (!dal.ClientsList().Any(x => x.ID == id))
-                throw new BO.Exceptions.IDException("Client ID not found", id);      //else client with id exist in dal
-
-            DO.Client dalClient = dal.ClientsList().First(x => x.ID == id);
-
-            Client client = new Client();           //create new object and getting and assign the client info from datasource
-
-            client.ID = dalClient.ID;
-            client.Name = dalClient.Name;
-            client.Phone = dalClient.Phone;
-
-            Location location = new Location();
-            location.Longitude = dalClient.Longitude;
-            location.Latitude = dalClient.Latitude;
-
-            client.ClientLocation = location;
-
-            List<PackageAtClient> senderPackage = new List<PackageAtClient>();
-
-            foreach (var item in dal.PackageList())     //finding packages list that the client sent
+            lock (dal)
             {
-                if (item.SenderId == dalClient.ID)
+                if (!dal.ClientsList().Any(x => x.ID == id))
+                    throw new BO.Exceptions.IDException("Client ID not found", id);      //else client with id exist in dal
+
+                DO.Client dalClient = dal.ClientsList().First(x => x.ID == id);
+
+                Client client = new Client();           //create new object and getting and assign the client info from datasource
+
+                client.ID = dalClient.ID;
+                client.Name = dalClient.Name;
+                client.Phone = dalClient.Phone;
+
+                Location location = new Location();
+                location.Longitude = dalClient.Longitude;
+                location.Latitude = dalClient.Latitude;
+
+                client.ClientLocation = location;
+
+                List<PackageAtClient> senderPackage = new List<PackageAtClient>();
+
+                foreach (var item in dal.PackageList())     //finding packages list that the client sent
                 {
-                    PackageAtClient packageAtClient = new PackageAtClient();  //new object to assign to package at client attribute
-
-                    packageAtClient.Id = item.ID;
-                    packageAtClient.Weight = (WeightCategories)item.Weight;
-                    packageAtClient.Priority = (Priorities)item.Priority;
-
-                    if (item.Associated == null)           //assigning package status according to its status
-                        packageAtClient.Status = PackageStatus.Created;
-                    else if (item.PickedUp == null)
+                    if (item.SenderId == dalClient.ID)
                     {
-                        packageAtClient.Status = PackageStatus.Associated;
+                        PackageAtClient packageAtClient = new PackageAtClient();  //new object to assign to package at client attribute
+
+                        packageAtClient.Id = item.ID;
+                        packageAtClient.Weight = (WeightCategories)item.Weight;
+                        packageAtClient.Priority = (Priorities)item.Priority;
+
+                        if (item.Associated == null)           //assigning package status according to its status
+                            packageAtClient.Status = PackageStatus.Created;
+                        else if (item.PickedUp == null)
+                        {
+                            packageAtClient.Status = PackageStatus.Associated;
+                        }
+                        else if (item.Delivered == null)
+                        {
+                            packageAtClient.Status = PackageStatus.PickedUp;
+                        }
+                        else
+                            packageAtClient.Status = PackageStatus.Delivered;
+
+                        ClientPackage clientPackage = new ClientPackage();        //new object of target client that the sender sent the package
+                        clientPackage.ID = item.TargetId;
+                        clientPackage.Name = dal.ClientById(item.TargetId).Name;
+
+                        packageAtClient.Source_Destination = clientPackage;
+
+                        senderPackage.Add(packageAtClient);         // adding it to the list
                     }
-                    else if (item.Delivered == null)
-                    {
-                        packageAtClient.Status = PackageStatus.PickedUp;
-                    }
-                    else
-                        packageAtClient.Status = PackageStatus.Delivered;
-
-                    ClientPackage clientPackage = new ClientPackage();        //new object of target client that the sender sent the package
-                    clientPackage.ID = item.TargetId;
-                    clientPackage.Name = dal.ClientById(item.TargetId).Name;
-
-                    packageAtClient.Source_Destination = clientPackage;
-
-                    senderPackage.Add(packageAtClient);         // adding it to the list
                 }
-            }
 
-            List<PackageAtClient> receiverPackage = new List<PackageAtClient>();
+                List<PackageAtClient> receiverPackage = new List<PackageAtClient>();
 
-            foreach (var item in dal.PackageList())         //finding packages list that the client received and its informations
-            {
-
-                if (item.TargetId == dalClient.ID)
+                foreach (var item in dal.PackageList())         //finding packages list that the client received and its informations
                 {
-                    PackageAtClient packageAtClient = new PackageAtClient();
 
-                    packageAtClient.Id = item.ID;
-                    packageAtClient.Weight = (WeightCategories)item.Weight;
-                    packageAtClient.Priority = (Priorities)item.Priority;
-
-
-                    if (item.Associated == null)               //assigning package status according to its status
-                        packageAtClient.Status = PackageStatus.Created;
-                    else if (item.PickedUp == null)
+                    if (item.TargetId == dalClient.ID)
                     {
-                        packageAtClient.Status = PackageStatus.Associated;
+                        PackageAtClient packageAtClient = new PackageAtClient();
+
+                        packageAtClient.Id = item.ID;
+                        packageAtClient.Weight = (WeightCategories)item.Weight;
+                        packageAtClient.Priority = (Priorities)item.Priority;
+
+
+                        if (item.Associated == null)               //assigning package status according to its status
+                            packageAtClient.Status = PackageStatus.Created;
+                        else if (item.PickedUp == null)
+                        {
+                            packageAtClient.Status = PackageStatus.Associated;
+                        }
+                        else if (item.Delivered == null)
+                        {
+                            packageAtClient.Status = PackageStatus.PickedUp;
+                        }
+                        else
+                            packageAtClient.Status = PackageStatus.Delivered;
+
+                        ClientPackage clientPackage = new ClientPackage();
+
+                        clientPackage.ID = item.SenderId;
+                        clientPackage.Name = dal.ClientById(item.SenderId).Name;
+
+                        packageAtClient.Source_Destination = clientPackage;
+
+                        receiverPackage.Add(packageAtClient);       //adding to list
                     }
-                    else if (item.Delivered == null)
-                    {
-                        packageAtClient.Status = PackageStatus.PickedUp;
-                    }
-                    else
-                        packageAtClient.Status = PackageStatus.Delivered;
-
-                    ClientPackage clientPackage = new ClientPackage();
-
-                    clientPackage.ID = item.SenderId;
-                    clientPackage.Name = dal.ClientById(item.SenderId).Name;
-
-                    packageAtClient.Source_Destination = clientPackage;
-
-                    receiverPackage.Add(packageAtClient);       //adding to list
                 }
+
+                client.ClientsSender = senderPackage;    //assign two lists to client attribute then return the client
+                client.ClientsReceiver = receiverPackage;
+
+                return client;  //return the client object to display it using Tostring
             }
-
-            client.ClientsSender = senderPackage;    //assign two lists to client attribute then return the client
-            client.ClientsReceiver = receiverPackage;
-
-            return client;  //return the client object to display it using Tostring
         }
 
 
@@ -183,37 +196,41 @@ namespace BL
         /// The function Display every Client attributes with a list of package info
         /// </summary>
         /// <returns> Client List </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ClientToList> DisplayClientList()
         {
-            List<ClientToList> clients = new List<ClientToList>();   //creating new list to return after assign
-
-            foreach (var dalClient in dal.ClientsList())
+            lock (dal)
             {
-                ClientToList clientToList = new ClientToList();  //new list , getting its values then returns all of it to display
+                List<ClientToList> clients = new List<ClientToList>();   //creating new list to return after assign
 
-                clientToList.Id = dalClient.ID;
-                clientToList.Name = dalClient.Name;
-                clientToList.Phone = dalClient.Phone;
+                foreach (var dalClient in dal.ClientsList())
+                {
+                    ClientToList clientToList = new ClientToList();  //new list , getting its values then returns all of it to display
 
-                IEnumerable<DO.Package> sentAndDelivered = dal.PackageList().Where(x => x.SenderId == dalClient.ID && x.Delivered != null);  //new list of sender package that have been delevered
+                    clientToList.Id = dalClient.ID;
+                    clientToList.Name = dalClient.Name;
+                    clientToList.Phone = dalClient.Phone;
 
-                clientToList.sentAndDeliveredPackage = sentAndDelivered.Count();                 //getting number of element we have and assigning to attribute "number of sent and delivered sender client" same for all below
+                    IEnumerable<DO.Package> sentAndDelivered = dal.PackageList().Where(x => x.SenderId == dalClient.ID && x.Delivered != null);  //new list of sender package that have been delevered
 
-                IEnumerable<DO.Package> sentAndUndelivered = dal.PackagesFilter(x => x.SenderId == dalClient.ID && x.Delivered == null);
+                    clientToList.sentAndDeliveredPackage = sentAndDelivered.Count();                 //getting number of element we have and assigning to attribute "number of sent and delivered sender client" same for all below
 
-                clientToList.sentAndUndeliveredPackage = sentAndUndelivered.Count();
+                    IEnumerable<DO.Package> sentAndUndelivered = dal.PackagesFilter(x => x.SenderId == dalClient.ID && x.Delivered == null);
 
-                IEnumerable<DO.Package> ReceivedAndDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered != null);
+                    clientToList.sentAndUndeliveredPackage = sentAndUndelivered.Count();
 
-                clientToList.ReceivedAndDeliveredPackage = ReceivedAndDelivered.Count();
+                    IEnumerable<DO.Package> ReceivedAndDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered != null);
 
-                IEnumerable<DO.Package> ReceivedAndUnDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered == null);
+                    clientToList.ReceivedAndDeliveredPackage = ReceivedAndDelivered.Count();
 
-                clientToList.ReceivedAndUnDeliveredPackage = ReceivedAndUnDelivered.Count();
+                    IEnumerable<DO.Package> ReceivedAndUnDelivered = dal.PackagesFilter(x => x.TargetId == dalClient.ID && x.Delivered == null);
 
-                clients.Add(clientToList);      //adding it to the list
+                    clientToList.ReceivedAndUnDeliveredPackage = ReceivedAndUnDelivered.Count();
+
+                    clients.Add(clientToList);      //adding it to the list
+                }
+                return clients;
             }
-            return clients;
         }
 
         /// <summary>
@@ -223,22 +240,25 @@ namespace BL
         /// <returns> station with closest location </returns>
         private DO.Station NearestStationToClient(int ClientID)
         {
-            DO.Station tempStation = new DO.Station();
-            double distance = int.MaxValue;
-            if ((dal.StationsFilter(s => s.ChargeSlots > 0)).Count() == 0)
-                throw new BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station", 0); //if there are no station with available charge slots
-
-            foreach (var station in dal.StationsFilter(s => s.ChargeSlots > 0)) //calculating the min of station distance with client
+            lock (dal)
             {
-                double tempDistance = DalObject.Coordinates.Distance(dal.ClientById(ClientID).Latitude, dal.ClientById(ClientID).Longitude, station.Latitude, station.Longitude);
-                if (tempDistance < distance)
+                DO.Station tempStation = new DO.Station();
+                double distance = int.MaxValue;
+                if ((dal.StationsFilter(s => s.ChargeSlots > 0)).Count() == 0)
+                    throw new BO.Exceptions.SendingDroneToCharging("There are no charging slots available at any station", 0); //if there are no station with available charge slots
+
+                foreach (var station in dal.StationsFilter(s => s.ChargeSlots > 0)) //calculating the min of station distance with client
                 {
-                    distance = tempDistance;
-                    tempStation.Latitude = station.Latitude;
-                    tempStation.Longitude = station.Longitude;
+                    double tempDistance = DalObject.Coordinates.Distance(dal.ClientById(ClientID).Latitude, dal.ClientById(ClientID).Longitude, station.Latitude, station.Longitude);
+                    if (tempDistance < distance)
+                    {
+                        distance = tempDistance;
+                        tempStation.Latitude = station.Latitude;
+                        tempStation.Longitude = station.Longitude;
+                    }
                 }
+                return tempStation;
             }
-            return tempStation;
         }
 
 
@@ -259,13 +279,16 @@ namespace BL
             if (!nums.Any(x => x == phone)) throw new BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteClient(int ID)
         {
             if (!DisplayClientList().Any(p => p.Id == ID)) throw new Exceptions.CantDelete(ID, "ID To Delete Not Found");
             try
             {
-                dal.DeleteClient(ID);
+                lock (dal)
+                {
+                    dal.DeleteClient(ID);
+                }
             }
             catch (Exception ex)
             {
