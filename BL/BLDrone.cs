@@ -522,9 +522,17 @@ namespace BL
             return DisplayDroneList().GroupBy(x => x.Status);
         }
 
+
+
+        public void StartSimulator(int id, Action action, Func<bool> stop)
+        {
+            Simulator(this, id, action, stop);
+        }
+
     }
 
 
+   
 
 
 }

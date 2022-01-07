@@ -11,5 +11,17 @@ namespace BL
 {
     class Simulator
     {
+        BlApi.IBL BL;
+        int droneID;
+        Action action;
+        Func<bool> stop;
+
+        Simulator(BlApi.IBL bl, int id, Action action, Func<bool> stop)
+        {
+            BL = bl;
+            droneID = id;
+            this.action = action;
+            this.stop = stop;
+        }
     }
 }

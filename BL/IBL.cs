@@ -212,6 +212,8 @@ namespace BlApi
         void DeleteStation(int ID);
         void DeleteClient(int ID);
 
+        void StartSimulator(int id, Action action, Func<bool> stop);
+
         //Exit
 
 
