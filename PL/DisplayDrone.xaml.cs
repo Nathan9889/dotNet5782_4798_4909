@@ -39,7 +39,7 @@ namespace PL
             InitializeComponent();
             this.pL = new Model.PL();
             MainGrid.DataContext = Drone;
-            bl = BlApi.BlFactory.GetBL();
+           
 
             Drone_MaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             Mode.IsChecked = true;
@@ -62,6 +62,7 @@ namespace PL
             Drone.drone = pL.GetDrone(id);
             InitializeComponent();
             MainGrid.DataContext = Drone;
+            bl = BlApi.BlFactory.GetBL();
 
             if (Drone.drone.Status == BO.DroneStatus.Shipping)
                 ShipVisibility.IsChecked = true;
@@ -69,6 +70,14 @@ namespace PL
                 Drone.drone.DronePackageProcess = new BO.PackageProcess();
             
             Drone_MaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
+
+
+            backgroundWorker = new BackgroundWorker();
+
+            backgroundWorker.DoWork += Simulator_DoWork;
+
+            backgroundWorker.WorkerReportsProgress = true;
+            backgroundWorker.WorkerSupportsCancellation = true;
         }
 
         /// <summary>
@@ -267,14 +276,10 @@ namespace PL
 
         private void Simulator_Click(object sender, RoutedEventArgs e)
         {
-            backgroundWorker = new BackgroundWorker();
 
-            backgroundWorker.DoWork += Simulator_DoWork;
 
-            backgroundWorker.WorkerReportsProgress = true;
-            backgroundWorker.WorkerSupportsCancellation = true;
-
-           
+            if (backgroundWorker.IsBusy != true)
+                backgroundWorker.RunWorkerAsync(); // Start the asynchronous operation.
         }
 
         private void Cancellation_Click(object sender, RoutedEventArgs e)
@@ -283,16 +288,22 @@ namespace PL
         }
 
 
-
-        private void Simulator_DoWork(object sender, DoWorkEventArgs e)
-        {
-            bl.StartSimulator(Drone.drone.ID, , stop);
-        }
-
         bool stop()
         {
             return backgroundWorker.CancellationPending;
         }
+
+        void update()
+        {
+            Drone.drone = pL.GetDrone(Drone.drone.ID);
+        }
+
+        private void Simulator_DoWork(object sender, DoWorkEventArgs e)
+        {
+            bl.StartSimulator(Drone.drone.ID, update, stop);
+        }
+
+       
 
         
     }

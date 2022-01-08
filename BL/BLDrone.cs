@@ -346,17 +346,30 @@ namespace BL
                 int indexDroneToList = DroneList.FindIndex(d => d.ID == droneID);
                 if (DroneList.Find(drone => drone.ID == droneID).Status != DroneStatus.Maintenance) throw new BO.Exceptions.EndDroneCharging("Drone status is not Maintenance", droneID);
 
-                int minutesCharging = (int)((DateTime.Now - dal.droneChargesList().First(x => x.DroneId == droneID).ChargingStartTime).TotalMinutes); // המרה מspentime
+                updateDroneBattary(droneID, dal.droneChargesList().First(x => x.DroneId == droneID).ChargingStartTime, indexDroneToList);
+                //int secondsCharging = (int)((DateTime.Now - dal.droneChargesList().First(x => x.DroneId == droneID).ChargingStartTime).TotalSeconds); // המרה מspentime
 
-                int battary = (int)((minutesCharging / 60.0) * 100); // Calculate the new battery
-                DroneList[indexDroneToList].Battery += battary;
-                if (DroneList[indexDroneToList].Battery > 100) DroneList[indexDroneToList].Battery = 100;
+                //int battary = (int)((secondsCharging ) * ChargeRate); // Calculate the new battery
+                //DroneList[indexDroneToList].Battery += battary;
+                //if (DroneList[indexDroneToList].Battery > 100) DroneList[indexDroneToList].Battery = 100;
                 DroneList[indexDroneToList].Status = DroneStatus.Available;
 
                 DO.DroneCharge droneCharge = dal.droneChargesList().First(d => d.DroneId == droneID);
 
                 dal.FinishCharging(droneCharge); // Send to a function that will increase load slots and delete the droneCharge
             }
+
+        }
+
+        public void updateDroneBattary(int id, DateTime? start, int indexDroneToList = -1)
+        {
+            if(start == null) start = dal.droneChargesList().First(x => x.DroneId == id).ChargingStartTime;
+            if (indexDroneToList == -1) indexDroneToList = DroneList.FindIndex(d => d.ID == id);
+
+            int secondsCharging = (int)((DateTime.Now - start).Value.TotalSeconds); // המרה מspentime
+            int battary = (int)((secondsCharging) * ChargeRate); // Calculate the new battery
+            DroneList[indexDroneToList].Battery += battary;
+            if (DroneList[indexDroneToList].Battery > 100) DroneList[indexDroneToList].Battery = 100;
 
         }
 

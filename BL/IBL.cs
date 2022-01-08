@@ -53,6 +53,7 @@ namespace BlApi
         /// <param name="id"></param>
         /// <param name="name"></param>
         void UpdateDroneName(int id, string name);
+        
 
 
         /// <summary>
@@ -60,6 +61,9 @@ namespace BlApi
         /// </summary>
         /// <param name="id"></param>
         void ChargeDrone(int id);
+        //void updateDroneBattary(int id, DateTime? startCharging);
+
+        //  void updateDroneBattary(int id, DateTime? start);
 
 
         /// <summary>

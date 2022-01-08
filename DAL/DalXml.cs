@@ -410,7 +410,7 @@ namespace DalApi
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void FinishCharging(DroneCharge droneCharge)//
         {
-            List<DroneCharge> droneList = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(dronePath);
+            List<DroneCharge> droneList = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargePath);
             if (!droneList.Any(d => d.DroneId == droneCharge.DroneId))
                 throw new Exceptions.IDException("Drone not found", droneCharge.DroneId);
 
