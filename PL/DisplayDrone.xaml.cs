@@ -276,8 +276,6 @@ namespace PL
 
         private void Simulator_Click(object sender, RoutedEventArgs e)
         {
-
-
             if (backgroundWorker.IsBusy != true)
                 backgroundWorker.RunWorkerAsync(); // Start the asynchronous operation.
         }

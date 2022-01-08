@@ -189,6 +189,19 @@ namespace BL
 
 
 
+        internal void updateDroneBattery(int id, DateTime? start ,int indexDroneToList = -1)
+        {
+            if (start == null) start = dal.droneChargesList().First(x => x.DroneId == id).ChargingStartTime;
+            if (indexDroneToList == -1) indexDroneToList = DroneList.FindIndex(d => d.ID == id);
+
+            int secondsCharging = (int)((DateTime.Now - start).Value.TotalSeconds); // המרה מspentime
+            int battary = (int)((secondsCharging) * ChargeRate); // Calculate the new battery
+            DroneList[indexDroneToList].Battery += battary;
+            if (DroneList[indexDroneToList].Battery > 100) DroneList[indexDroneToList].Battery = 100;
+        }
+
+
+
         /// <summary>
         /// The function receives a drone and station number for charging and adds the drone to the list and location of the station
         /// </summary>
@@ -346,7 +359,7 @@ namespace BL
                 int indexDroneToList = DroneList.FindIndex(d => d.ID == droneID);
                 if (DroneList.Find(drone => drone.ID == droneID).Status != DroneStatus.Maintenance) throw new BO.Exceptions.EndDroneCharging("Drone status is not Maintenance", droneID);
 
-                updateDroneBattary(droneID, dal.droneChargesList().First(x => x.DroneId == droneID).ChargingStartTime, indexDroneToList);
+                updateDroneBattery(droneID, dal.droneChargesList().First(x => x.DroneId == droneID).ChargingStartTime, indexDroneToList);
                 //int secondsCharging = (int)((DateTime.Now - dal.droneChargesList().First(x => x.DroneId == droneID).ChargingStartTime).TotalSeconds); // המרה מspentime
 
                 //int battary = (int)((secondsCharging ) * ChargeRate); // Calculate the new battery
@@ -361,17 +374,7 @@ namespace BL
 
         }
 
-        public void updateDroneBattary(int id, DateTime? start, int indexDroneToList = -1)
-        {
-            if(start == null) start = dal.droneChargesList().First(x => x.DroneId == id).ChargingStartTime;
-            if (indexDroneToList == -1) indexDroneToList = DroneList.FindIndex(d => d.ID == id);
-
-            int secondsCharging = (int)((DateTime.Now - start).Value.TotalSeconds); // המרה מspentime
-            int battary = (int)((secondsCharging) * ChargeRate); // Calculate the new battery
-            DroneList[indexDroneToList].Battery += battary;
-            if (DroneList[indexDroneToList].Battery > 100) DroneList[indexDroneToList].Battery = 100;
-
-        }
+      
 
 
         /// <summary>
@@ -429,14 +432,37 @@ namespace BL
                     drone.DronePackageProcess.CollectLocation = collectLocation;
                     drone.DronePackageProcess.DestinationLocation = destinationLocation;
 
-                    drone.DronePackageProcess.Distance = DalObject.Coordinates.Distance(drone.DronePackageProcess.CollectLocation.Latitude, drone.DronePackageProcess.CollectLocation.Longitude,
+                    if(drone.DronePackageProcess.PackageShipmentStatus == ShipmentStatus.Waiting)
+                    {
+                        drone.DronePackageProcess.Distance = DalObject.Coordinates.Distance(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, drone.DronePackageProcess.CollectLocation.Latitude, drone.DronePackageProcess.CollectLocation.Longitude);
+                    }
+                    else
+                    {
+                        drone.DronePackageProcess.Distance = DalObject.Coordinates.Distance(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude,
                     drone.DronePackageProcess.DestinationLocation.Latitude, drone.DronePackageProcess.DestinationLocation.Longitude); //The distance between the sender and the destination
+                    }
+                    
                 }
             }
             else drone.DronePackageProcess = null;
 
             return drone;
         }
+
+        /// <summary>
+        /// function calculate Location of a drone after 1 second of flying (speed is 1Km per second)
+        /// </summary>
+        public void UpdateDroneLocation(int id, double speed)
+        {
+
+
+
+
+
+
+        }
+
+
 
 
         /// <summary>
@@ -513,9 +539,8 @@ namespace BL
         /// <param name="weight">weight option </param>
         /// <param name="KM"> kilometer </param>
         /// <returns> Battery value </returns>
-        private double BatteryByKM(int weight, double KM)
+        internal double BatteryByKM(int weight, double KM)
         {
-
             double power;
             if (weight == 0) power = PowerLightDrone;
             else if (weight == 1) power = PowerMediumDrone;
@@ -542,6 +567,13 @@ namespace BL
             Simulator simulator = new Simulator(this, id, action, stop);
         }
 
+
+
+
+
+
+
+
     }
 
 
@@ -549,7 +581,3 @@ namespace BL
 
 
 }
-
-
-
-

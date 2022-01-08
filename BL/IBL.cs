@@ -61,9 +61,10 @@ namespace BlApi
         /// </summary>
         /// <param name="id"></param>
         void ChargeDrone(int id);
-        //void updateDroneBattary(int id, DateTime? startCharging);
 
-        //  void updateDroneBattary(int id, DateTime? start);
+
+        
+
 
 
         /// <summary>
@@ -217,7 +218,7 @@ namespace BlApi
         void DeleteClient(int ID);
 
         void StartSimulator(int id, Action action, Func<bool> stop);
-
+        void updateDroneBattery(int id, DateTime? start, int indexDroneToList = -1);
         //Exit
 
 

@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using BO;
 using System.Runtime.CompilerServices;
+using BlApi;
+
 
 namespace BL
 {
-    internal partial class BL : BlApi.IBL           // Partial Client BL Class that contains Clients Functions
+    internal partial class BL : BlApi.IBL          // Partial Client BL Class that contains Clients Functions
     {
 
         /// <summary>
@@ -298,6 +300,9 @@ namespace BL
 
         }
 
-
+        void IBL.updateDroneBattery(int id, DateTime? start, int indexDroneToList)
+        {
+            updateDroneBattery(id, start);
+        }
     }
 }

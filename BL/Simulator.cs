@@ -18,7 +18,7 @@ namespace BL
         Func<bool> stop;
 
         private int DELAY = 1000;
-        private int KM = 1;
+        private int SPEED = 1;
 
         public Simulator(BlApi.IBL bl, int id, Action action, Func<bool> stop)
         {
@@ -45,6 +45,7 @@ namespace BL
                         try
                         {
                             BL.packageToDrone(id);
+
                         }
                         catch (Exception ex)
                         {
@@ -59,11 +60,10 @@ namespace BL
                                 {
 
                                 }
-
                             }
-                        
-                            
                         }
+
+
                         Thread.Sleep(DELAY);
                         action();
                         break;
@@ -73,16 +73,58 @@ namespace BL
                         {
                             bl.FinishCharging(id);
                             startCharging = null;
+                            action();
+                            Thread.Sleep(DELAY);
+                            break;
                         }
-                            
-                        
-                        //BL.updateDroneBattary(id,startCharging);
+
+
+                        BL.updateDroneBattery(drone.ID, startCharging);
+
                         action();
                         Thread.Sleep(DELAY);
                         break;
 
 
                     case DroneStatus.Shipping:
+
+                        Package package = BL.DisplayPackage(drone.DronePackageProcess.Id);
+                        switch (drone.DronePackageProcess.PackageShipmentStatus)
+                        {
+                            case ShipmentStatus.Waiting:
+                               
+                                while(drone.DronePackageProcess.Distance > 0)
+                                {
+                                    Thread.Sleep(DELAY);
+
+
+                                    //DroneToList droneToList = new DroneToList();
+                                    //droneToList = BL.DisplayDroneList().First(x=> x.ID == drone.ID);
+
+                                    //droneToList.Battery = droneToList.Battery;
+                                    
+
+
+
+
+
+                                    action();
+                                }
+
+                                BL.PickedUpByDrone(drone.ID);
+
+                                break;
+                            case ShipmentStatus.OnGoing:
+
+                                BL.DeliveredToClient(drone.ID);
+
+
+                                action();
+                                Thread.Sleep(DELAY);
+
+                                break;
+                            
+                        }
                         break;
                     default:
                         break;
