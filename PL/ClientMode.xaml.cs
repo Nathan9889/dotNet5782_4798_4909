@@ -88,10 +88,10 @@ namespace PL
 
             try
             {
-                Model.PackageToList PackageToList = new Model.PackageToList();
-                PackageToList.packageToList = SentPackages.First(p => p.Id == ((BO.PackageToList)Client_Packages_Sent.SelectedItem).Id);
+                BO.PackageToList packageToList = new BO.PackageToList();
+                packageToList = SentPackages.First(p => p.Id == ((BO.PackageToList)Client_Packages_Sent.SelectedItem).Id);
                 bL.DeletePackage(((BO.PackageToList)Client_Packages_Sent.SelectedItem).Id);
-                SentPackages.Remove(PackageToList.packageToList);
+                SentPackages.Remove(packageToList);
                 MessageBox.Show($"Package successfully deleted !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
@@ -109,12 +109,12 @@ namespace PL
         {
             try
             {
-                Model.PackageToList PackageToList = new Model.PackageToList();
-                PackageToList.packageToList = SentPackages.First(p => p.Id == ((BO.PackageToList)Client_Packages_Sent.SelectedItem).Id);
+                BO.PackageToList packageToList = new BO.PackageToList();
+                packageToList = SentPackages.First(p => p.Id == ((BO.PackageToList)Client_Packages_Sent.SelectedItem).Id);
                 bL.PickedUpByDrone(bL.DisplayPackage(((BO.PackageToList)Client_Packages_Sent.SelectedItem).Id).DroneOfPackage.Id);
-                SentPackages.Remove(PackageToList.packageToList);
-                PackageToList.packageToList.Status = BO.PackageStatus.PickedUp;
-                SentPackages.Add(PackageToList.packageToList);
+                SentPackages.Remove(packageToList);
+                packageToList.Status = BO.PackageStatus.PickedUp;
+                SentPackages.Add(packageToList);
                 MessageBox.Show($"Thank you for your confirmation. \nThe package was successfully collected !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
@@ -132,12 +132,12 @@ namespace PL
         {
             try
             {
-                Model.PackageToList PackageToList = new Model.PackageToList();
-                PackageToList.packageToList = ReceivePackages.First(p => p.Id == ((BO.PackageToList)Client_Packages_receive.SelectedItem).Id);
+                BO.PackageToList packageToList = new BO.PackageToList();
+                packageToList = ReceivePackages.First(p => p.Id == ((BO.PackageToList)Client_Packages_receive.SelectedItem).Id);
                 bL.DeliveredToClient(bL.DisplayPackage(((BO.PackageToList)Client_Packages_receive.SelectedItem).Id).DroneOfPackage.Id);
-                ReceivePackages.Remove(PackageToList.packageToList);
-                PackageToList.packageToList.Status = BO.PackageStatus.Delivered;
-                ReceivePackages.Add(PackageToList.packageToList);
+                ReceivePackages.Remove(packageToList);
+                packageToList.Status = BO.PackageStatus.Delivered;
+                ReceivePackages.Add(packageToList);
                 MessageBox.Show($"Thank you for your confirmation. \nThe package was delivered successfully !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
@@ -161,9 +161,9 @@ namespace PL
                 int newId = bL.AddPackage(Package.package);
 
                 Package.package = bL.DisplayPackage(newId);
-                Model.PackageToList PackageToList = new Model.PackageToList() { packageToList = new BO.PackageToList() { Id = Package.package.ID, Priority = Package.package.Priority, Receiver = Package.package.TargetClient.Name, Sender = Package.package.SenderClient.Name,
-                Status = BO.PackageStatus.Created, Weight = Package.package.Weight} };
-                SentPackages.Add(PackageToList.packageToList);
+                BO.PackageToList packageToList = new BO.PackageToList() { Id = Package.package.ID, Priority = Package.package.Priority, Receiver = Package.package.TargetClient.Name, Sender = Package.package.SenderClient.Name,
+                Status = BO.PackageStatus.Created, Weight = Package.package.Weight} ;
+                SentPackages.Add(packageToList);
 
                 Package = new Package();
                 Package.package = new BO.Package();

@@ -28,6 +28,7 @@ namespace PL
             InitializeComponent();
             BL = BlApi.BlFactory.GetBL();
             content = this.Content;
+            new Model.ObservableList();
         }
 
 
@@ -71,7 +72,7 @@ namespace PL
         private void AddStationPage(int num) 
         {
             var page = new DisplayStation();
-            page.Back += ((DisplayStationsList)this.Frame.Content).RefreshList;
+            //page.Back += ((DisplayStationsList)this.Frame.Content).RefreshList;
             this.Frame.Content = page;
         }
 
@@ -119,7 +120,7 @@ namespace PL
         private void StationDisplayPage(int id) 
         {
             var page = new DisplayStation(id);
-            page.Back += ((DisplayStationsList)this.Frame.Content).RefreshList;
+            //page.Back += ((DisplayStationsList)this.Frame.Content).RefreshList;
             page.DronePage += DroneDiplayFromStation;
             this.Frame.Content = page;
         }

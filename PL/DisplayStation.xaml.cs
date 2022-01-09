@@ -116,6 +116,8 @@ namespace PL
                 if (Back != null) Back(-1);
                 MessageBox.Show($"The station was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.NavigationService.GoBack();
+
+                Model.ObservableList.stations.Add(new PO.StationToList() { ID = Station.station.ID, Name = Station.station.Name, AvailableChargingSlots = Station.station.AvailableChargeSlots, BusyChargingSlots = 0 });
             }
             catch (Exception ex)
             {

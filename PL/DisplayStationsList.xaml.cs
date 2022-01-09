@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -82,28 +83,28 @@ namespace PL
                 if (Show_Normally.IsChecked == true)
                 {
                     var s = BL.DisplayStationList();
-                    var temp = new ObservableCollection<BO.StationToList>(stations);
+                    var temp = new ObservableCollection<PO.StationToList>(Model.ObservableList.stations);
 
-
-                    stations.Clear();
+                    Model.ObservableList.stations.Clear();
+                    
                     foreach (var item in s)
                     {
                         if (temp.Any(s => s.ID == item.ID))  //init again
-                            stations.Add(item);
+                            Model.ObservableList.stations.Add((PO.StationToList)item.CopyPropertiesToNew(typeof(PO.StationToList)));
                     }
                 }
                 else if (Show_Open.IsChecked == true)
                 {
                     var s = BL.GroupStationByNumSlots();  // לרשימה כדי שיהיה העתק . לפי הסדר כדי יחזור למקורי ואז ימיין
-                    var temp = new ObservableCollection<BO.StationToList>(stations);
-                    stations.Clear();
+                    var temp = new ObservableCollection<PO.StationToList>(Model.ObservableList.stations);
+                    Model.ObservableList.stations.Clear();
 
                     foreach (var group in s)
                     {
                         foreach (BO.StationToList item in group)
                         {
                             if (temp.Any(s => s.ID == item.ID))
-                                stations.Add(item);
+                                Model.ObservableList.stations.Add((PO.StationToList)item.CopyPropertiesToNew(typeof(PO.StationToList)));
                         }
                     }
                 }
@@ -128,7 +129,11 @@ namespace PL
         /// <param name="e"></param>
         private void Reset_Button_Click(object sender, RoutedEventArgs e)
         {
-            stations.Clear();
+            Model.ObservableList.stations.Clear();
+            foreach (var item in BL.DisplayStationList())
+            {
+                Model.ObservableList.stations.Add((PO.StationToList)item.CopyPropertiesToNew(typeof(PO.StationToList)));
+            }
             //InitializeList();
             Show_Stations(this, new RoutedEventArgs()); 
 
@@ -138,12 +143,12 @@ namespace PL
         /// Refresh the list of stations from changes
         /// </summary>
         /// <param name="x"></param>
-        public void RefreshList(int x)
-        {
-            var p = PL.GetStationList();
-            stations.Clear();
-            foreach (var station in p) stations.Add(station);
-            Show_Stations(this, new RoutedEventArgs());
-        }
+        //public void RefreshList(int x)
+        //{
+        //    var p = PL.GetStationList();
+        //    stations.Clear();
+        //    foreach (var station in p) stations.Add(station);
+        //    Show_Stations(this, new RoutedEventArgs());
+        //}
     }
 }
