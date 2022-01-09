@@ -24,7 +24,7 @@ namespace PL
         BlApi.IBL BL;
         Model.PL PL;
         
-        private ObservableCollection<BO.StationToList> stations = new ObservableCollection<BO.StationToList>();
+        //private ObservableCollection<BO.StationToList> stations = new ObservableCollection<BO.StationToList>();
         public delegate void StationPage(int id);
         public event StationPage AddClik;
         public event StationPage DoubleClik;
@@ -38,21 +38,22 @@ namespace PL
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
             this.PL = new Model.PL();
-            StationsListView.DataContext = stations;
-            InitializeList();
+            StationsListView.DataContext = Model.ObservableList.stations;
+
+
+           // InitializeList();
         }
 
-        /// <summary>
-        /// func that initialize observable  list
-        /// </summary>
-        void InitializeList()
-        {
-
-            foreach (var station in PL.GetStationList())
-            {
-                stations.Add(station);
-            }
-        }
+        ///// <summary>
+        ///// func that initialize observable  list
+        ///// </summary>
+        //void InitializeList()
+        //{
+        //    foreach (var station in PL.GetStationList())
+        //    {
+        //        stations.Add(station);
+        //    }
+        //}
 
         /// <summary>
         /// open station page of selected station
@@ -82,6 +83,8 @@ namespace PL
                 {
                     var s = BL.DisplayStationList();
                     var temp = new ObservableCollection<BO.StationToList>(stations);
+
+
                     stations.Clear();
                     foreach (var item in s)
                     {
@@ -126,7 +129,7 @@ namespace PL
         private void Reset_Button_Click(object sender, RoutedEventArgs e)
         {
             stations.Clear();
-            InitializeList();
+            //InitializeList();
             Show_Stations(this, new RoutedEventArgs()); 
 
         }
