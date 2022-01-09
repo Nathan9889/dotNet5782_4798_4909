@@ -449,18 +449,19 @@ namespace BL
             return drone;
         }
 
-        /// <summary>
-        /// function calculate Location of a drone after 1 second of flying (speed is 1Km per second)
-        /// </summary>
-        public void UpdateDroneLocation(int id, double speed)
-        {
+        ///// <summary>
+        ///// function calculate Location of a drone after 1 second of flying (speed is 1Km per second)
+        ///// </summary>
+        //internal void UpdateDroneLocation(int id, double lonPlus, double latPlus)
+        //{
+
+        //    DroneToList droneToList = DroneList.Find(d => d.ID == id);
+
+        //    droneToList.DroneLocation.Latitude += latPlus;
+        //    droneToList.DroneLocation.Longitude += lonPlus;
 
 
-
-
-
-
-        }
+        //}
 
 
 
@@ -539,7 +540,7 @@ namespace BL
         /// <param name="weight">weight option </param>
         /// <param name="KM"> kilometer </param>
         /// <returns> Battery value </returns>
-        internal double BatteryByKM(int weight, double KM)
+        private double BatteryByKM(int weight, double KM)
         {
             double power;
             if (weight == 0) power = PowerLightDrone;
@@ -548,6 +549,11 @@ namespace BL
             else power = PowerVacantDrone;
             double temp = (KM * power);
             return temp;
+        }
+
+        double IBL.BatteryByKM(int weight, double KM)
+        {
+            return BatteryByKM(weight, KM);
         }
 
         /// <summary>
@@ -570,7 +576,22 @@ namespace BL
 
 
 
+        void IBL.UpdateDroneLocation(int id, double lonPlus, double latPlus)
+        {
 
+            DroneToList droneToList = DroneList.Find(d => d.ID == id);
+
+            droneToList.DroneLocation.Latitude += latPlus;
+            droneToList.DroneLocation.Longitude += lonPlus;
+        }
+
+        void IBL.UpdateLessBattery(int id, double LessBattery)
+        {
+
+            DroneToList droneToList = DroneList.Find(d => d.ID == id);
+
+            droneToList.Battery -= LessBattery;
+        }
 
 
 

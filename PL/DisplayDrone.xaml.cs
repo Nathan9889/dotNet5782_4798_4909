@@ -27,6 +27,8 @@ namespace PL
         Drone Drone = new Drone();
         BackgroundWorker backgroundWorker;
 
+        
+
         public delegate void Navigation(int id);
         public event Navigation Back;
         public event Navigation PackagePage;
@@ -39,7 +41,7 @@ namespace PL
             InitializeComponent();
             this.pL = new Model.PL();
             MainGrid.DataContext = Drone;
-           
+            
 
             Drone_MaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             Mode.IsChecked = true;
@@ -64,8 +66,8 @@ namespace PL
             MainGrid.DataContext = Drone;
             bl = BlApi.BlFactory.GetBL();
 
-            if (Drone.drone.Status == BO.DroneStatus.Shipping)
-                ShipVisibility.IsChecked = true;
+            //if (Drone.drone.Status == BO.DroneStatus.Shipping)
+            //    ShipVisibility.IsChecked = true;
             if (Drone.drone.DronePackageProcess == null) 
                 Drone.drone.DronePackageProcess = new BO.PackageProcess();
             
@@ -78,6 +80,7 @@ namespace PL
 
             backgroundWorker.WorkerReportsProgress = true;
             backgroundWorker.WorkerSupportsCancellation = true;
+            backgroundWorker.RunWorkerCompleted += Simulator_RunWorkerCompleted;
         }
 
         /// <summary>
@@ -277,7 +280,10 @@ namespace PL
         private void Simulator_Click(object sender, RoutedEventArgs e)
         {
             if (backgroundWorker.IsBusy != true)
+            {
                 backgroundWorker.RunWorkerAsync(); // Start the asynchronous operation.
+                simulator.IsChecked = true;
+            }
         }
 
         private void Cancellation_Click(object sender, RoutedEventArgs e)
@@ -301,9 +307,11 @@ namespace PL
             bl.StartSimulator(Drone.drone.ID, update, stop);
         }
 
-       
+        private void Simulator_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            simulator.IsChecked = false;
+        }
 
-        
     }
 }
 

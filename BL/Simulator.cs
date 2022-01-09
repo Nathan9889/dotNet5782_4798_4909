@@ -17,8 +17,11 @@ namespace BL
         Action action;
         Func<bool> stop;
 
+        Random random = new Random();
         private int DELAY = 1000;
         private int SPEED = 1;
+
+       
 
         public Simulator(BlApi.IBL bl, int id, Action action, Func<bool> stop)
         {
@@ -26,6 +29,7 @@ namespace BL
             droneID = id;
             this.action = action;
             this.stop = stop;
+            
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -56,13 +60,13 @@ namespace BL
                                     BL.ChargeDrone(id);
                                    
                                 }
-                                else// אין חבילות- לולאה עד שיתווסף חבילות
+                                else// אין חבילות-  שיתווסף חבילות
                                 {
-
+                                    Thread.Sleep(3*DELAY);
+                                    addPackages();
                                 }
                             }
                         }
-
 
                         Thread.Sleep(DELAY);
                         action();
@@ -77,8 +81,6 @@ namespace BL
                             Thread.Sleep(DELAY);
                             break;
                         }
-
-
                         BL.updateDroneBattery(drone.ID, startCharging);
 
                         action();
@@ -88,37 +90,63 @@ namespace BL
 
                     case DroneStatus.Shipping:
 
+                        double lonPlus, latPlus, lonMinusLon, latMinusLat;
                         Package package = BL.DisplayPackage(drone.DronePackageProcess.Id);
+
                         switch (drone.DronePackageProcess.PackageShipmentStatus)
                         {
                             case ShipmentStatus.Waiting:
-                               
-                                while(drone.DronePackageProcess.Distance > 0)
+
+                                latMinusLat = drone.DronePackageProcess.CollectLocation.Latitude - drone.DroneLocation.Latitude;
+                                lonMinusLon = drone.DronePackageProcess.CollectLocation.Longitude - drone.DroneLocation.Longitude;
+
+                                latPlus = latMinusLat / drone.DronePackageProcess.Distance * SPEED;
+                                lonPlus = lonMinusLon / drone.DronePackageProcess.Distance * SPEED;
+
+                                while (drone.DronePackageProcess.Distance > 0 )
                                 {
                                     Thread.Sleep(DELAY);
 
+                                    if (drone.DronePackageProcess.Distance > 1)
+                                    {
+                                        BL.UpdateDroneLocation(drone.ID, lonPlus, latPlus);
+                                        BL.UpdateLessBattery(drone.ID, BL.BatteryByKM(-1, 1 * SPEED));
+                                    }
+                                    else break;
 
-                                    //DroneToList droneToList = new DroneToList();
-                                    //droneToList = BL.DisplayDroneList().First(x=> x.ID == drone.ID);
-
-                                    //droneToList.Battery = droneToList.Battery;
-                                    
-
-
-
-
-
+                                    drone = BL.DisplayDrone(drone.ID);
                                     action();
                                 }
 
                                 BL.PickedUpByDrone(drone.ID);
-
+                                action();
                                 break;
+
+
                             case ShipmentStatus.OnGoing:
 
+                                latMinusLat = drone.DronePackageProcess.DestinationLocation.Latitude - drone.DronePackageProcess.CollectLocation.Latitude;
+                                lonMinusLon = drone.DronePackageProcess.DestinationLocation.Longitude - drone.DronePackageProcess.CollectLocation.Longitude;
+
+                                latPlus = latMinusLat / drone.DronePackageProcess.Distance * SPEED;
+                                lonPlus = lonMinusLon / drone.DronePackageProcess.Distance * SPEED;
+
+                                while (drone.DronePackageProcess.Distance > 0 )
+                                {
+                                    Thread.Sleep(DELAY);
+
+                                    if (drone.DronePackageProcess.Distance > 1)
+                                    {
+                                        BL.UpdateDroneLocation(drone.ID, lonPlus, latPlus);
+                                        BL.UpdateLessBattery(drone.ID, BL.BatteryByKM((int)drone.DronePackageProcess.Weight, 1 * SPEED));
+                                    }
+                                    else break;
+
+                                    drone = BL.DisplayDrone(drone.ID);
+                                    action();
+                                }
+
                                 BL.DeliveredToClient(drone.ID);
-
-
                                 action();
                                 Thread.Sleep(DELAY);
 
@@ -131,5 +159,24 @@ namespace BL
                 }
             }
         }
+        
+
+        void addPackages()
+        {
+            IEnumerable<ClientToList> clients = BL.DisplayClientList();
+
+            for (int i = 0; i <random.Next(4,8); i++)
+            {
+                BL.AddPackage(new Package()
+                {
+                    SenderClient = new ClientPackage() { ID = clients.ElementAt(random.Next(0, clients.Count())).Id },
+                    TargetClient = new ClientPackage() { ID = clients.ElementAt(random.Next(0, clients.Count())).Id },
+                    Priority = (Priorities) random.Next(0, 3),
+                    Weight = (WeightCategories)random.Next(0, 3)
+                });
+            }
+        }
+
+
     }
 }

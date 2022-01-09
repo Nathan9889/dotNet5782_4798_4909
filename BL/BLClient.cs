@@ -10,7 +10,7 @@ using BlApi;
 
 namespace BL
 {
-    internal partial class BL : BlApi.IBL          // Partial Client BL Class that contains Clients Functions
+    internal partial class BL : IBL          // Partial Client BL Class that contains Clients Functions
     {
 
         /// <summary>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BO;
 using System.Runtime.CompilerServices;
+using BlApi;
 
 namespace BL
 {
@@ -217,6 +218,13 @@ namespace BL
             }
 
         }
+
+
+
+        //void IBL.UpdateDroneLocation(int id, double lonPlus, double latPlus)
+        //{
+
+        //}
 
     }
 }

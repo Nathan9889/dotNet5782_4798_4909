@@ -25,6 +25,9 @@
         <local:TrueToTrue x:Key="TrueToTrue"></local:TrueToTrue>
         <local:TrueifAvailable x:Key="TrueifAvailable"></local:TrueifAvailable>
         <local:TrueifMaintenance x:Key="TrueifMaintenance"></local:TrueifMaintenance>
+        <local:TrueifShiping x:Key="TrueifShiping"></local:TrueifShiping>
+        <local:BatteryBackground x:Key="BatteryBackground"></local:BatteryBackground>
+        <local:DisplaysButtonsInDroneWindow x:Key="DisplaysButtonsInDroneWindow"></local:DisplaysButtonsInDroneWindow>
 
 
         <localModel:Ticker x:Key="Ticker"></localModel:Ticker>
@@ -85,7 +88,7 @@
 
 
                 </TextBox>
-                <TextBox x:Name="Battery" Grid.Column="1" Grid.Row="7" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" VerticalContentAlignment="Center" Text="{Binding drone.Battery}" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}">
+                <!--<TextBox x:Name="Battery" Grid.Column="2" Grid.Row="5" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" VerticalContentAlignment="Center" Text="{Binding drone.Battery}" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}" Margin="67,0,0,16" Grid.RowSpan="2">
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -103,10 +106,10 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </TextBox.Style>
+                    </TextBox.Style>-->
 
 
-                </TextBox>
+                <!--</TextBox>-->
 
                 <TextBox x:Name="Status" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap"  SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" TextAlignment="Left" VerticalContentAlignment="Center" Text="{Binding drone.Status}" >
                     <TextBox.Resources>
@@ -129,9 +132,10 @@
                     </TextBox.Resources>
                 </TextBox>
 
-                <TextBox Grid.Column="2"  x:Name="Package_Process" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" Text="{Binding drone.DronePackageProcess, Mode=OneWay}"   Visibility="{Binding ElementName=ShipVisibility, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}"
+                <!--<TextBox Grid.Column="2"  x:Name="Package_Process" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" Text="{Binding drone.DronePackageProcess, Mode=OneWay}"   Visibility="{Binding ElementName=ShipVisibility, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}"
                          
-              VerticalScrollBarVisibility="Auto" Grid.Row="7" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.RowSpan="5" Margin="24,1,-97,4" MouseDoubleClick="Package_Process_MouseDoubleClick" Cursor="Arrow" />
+              VerticalScrollBarVisibility="Auto" Grid.Row="7" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.RowSpan="5" Margin="24,1,-97,4" MouseDoubleClick="Package_Process_MouseDoubleClick" Cursor="Arrow" />-->
+
 
 
 
@@ -139,7 +143,7 @@
                 <TextBlock x:Name="Battery_label" HorizontalAlignment="Left" Grid.Row="7" Text="Battery:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="52" />
                 <TextBlock x:Name="Status_label" HorizontalAlignment="Left" Grid.Row="9" Text="Status:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="70" />
                 <TextBlock x:Name="Location_label" HorizontalAlignment="Left" Grid.Row="11" Text="Location:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="1,0,0,0" Height="13" Width="61"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToHidden}}"/>
-                <TextBlock x:Name="PackageProcess_label" HorizontalAlignment="Left" Grid.Row="5" Text="Delivery:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="24,20,0,0" Height="13" Width="64" Visibility="{Binding ElementName=ShipVisibility, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}" Grid.Column="2" Grid.RowSpan="2"/>
+
 
                 <ComboBox x:Name="Drone_MaxWeight" Grid.Column="1" Grid.Row="5"   FontFamily="Arial" FontWeight="Bold"  VerticalContentAlignment="Center" SelectedIndex="{Binding drone.MaxWeight, Converter={StaticResource EnumToInt}, Mode=OneWay}" IsEnabled="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToTrue}}" SelectedItem="{Binding drone.MaxWeight, Mode=OneWayToSource}">
 
@@ -150,7 +154,7 @@
 
 
 
-                <Button x:Name="cancel"  Visibility="Visible" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="6,16,132,3" Grid.RowSpan="2"  >
+                <Button x:Name="cancel"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="6,16,132,3" Grid.RowSpan="2"  >
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="Red" Offset="0.2"/>
@@ -184,6 +188,10 @@
                         </Style>
                     </TextBox.Resources>
                 </TextBox>
+                <ProgressBar Grid.Column="1"  ClipToBounds="True"  Grid.Row="6" Minimum="0" Maximum="100" Value="{Binding drone.Battery}" Name="batt"  Foreground="{Binding drone.Battery ,Mode=OneWay, Converter={StaticResource BatteryBackground} }" Margin="0,16,0,0" Grid.RowSpan="2" >
+
+                </ProgressBar>
+                <TextBlock Grid.Column="1"    Grid.Row="7" Text="{Binding ElementName=batt, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
             </Grid>
 
@@ -200,7 +208,15 @@
 
 
 
-            <Grid x:Name="Buttons" Grid.RowSpan="2" Margin="0,0,0,-10" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToHidden}}" Grid.Row="1">
+            <Grid x:Name="Buttons" Grid.RowSpan="2" Margin="0,0,0,-10"  Grid.Row="1">
+
+                <Grid.Visibility>
+                    <MultiBinding Converter="{StaticResource DisplaysButtonsInDroneWindow}">
+                        <Binding ElementName="Mode"  Mode="OneWay" Path="IsChecked" />
+                        <Binding ElementName="simulator" Mode="OneWay" Path="IsChecked"/>
+                    </MultiBinding>
+                </Grid.Visibility>
+               
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height ="2*"></RowDefinition>
@@ -263,9 +279,37 @@
             <Button Content="Back" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="20" Width="95"  FontSize="15" FontFamily="Calisto MT" Background="#FFEF8C8C"  Click="Back_Click" Margin="0,0,45,15"/>
 
             <CheckBox x:Name="Mode" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="False"/>
-            <CheckBox x:Name="ShipVisibility" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="False"/>
+            <CheckBox x:Name="ShipVisibility" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="{Binding drone.Status, Mode=OneWay, Converter={StaticResource TrueifShiping}}"/>
+            <CheckBox x:Name="simulator" Visibility="Hidden" Content="CheckBox" Grid.Column="1" />
             <Button Name="Simulator" Content="Simulator" Grid.Column="1" HorizontalAlignment="Left" Margin="268,0,0,0" Grid.Row="2" VerticalAlignment="Top" Click="Simulator_Click"/>
             <Button x:Name="Cancellation" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="391,0,0,25" Grid.Row="2" VerticalAlignment="Bottom" Click="Cancellation_Click"/>
+
+            <TreeView Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="439,0,10,18"   Visibility="{Binding ElementName=ShipVisibility, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}">
+                <TreeViewItem Header="Package" IsExpanded="True" FontWeight="Bold">
+
+                    <TreeViewItem Header="{Binding drone.DronePackageProcess.Id}" FontWeight="Regular"/>
+                    <TreeViewItem Header="{Binding drone.DronePackageProcess.PackageShipmentStatus}" FontWeight="Regular"/>
+                    <TreeViewItem Header="{Binding drone.DronePackageProcess.Priority}" FontWeight="Regular"/>
+                    <TreeViewItem Header="{Binding drone.DronePackageProcess.Weight}" FontWeight="Regular"/>
+                </TreeViewItem>
+                <TreeViewItem Header="Sender" IsExpanded="True" FontWeight="Bold">
+                    <TreeViewItem Header="{Binding drone.DronePackageProcess.Sender.ID}" FontWeight="Regular"/>
+                    <TreeViewItem Header="{Binding drone.DronePackageProcess.Sender.Name}" FontWeight="Regular"/>
+                </TreeViewItem>
+                <TreeViewItem Header="Receiver" IsExpanded="True" FontWeight="Bold">
+                    <TreeViewItem Header="{Binding drone.DronePackageProcess.Receiver.ID}" FontWeight="Regular"/>
+                    <TreeViewItem Header="{Binding drone.DronePackageProcess.Receiver.Name}" FontWeight="Regular"/>
+                </TreeViewItem>
+                <TreeViewItem Header="Collect Location" IsExpanded="True" FontWeight="Bold">
+                    <TreeViewItem Header="{Binding drone.DronePackageProcess.CollectLocation}" FontWeight="Regular"/>
+                </TreeViewItem>
+                <TreeViewItem Header="Destination Location" IsExpanded="True" FontWeight="Bold">
+                    <TreeViewItem Header="{Binding drone.DronePackageProcess.DestinationLocation}" FontWeight="Regular"/>
+                </TreeViewItem>
+                <TreeViewItem Header="Current distance" IsExpanded="True" FontWeight="Bold">
+                    <TreeViewItem Header="{Binding drone.DronePackageProcess.Distance}" FontWeight="Regular"/>
+                </TreeViewItem>
+            </TreeView>
 
         </Grid>
 

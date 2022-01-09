@@ -63,7 +63,7 @@ namespace BlApi
         void ChargeDrone(int id);
 
 
-        
+        void UpdateDroneLocation(int id, double lonPlus, double latPlus);
 
 
 
@@ -104,6 +104,7 @@ namespace BlApi
         /// <param name="name"> new name to give to that </param>
         /// <param name="phone"> new phone to give to that client </param>
         void UpdateClient(int id, string name, string phone);
+  
 
 
         /// <summary>
@@ -219,6 +220,8 @@ namespace BlApi
 
         void StartSimulator(int id, Action action, Func<bool> stop);
         void updateDroneBattery(int id, DateTime? start, int indexDroneToList = -1);
+        void UpdateLessBattery(int id, double LessBattery);
+        double BatteryByKM(int weight, double KM);
         //Exit
 
 
