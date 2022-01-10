@@ -65,7 +65,7 @@ namespace PL
         {
             if (StationsListView.SelectedItem != null)
             {
-                if (DoubleClik != null) DoubleClik(((BO.StationToList)StationsListView.SelectedItem).ID);
+                if (DoubleClik != null) DoubleClik(((PO.StationToList)StationsListView.SelectedItem).ID);
             }
             StationsListView.SelectedItems.Clear();
         }

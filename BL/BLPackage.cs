@@ -119,8 +119,8 @@ namespace BL
                     DO.Station station = NearestStationToClient(package.TargetId);                                                              //station with available chargeSlot nearest to client target for charging the drone if needed
                     minBattery += batteryConsumption(targetClient.Latitude, targetClient.Longitude, station.Latitude, station.Longitude, 3);         //from client target to nearest station location with no weight
 
-                    minBattery = Math.Ceiling(minBattery);
-                    if (minBattery > drone.Battery) dalPackages.Remove(package); // If the package is not suitable we will delete it from the list of optional packages (dalPackages)
+                    //minBattery = Math.Ceiling(minBattery);
+                    if (minBattery+1 > drone.Battery) dalPackages.Remove(package); // If the package is not suitable we will delete it from the list of optional packages (dalPackages)
                     else flag = false;
                 }
 

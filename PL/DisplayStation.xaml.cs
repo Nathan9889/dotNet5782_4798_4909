@@ -95,6 +95,7 @@ namespace PL
                 pL.UpdateSlotNumber(Station.station.ID, result);
                 MessageBox.Show($" Number of Charge slot have been updated !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Station.station = pL.GetStation(Station.station.ID);  //update the list
+                Model.ObservableList.stations.First(s => s.ID == Station.station.ID).AvailableChargingSlots = result - Model.ObservableList.stations.First(s => s.ID == Station.station.ID).BusyChargingSlots;
             }
             catch (Exception ex)
             {
