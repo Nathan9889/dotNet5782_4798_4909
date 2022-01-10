@@ -55,11 +55,6 @@ namespace Model
 
         }
 
-        public void ClearDroneList()
-        {
-            drones.Clear();
-        }
-
 
 
 

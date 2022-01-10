@@ -20,9 +20,7 @@ namespace BL
         Random random = new Random();
         private int DELAY = 1000;
         private int SPEED = 1;
-
        
-
         public Simulator(BlApi.IBL bl, int id, Action action, Func<bool> stop)
         {
             BL = bl;
@@ -30,14 +28,12 @@ namespace BL
             this.action = action;
             this.stop = stop;
             
-
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
             Drone drone;
             DateTime? startCharging = null;
             
-
             while (stop.Invoke() == false)
             {
                 drone = BL.DisplayDrone(id);
@@ -60,7 +56,7 @@ namespace BL
                                     BL.ChargeDrone(id);
                                    
                                 }
-                                else// אין חבילות-  שיתווסף חבילות
+                                else        // אין חבילות-  שיתווסף חבילות
                                 {
                                     Thread.Sleep(3*DELAY);
                                     addPackages();
@@ -83,6 +79,7 @@ namespace BL
                         }
                         BL.updateDroneBattery(drone.ID, startCharging);
 
+                        startCharging = DateTime.Now;  
                         action();
                         Thread.Sleep(DELAY);
                         break;
