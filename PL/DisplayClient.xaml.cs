@@ -22,6 +22,7 @@ namespace PL
     /// 
     public partial class DisplayClient : Page
     {
+        BlApi.IBL bL;
         private Model.PL pL;
         Client Client = new Client();
 
@@ -30,7 +31,7 @@ namespace PL
         public event Navigation PackagePage;
 
         public delegate void Navigation_(object sender, RoutedEventArgs e);
-        public event Navigation_ MainWindow; //only in display client data
+        public event Navigation_ MainWindow; //only in display client data (MainWindow of client mode)
 
         /// <summary>
         /// ctor for adding a client to the list according to user input
@@ -40,6 +41,7 @@ namespace PL
             InitializeComponent();
             this.pL = new Model.PL();
             MainGrid.DataContext = Client;
+            bL = BlApi.BlFactory.GetBL();
 
             Mode.IsChecked = true; // for visibility
             Client.client = new BO.Client(); //init objects
@@ -52,7 +54,7 @@ namespace PL
         /// <param name="id"></param>
         public DisplayClient(int id)
         {
-            
+            bL = BlApi.BlFactory.GetBL();
             this.pL =new Model.PL();
             Client.client = pL.GetClient(id);
             InitializeComponent();
@@ -69,6 +71,7 @@ namespace PL
         public DisplayClient(string s)
         {
             InitializeComponent();
+            bL = BlApi.BlFactory.GetBL();
             this.pL = new Model.PL();
             MainGrid.DataContext = Client;
             Sign_up.Visibility = Visibility.Visible;
@@ -94,6 +97,8 @@ namespace PL
 
                 MessageBox.Show("Client Name have been Changed Successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Client.client = pL.GetClient(Client.client.ID);
+
+                ObservableList.clients.First(c => c.Id == Client.client.ID).Name = Client.client.Name;
             }
             catch (Exception ex)
             {
@@ -115,6 +120,8 @@ namespace PL
 
                 MessageBox.Show("Client Phone have been Changed Successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Client.client = pL.GetClient(Client.client.ID);
+
+                ObservableList.clients.First(c => c.Id == Client.client.ID).Phone = Client.client.Phone;
             }
             catch (Exception ex)
             {
@@ -172,6 +179,8 @@ namespace PL
                 if (Back != null) Back(-1);
                 MessageBox.Show($"The Client was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 if (MainWindow != null) MainWindow(this, new RoutedEventArgs());
+
+                ObservableList.clients.Add((PO.ClientToList)bL.GetClientToList(Client.client.ID).CopyPropertiesToNew(typeof(PO.ClientToList)));
                 if (this.NavigationService != null && this.NavigationService.CanGoBack) this.NavigationService.GoBack();
             }
             catch (Exception ex)

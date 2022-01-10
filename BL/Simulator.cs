@@ -14,14 +14,14 @@ namespace BL
     {
         BlApi.IBL BL;
         int droneID;
-        Action action;
+        Action<string> action;
         Func<bool> stop;
 
         Random random = new Random();
         private int DELAY = 1000;
         private int SPEED = 1;
        
-        public Simulator(BlApi.IBL bl, int id, Action action, Func<bool> stop)
+        public Simulator(BlApi.IBL bl, int id, Action<string> action, Func<bool> stop)
         {
             BL = bl;
             droneID = id;
@@ -45,27 +45,32 @@ namespace BL
                         try
                         {
                             BL.packageToDrone(id);
-
+                            Thread.Sleep(DELAY);
+                            action("Associate");
                         }
                         catch (Exception ex)
                         {
                             if(ex.Message == "There is no package for the Drone")
                             {
-                                if (BL.DisplayPackageListWithoutDrone().Count() > 0)
+                                var allPackages = BL.DisplayPackageListWithoutDrone();
+
+                                var Packages = (from p in allPackages
+                                        where (int)p.Weight <= (int)drone.MaxWeight
+                                         select p);
+
+                                if (Packages.Count() > 0) // האם יש חבילות שהוא יכול לקחת ורק יש בעיה בסוללה
                                 {
                                     BL.ChargeDrone(id);
-                                   
+                                    Thread.Sleep(DELAY);
+                                    action("charging");
                                 }
                                 else        // אין חבילות-  שיתווסף חבילות
                                 {
                                     Thread.Sleep(3*DELAY);
-                                    addPackages();
+                                    action("No packages");
                                 }
                             }
                         }
-
-                        Thread.Sleep(DELAY);
-                        action();
                         break;
 
                     case DroneStatus.Maintenance:
@@ -73,14 +78,14 @@ namespace BL
                         {
                             bl.FinishCharging(id);
                             startCharging = null;
-                            action();
+                            action("Finish charging");
                             Thread.Sleep(DELAY);
                             break;
                         }
                         BL.updateDroneBattery(drone.ID, startCharging);
 
                         startCharging = DateTime.Now;  
-                        action();
+                        action("Battery and location");
                         Thread.Sleep(DELAY);
                         break;
 
@@ -112,11 +117,11 @@ namespace BL
                                     else break;
 
                                     drone = BL.DisplayDrone(drone.ID);
-                                    action();
+                                    action("Battery and location");
                                 }
 
                                 BL.PickedUpByDrone(drone.ID);
-                                action();
+                                action("PickedUp");
                                 break;
 
 
@@ -140,11 +145,11 @@ namespace BL
                                     else break;
 
                                     drone = BL.DisplayDrone(drone.ID);
-                                    action();
+                                    action("Battery and location");
                                 }
 
                                 BL.DeliveredToClient(drone.ID);
-                                action();
+                                action("Delivered");
                                 Thread.Sleep(DELAY);
 
                                 break;
@@ -158,21 +163,7 @@ namespace BL
         }
         
 
-        void addPackages()
-        {
-            IEnumerable<ClientToList> clients = BL.DisplayClientList();
-
-            for (int i = 0; i <random.Next(4,8); i++)
-            {
-                BL.AddPackage(new Package()
-                {
-                    SenderClient = new ClientPackage() { ID = clients.ElementAt(random.Next(0, clients.Count())).Id },
-                    TargetClient = new ClientPackage() { ID = clients.ElementAt(random.Next(0, clients.Count())).Id },
-                    Priority = (Priorities) random.Next(0, 3),
-                    Weight = (WeightCategories)random.Next(0, 3)
-                });
-            }
-        }
+       
 
 
     }

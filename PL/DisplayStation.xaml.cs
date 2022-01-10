@@ -74,6 +74,7 @@ namespace PL
                 pL.UpdateStationName(Station.station.ID, NameInput.Text);
                 MessageBox.Show($"Name have been changed to {NameInput.Text} !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Station.station = pL.GetStation(Station.station.ID); //update the list
+                Model.ObservableList.stations.First(s => s.ID == Station.station.ID).Name = NameInput.Text;
             }
             catch (Exception ex)
             {

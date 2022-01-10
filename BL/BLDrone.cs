@@ -484,6 +484,11 @@ namespace BL
             return drones;
         }
 
+        public PackageToList GetPackageToList(int id)
+        {
+           return DisplayPackageList().First(p => p.Id == id);
+        }
+
 
         /// <summary>
         /// Calculating the station closest to the drone and returning it
@@ -568,7 +573,7 @@ namespace BL
 
 
 
-        public void StartSimulator(int id, Action action, Func<bool> stop)
+        public void StartSimulator(int id, Action<string> action, Func<bool> stop)
         {
             Simulator simulator = new Simulator(this, id, action, stop);
         }

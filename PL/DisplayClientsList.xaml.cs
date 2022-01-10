@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Model;
 
 namespace PL
 {
@@ -24,7 +25,7 @@ namespace PL
         BlApi.IBL BL;
         Model.PL PL;
         
-        private ObservableCollection<BO.ClientToList> clients = new ObservableCollection<BO.ClientToList>();
+        //private ObservableCollection<BO.ClientToList> clients = new ObservableCollection<BO.ClientToList>();
 
         public delegate void ClientPage(int id);
         public event ClientPage AddClik;
@@ -39,20 +40,20 @@ namespace PL
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
             this.PL = new Model.PL();
-            ClientListView.DataContext = clients;
-            InitializeList();
+            ClientListView.DataContext =ObservableList.clients;
+            //InitializeList();
         }
 
-        /// <summary>
-        /// init observable list
-        /// </summary>
-        private void InitializeList()
-        {
-            foreach (var Client in PL.getClientList())
-            {
-                clients.Add(Client);
-            }
-        }
+        ///// <summary>
+        ///// init observable list
+        ///// </summary>
+        //private void InitializeList()
+        //{
+        //    foreach (var Client in PL.getClientList())
+        //    {
+        //        clients.Add(Client);
+        //    }
+        //}
 
         /// <summary>
         /// add new client
@@ -72,20 +73,20 @@ namespace PL
         /// <param name="e"></param>
         private void ClientListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (ClientListView.SelectedItem != null) DoubleClik(((BO.ClientToList)ClientListView.SelectedItem).Id);
+            if (ClientListView.SelectedItem != null) DoubleClik(((PO.ClientToList)ClientListView.SelectedItem).Id);
             ClientListView.SelectedItems.Clear();
         }
 
 
-        /// <summary>
-        /// refreshing the list of clients
-        /// </summary>
-        /// <param name="t"></param>
-        public void RefreshList(int t)
-        {
-            var p = PL.getClientList();
-            clients.Clear();
-            foreach (var client in p) clients.Add(client);
-        }
+        ///// <summary>
+        ///// refreshing the list of clients
+        ///// </summary>
+        ///// <param name="t"></param>
+        //public void RefreshList(int t)
+        //{
+        //    var p = PL.getClientList();
+        //    clients.Clear();
+        //    foreach (var client in p) clients.Add(client);
+        //}
     }
 }

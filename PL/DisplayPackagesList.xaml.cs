@@ -27,7 +27,7 @@ namespace PL
         BlApi.IBL BL;
         Model.PL PL;
     
-        private ObservableCollection<BO.PackageToList> packages = new ObservableCollection<BO.PackageToList>();
+        //private ObservableCollection<BO.PackageToList> packages = new ObservableCollection<BO.PackageToList>();
 
         public delegate void PackagePage(int id);
         public event PackagePage AddClik; // Event for opening an add page
@@ -39,8 +39,8 @@ namespace PL
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
             this.PL  = new Model.PL();
-            PackageListView.DataContext = packages;
-            InitializeList();
+            PackageListView.DataContext = ObservableList.packages;
+            //InitializeList();
 
             PrioritySelector.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
             StatusSelector.ItemsSource = Enum.GetValues(typeof(BO.PackageStatus));
@@ -51,13 +51,13 @@ namespace PL
         /// <summary>
         /// Initialize list entries
         /// </summary>
-        private void InitializeList()
-        {
-            foreach (var Package in PL.getPackageList())
-            {
-                packages.Add(Package);
-            }
-        }
+        //private void InitializeList()
+        //{
+        //    foreach (var Package in PL.getPackageList())
+        //    {
+        //        packages.Add(Package);
+        //    }
+        //}
 
         /// <summary>
         /// Add Package Button
@@ -76,7 +76,7 @@ namespace PL
         /// <param name="e"></param>
         private void PackagesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-           if(PackageListView.SelectedItem != null && DoubleClik!=null) DoubleClik(((BO.PackageToList)PackageListView.SelectedItem).Id);
+           if(PackageListView.SelectedItem != null && DoubleClik!=null) DoubleClik(((PO.PackageToList)PackageListView.SelectedItem).Id);
             PackageListView.SelectedItems.Clear();
         }
 
@@ -93,8 +93,11 @@ namespace PL
         /// <param name="e"></param>
         private void Reset_Button_Click(object sender, RoutedEventArgs e)
         {
-            packages.Clear();
-            InitializeList();
+            ObservableList.packages.Clear();
+            foreach (var item in BL.DisplayPackageList())
+            {
+                ObservableList.packages.Add((PO.PackageToList)item.CopyPropertiesToNew(typeof(PO.PackageToList)));
+            }
             Show_Packages(this, new RoutedEventArgs()); // אחרי סינון
            
         }
@@ -111,33 +114,33 @@ namespace PL
                 if(Show_Normally.IsChecked == true) //Normal show
                 {
                     var p = BL.DisplayPackageList();
-                    var temp = new ObservableCollection<BO.PackageToList>( packages);
-                    packages.Clear();
+                    var temp = new ObservableCollection<PO.PackageToList>(ObservableList.packages);
+                    ObservableList.packages.Clear();
                     foreach (var item in p)
                     {
-                        if(temp.Any(p=> p.Id==item.Id)) packages.Add(item);
+                        if(temp.Any(p=> p.Id==item.Id)) ObservableList.packages.Add((PO.PackageToList)item.CopyPropertiesToNew(typeof(PO.PackageToList)));
                     }
                 }
                 else if(Show_Receiver.IsChecked == true) // View by customer receives
                 {
                     var p = BL.PackagesGroupingReceiver();
-                    var temp = new ObservableCollection<BO.PackageToList>(packages);
-                    packages.Clear();
+                    var temp = new ObservableCollection<PO.PackageToList>(ObservableList.packages);
+                    ObservableList.packages.Clear();
                     foreach (var group in p)
                     {
                         foreach (BO.PackageToList item in group)
-                        { if (temp.Any(p => p.Id == item.Id)) packages.Add(item); }
+                        { if (temp.Any(p => p.Id == item.Id)) ObservableList.packages.Add((PO.PackageToList)item.CopyPropertiesToNew(typeof(PO.PackageToList))); }
                     }
                 }
                 else // Show by customer sending
                 {
                     var p = BL.PackagesGroupingSender(); 
-                    var temp = new ObservableCollection<BO.PackageToList>(packages);
-                    packages.Clear();
+                    var temp = new ObservableCollection<PO.PackageToList>(ObservableList.packages);
+                    ObservableList.packages.Clear();
                     foreach (var group in p)
                     {
                         foreach (BO.PackageToList item in group)
-                        { if (temp.Any(p => p.Id == item.Id)) packages.Add(item);}
+                        { if (temp.Any(p => p.Id == item.Id)) ObservableList.packages.Add((PO.PackageToList)item.CopyPropertiesToNew(typeof(PO.PackageToList))); }
                     }
                 }
             }
@@ -159,8 +162,8 @@ namespace PL
             else if (PrioritySelector.SelectedItem != null && WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null) filtered = PL.getPackageList().Where(p => p.Priority == (BO.Priorities)PrioritySelector.SelectedItem).ToList();
 
             else filtered = PL.getPackageList().Where(p => p.Status == (BO.PackageStatus)StatusSelector.SelectedItem && p.Priority == (BO.Priorities)WeightSelector.SelectedItem && p.Weight == (BO.WeightCategories)WeightSelector.SelectedItem).ToList();
-            packages.Clear();
-            if(filtered != null) foreach (var package in filtered) { packages.Add(package); }
+            ObservableList.packages.Clear();
+            if (filtered != null) foreach (var package in filtered) { ObservableList.packages.Add((PO.PackageToList)package.CopyPropertiesToNew(typeof(PO.PackageToList))); }
             Show_Packages(this, new RoutedEventArgs()); // After filtering the display should be maintained
 
         }
@@ -178,11 +181,11 @@ namespace PL
                 var listFilterdByDate = BL.GetPackageFilterByDate((DateTime)StartDate.SelectedDate, (DateTime)EndDate.SelectedDate);
                 List<BO.PackageToList> temp = new List<BO.PackageToList>();
 
-                if (packages != null)
+                if (ObservableList.packages != null)
                 {
                     foreach (var BlPackage in listFilterdByDate)
                     {
-                        if (packages.Any(p => p.Id == BlPackage.Id))
+                        if (ObservableList.packages.Any(p => p.Id == BlPackage.Id))
                         {
                             BO.PackageToList packageToList = new BO.PackageToList();
                             BlPackage.CopyPropertiesTo(packageToList);
@@ -191,27 +194,27 @@ namespace PL
                     }
                 }
 
-                packages.Clear();
+                ObservableList.packages.Clear();
                 foreach (var tempPackage in temp)
                 {
-                    packages.Add(tempPackage); // // If after the filter without the date it exists in the list of the filter and also in the list of the date then we will insert it
+                    ObservableList.packages.Add((PO.PackageToList)tempPackage.CopyPropertiesToNew(typeof(PO.PackageToList))); // // If after the filter without the date it exists in the list of the filter and also in the list of the date then we will insert it
                 }
 
                 Show_Packages(this, new RoutedEventArgs()); //  After filtering the display should be maintained
             }
         }
 
-        /// <summary>
-        /// Refreshing a list and maintaining the filtering and display - a function listed for an event on the next page
-        /// </summary>
-        /// <param name="t"></param>
-        public void RefreshList(int t)
-        {
-            var p = PL.getPackageList();
-            packages.Clear();
-            foreach (var package in p) packages.Add(package);
-            FilterdList(this);
-            Show_Packages(this, new RoutedEventArgs());
-        }
+        ///// <summary>
+        ///// Refreshing a list and maintaining the filtering and display - a function listed for an event on the next page
+        ///// </summary>
+        ///// <param name="t"></param>
+        //public void RefreshList(int t)
+        //{
+        //    var p = PL.getPackageList();
+        //    packages.Clear();
+        //    foreach (var package in p) packages.Add(package);
+        //    FilterdList(this);
+        //    Show_Packages(this, new RoutedEventArgs());
+        //}
     }
 }

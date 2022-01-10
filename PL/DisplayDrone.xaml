@@ -284,7 +284,7 @@
             <Button Name="Simulator" Content="Simulator" Grid.Column="1" HorizontalAlignment="Left" Margin="268,0,0,0" Grid.Row="2" VerticalAlignment="Top" Click="Simulator_Click"/>
             <Button x:Name="Cancellation" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="391,0,0,25" Grid.Row="2" VerticalAlignment="Bottom" Click="Cancellation_Click"/>
 
-            <TreeView Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="439,0,10,18"   Visibility="{Binding ElementName=ShipVisibility, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}">
+            <TreeView Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="439,0,10,18"   Visibility="{Binding ElementName=ShipVisibility, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}" MouseDoubleClick="Package_Process_MouseDoubleClick" ToolTip="Double click to open a package page">
                 <TreeViewItem Header="Package" IsExpanded="True" FontWeight="Bold">
 
                     <TreeViewItem Header="{Binding drone.DronePackageProcess.Id}" FontWeight="Regular"/>

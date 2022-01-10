@@ -36,6 +36,17 @@ namespace PO
             }
         }
 
+        private BO.DroneStatus _Status;
+        public BO.DroneStatus Status
+        {
+            get { return _Status; }
+            set
+            {
+                _Status = value;
+                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Status"));
+            }
+        }
+
 
         private double _Battery;
         public double Battery
@@ -49,14 +60,14 @@ namespace PO
         }
 
 
-        private BO.Location _Location;
-        public BO.Location Location
+        private BO.Location _DroneLocation;
+        public BO.Location DroneLocation
         {
-            get { return _Location; }
+            get { return _DroneLocation; }
             set
             {
-                _Location = value;
-                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Location"));
+                _DroneLocation = value;
+                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("DroneLocation"));
             }
         }
 
@@ -69,6 +80,17 @@ namespace PO
             {
                 _PackageID = value;
                 if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("PackageID"));
+            }
+        }
+
+        private BO.WeightCategories _MaxWeight;
+        public BO.WeightCategories MaxWeight
+        {
+            get { return _MaxWeight; }
+            set
+            {
+                _MaxWeight = value;
+                if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("MaxWeight"));
             }
         }
 

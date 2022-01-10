@@ -25,7 +25,7 @@ namespace PL
         BlApi.IBL BL;
         Model.PL PL;
 
-        private ObservableCollection<BO.DroneToList> drones = new ObservableCollection<BO.DroneToList>();
+        //private ObservableCollection<BO.DroneToList> drones = new ObservableCollection<BO.DroneToList>();
 
         public delegate void DronePage(int id);
         public event DronePage AddClik;
@@ -40,8 +40,8 @@ namespace PL
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
             this.PL = new Model.PL();
-            DronesListView.DataContext = drones;
-            InitializeList();
+            DronesListView.DataContext = ObservableList.drones;
+            //InitializeList();
 
             StatusSelector.ItemsSource = Enum.GetValues(typeof(BO.DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
@@ -50,13 +50,13 @@ namespace PL
         /// <summary>
         /// initialize observable list
         /// </summary>
-        private void InitializeList()
-        {
-            foreach (var Drone in PL.GetDroneList())
-            {
-                drones.Add(Drone);
-            }
-        }
+        //private void InitializeList()
+        //{
+        //    foreach (var Drone in PL.GetDroneList())
+        //    {
+        //        drones.Add(Drone);
+        //    }
+        //}
 
         /// <summary>
         /// open drone page of drone selected from the Drone list 
@@ -66,7 +66,7 @@ namespace PL
         private void DronesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (DronesListView.SelectedItem != null && DoubleClik != null) 
-                DoubleClik(((BO.DroneToList)DronesListView.SelectedItem).ID);
+                DoubleClik(((PO.DroneToList)DronesListView.SelectedItem).ID);
             DronesListView.SelectedItems.Clear();
         }
 
@@ -89,8 +89,12 @@ namespace PL
         /// <param name="e"></param>
         private void Reset_Button_Click(object sender, RoutedEventArgs e)
         {
-            drones.Clear();
-            InitializeList();
+            ObservableList.drones.Clear();
+            foreach (var item in BL.DisplayDroneList())
+            {
+                ObservableList.drones.Add((PO.DroneToList)item.CopyPropertiesToNew(typeof(PO.DroneToList)));
+            }
+            //InitializeList();
             Show_Drones(this, new RoutedEventArgs()); //after filter
 
         }
@@ -108,22 +112,22 @@ namespace PL
                 if (Show_Normally.IsChecked == true)
                 {
                     var d = BL.DisplayDroneList();
-                    var temp = new ObservableCollection<BO.DroneToList>(drones);
-                    drones.Clear();
+                    var temp = new ObservableCollection<PO.DroneToList>(ObservableList.drones);
+                    ObservableList.drones.Clear();
                     foreach (var item in d)
                     {
-                        if (temp.Any(x => x.ID == item.ID)) drones.Add(item);
+                        if (temp.Any(x => x.ID == item.ID)) ObservableList.drones.Add((PO.DroneToList)item.CopyPropertiesToNew(typeof(PO.DroneToList)));
                     }
                 }
                 else if (Show_Status.IsChecked == true)
                 {
                     var d = BL.DroneGroupbyStatus();
-                    var temp = new ObservableCollection<BO.DroneToList>(drones);
-                    drones.Clear();
+                    var temp = new ObservableCollection<PO.DroneToList>(ObservableList.drones);
+                    ObservableList.drones.Clear();
                     foreach (var group in d)
                     {
                         foreach (BO.DroneToList item in group)
-                        { if (temp.Any(x => x.ID == item.ID)) drones.Add(item); }
+                        { if (temp.Any(x => x.ID == item.ID)) ObservableList.drones.Add((PO.DroneToList)item.CopyPropertiesToNew(typeof(PO.DroneToList))); }
                     }
                 }
               
@@ -139,7 +143,7 @@ namespace PL
         private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BO.DroneStatus? status;
-            drones.Clear();
+            ObservableList.drones.Clear();
 
             if (StatusSelector.SelectedItem == null) status = null;
             else status = (BO.DroneStatus)StatusSelector.SelectedItem;
@@ -149,19 +153,19 @@ namespace PL
                 switch (status)
                 {
                     case BO.DroneStatus.Available:
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Available)) drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Available)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
 
                     case BO.DroneStatus.Maintenance:
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Maintenance))  drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Maintenance)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
 
                     case BO.DroneStatus.Shipping:
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Shipping)) drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Shipping)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
 
                     case null:
-                        InitializeList();
+                        foreach(var item in BL.DisplayDroneList()) ObservableList.drones.Add((PO.DroneToList)item.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
                 }
             }
@@ -170,19 +174,19 @@ namespace PL
                 switch (status)
                 {
                     case BO.DroneStatus.Available:
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Available && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem)) drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Available && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
 
                     case BO.DroneStatus.Maintenance:
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Maintenance && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem)) drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Maintenance && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
 
                     case BO.DroneStatus.Shipping:
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Shipping && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem)) drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == BO.DroneStatus.Shipping && d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
 
                     case null:
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem)) drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
 
                 }
@@ -198,7 +202,7 @@ namespace PL
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BO.WeightCategories? weight;
-            drones.Clear();
+            ObservableList.drones.Clear();
 
             if (WeightSelector.SelectedItem == null) weight = null;
             else weight = (BO.WeightCategories)WeightSelector.SelectedItem;
@@ -208,18 +212,18 @@ namespace PL
                 switch (weight)
                 {
                     case BO.WeightCategories.Heavy:
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Heavy)) drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Heavy)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
 
                     case BO.WeightCategories.Light:
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Light)) drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Light)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
 
                     case BO.WeightCategories.Medium:
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Medium)) drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Medium)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
                     case null:
-                        InitializeList();
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == (BO.WeightCategories)WeightSelector.SelectedItem)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
                 }
             }
@@ -229,19 +233,19 @@ namespace PL
                 {
                     case BO.WeightCategories.Heavy:
 
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Heavy && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem)) drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Heavy && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
 
                     case BO.WeightCategories.Light:
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Light && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem)) drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Light && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
 
                     case BO.WeightCategories.Medium:
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Medium && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem)) drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.MaxWeight == BO.WeightCategories.Medium && d.Status == (BO.DroneStatus)StatusSelector.SelectedItem)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
                         break;
 
                     case null:
-                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == (BO.DroneStatus)StatusSelector.SelectedItem)) drones.Add(d);
+                        foreach (var d in BL.DisplayDroneListFilter(d => d.Status == (BO.DroneStatus)StatusSelector.SelectedItem)) ObservableList.drones.Add((PO.DroneToList)d.CopyPropertiesToNew(typeof(PO.DroneToList)));
 
                         break;
                 }
@@ -250,30 +254,20 @@ namespace PL
 
        
 
-        /// <summary>
-        /// A function that refreshes the list of drones
-        /// </summary>
-        /// <param name="ob"></param>
-        private void RefreshListView(object sender, EventArgs e) //updates
-        {
-            DronesListView.Items.Refresh();
-            if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null) DronesListView.ItemsSource = BL.DisplayDroneList();
-            if (WeightSelector.SelectedItem != null) WeightSelector_SelectionChanged(this, null);
-            if (StatusSelector.SelectedItem != null) StatusSelector_SelectionChanged(this, null);
-        }
+ 
 
         /// <summary>
         /// func that refresh the list 
         /// </summary>
         /// <param name="t"></param>
-        public void RefreshList(int t)
-        {
-            var d = PL.GetDroneList();
-            drones.Clear();
-            foreach (var drone in d) drones.Add(drone);
-            Show_Drones(this, new RoutedEventArgs());
-            RefreshListView(this, EventArgs.Empty);
-        }
+        //public void RefreshList(int t)
+        //{
+        //    var d = PL.GetDroneList();
+        //    drones.Clear();
+        //    foreach (var drone in d) drones.Add(drone);
+        //    Show_Drones(this, new RoutedEventArgs());
+        //    RefreshListView(this, EventArgs.Empty);
+        //}
 
 
 

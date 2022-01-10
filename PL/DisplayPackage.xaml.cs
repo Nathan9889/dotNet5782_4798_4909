@@ -24,6 +24,7 @@ namespace PL
     {
 
         private Model.PL pL;
+        private BlApi.IBL bL;
         Package Package = new Package();
 
         public delegate void Navigation(int id);
@@ -34,6 +35,7 @@ namespace PL
         public DisplayPackage()
         {
             InitializeComponent();
+            bL = BlApi.BlFactory.GetBL();
             this.pL = new Model.PL();
             MainGrid.DataContext = Package;
             Package_Priority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
@@ -74,6 +76,7 @@ namespace PL
                 pL.DeletePackage(Package.package.ID);
                 if (Back != null) Back(-1);
                 MessageBox.Show($"The package has been deleted !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                ObservableList.packages.Remove(ObservableList.packages.First(p => p.Id == Package.package.ID));
                 this.NavigationService.GoBack();
             }
             catch (Exception ex)
@@ -91,9 +94,11 @@ namespace PL
         {
             try
             {
-                pL.AddPackage(Package.package);
+                int i = bL.AddPackage(Package.package);
                 if (Back != null) Back(-1);
                 MessageBox.Show($"The package was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                BO.PackageToList packageToList = bL.GetPackageToList(i);
+                ObservableList.packages.Add((PO.PackageToList)packageToList.CopyPropertiesToNew(typeof(PO.PackageToList)));
                 this.NavigationService.GoBack();
             }
             catch (Exception ex)
@@ -125,6 +130,8 @@ namespace PL
                 pL.PickUpPackage(Package.package.DroneOfPackage.Id);
                 MessageBox.Show($"The package has been collected !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Package.package = pL.GetPackage(Package.package.ID);
+
+                ObservableList.packages.First(p => p.Id == Package.package.ID).Status = BO.PackageStatus.PickedUp;
             }
             catch (Exception ex)
             {
@@ -145,6 +152,8 @@ namespace PL
                 pL.DeliveredToClient(Package.package.DroneOfPackage.Id);
                 MessageBox.Show($"The package was delivered to the Client !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Package.package = pL.GetPackage(Package.package.ID);
+
+                ObservableList.packages.First(p => p.Id == Package.package.ID).Status = BO.PackageStatus.Delivered;
             }
             catch (Exception ex)
             {

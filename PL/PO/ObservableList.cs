@@ -36,7 +36,9 @@ namespace Model
 
             foreach (var item in bl.DisplayDroneList())
             {
+               
                 PO.DroneToList d = (PO.DroneToList)item.CopyPropertiesToNew(typeof(PO.DroneToList));
+                d.DroneLocation = item.DroneLocation;
                 drones.Add(d);
             }
             foreach (var item in bl.DisplayClientList())

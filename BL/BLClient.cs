@@ -304,5 +304,10 @@ namespace BL
         {
             updateDroneBattery(id, start);
         }
+
+        public ClientToList GetClientToList(int id)
+        {
+            return DisplayClientList().First(c => c.Id == id);
+        }
     }
 }

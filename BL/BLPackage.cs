@@ -113,11 +113,11 @@ namespace BL
                     DO.Client senderClient = dal.ClientById(package.SenderId);                                 //sender client, his location is the package location
                     DO.Client targetClient = dal.ClientById(package.TargetId);                                //target client target location for the drone
 
-                    double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, senderClient.Latitude, senderClient.Longitude, 3);        // from drone location to package with no weight
-                    minBattery += batteryConsumption(senderClient.Latitude, senderClient.Longitude, targetClient.Latitude, targetClient.Longitude, (int)package.Weight);         // from package sender location to target with package weight
+                    double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, senderClient.Latitude, senderClient.Longitude, 3)+1;        // from drone location to package with no weight
+                    minBattery += batteryConsumption(senderClient.Latitude, senderClient.Longitude, targetClient.Latitude, targetClient.Longitude, (int)package.Weight)+1;         // from package sender location to target with package weight
 
                     DO.Station station = NearestStationToClient(package.TargetId);                                                              //station with available chargeSlot nearest to client target for charging the drone if needed
-                    minBattery += batteryConsumption(targetClient.Latitude, targetClient.Longitude, station.Latitude, station.Longitude, 3);         //from client target to nearest station location with no weight
+                    minBattery += batteryConsumption(targetClient.Latitude, targetClient.Longitude, station.Latitude, station.Longitude, 3)+1;         //from client target to nearest station location with no weight
 
                     //minBattery = Math.Ceiling(minBattery);
                     if (minBattery+1 > drone.Battery) dalPackages.Remove(package); // If the package is not suitable we will delete it from the list of optional packages (dalPackages)
