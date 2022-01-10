@@ -126,8 +126,6 @@ namespace PL
             }
         }
 
-
-
         /// <summary>
         /// displaying the drone info from the list of charging drone of the station
         /// </summary>
