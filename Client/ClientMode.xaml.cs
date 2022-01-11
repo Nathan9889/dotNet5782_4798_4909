@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Model;
 
-namespace PL
+namespace PLClient
 {
     /// <summary>
     /// Interaction logic for ClientMde.xaml
@@ -180,5 +180,12 @@ namespace PL
                 MessageBox.Show($"Unable to add package {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void addClient_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
     }
 }

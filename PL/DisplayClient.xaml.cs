@@ -27,7 +27,6 @@ namespace PL
         Client Client = new Client();
 
         public delegate void Navigation(int id);
-        public event Navigation Back;
         public event Navigation PackagePage;
 
         public delegate void Navigation_(object sender, RoutedEventArgs e);
@@ -137,8 +136,6 @@ namespace PL
         /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            if (Back != null)
-                Back(-1);
             this.NavigationService.GoBack();
         }
 
@@ -150,7 +147,6 @@ namespace PL
         /// <param name="e"></param>
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
-            if (Back != null) Back(-1);
             if (this.NavigationService != null && this.NavigationService.CanGoBack) this.NavigationService.GoBack();
 
         }
@@ -176,7 +172,6 @@ namespace PL
             try
             {
                 pL.AddClient(Client.client);
-                if (Back != null) Back(-1);
                 MessageBox.Show($"The Client was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 if (MainWindow != null) MainWindow(this, new RoutedEventArgs());
 

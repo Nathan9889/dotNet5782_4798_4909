@@ -39,7 +39,6 @@ namespace PL
         private void AddPackagePage(int num) 
         {
             var page = new DisplayPackage();
-            //page.Back += ((DisplayPackagesList)this.Frame.Content).RefreshList;
             this.Frame.Content = page;
         }
 
@@ -50,7 +49,6 @@ namespace PL
         private void AddDronePage(int num)
         {
             var page = new DisplayDrone();
-            //page.Back += ((DisplayDronesList)this.Frame.Content).RefreshList;
             this.Frame.Content = page;
         }
 
@@ -61,7 +59,6 @@ namespace PL
         private void AddClientPage(int num) 
         {
             var page = new DisplayClient();
-            //page.Back += ((DisplayClientsList)this.Frame.Content).RefreshList;
             this.Frame.Content = page;
         }
 
@@ -72,7 +69,6 @@ namespace PL
         private void AddStationPage(int num) 
         {
             var page = new DisplayStation();
-            //page.Back += ((DisplayStationsList)this.Frame.Content).RefreshList;
             this.Frame.Content = page;
         }
 
@@ -83,7 +79,6 @@ namespace PL
         private void PackageDisplayPage(int id) 
         {
             var page = new DisplayPackage(id);
-           // page.Back += ((DisplayPackagesList)this.Frame.Content).RefreshList;
             page.ClientPage += ClientDisplayPageFromPackage;
             page.DronePage += DroneDisplayPageFromPackage;
             this.Frame.Content = page;
@@ -95,10 +90,9 @@ namespace PL
         /// <param name="id"></param>
         private void DroneDisplayPage(int id) 
         {
-            var page = new DisplayDrone(id);
-            //page.Back += ((DisplayDronesList)this.Frame.Content).RefreshList;
-            page.PackagePage += PackageDisplayFromDrone;
-            this.Frame.Content = page;
+            var droneDisplayPage = new DisplayDrone(id);
+            droneDisplayPage.PackagePage += PackageDisplayFromDrone;
+            this.Frame.Content = droneDisplayPage;
         }
 
         /// <summary>
@@ -108,7 +102,6 @@ namespace PL
         private void ClientDisplayPage(int id) 
         {
             var page = new DisplayClient(id);
-            //page.Back += ((DisplayClientsList)this.Frame.Content).RefreshList;
             page.PackagePage += PackageDisplayFromClient;
             this.Frame.Content = page;
         }
@@ -120,7 +113,6 @@ namespace PL
         private void StationDisplayPage(int id) 
         {
             var page = new DisplayStation(id);
-            //page.Back += ((DisplayStationsList)this.Frame.Content).RefreshList;
             page.DronePage += DroneDiplayFromStation;
             this.Frame.Content = page;
         }
@@ -262,11 +254,11 @@ namespace PL
 
         private void ClientloginButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindowDisplay.Visibility = Visibility.Hidden;
-            this.Frame.Visibility = Visibility.Visible;
-            var page = new ClientMde();
-            page.addClient.Click += Sign_Up_From_ClientMode;
-            this.Frame.Content = page;
+            //MainWindowDisplay.Visibility = Visibility.Hidden;
+            //this.Frame.Visibility = Visibility.Visible;
+            //var page = new ClientMde();
+            //page.addClient.Click += Sign_Up_From_ClientMode;
+            //this.Frame.Content = page;
         }
 
         private void MainWindowDis(object sender, RoutedEventArgs e)

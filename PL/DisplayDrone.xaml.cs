@@ -309,7 +309,7 @@ namespace PL
             return backgroundWorker.CancellationPending;
         }
 
-        void update(string update)
+        void update(string update, int id)
         {
             Drone.drone = pL.GetDrone(Drone.drone.ID);
 
@@ -319,11 +319,24 @@ namespace PL
             droneToList.Status = Drone.drone.Status;
 
             PO.PackageToList packageToList;
+            PO.StationToList stationToList;
 
             switch (update)
             {
                 case "No packages":
+                    MessageBox.Show($"Waiting for new packages", "Waiting", MessageBoxButton.OK, MessageBoxImage.Information);
                     addPackages();
+                    break;
+
+                case "charging":
+
+                    stationToList = ObservableList.stations.First(s => bl.GetStationWithDrones(s.ID).ChargingDronesList.Any(d => d.ID == Drone.drone.ID));
+                    stationToList.AvailableChargingSlots--; stationToList.BusyChargingSlots++;
+                    break;
+
+                case "Finish charging":
+                    stationToList = ObservableList.stations.First(s => s.ID == id);
+                    stationToList.AvailableChargingSlots++; stationToList.BusyChargingSlots--;
                     break;
 
                 case "Associate":
@@ -334,6 +347,11 @@ namespace PL
                 case "PickedUp":
                     packageToList = ObservableList.packages.First(p => p.Id == Drone.drone.DronePackageProcess.Id);
                     packageToList.Status = BO.PackageStatus.PickedUp;
+                    break;
+
+                case "Delivered":
+                    packageToList = ObservableList.packages.First(p => p.Id == id);
+                    packageToList.Status = BO.PackageStatus.Delivered;
                     break;
 
                 default:

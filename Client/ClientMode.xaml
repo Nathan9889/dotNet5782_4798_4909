@@ -1,18 +1,19 @@
-﻿<Page x:Class="PL.ClientMde"
+﻿<Page x:Class="PLClient.ClientMde"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:PL"
+      xmlns:local="clr-namespace:PLClient"
+      xmlns:PL="clr-namespace:PL;assembly=PL"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800" Title="ClientMde">
 
     <Page.Resources>
-        <local:FrameColorForNumbers x:Key="FrameColorForNumbers"></local:FrameColorForNumbers>
-        <local:TrueIfStatusCreated x:Key="TrueIfStatusCreated"></local:TrueIfStatusCreated>
-        <local:TrueIfStatusAssociated x:Key="TrueIfStatusAssociated"></local:TrueIfStatusAssociated>
-        <local:TrueIfStatusPickedUp x:Key="TrueIfStatusPickedUp"></local:TrueIfStatusPickedUp>
-        <local:StyleForConboBox x:Key="StyleForConboBox"></local:StyleForConboBox>
+        <PL:FrameColorForNumbers x:Key="FrameColorForNumbers"></PL:FrameColorForNumbers>
+        <PL:TrueIfStatusCreated x:Key="TrueIfStatusCreated"></PL:TrueIfStatusCreated>
+        <PL:TrueIfStatusAssociated x:Key="TrueIfStatusAssociated"></PL:TrueIfStatusAssociated>
+        <PL:TrueIfStatusPickedUp x:Key="TrueIfStatusPickedUp"></PL:TrueIfStatusPickedUp>
+        <PL:StyleForConboBox x:Key="StyleForConboBox"></PL:StyleForConboBox>
     </Page.Resources>
 
     <Grid>
@@ -28,6 +29,17 @@
                         <Setter Property="CornerRadius" Value="7" />
                     </Style>
                 </Button.Resources>
+            </Button>
+
+            <Button Name="CancelLodin"  Content="Cancel" HorizontalAlignment="Left" Margin="321,333,0,0" VerticalAlignment="Top" Height="20" Width="139" FontSize="14" FontFamily="Arial Rounded MT Bold"  Foreground="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="7" />
+                    </Style>
+                </Button.Resources>
+                <Button.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlTextColorKey}}"/>
+                </Button.Background>
             </Button>
         </Grid>
 
@@ -93,10 +105,6 @@
                 </Button>
                 <Rectangle HorizontalAlignment="Left" Height="450" Margin="1,0,0,0" Stroke="Black" VerticalAlignment="Center" Width="1"/>
 
-
-
-
-
             </Grid>
 
             <Label Content="The packages you sent:" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="171" FontSize="14" FontFamily="Arial Rounded MT Bold" Margin="86,0,0,0"/>
@@ -143,6 +151,19 @@
             </Button>
             <Label Content="Hello" HorizontalAlignment="Left" Margin="179,0,0,0" VerticalAlignment="Center" Width="83" Foreground="#FF2E6DC7" FontFamily="Algerian" FontSize="24" FontWeight="Normal" RenderTransformOrigin="0.867,0.504"/>
             <Label Name="ClientName" HorizontalAlignment="Left" VerticalAlignment="Center" Width="236" Foreground="#FF2E6DC7" FontFamily="Algerian" FontSize="24" FontWeight="Normal" Height="41" Grid.Column="1"/>
+            <Button x:Name="Exit"  HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="66" FontSize="13" Height="41" RenderTransformOrigin="0.5,0.5">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5" />
+                    </Style>
+                </Button.Resources>
+                <Button.Background>
+                    <ImageBrush ImageSource="/iDDmKages.JPG"/>
+                </Button.Background>
+
+
+
+            </Button>
         </Grid>
 
     </Grid>

@@ -573,7 +573,7 @@ namespace BL
 
 
 
-        public void StartSimulator(int id, Action<string> action, Func<bool> stop)
+        public void StartSimulator(int id, Action<string,int> action, Func<bool> stop)
         {
             Simulator simulator = new Simulator(this, id, action, stop);
         }

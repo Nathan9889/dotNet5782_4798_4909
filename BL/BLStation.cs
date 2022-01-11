@@ -219,7 +219,13 @@ namespace BL
 
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public BO.Station GetStationWithDrones(int id)
+        {
+            Station station = DisplayStation(id);
+            if (station.ChargingDronesList == null) return null;
+            return station;
+        }
 
         //void IBL.UpdateDroneLocation(int id, double lonPlus, double latPlus)
         //{

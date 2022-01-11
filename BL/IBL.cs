@@ -218,12 +218,13 @@ namespace BlApi
         void DeleteStation(int ID);
         void DeleteClient(int ID);
 
-        void StartSimulator(int id, Action<string> action, Func<bool> stop);
+        void StartSimulator(int id, Action<string,int> action, Func<bool> stop);
         void updateDroneBattery(int id, DateTime? start, int indexDroneToList = -1);
         void UpdateLessBattery(int id, double LessBattery);
         double BatteryByKM(int weight, double KM);
         PackageToList GetPackageToList(int id);
         ClientToList GetClientToList(int id);
+        BO.Station GetStationWithDrones(int id);
         //Exit
 
 

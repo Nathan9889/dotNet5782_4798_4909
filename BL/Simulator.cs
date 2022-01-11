@@ -14,14 +14,14 @@ namespace BL
     {
         BlApi.IBL BL;
         int droneID;
-        Action<string> action;
+        Action<string,int> action;
         Func<bool> stop;
 
         Random random = new Random();
         private int DELAY = 1000;
         private int SPEED = 1;
        
-        public Simulator(BlApi.IBL bl, int id, Action<string> action, Func<bool> stop)
+        public Simulator(BlApi.IBL bl, int id, Action<string,int> action, Func<bool> stop)
         {
             BL = bl;
             droneID = id;
@@ -46,7 +46,7 @@ namespace BL
                         {
                             BL.packageToDrone(id);
                             Thread.Sleep(DELAY);
-                            action("Associate");
+                            action("Associate",0);
                         }
                         catch (Exception ex)
                         {
@@ -62,12 +62,13 @@ namespace BL
                                 {
                                     BL.ChargeDrone(id);
                                     Thread.Sleep(DELAY);
-                                    action("charging");
+                                    action("charging",0);
                                 }
                                 else        // אין חבילות-  שיתווסף חבילות
                                 {
-                                    Thread.Sleep(3*DELAY);
-                                    action("No packages");
+                                   
+                                    action("No packages",0);
+                                    Thread.Sleep(3 * DELAY);
                                 }
                             }
                         }
@@ -76,16 +77,23 @@ namespace BL
                     case DroneStatus.Maintenance:
                         if (drone.Battery == 100)
                         {
+                            int i =0;
+                            foreach (var item in bl.DisplayStationList())
+                            {
+                                i = item.ID;
+                                if (bl.GetStationWithDrones(item.ID).ChargingDronesList.Any(d => d.ID == drone.ID) == true) break; 
+                            }
                             bl.FinishCharging(id);
                             startCharging = null;
-                            action("Finish charging");
+
+                            action("Finish charging",i);
                             Thread.Sleep(DELAY);
                             break;
                         }
                         BL.updateDroneBattery(drone.ID, startCharging);
 
                         startCharging = DateTime.Now;  
-                        action("Battery and location");
+                        action("Battery and location",0);
                         Thread.Sleep(DELAY);
                         break;
 
@@ -117,11 +125,11 @@ namespace BL
                                     else break;
 
                                     drone = BL.DisplayDrone(drone.ID);
-                                    action("Battery and location");
+                                    action("Battery and location",0);
                                 }
 
                                 BL.PickedUpByDrone(drone.ID);
-                                action("PickedUp");
+                                action("PickedUp",0);
                                 break;
 
 
@@ -145,11 +153,11 @@ namespace BL
                                     else break;
 
                                     drone = BL.DisplayDrone(drone.ID);
-                                    action("Battery and location");
+                                    action("Battery and location",0);
                                 }
-
+                                
                                 BL.DeliveredToClient(drone.ID);
-                                action("Delivered");
+                                action("Delivered", drone.DronePackageProcess.Id);
                                 Thread.Sleep(DELAY);
 
                                 break;

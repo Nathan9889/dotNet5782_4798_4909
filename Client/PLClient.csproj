@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="iDDmages.JPG" />
+    <None Remove="iDDmKages.JPG" />
+    <None Remove="phCL.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PL\PL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="iDDmages.JPG" />
+    <Resource Include="iDDmKages.JPG" />
+    <Resource Include="phCL.jpg" />
+  </ItemGroup>
+
+</Project>
