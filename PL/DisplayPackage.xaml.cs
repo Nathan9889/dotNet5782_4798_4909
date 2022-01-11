@@ -25,10 +25,10 @@ namespace PL
 
         private Model.PL pL;
         private BlApi.IBL bL;
-        Package Package = new Package();
+        //Package Package = new Package();
 
         public delegate void Navigation(int id);
-        public event Navigation Back; //Event Back to Previous Page (For List Refresh)
+        //public event Navigation Back; //Event Back to Previous Page (For List Refresh)
         public event Navigation ClientPage; //New page opening event from the current page
         public event Navigation DronePage; //New page opening event from the current page
 
@@ -37,13 +37,14 @@ namespace PL
             InitializeComponent();
             bL = BlApi.BlFactory.GetBL();
             this.pL = new Model.PL();
-            MainGrid.DataContext = Package;
+            Model.Model.Package = new Package();
+            MainGrid.DataContext = Model.Model.Package;
             Package_Priority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
             Package_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             ClientsList.ItemsSource = pL.getClientList();
             ClientsList2.ItemsSource = pL.getClientList();
 
-            Package.package = new BO.Package();
+            Model.Model.Package.package = new BO.Package();
 
         }
 
@@ -54,11 +55,11 @@ namespace PL
         public DisplayPackage(int id)
         {
             this.pL = new Model.PL();
-            Package.package = pL.GetPackage(id);
+            Model.Model.Package.package = pL.GetPackage(id);
             InitializeComponent();
 
-            if (Package.package.Associated == null) Package.package.DroneOfPackage = new BO.DroneOfPackage();
-            MainGrid.DataContext = Package;
+            if (Model.Model.Package.package.Associated == null) Model.Model.Package.package.DroneOfPackage = new BO.DroneOfPackage();
+            MainGrid.DataContext = Model.Model.Package;
             Package_Priority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
             Package_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
         }
@@ -73,10 +74,10 @@ namespace PL
         {
             try
             {
-                pL.DeletePackage(Package.package.ID);
-                if (Back != null) Back(-1);
+                pL.DeletePackage(Model.Model.Package.package.ID);
+                //if (Back != null) Back(-1);
                 MessageBox.Show($"The package has been deleted !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                ObservableList.packages.Remove(ObservableList.packages.First(p => p.Id == Package.package.ID));
+                Model.Model.packages.Remove(Model.Model.packages.First(p => p.Id == Model.Model.Package.package.ID));
                 this.NavigationService.GoBack();
             }
             catch (Exception ex)
@@ -94,11 +95,11 @@ namespace PL
         {
             try
             {
-                int i = bL.AddPackage(Package.package);
-                if (Back != null) Back(-1);
+                int i = bL.AddPackage(Model.Model.Package.package);
+                //if (Back != null) Back(-1);
                 MessageBox.Show($"The package was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 BO.PackageToList packageToList = bL.GetPackageToList(i);
-                ObservableList.packages.Add((PO.PackageToList)packageToList.CopyPropertiesToNew(typeof(PO.PackageToList)));
+                Model.Model.packages.Add((PO.PackageToList)packageToList.CopyPropertiesToNew(typeof(PO.PackageToList)));
                 this.NavigationService.GoBack();
             }
             catch (Exception ex)
@@ -114,7 +115,7 @@ namespace PL
         /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            if (Back != null) Back(-1);
+            //if (Back != null) Back(-1);
             this.NavigationService.GoBack();
         }
 
@@ -127,11 +128,11 @@ namespace PL
         {
             try
             {
-                pL.PickUpPackage(Package.package.DroneOfPackage.Id);
+                pL.PickUpPackage(Model.Model.Package.package.DroneOfPackage.Id);
                 MessageBox.Show($"The package has been collected !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Package.package = pL.GetPackage(Package.package.ID);
+                Model.Model.Package.package = pL.GetPackage(Model.Model.Package.package.ID);
 
-                ObservableList.packages.First(p => p.Id == Package.package.ID).Status = BO.PackageStatus.PickedUp;
+                Model.Model.packages.First(p => p.Id == Model.Model.Package.package.ID).Status = BO.PackageStatus.PickedUp;
             }
             catch (Exception ex)
             {
@@ -149,11 +150,11 @@ namespace PL
         {
             try
             {
-                pL.DeliveredToClient(Package.package.DroneOfPackage.Id);
+                pL.DeliveredToClient(Model.Model.Package.package.DroneOfPackage.Id);
                 MessageBox.Show($"The package was delivered to the Client !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Package.package = pL.GetPackage(Package.package.ID);
+                Model.Model.Package.package = pL.GetPackage(Model.Model.Package.package.ID);
 
-                ObservableList.packages.First(p => p.Id == Package.package.ID).Status = BO.PackageStatus.Delivered;
+                Model.Model.packages.First(p => p.Id == Model.Model.Package.package.ID).Status = BO.PackageStatus.Delivered;
             }
             catch (Exception ex)
             {
@@ -170,7 +171,7 @@ namespace PL
         /// <param name="e"></param>
         private void Cancel(object sender, RoutedEventArgs e)
         {
-            if (Back != null) Back(-1);
+            //if (Back != null) Back(-1);
             this.NavigationService.GoBack();
         }
 

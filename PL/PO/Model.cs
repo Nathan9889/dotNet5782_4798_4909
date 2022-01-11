@@ -10,23 +10,31 @@ using BlApi;
 
 namespace Model
 {
-    public class ObservableList
+    public class Model
     {
         private BlApi.IBL bl;
 
 
         public static ObservableCollection<PO.StationToList> stations = new ObservableCollection<PO.StationToList>();
         public static ObservableCollection<PO.DroneToList> drones = new ObservableCollection<PO.DroneToList>();
-        public static ObservableCollection<PO.PackageToList> packages = new ObservableCollection<PO.PackageToList>();
+        //public static ObservableCollection<PO.PackageToList> packages = new ObservableCollection<PO.PackageToList>();
         public static ObservableCollection<PO.ClientToList> clients = new ObservableCollection<PO.ClientToList>();
+        public static ObservableCollection<PO.PackageToList> packages { get; set; }
+
+        public static Station Station { get; set; }
+        public static Package Package { get; set; }
+        public static Client Client { get; set; }
 
 
-
-
-        public ObservableList()
+        public Model()
         {
             this.bl = BlApi.BlFactory.GetBL();
 
+            packages = new ObservableCollection<PO.PackageToList>();
+
+            Station = new Station();
+            Package = new Package();
+            Client = new Client();
 
             foreach (var item in bl.DisplayStationList())
             {

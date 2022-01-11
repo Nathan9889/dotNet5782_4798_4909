@@ -28,15 +28,17 @@ namespace BL
             this.action = action;
             this.stop = stop;
             
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+            
 
             Drone drone;
             DateTime? startCharging = null;
             
             while (stop.Invoke() == false)
             {
-                drone = BL.DisplayDrone(id);
+                lock (BL)
+                {
+                    drone = BL.DisplayDrone(id);
+                }
 
                 switch (drone.Status)
                 {
@@ -44,30 +46,49 @@ namespace BL
 
                         try
                         {
-                            BL.packageToDrone(id);
+                            lock (BL)
+                            {
+                                BL.packageToDrone(id);
+                                drone = BL.DisplayDrone(id);
+                            }
                             Thread.Sleep(DELAY);
-                            action("Associate",0);
+                            action("Associate",drone.DronePackageProcess.Id);
                         }
                         catch (Exception ex)
                         {
                             if(ex.Message == "There is no package for the Drone")
                             {
-                                var allPackages = BL.DisplayPackageListWithoutDrone();
+                                IEnumerable<PackageToList> allPackages;
+                                lock (BL)
+                                {
+                                    allPackages = BL.DisplayPackageListWithoutDrone();
+                                }
 
                                 var Packages = (from p in allPackages
-                                        where (int)p.Weight <= (int)drone.MaxWeight
-                                         select p);
+                                                where (int)p.Weight <= (int)drone.MaxWeight
+                                                select p);
 
                                 if (Packages.Count() > 0) // האם יש חבילות שהוא יכול לקחת ורק יש בעיה בסוללה
                                 {
-                                    BL.ChargeDrone(id);
+                                    lock (BL)
+                                    {
+                                        BL.ChargeDrone(id);
+                                    }
                                     Thread.Sleep(DELAY);
-                                    action("charging",0);
+
+                                    int i = 0;
+                                    foreach (var item in BL.DisplayStationList())
+                                    {
+                                        i = item.ID;
+                                        if (BL.GetStationWithDrones(item.ID).ChargingDronesList.Any(d => d.ID == drone.ID) == true) break;
+                                    }
+                                    action("charging", i);
+
                                 }
                                 else        // אין חבילות-  שיתווסף חבילות
                                 {
-                                   
-                                    action("No packages",0);
+
+                                    action("No packages", 0);
                                     Thread.Sleep(3 * DELAY);
                                 }
                             }
@@ -75,22 +96,25 @@ namespace BL
                         break;
 
                     case DroneStatus.Maintenance:
-                        if (drone.Battery == 100)
+                        lock (BL)
                         {
-                            int i =0;
-                            foreach (var item in bl.DisplayStationList())
+                            if (drone.Battery == 100)
                             {
-                                i = item.ID;
-                                if (bl.GetStationWithDrones(item.ID).ChargingDronesList.Any(d => d.ID == drone.ID) == true) break; 
-                            }
-                            bl.FinishCharging(id);
-                            startCharging = null;
+                                int i = 0;
+                                foreach (var item in BL.DisplayStationList())
+                                {
+                                    i = item.ID;
+                                    if (BL.GetStationWithDrones(item.ID).ChargingDronesList.Any(d => d.ID == drone.ID) == true) break;
+                                }
+                                BL.FinishCharging(id);
+                                startCharging = null;
 
-                            action("Finish charging",i);
-                            Thread.Sleep(DELAY);
-                            break;
+                                action("Finish charging", i);
+                                Thread.Sleep(DELAY);
+                                break;
+                            }
+                            BL.updateDroneBattery(drone.ID, startCharging);
                         }
-                        BL.updateDroneBattery(drone.ID, startCharging);
 
                         startCharging = DateTime.Now;  
                         action("Battery and location",0);
@@ -117,19 +141,25 @@ namespace BL
                                 {
                                     Thread.Sleep(DELAY);
 
-                                    if (drone.DronePackageProcess.Distance > 1)
+                                    lock (BL)
                                     {
-                                        BL.UpdateDroneLocation(drone.ID, lonPlus, latPlus);
-                                        BL.UpdateLessBattery(drone.ID, BL.BatteryByKM(-1, 1 * SPEED));
-                                    }
-                                    else break;
+                                        if (drone.DronePackageProcess.Distance > 1)
+                                        {
+                                            BL.UpdateDroneLocation(drone.ID, lonPlus, latPlus);
+                                            BL.UpdateLessBattery(drone.ID, BL.BatteryByKM(-1, 1 * SPEED));
+                                        }
+                                        else break;
 
-                                    drone = BL.DisplayDrone(drone.ID);
+                                        drone = BL.DisplayDrone(drone.ID);
+                                    }
                                     action("Battery and location",0);
                                 }
 
-                                BL.PickedUpByDrone(drone.ID);
-                                action("PickedUp",0);
+                                lock (BL)
+                                {
+                                    BL.PickedUpByDrone(drone.ID);
+                                }
+                                action("PickedUp",drone.DronePackageProcess.Id);
                                 break;
 
 
@@ -145,18 +175,24 @@ namespace BL
                                 {
                                     Thread.Sleep(DELAY);
 
-                                    if (drone.DronePackageProcess.Distance > 1)
+                                    lock (BL)
                                     {
-                                        BL.UpdateDroneLocation(drone.ID, lonPlus, latPlus);
-                                        BL.UpdateLessBattery(drone.ID, BL.BatteryByKM((int)drone.DronePackageProcess.Weight, 1 * SPEED));
-                                    }
-                                    else break;
+                                        if (drone.DronePackageProcess.Distance > 1)
+                                        {
+                                            BL.UpdateDroneLocation(drone.ID, lonPlus, latPlus);
+                                            BL.UpdateLessBattery(drone.ID, BL.BatteryByKM((int)drone.DronePackageProcess.Weight, 1 * SPEED));
+                                        }
+                                        else break;
 
-                                    drone = BL.DisplayDrone(drone.ID);
+                                        drone = BL.DisplayDrone(drone.ID);
+                                    }
                                     action("Battery and location",0);
                                 }
-                                
-                                BL.DeliveredToClient(drone.ID);
+
+                                lock (BL)
+                                {
+                                    BL.DeliveredToClient(drone.ID);
+                                }
                                 action("Delivered", drone.DronePackageProcess.Id);
                                 Thread.Sleep(DELAY);
 

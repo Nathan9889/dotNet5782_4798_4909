@@ -28,7 +28,7 @@ namespace PL
             InitializeComponent();
             BL = BlApi.BlFactory.GetBL();
             content = this.Content;
-            new Model.ObservableList();
+            new Model.Model();
         }
 
 
@@ -90,9 +90,14 @@ namespace PL
         /// <param name="id"></param>
         private void DroneDisplayPage(int id) 
         {
-            var droneDisplayPage = new DisplayDrone(id);
-            droneDisplayPage.PackagePage += PackageDisplayFromDrone;
-            this.Frame.Content = droneDisplayPage;
+            if (Model.Model.drones.First(d => d.ID == id).DronePage == null)
+            {
+                var droneDisplayPage = new DisplayDrone(id);
+                droneDisplayPage.PackagePage += PackageDisplayFromDrone;
+                this.Frame.Content = droneDisplayPage;
+                Model.Model.drones.First(d => d.ID == id).DronePage = droneDisplayPage;
+            }
+            else this.Frame.Content = Model.Model.drones.First(d => d.ID == id).DronePage;
         }
 
         /// <summary>

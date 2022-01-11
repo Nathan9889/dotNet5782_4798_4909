@@ -39,7 +39,7 @@ namespace PL
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
             this.PL = new Model.PL();
-            StationsListView.DataContext = Model.ObservableList.stations;
+            StationsListView.DataContext = Model.Model.stations;
 
 
            // InitializeList();
@@ -83,28 +83,28 @@ namespace PL
                 if (Show_Normally.IsChecked == true)
                 {
                     var s = BL.DisplayStationList();
-                    var temp = new ObservableCollection<PO.StationToList>(Model.ObservableList.stations);
+                    var temp = new ObservableCollection<PO.StationToList>(Model.Model.stations);
 
-                    Model.ObservableList.stations.Clear();
+                    Model.Model.stations.Clear();
                     
                     foreach (var item in s)
                     {
                         if (temp.Any(s => s.ID == item.ID))  //init again
-                            Model.ObservableList.stations.Add((PO.StationToList)item.CopyPropertiesToNew(typeof(PO.StationToList)));
+                            Model.Model.stations.Add((PO.StationToList)item.CopyPropertiesToNew(typeof(PO.StationToList)));
                     }
                 }
                 else if (Show_Open.IsChecked == true)
                 {
                     var s = BL.GroupStationByNumSlots();  // לרשימה כדי שיהיה העתק . לפי הסדר כדי יחזור למקורי ואז ימיין
-                    var temp = new ObservableCollection<PO.StationToList>(Model.ObservableList.stations);
-                    Model.ObservableList.stations.Clear();
+                    var temp = new ObservableCollection<PO.StationToList>(Model.Model.stations);
+                    Model.Model.stations.Clear();
 
                     foreach (var group in s)
                     {
                         foreach (BO.StationToList item in group)
                         {
                             if (temp.Any(s => s.ID == item.ID))
-                                Model.ObservableList.stations.Add((PO.StationToList)item.CopyPropertiesToNew(typeof(PO.StationToList)));
+                                Model.Model.stations.Add((PO.StationToList)item.CopyPropertiesToNew(typeof(PO.StationToList)));
                         }
                     }
                 }
@@ -129,10 +129,10 @@ namespace PL
         /// <param name="e"></param>
         private void Reset_Button_Click(object sender, RoutedEventArgs e)
         {
-            Model.ObservableList.stations.Clear();
+            Model.Model.stations.Clear();
             foreach (var item in BL.DisplayStationList())
             {
-                Model.ObservableList.stations.Add((PO.StationToList)item.CopyPropertiesToNew(typeof(PO.StationToList)));
+                Model.Model.stations.Add((PO.StationToList)item.CopyPropertiesToNew(typeof(PO.StationToList)));
             }
             //InitializeList();
             Show_Stations(this, new RoutedEventArgs()); 

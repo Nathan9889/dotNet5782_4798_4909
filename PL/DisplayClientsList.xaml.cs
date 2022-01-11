@@ -40,7 +40,7 @@ namespace PL
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
             this.PL = new Model.PL();
-            ClientListView.DataContext =ObservableList.clients;
+            ClientListView.DataContext = Model.Model.clients;
             //InitializeList();
         }
 

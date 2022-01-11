@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -96,7 +97,7 @@ namespace PL
                 MessageBox.Show("Drone sent to charge", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Drone.drone = pL.GetDrone(Drone.drone.ID);
 
-                var d = Model.ObservableList.drones.First(d => d.ID == Drone.drone.ID);d. Status = BO.DroneStatus.Maintenance; d.Battery = Drone.drone.Battery;
+                var d = Model.Model.drones.First(d => d.ID == Drone.drone.ID);d. Status = BO.DroneStatus.Maintenance; d.Battery = Drone.drone.Battery;
             }
             catch (Exception ex)
             {
@@ -117,7 +118,7 @@ namespace PL
                 MessageBox.Show("Please enter correct Name", "Error input", MessageBoxButton.OK, MessageBoxImage.Error);
                 DroneModel.Text = Drone.drone.Model;
 
-                Model.ObservableList.drones.First(d => d.ID == Drone.drone.ID).Model = Drone.drone.Model;
+                Model.Model.drones.First(d => d.ID == Drone.drone.ID).Model = Drone.drone.Model;
             }
             else
             {
@@ -149,7 +150,7 @@ namespace PL
                 MessageBox.Show($"Drone have been unplugged, Battery left: {Drone.drone.Battery}%", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Drone.drone = pL.GetDrone(Drone.drone.ID);
 
-                var d = Model.ObservableList.drones.First(d => d.ID == Drone.drone.ID);d.Status = BO.DroneStatus.Available; d.Battery = Drone.drone.Battery;
+                var d = Model.Model.drones.First(d => d.ID == Drone.drone.ID);d.Status = BO.DroneStatus.Available; d.Battery = Drone.drone.Battery;
 
             }
             catch (Exception ex)
@@ -172,7 +173,7 @@ namespace PL
                 MessageBox.Show("Package have been Associated to drone successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Drone.drone = pL.GetDrone(Drone.drone.ID);
 
-                var d = Model.ObservableList.drones.First(d => d.ID == Drone.drone.ID); d.Status = BO.DroneStatus.Shipping; d.PackageID = Drone.drone.DronePackageProcess.Id;
+                var d = Model.Model.drones.First(d => d.ID == Drone.drone.ID); d.Status = BO.DroneStatus.Shipping; d.PackageID = Drone.drone.DronePackageProcess.Id;
             }
             catch (Exception ex)
             {
@@ -219,7 +220,7 @@ namespace PL
                 MessageBox.Show($"The Drone was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 BO.Drone drone = bl.DisplayDrone(Drone.drone.ID);
-                ObservableList.drones.Add(new PO.DroneToList(){ ID = drone.ID, Battery= drone.Battery, DroneLocation = drone.DroneLocation, MaxWeight = drone.MaxWeight, Model = drone.Model, Status = drone.Status });
+                Model.Model.drones.Add(new PO.DroneToList(){ ID = drone.ID, Battery= drone.Battery, DroneLocation = drone.DroneLocation, MaxWeight = drone.MaxWeight, Model = drone.Model, Status = drone.Status });
 
                 this.NavigationService.GoBack();
             }
@@ -313,10 +314,13 @@ namespace PL
         {
             Drone.drone = pL.GetDrone(Drone.drone.ID);
 
-            var droneToList = ObservableList.drones.First(d => d.ID == Drone.drone.ID);
+            var droneToList = Model.Model.drones.First(d => d.ID == Drone.drone.ID);
             droneToList.Battery = Drone.drone.Battery;
             droneToList.DroneLocation = Drone.drone.DroneLocation;
             droneToList.Status = Drone.drone.Status;
+
+            //if (Model.Model.Station.station != null && Model.Model.Station.station.ID == id)
+            //    Model.Model.Station.station = bl.DisplayStation(id);
 
             PO.PackageToList packageToList;
             PO.StationToList stationToList;
@@ -324,33 +328,49 @@ namespace PL
             switch (update)
             {
                 case "No packages":
-                    MessageBox.Show($"Waiting for new packages", "Waiting", MessageBoxButton.OK, MessageBoxImage.Information);
+                    //MessageBox.Show($"Waiting for new packages", "Waiting", MessageBoxButton.OK, MessageBoxImage.Information);
                     addPackages();
                     break;
 
                 case "charging":
-
-                    stationToList = ObservableList.stations.First(s => bl.GetStationWithDrones(s.ID).ChargingDronesList.Any(d => d.ID == Drone.drone.ID));
+                    if(Model.Model.Station.station != null && Model.Model.Station.station.ID == id)
+                            Model.Model.Station.station = bl.DisplayStation(id);
+                    stationToList = Model.Model.stations.First(s => bl.GetStationWithDrones(s.ID).ChargingDronesList.Any(d => d.ID == Drone.drone.ID));
                     stationToList.AvailableChargingSlots--; stationToList.BusyChargingSlots++;
                     break;
 
                 case "Finish charging":
-                    stationToList = ObservableList.stations.First(s => s.ID == id);
+                    if (Model.Model.Station.station != null && Model.Model.Station.station.ID == id)
+                        Model.Model.Station.station = bl.DisplayStation(id);
+                    stationToList = Model.Model.stations.First(s => s.ID == id);
                     stationToList.AvailableChargingSlots++; stationToList.BusyChargingSlots--;
                     break;
 
                 case "Associate":
-                    packageToList = ObservableList.packages.First(p => p.Id == Drone.drone.DronePackageProcess.Id);
+                    if (Model.Model.Package.package != null && Model.Model.Package.package.ID == id)
+                        Model.Model.Package.package = bl.DisplayPackage(id);
+                    packageToList = Model.Model.packages.First(p => p.Id == Drone.drone.DronePackageProcess.Id);
                     packageToList.Status = BO.PackageStatus.Associated;
                     break;
 
                 case "PickedUp":
-                    packageToList = ObservableList.packages.First(p => p.Id == Drone.drone.DronePackageProcess.Id);
+                    if (Model.Model.Package.package != null && Model.Model.Package.package.ID == id)
+                        Model.Model.Package.package = bl.DisplayPackage(id);
+                    packageToList = Model.Model.packages.First(p => p.Id == Drone.drone.DronePackageProcess.Id);
                     packageToList.Status = BO.PackageStatus.PickedUp;
                     break;
 
                 case "Delivered":
-                    packageToList = ObservableList.packages.First(p => p.Id == id);
+                    if (Model.Model.Package.package != null && Model.Model.Package.package.ID == id)
+                        Model.Model.Package.package = bl.DisplayPackage(id);
+                    BO.Package package = bl.DisplayPackage(id);
+
+                    if (Model.Model.Client.client != null && Model.Model.Client.client.ID == package.SenderClient.ID)
+                        Model.Model.Client.client = bl.DisplayClient(package.SenderClient.ID);
+                    else if(Model.Model.Client.client != null && Model.Model.Client.client.ID == package.TargetClient.ID)
+                        Model.Model.Client.client = bl.DisplayClient(package.TargetClient.ID);
+
+                    packageToList = Model.Model.packages.First(p => p.Id == id);
                     packageToList.Status = BO.PackageStatus.Delivered;
                     break;
 
@@ -370,6 +390,13 @@ namespace PL
             simulator.IsChecked = false;
         }
 
+        private void Simulator_RunWorkerCompleted2(object sender, RunWorkerCompletedEventArgs e)
+        {
+            backgroundWorker.RunWorkerAsync();
+            backgroundWorker.RunWorkerCompleted -= Simulator_RunWorkerCompleted2;
+            backgroundWorker.RunWorkerCompleted += Simulator_RunWorkerCompleted2;
+        }
+
         void addPackages()
         {
             IEnumerable<BO.ClientToList> clients = bl.DisplayClientList();
@@ -386,7 +413,8 @@ namespace PL
 
                 int id = bl.AddPackage(package);
                 BO.PackageToList packageToList = bl.GetPackageToList(id);
-                ObservableList.packages.Add((PO.PackageToList)packageToList.CopyPropertiesToNew(typeof(PO.PackageToList)));
+                PO.PackageToList poPackageTo = (PO.PackageToList)packageToList.CopyPropertiesToNew(typeof(PO.PackageToList));
+                Model.Model.packages.Add(poPackageTo);
             }
         }
 

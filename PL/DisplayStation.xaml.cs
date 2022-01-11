@@ -25,10 +25,9 @@ namespace PL
 
         private Model.PL pL;
 
-        Station Station = new Station();
+        //Station Station = new Station();
 
         public delegate void Navigation(int id);
-        public event Navigation Back;
         public event Navigation DronePage;
 
 
@@ -39,10 +38,14 @@ namespace PL
         {
             InitializeComponent();
             this.pL = new Model.PL();
-            MainGrid.DataContext = Station;
+            Model.Model.Station = new Station();
+            Model.Model.Station.station = new BO.Station();
+            Model.Model.Station.station.StationLocation = new BO.Location();
 
-            Station.station = new BO.Station();
-            Station.station.StationLocation = new BO.Location();
+            MainGrid.DataContext = Model.Model.Station; 
+
+            //Station.station = new BO.Station();
+            //Station.station.StationLocation = new BO.Location();
             Mode.IsChecked = true;   //for visibility of some buttons
 
         }
@@ -54,11 +57,11 @@ namespace PL
         public DisplayStation(int id)
         {
             this.pL = new Model.PL();
-            Station.station = pL.GetStation(id);
+            Model.Model.Station.station = pL.GetStation(id);
             InitializeComponent();
 
-            MainGrid.DataContext = Station;
-            ChargingDroneList.ItemsSource = Station.station.ChargingDronesList;
+            MainGrid.DataContext = Model.Model.Station;
+            ChargingDroneList.ItemsSource = Model.Model.Station.station.ChargingDronesList;
 
         }
 
@@ -71,10 +74,10 @@ namespace PL
         {
             try
             {
-                pL.UpdateStationName(Station.station.ID, NameInput.Text);
+                pL.UpdateStationName(Model.Model.Station.station.ID, NameInput.Text);
                 MessageBox.Show($"Name have been changed to {NameInput.Text} !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Station.station = pL.GetStation(Station.station.ID); //update the list
-                Model.ObservableList.stations.First(s => s.ID == Station.station.ID).Name = NameInput.Text;
+                Model.Model.Station.station = pL.GetStation(Model.Model.Station.station.ID); //update the list
+                Model.Model.stations.First(s => s.ID == Model.Model.Station.station.ID).Name = NameInput.Text;
             }
             catch (Exception ex)
             {
@@ -93,10 +96,10 @@ namespace PL
             try
             {
                 int result = Int32.Parse(Charge_slot_input.Text);
-                pL.UpdateSlotNumber(Station.station.ID, result);
+                pL.UpdateSlotNumber(Model.Model.Station.station.ID, result);
                 MessageBox.Show($" Number of Charge slot have been updated !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Station.station = pL.GetStation(Station.station.ID);  //update the list
-                Model.ObservableList.stations.First(s => s.ID == Station.station.ID).AvailableChargingSlots = result - Model.ObservableList.stations.First(s => s.ID == Station.station.ID).BusyChargingSlots;
+                Model.Model.Station.station = pL.GetStation(Model.Model.Station.station.ID);  //update the list
+                Model.Model.stations.First(s => s.ID == Model.Model.Station.station.ID).AvailableChargingSlots = result - Model.Model.stations.First(s => s.ID == Model.Model.Station.station.ID).BusyChargingSlots;
             }
             catch (Exception ex)
             {
@@ -114,12 +117,12 @@ namespace PL
         {
             try
             {
-                pL.AddStation(Station.station);
-                if (Back != null) Back(-1);
+                pL.AddStation(Model.Model.Station.station);
+                //if (Back != null) Back(-1);
                 MessageBox.Show($"The station was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.NavigationService.GoBack();
 
-                Model.ObservableList.stations.Add(new PO.StationToList() { ID = Station.station.ID, Name = Station.station.Name, AvailableChargingSlots = Station.station.AvailableChargeSlots, BusyChargingSlots = 0 });
+                Model.Model.stations.Add(new PO.StationToList() { ID = Model.Model.Station.station.ID, Name = Model.Model.Station.station.Name, AvailableChargingSlots = Model.Model.Station.station.AvailableChargeSlots, BusyChargingSlots = 0 });
             }
             catch (Exception ex)
             {
@@ -146,14 +149,11 @@ namespace PL
         /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            if (Back != null)
-                Back(-1);
             this.NavigationService.GoBack();
         }
 
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
-            if (Back != null) Back(-1);
             this.NavigationService.GoBack();
         }
 

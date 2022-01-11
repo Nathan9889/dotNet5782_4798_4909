@@ -94,6 +94,6 @@ namespace PO
             }
         }
 
-
+        public PL.DisplayDrone DronePage { get; set; }
     }
 }
