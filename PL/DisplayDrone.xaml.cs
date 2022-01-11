@@ -390,12 +390,6 @@ namespace PL
             simulator.IsChecked = false;
         }
 
-        private void Simulator_RunWorkerCompleted2(object sender, RunWorkerCompletedEventArgs e)
-        {
-            backgroundWorker.RunWorkerAsync();
-            backgroundWorker.RunWorkerCompleted -= Simulator_RunWorkerCompleted2;
-            backgroundWorker.RunWorkerCompleted += Simulator_RunWorkerCompleted2;
-        }
 
         void addPackages()
         {

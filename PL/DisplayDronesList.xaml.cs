@@ -92,7 +92,9 @@ namespace PL
             global::Model.Model.drones.Clear();
             foreach (var item in BL.DisplayDroneList())
             {
-                global::Model.Model.drones.Add((PO.DroneToList)item.CopyPropertiesToNew(typeof(PO.DroneToList)));
+                PO.DroneToList d = (PO.DroneToList)item.CopyPropertiesToNew(typeof(PO.DroneToList));
+                d.DroneLocation = item.DroneLocation;
+                global::Model.Model.drones.Add(d);
             }
             //InitializeList();
             Show_Drones(this, new RoutedEventArgs()); //after filter
@@ -116,7 +118,9 @@ namespace PL
                     global::Model.Model.drones.Clear();
                     foreach (var item in d)
                     {
-                        if (temp.Any(x => x.ID == item.ID)) global::Model.Model.drones.Add((PO.DroneToList)item.CopyPropertiesToNew(typeof(PO.DroneToList)));
+                        PO.DroneToList d1 = (PO.DroneToList)item.CopyPropertiesToNew(typeof(PO.DroneToList));
+                        d1.DroneLocation = item.DroneLocation;
+                        if (temp.Any(x => x.ID == item.ID)) global::Model.Model.drones.Add(d1);
                     }
                 }
                 else if (Show_Status.IsChecked == true)
@@ -127,7 +131,14 @@ namespace PL
                     foreach (var group in d)
                     {
                         foreach (BO.DroneToList item in group)
-                        { if (temp.Any(x => x.ID == item.ID)) global::Model.Model.drones.Add((PO.DroneToList)item.CopyPropertiesToNew(typeof(PO.DroneToList))); }
+                        {
+                            if (temp.Any(x => x.ID == item.ID))
+                            {
+                                PO.DroneToList d2 = (PO.DroneToList)item.CopyPropertiesToNew(typeof(PO.DroneToList));
+                                d2.DroneLocation = item.DroneLocation;
+                                global::Model.Model.drones.Add(d2);
+                            }
+                        }
                     }
                 }
               
@@ -191,7 +202,7 @@ namespace PL
 
                 }
             }
-
+            global::Model.Model.AddDronesLocations();
         }
 
         /// <summary>
@@ -250,6 +261,7 @@ namespace PL
                         break;
                 }
             }
+            global::Model.Model.AddDronesLocations();
         }
 
        

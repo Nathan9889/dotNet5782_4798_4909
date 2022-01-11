@@ -12,7 +12,7 @@ namespace Model
 {
     public class Model
     {
-        private BlApi.IBL bl;
+        BlApi.IBL bl;
 
 
         public static ObservableCollection<PO.StationToList> stations = new ObservableCollection<PO.StationToList>();
@@ -65,7 +65,18 @@ namespace Model
 
         }
 
-
+        public static void AddDronesLocations()
+        {
+            BlApi.IBL bl = BlApi.BlFactory.GetBL();
+            foreach (var item in bl.DisplayDroneList())
+            {
+                if (drones.Any(d=> d.ID == item.ID))
+                {
+                    var droneToList = drones.First(d => d.ID == item.ID);
+                    droneToList.DroneLocation = item.DroneLocation;
+                }
+            }
+        }
 
 
     }

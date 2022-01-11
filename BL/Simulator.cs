@@ -72,7 +72,15 @@ namespace BL
                                 {
                                     lock (BL)
                                     {
-                                        BL.ChargeDrone(id);
+                                        try
+                                        {
+                                            BL.ChargeDrone(id);
+                                        }
+                                        catch (Exception exe) // אם אין עמדות טעינה פנויות נחכה קצת וננסה שוב
+                                        {
+                                            if(exe.Message == "There are no available charging stations at the nearest station")
+                                            Thread.Sleep(8*DELAY);
+                                        }
                                     }
                                     Thread.Sleep(DELAY);
 

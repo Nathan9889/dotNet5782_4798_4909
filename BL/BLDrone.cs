@@ -317,6 +317,7 @@ namespace BL
             if (drone.Status == DroneStatus.Available) //Will ship for loading only if available
             {
                 DO.Station station = NearestStationToDrone(drone.ID);
+                if(station.ChargeSlots == 0) throw new BO.Exceptions.SendingDroneToCharging("There are no available charging stations at the nearest station", drone.ID);
                 double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, station.Latitude, station.Longitude, 3); // The amount of battery required for the drone to fly from its location to the station
 
                 if (drone.Battery < minBattery) throw new BO.Exceptions.SendingDroneToCharging("The drone can not reach the station, Not enough battery", drone.ID);
@@ -484,6 +485,7 @@ namespace BL
             return drones;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public PackageToList GetPackageToList(int id)
         {
            return DisplayPackageList().First(p => p.Id == id);
@@ -572,7 +574,7 @@ namespace BL
         }
 
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void StartSimulator(int id, Action<string,int> action, Func<bool> stop)
         {
             Simulator simulator = new Simulator(this, id, action, stop);

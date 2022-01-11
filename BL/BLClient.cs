@@ -305,6 +305,7 @@ namespace BL
             updateDroneBattery(id, start);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public ClientToList GetClientToList(int id)
         {
             return DisplayClientList().First(c => c.Id == id);
