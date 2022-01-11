@@ -571,7 +571,7 @@ namespace BL
         }
 
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void StartSimulator(int id, Action<string,int> action, Func<bool> stop)
         {
             Simulator simulator = new Simulator(this, id, action, stop);

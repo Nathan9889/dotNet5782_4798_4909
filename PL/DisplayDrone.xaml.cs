@@ -60,8 +60,9 @@ namespace PL
         /// <param name="id"></param>
         public DisplayDrone(int id)
         {
+            bl = BlApi.BlFactory.GetBL();
             this.pL = new Model.PL();
-            Drone.drone = pL.GetDrone(id);
+            Drone.drone = bl.DisplayDrone(id);
             InitializeComponent();
             MainGrid.DataContext = Drone;
             bl = BlApi.BlFactory.GetBL();
@@ -318,6 +319,8 @@ namespace PL
             droneToList.Battery = Drone.drone.Battery;
             droneToList.DroneLocation = Drone.drone.DroneLocation;
             droneToList.Status = Drone.drone.Status;
+            if (Drone.drone.DronePackageProcess != null) droneToList.PackageID = Drone.drone.DronePackageProcess.Id;
+            else droneToList.PackageID = 0;
 
             PO.PackageToList packageToList;
             PO.StationToList stationToList;

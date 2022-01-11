@@ -19,8 +19,8 @@ namespace Model
         {
             this.BL = BlApi.BlFactory.GetBL();
             
-            stations = BL.DisplayStationList();
-            clients = BL.DisplayClientList();
+            //stations = BL.DisplayStationList();
+            //clients = BL.DisplayClientList();
         }
 
         public IEnumerable<BO.PackageToList> getPackageList()
