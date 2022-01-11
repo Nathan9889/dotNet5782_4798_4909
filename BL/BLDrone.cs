@@ -46,9 +46,6 @@ namespace BL
                 initializeDrone("XML");// XML or List
             }
 
-
-
-
         }
 
 

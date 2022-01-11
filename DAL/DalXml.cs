@@ -149,7 +149,7 @@ namespace DalApi
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Station> StationsList() // עובד
+        public IEnumerable<Station> StationsList() 
         {
             List<Station> stations = new List<Station>();
             XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
@@ -168,7 +168,7 @@ namespace DalApi
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        private void finishChargingStation(int stationID) //
+        private void finishChargingStation(int stationID) 
         {
             XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
             XElement stationElem = (from d in stationRootElem.Elements()
@@ -183,7 +183,7 @@ namespace DalApi
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Station ChargingStation(int stationID) // עובד
+        public Station ChargingStation(int stationID) 
         {
             XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
             XElement stationElem = (from d in stationRootElem.Elements()
@@ -199,7 +199,7 @@ namespace DalApi
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteStation(int id) // עובד
+        public void DeleteStation(int id) 
         {
             XElement stationRootElem = XMLTools.LoadListFromXmlElement(stationPath);
             XElement stationElem = (from d in stationRootElem.Elements()
@@ -213,7 +213,7 @@ namespace DalApi
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public double[] PowerConsumptionByDrone()//
+        public double[] PowerConsumptionByDrone()
         {
             XElement configRootElem = XMLTools.LoadListFromXmlElement(configPath);
 
@@ -226,7 +226,7 @@ namespace DalApi
             return arr;
         }
 
-        private int getPackageID()//
+        private int getPackageID()
         {
             XElement configRootElem = XMLTools.LoadListFromXmlElement(configPath);
             XElement stationElem = configRootElem.Element("PackageId");

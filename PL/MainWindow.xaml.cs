@@ -236,48 +236,12 @@ namespace PL
         }
 
 
-        private void Manager_login_Click_1(object sender, RoutedEventArgs e)
+        private void Manager_login_Click(object sender, RoutedEventArgs e)
         {
             Buttons_For_Lists.Visibility = Visibility.Visible;
             MainWindowDisplay.Visibility = Visibility.Hidden;
             Frame.Visibility = Visibility.Visible;
         }
 
-        private void Sign_Up_Click(object sender, RoutedEventArgs e)
-        {
-            var page = new DisplayClient(" ");
-            page.MainWindow += MainWindowDis;
-            this.Content = page;
-
-        }
-        private void Sign_Up_From_ClientMode(object sender, RoutedEventArgs e)
-        {
-            var page = new DisplayClient(" ");
-            this.Frame.Content = page;
-
-        }
-
-        private void ClientloginButton_Click(object sender, RoutedEventArgs e)
-        {
-            //MainWindowDisplay.Visibility = Visibility.Hidden;
-            //this.Frame.Visibility = Visibility.Visible;
-            //var page = new ClientMde();
-            //page.addClient.Click += Sign_Up_From_ClientMode;
-            //this.Frame.Content = page;
-        }
-
-        private void MainWindowDis(object sender, RoutedEventArgs e)
-        {
-            this.Content = content;
-            this.Frame.Content = null;
-            this.Frame.Visibility = Visibility.Hidden;
-            Buttons_For_Lists.Visibility = Visibility.Hidden;
-            MainWindowDisplay.Visibility = Visibility.Visible;
-
-        }
-        private void Frame_Navigated(object sender, NavigationEventArgs e)
-        {
-
-        }
     }
 }

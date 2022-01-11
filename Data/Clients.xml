@@ -70,4 +70,11 @@
     <Latitude>31.741818</Latitude>
     <Longitude>35.202945</Longitude>
   </Client>
+  <Client>
+    <ID>328944798</ID>
+    <Name>Nathane</Name>
+    <Phone>0526137053</Phone>
+    <Latitude>31.75</Latitude>
+    <Longitude>35.2</Longitude>
+  </Client>
 </ArrayOfClient>

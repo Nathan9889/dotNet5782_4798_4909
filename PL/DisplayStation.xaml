@@ -23,10 +23,6 @@
         <local:TrueToVisible x:Key="TrueToVisible"></local:TrueToVisible>
 
 
-
-
-
-
         <localModel:Ticker x:Key="Ticker"></localModel:Ticker>
 
     </Page.Resources>
@@ -123,9 +119,6 @@
                     </TextBox.Resources>
                 </TextBox>
 
-
-
-
                 <TextBlock x:Name="Location_label" HorizontalAlignment="Left" Grid.Row="7" Text="Location:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="1,0,0,0" Height="13" Width="61"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToHidden}}"/>
 
                 <TextBlock x:Name="Station_latitude" HorizontalAlignment="Left" Grid.Row="7" Text="Latitude:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}" />
@@ -149,17 +142,10 @@
                     </Button.Background>
                 </Button>
 
-
-
-
-
                 <TextBlock x:Name="ChargingDrone_Labl" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToHidden}}" HorizontalAlignment="Center"  Grid.Row="3" Text="Charging drone:" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="42" FontSize="14" FontWeight="Bold" Margin="0,2,0,0" Grid.RowSpan="2" Grid.Column="2"/>
                 <ListBox  x:Name ="ChargingDroneList" Grid.Column="2" Grid.Row="4" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToHidden}}"  ItemsSource="{Binding}"   Margin="24,10,-54,10" Grid.RowSpan="9" MouseDoubleClick="ChargingDroneList_DoubleClick"  />
 
-
-
             </Grid>
-
 
             <Grid x:Name="Buttons" Grid.RowSpan="2" Margin="0,0,0,-10"  Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToHidden}}" Grid.Row="1">
 
@@ -184,8 +170,6 @@
                     <RowDefinition Height ="*"></RowDefinition>
                 </Grid.RowDefinitions>
 
-
-
                 <Button Content="Change Name"  x:Name="Change_Name"  Grid.Row="2" IsEnabled="True" Click="Change_Station_Name_Click" >
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -201,8 +185,6 @@
                         </Style>
                     </Button.Resources>
                 </Button>
-
-
 
             </Grid>
             <Button Content="Back" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="20" Width="95"  FontSize="15" FontFamily="Calisto MT" Background="#FFEF8C8C"   Margin="0,0,45,15" Click="Back_Click"/>

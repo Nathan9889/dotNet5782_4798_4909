@@ -101,6 +101,7 @@
                     <GridViewColumn DisplayMemberBinding="{Binding Battery}" x:Name="Battery" Header="Battery %" Width="auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding MaxWeight}" x:Name="Weight" Header="Weight" Width="auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Status}" x:Name="DronesStatus" Header="DronesStatus" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding PackageID}" x:Name="PackageID" Header="PackageID" Width="auto"/>
                 </GridView>
             </ListView.View>
         </ListView>

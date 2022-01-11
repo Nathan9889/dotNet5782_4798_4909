@@ -17,11 +17,11 @@ namespace Model
 
         public static ObservableCollection<PO.StationToList> stations = new ObservableCollection<PO.StationToList>();
         public static ObservableCollection<PO.DroneToList> drones = new ObservableCollection<PO.DroneToList>();
-        //public static ObservableCollection<PO.PackageToList> packages = new ObservableCollection<PO.PackageToList>();
         public static ObservableCollection<PO.ClientToList> clients = new ObservableCollection<PO.ClientToList>();
-        public static ObservableCollection<PO.PackageToList> packages { get; set; }
+        public static ObservableCollection<PO.PackageToList> packages = new ObservableCollection<PO.PackageToList>();
+      
 
-        public static Station Station { get; set; }
+        public static Station Station { get; set; }  
         public static Package Package { get; set; }
         public static Client Client { get; set; }
 
@@ -60,9 +60,6 @@ namespace Model
                 PO.PackageToList p = (PO.PackageToList)item.CopyPropertiesToNew(typeof(PO.PackageToList));
                 packages.Add(p);
             }
-
-
-
         }
 
         public static void AddDronesLocations()

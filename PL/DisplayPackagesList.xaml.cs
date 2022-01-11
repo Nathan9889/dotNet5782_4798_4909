@@ -27,8 +27,6 @@ namespace PL
         BlApi.IBL BL;
         Model.PL PL;
     
-        //private ObservableCollection<BO.PackageToList> packages = new ObservableCollection<BO.PackageToList>();
-
         public delegate void PackagePage(int id);
         public event PackagePage AddClik; // Event for opening an add page
         public event PackagePage DoubleClik; // Event for opening an actions page
@@ -47,17 +45,6 @@ namespace PL
             WeightSelector.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
         }
 
-
-        /// <summary>
-        /// Initialize list entries
-        /// </summary>
-        //private void InitializeList()
-        //{
-        //    foreach (var Package in PL.getPackageList())
-        //    {
-        //        packages.Add(Package);
-        //    }
-        //}
 
         /// <summary>
         /// Add Package Button
@@ -80,11 +67,6 @@ namespace PL
             PackageListView.SelectedItems.Clear();
         }
 
-
-        //private void ExitButton(object sender, RoutedEventArgs e)
-        //{
-
-        //}
 
         /// <summary>
         /// Filter display of packages
@@ -204,17 +186,6 @@ namespace PL
             }
         }
 
-        ///// <summary>
-        ///// Refreshing a list and maintaining the filtering and display - a function listed for an event on the next page
-        ///// </summary>
-        ///// <param name="t"></param>
-        //public void RefreshList(int t)
-        //{
-        //    var p = PL.getPackageList();
-        //    packages.Clear();
-        //    foreach (var package in p) packages.Add(package);
-        //    FilterdList(this);
-        //    Show_Packages(this, new RoutedEventArgs());
-        //}
+      
     }
 }

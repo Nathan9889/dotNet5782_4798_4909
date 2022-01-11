@@ -85,7 +85,6 @@ namespace PL
             }
         }
 
-
         /// <summary>
         /// button to change the num of charge slot
         /// </summary>

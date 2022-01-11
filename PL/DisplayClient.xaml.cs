@@ -77,8 +77,10 @@ namespace PL
             Add_Client_Button.Visibility = Visibility.Hidden;
             cancel.Visibility = Visibility.Hidden;
             Mode.IsChecked = true;
+            Model.Model.Client = new Client();
             Model.Model.Client.client = new BO.Client();
             Model.Model.Client.client.ClientLocation = new BO.Location();
+
         }
 
 

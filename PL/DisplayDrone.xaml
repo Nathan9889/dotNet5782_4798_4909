@@ -88,28 +88,7 @@
 
 
                 </TextBox>
-                <!--<TextBox x:Name="Battery" Grid.Column="2" Grid.Row="5" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" VerticalContentAlignment="Center" Text="{Binding drone.Battery}" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}" Margin="67,0,0,16" Grid.RowSpan="2">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5" />
-                        </Style>
-                    </TextBox.Resources>
-                    <TextBox.Style>
-                        <Style TargetType ="TextBox">
-                            <Style.Triggers>
-                                <DataTrigger Binding ="{Binding ElementName=Buttons, Path=Visibility}"  Value="Hidden">
-                                    <Setter Property="Text" Value="{Binding Source={StaticResource Ticker}, Path=Now, Mode=OneWay}"></Setter>
-                                </DataTrigger>
 
-                                <DataTrigger Binding ="{Binding ElementName=Buttons, Path=Visibility}"  Value="Visible">
-                                    <Setter Property="Text" Value="{Binding package.Created}"></Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBox.Style>-->
-
-
-                <!--</TextBox>-->
 
                 <TextBox x:Name="Status" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap"  SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" TextAlignment="Left" VerticalContentAlignment="Center" Text="{Binding drone.Status}" >
                     <TextBox.Resources>
@@ -120,10 +99,6 @@
                 </TextBox>
 
 
-
-
-
-
                 <TextBox x:Name="Location" Grid.Column="1" Grid.Row="10" TextWrapping="Wrap"  SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" IsReadOnly="True" Text="{Binding drone.DroneLocation, Mode=OneWay}"  VerticalContentAlignment="Center" Margin="0,22,0,26" Grid.RowSpan="4" >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -131,13 +106,6 @@
                         </Style>
                     </TextBox.Resources>
                 </TextBox>
-
-                <!--<TextBox Grid.Column="2"  x:Name="Package_Process" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" Text="{Binding drone.DronePackageProcess, Mode=OneWay}"   Visibility="{Binding ElementName=ShipVisibility, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}"
-                         
-              VerticalScrollBarVisibility="Auto" Grid.Row="7" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.RowSpan="5" Margin="24,1,-97,4" MouseDoubleClick="Package_Process_MouseDoubleClick" Cursor="Arrow" />-->
-
-
-
 
                 <TextBlock HorizontalAlignment="Left" Grid.Row="5" Text="Weight:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="50" />
                 <TextBlock x:Name="Battery_label" HorizontalAlignment="Left" Grid.Row="7" Text="Battery:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="52" />
@@ -150,9 +118,6 @@
                 </ComboBox>
 
                 <TextBlock HorizontalAlignment="Left" Grid.Row="3" Text="Model:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" Height="13" Width="48" />
-
-
-
 
                 <Button x:Name="cancel"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="6,16,132,3" Grid.RowSpan="2"  >
                     <Button.Background>
@@ -169,7 +134,6 @@
                     </Button.Background>
                 </Button>
 
-
                 <TextBox x:Name="DroneModel" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding drone.Model}" VerticalContentAlignment="Center" Margin="0,22,0,0" Grid.RowSpan="2" IsReadOnly="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToFalse}}" >
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -177,8 +141,6 @@
                         </Style>
                     </TextBox.Resources>
                 </TextBox>
-
-
 
                 <TextBlock x:Name ="Station_Id_Labl"  HorizontalAlignment="Left" Grid.Row="7" Text="Station ID:" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="13" FontFamily="Aharoni" Visibility="Hidden" />
                 <TextBox x:Name="StationID" Visibility="Hidden" Grid.Column="1"  Grid.Row="7" TextWrapping="Wrap"  Width="150" TextChanged="StationID_TextChanged" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontFamily="Arial" FontWeight="Bold" VerticalContentAlignment="Center" >
@@ -206,8 +168,6 @@
                 </ComboBox.Background>
             </ComboBox>
 
-
-
             <Grid x:Name="Buttons" Grid.RowSpan="2" Margin="0,0,0,-10"  Grid.Row="1">
 
                 <Grid.Visibility>
@@ -216,7 +176,7 @@
                         <Binding ElementName="simulator" Mode="OneWay" Path="IsChecked"/>
                     </MultiBinding>
                 </Grid.Visibility>
-               
+
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height ="2*"></RowDefinition>
@@ -282,7 +242,7 @@
             <CheckBox x:Name="ShipVisibility" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="{Binding drone.Status, Mode=OneWay, Converter={StaticResource TrueifShiping}}"/>
             <CheckBox x:Name="simulator" Visibility="Hidden" Content="CheckBox" Grid.Column="1" />
             <Button Name="Simulator" Content="Simulator" Grid.Column="1" HorizontalAlignment="Left" Margin="268,0,0,0" Grid.Row="2" VerticalAlignment="Top" Click="Simulator_Click"/>
-            <Button x:Name="Cancellation" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="391,0,0,25" Grid.Row="2" VerticalAlignment="Bottom" Click="Cancellation_Click"/>
+            <Button x:Name="Cancellation" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="379,0,0,22" Grid.Row="2" VerticalAlignment="Bottom" Click="Cancellation_Click" Height="23" Width="57"/>
 
             <TreeView Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="439,0,10,18"   Visibility="{Binding ElementName=ShipVisibility, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}" MouseDoubleClick="Package_Process_MouseDoubleClick" ToolTip="Double click to open a package page">
                 <TreeViewItem Header="Package" IsExpanded="True" FontWeight="Bold">

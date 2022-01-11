@@ -18,7 +18,6 @@ namespace xml
             if (!Directory.Exists(dirPath))
                 Directory.CreateDirectory(dirPath);
         }
-        //public XMLTools() { }
 
         public static void SetStationListToFile(IEnumerable<DO.Station> stations, string stationPath)
         {
@@ -39,7 +38,7 @@ namespace xml
         }
 
 
-        public static void Config(string configPath)//
+        public static void Config(string configPath)
         {
             XElement rootElemStations = new XElement("Config",
                                                     new XElement("PackageId", 1010),
@@ -91,17 +90,6 @@ namespace xml
 
 
 
-
-
-
-
-
-
-
-
-        //////////
-
-
         public static void SaveListToXMLSerializer<T>(List<T> list, string filePath)
         {
             try
@@ -139,8 +127,6 @@ namespace xml
                 throw new DO.Exceptions.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
         }
-
-
 
     }
 }

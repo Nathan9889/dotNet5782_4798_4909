@@ -319,16 +319,12 @@ namespace PL
             droneToList.DroneLocation = Drone.drone.DroneLocation;
             droneToList.Status = Drone.drone.Status;
 
-            //if (Model.Model.Station.station != null && Model.Model.Station.station.ID == id)
-            //    Model.Model.Station.station = bl.DisplayStation(id);
-
             PO.PackageToList packageToList;
             PO.StationToList stationToList;
 
             switch (update)
             {
                 case "No packages":
-                    //MessageBox.Show($"Waiting for new packages", "Waiting", MessageBoxButton.OK, MessageBoxImage.Information);
                     addPackages();
                     break;
 
