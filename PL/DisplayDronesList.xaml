@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:PL"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="DisplayDronesList" Name="DroneList">
+      Title="DisplayDronesList" Name="DroneList"> 
 
     <Page.Resources>
         <local:ReternNull x:Key="retern_null"></local:ReternNull>
