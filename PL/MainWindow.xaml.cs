@@ -78,10 +78,15 @@ namespace PL
         /// <param name="id"></param>
         private void PackageDisplayPage(int id) 
         {
-            var page = new DisplayPackage(id);
-            page.ClientPage += ClientDisplayPageFromPackage;
-            page.DronePage += DroneDisplayPageFromPackage;
-            this.Frame.Content = page;
+            if( Model.Model.drones.Any(d => d.DronePage != null && d.DronePage.backgroundWorker.IsBusy) )
+                MessageBox.Show($"Sorry, could not open package view during simulator", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+            {
+                var page = new DisplayPackage(id);
+                page.ClientPage += ClientDisplayPageFromPackage;
+                page.DronePage += DroneDisplayPageFromPackage;
+                this.Frame.Content = page;
+            }
         }
 
         /// <summary>
