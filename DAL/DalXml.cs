@@ -38,45 +38,6 @@ namespace DalApi
 
 
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void AddClient(Client client)
-        {
-
-            List<Client> clientList = XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
-            if(clientList.Any(c=>c.ID == client.ID)) throw new Exceptions.IDException("Client ID Not Found", client.ID);
-
-            clientList.Add(client);
-            XMLTools.SaveListToXMLSerializer(clientList, clientPath);
-        }
-
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void AddDrone(Drone drone)
-        {
-            List<Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronePath);
-            if (dronesList.Any(c => c.ID == drone.ID)) throw new Exceptions.IDException("Drone ID Not Found", drone.ID);
-
-            dronesList.Add(drone);
-            XMLTools.SaveListToXMLSerializer(dronesList, dronePath);
-        }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public int AddPackage(Package package)
-        {
-            List<Package> PackagesList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
-            if (PackagesList.Any(c => c.ID == package.ID)) throw new Exceptions.IDException("Package ID Not Found", package.ID);
-
-            package.Created = DateTime.Now;
-            package.ID = getPackageID();
-
-            PackagesList.Add(package);
-            XMLTools.SaveListToXMLSerializer(PackagesList, packagePath);
-
-            return package.ID;
-        }
-
-
-
         #region XmlElement
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station station) // נבדק ועובד
@@ -243,11 +204,42 @@ namespace DalApi
 
 
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void AddClient(Client client)
+        {
+
+            List<Client> clientList = XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
+            if (clientList.Any(c => c.ID == client.ID)) throw new Exceptions.IDException("Client ID Not Found", client.ID);
+
+            clientList.Add(client);
+            XMLTools.SaveListToXMLSerializer(clientList, clientPath);
+        }
 
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void AddDrone(Drone drone)
+        {
+            List<Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronePath);
+            if (dronesList.Any(c => c.ID == drone.ID)) throw new Exceptions.IDException("Drone ID Not Found", drone.ID);
 
+            dronesList.Add(drone);
+            XMLTools.SaveListToXMLSerializer(dronesList, dronePath);
+        }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public int AddPackage(Package package)
+        {
+            List<Package> PackagesList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
+            if (PackagesList.Any(c => c.ID == package.ID)) throw new Exceptions.IDException("Package ID Not Found", package.ID);
 
+            package.Created = DateTime.Now;
+            package.ID = getPackageID();
+
+            PackagesList.Add(package);
+            XMLTools.SaveListToXMLSerializer(PackagesList, packagePath);
+
+            return package.ID;
+        }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Client ClientById(int id)
@@ -512,6 +504,6 @@ namespace DalApi
             XMLTools.SaveListToXMLSerializer(PackageList, packagePath);
 
         }
-
     }
+
 }
