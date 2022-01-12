@@ -60,4 +60,9 @@
     <Model>88</Model>
     <MaxWeight>Heavy</MaxWeight>
   </Drone>
+  <Drone>
+    <ID>55555</ID>
+    <Model>jjj</Model>
+    <MaxWeight>Light</MaxWeight>
+  </Drone>
 </ArrayOfDrone>

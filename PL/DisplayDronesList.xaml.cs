@@ -23,7 +23,6 @@ namespace PL
     public partial class DisplayDronesList : Page
     {
         BlApi.IBL BL;
-        Model.PL PL;
 
         //private ObservableCollection<BO.DroneToList> drones = new ObservableCollection<BO.DroneToList>();
 
@@ -39,7 +38,6 @@ namespace PL
         {
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
-            this.PL = new Model.PL();
             DronesListView.DataContext = global::Model.Model.drones;
             //InitializeList();
 

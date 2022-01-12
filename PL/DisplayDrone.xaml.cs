@@ -23,7 +23,6 @@ namespace PL
     /// </summary>
     public partial class DisplayDrone : Page
     {
-        private Model.PL pL;
         private BlApi.IBL bl;
         Drone Drone = new Drone();
         BackgroundWorker backgroundWorker;
@@ -39,7 +38,6 @@ namespace PL
         public DisplayDrone()
         {
             InitializeComponent();
-            this.pL = new Model.PL();
             MainGrid.DataContext = Drone;
             bl = BlApi.BlFactory.GetBL();
 
@@ -51,7 +49,7 @@ namespace PL
             Drone.drone.DronePackageProcess.Sender = new BO.ClientPackage();
             Drone.drone.DronePackageProcess.Receiver = new BO.ClientPackage();
             Drone.drone.DronePackageProcess.CollectLocation = new BO.Location();
-            Stations_List.ItemsSource = pL.DiplayStationWithChargSlot();
+            Stations_List.ItemsSource = bl.DisplayStationListWitAvailableChargingSlots();
         }
 
         /// <summary>
@@ -61,7 +59,6 @@ namespace PL
         public DisplayDrone(int id)
         {
             bl = BlApi.BlFactory.GetBL();
-            this.pL = new Model.PL();
             Drone.drone = bl.DisplayDrone(id);
             InitializeComponent();
             MainGrid.DataContext = Drone;
@@ -93,10 +90,10 @@ namespace PL
         {
             try
             {
-                pL.ChargeDrone(Drone.drone.ID);
+                bl.ChargeDrone(Drone.drone.ID);
                 if (Back != null) Back(-1);
                 MessageBox.Show("Drone sent to charge", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Drone.drone = pL.GetDrone(Drone.drone.ID);
+                Drone.drone = bl.DisplayDrone(Drone.drone.ID);
 
                 var d = Model.Model.drones.First(d => d.ID == Drone.drone.ID);d. Status = BO.DroneStatus.Maintenance; d.Battery = Drone.drone.Battery;
             }
@@ -125,10 +122,10 @@ namespace PL
             {
                 try
                 {
-                    pL.UpdateDroneName(Drone.drone.ID, DroneModel.Text);
+                    bl.UpdateDroneName(Drone.drone.ID, DroneModel.Text);
                     if (Back != null) Back(-1);
                     MessageBox.Show("Drone Model have been changed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Drone.drone = pL.GetDrone(Drone.drone.ID);
+                    Drone.drone = bl.DisplayDrone(Drone.drone.ID);
                 }
                 catch (Exception ex)
                 {
@@ -146,9 +143,9 @@ namespace PL
         {
             try
             {
-                pL.FinishCharging(Drone.drone.ID);
+                bl.FinishCharging(Drone.drone.ID);
                 if (Back != null) Back(-1);
-                Drone.drone = pL.GetDrone(Drone.drone.ID);
+                Drone.drone = bl.DisplayDrone(Drone.drone.ID);
                 MessageBox.Show($"Drone have been unplugged, Battery left: {Drone.drone.Battery}%", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 var d = Model.Model.drones.First(d => d.ID == Drone.drone.ID);d.Status = BO.DroneStatus.Available; d.Battery = Drone.drone.Battery;
 
@@ -168,10 +165,10 @@ namespace PL
         {
             try
             {
-                pL.packageToDrone(Drone.drone.ID);
+                bl.packageToDrone(Drone.drone.ID);
                 if (Back != null) Back(-1);
                 MessageBox.Show("Package have been Associated to drone successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Drone.drone = pL.GetDrone(Drone.drone.ID);
+                Drone.drone = bl.DisplayDrone(Drone.drone.ID);
 
                 var d = Model.Model.drones.First(d => d.ID == Drone.drone.ID); d.Status = BO.DroneStatus.Shipping; d.PackageID = Drone.drone.DronePackageProcess.Id;
             }
@@ -215,12 +212,15 @@ namespace PL
         {
             try
             {
-                pL.AddDrone(Drone.drone);
+                bl.AddDrone(Drone.drone, ((BO.StationToList)Stations_List.SelectedItem).ID);
                 if (Back != null) Back(-1);
                 MessageBox.Show($"The Drone was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 BO.Drone drone = bl.DisplayDrone(Drone.drone.ID);
                 Model.Model.drones.Add(new PO.DroneToList(){ ID = drone.ID, Battery= drone.Battery, DroneLocation = drone.DroneLocation, MaxWeight = drone.MaxWeight, Model = drone.Model, Status = drone.Status });
+
+                Model.Model.stations.First(s => s.ID == Model.Model.Station.station.ID).AvailableChargingSlots--;
+                Model.Model.stations.First(s => s.ID == Model.Model.Station.station.ID).BusyChargingSlots++;
 
                 this.NavigationService.GoBack();
             }
@@ -260,7 +260,8 @@ namespace PL
             try
             {
                 int id = int.Parse(StationID.Text.ToString());
-                Location.Text = $"{pL.GetStation(id).StationLocation}";
+                Location.Text = $"{bl.DisplayStation(id).StationLocation}";
+                
             }
             catch (Exception)
             {
@@ -314,7 +315,7 @@ namespace PL
 
         void update(string update, int id)
         {
-            Drone.drone = pL.GetDrone(Drone.drone.ID);
+            Drone.drone = bl.DisplayDrone(Drone.drone.ID);
 
             var droneToList = Model.Model.drones.First(d => d.ID == Drone.drone.ID);
             droneToList.Battery = Drone.drone.Battery;
@@ -411,7 +412,6 @@ namespace PL
                 Model.Model.packages.Add(poPackageTo);
             }
         }
-
     }
 }
 

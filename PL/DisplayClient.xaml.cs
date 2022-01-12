@@ -23,7 +23,6 @@ namespace PL
     public partial class DisplayClient : Page
     {
         BlApi.IBL bL;
-        private Model.PL pL;
 
         public delegate void Navigation(int id);
         public event Navigation PackagePage;
@@ -37,7 +36,6 @@ namespace PL
         public DisplayClient()
         {
             InitializeComponent();
-            this.pL = new Model.PL();
             MainGrid.DataContext = Model.Model.Client;
             bL = BlApi.BlFactory.GetBL();
 
@@ -53,8 +51,7 @@ namespace PL
         public DisplayClient(int id)
         {
             bL = BlApi.BlFactory.GetBL();
-            this.pL =new Model.PL();
-            Model.Model.Client.client = pL.GetClient(id);
+            Model.Model.Client.client = bL.DisplayClient(id);
             InitializeComponent();
             MainGrid.DataContext = Model.Model.Client;
 
@@ -70,7 +67,6 @@ namespace PL
         {
             InitializeComponent();
             bL = BlApi.BlFactory.GetBL();
-            this.pL = new Model.PL();
             Model.Model.Client = new Client();
             DataContext = Model.Model.Client;
             Sign_up.Visibility = Visibility.Visible;
@@ -95,10 +91,10 @@ namespace PL
         {
             try
             {
-                pL.UpdateName(Model.Model.Client.client.ID, Client_Name.Text, "");
+                bL.UpdateClient(Model.Model.Client.client.ID, Client_Name.Text, "");
 
                 MessageBox.Show("Client Name have been Changed Successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Model.Model.Client.client = pL.GetClient(Model.Model.Client.client.ID);
+                Model.Model.Client.client = bL.DisplayClient(Model.Model.Client.client.ID);
 
                 Model.Model.clients.First(c => c.Id == Model.Model.Client.client.ID).Name = Model.Model.Client.client.Name;
             }
@@ -118,10 +114,9 @@ namespace PL
         {
             try
             {
-                pL.UpdatePhone(Model.Model.Client.client.ID, "", Client_Phone.Text);
-
+                bL.UpdateClient(Model.Model.Client.client.ID, "", Client_Phone.Text);
                 MessageBox.Show("Client Phone have been Changed Successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Model.Model.Client.client = pL.GetClient(Model.Model.Client.client.ID);
+                Model.Model.Client.client = bL.DisplayClient(Model.Model.Client.client.ID);
 
                 Model.Model.clients.First(c => c.Id == Model.Model.Client.client.ID).Phone = Model.Model.Client.client.Phone;
             }
@@ -174,7 +169,7 @@ namespace PL
         {
             try
             {
-                pL.AddClient(Model.Model.Client.client);
+                bL.AddClient(Model.Model.Client.client);
                 MessageBox.Show($"The Client was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 if (MainWindow != null) MainWindow(this, new RoutedEventArgs());
 
