@@ -141,8 +141,8 @@
 
                 <TextBlock x:Name="Location_label" HorizontalAlignment="Left" Grid.Row="7" Text="Location:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Margin="1,0,0,0" Height="13" Width="61"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToHidden}}"/>
                 <TextBlock x:Name="Phone_label" HorizontalAlignment="Left" Grid.Row="5" Text="Phone:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="50" />
-                <TextBlock x:Name="ClientsSender_label" HorizontalAlignment="Left" Grid.Row="1" Text="Se_List:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="70" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToHidden}}" Grid.Column="2" Margin="16,9,0,0" />
-                <TextBlock x:Name="ClientsReceiver_label" HorizontalAlignment="Left" Grid.Row="11" Text="Re_List:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="61" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToHidden}}" Grid.Column="2" Margin="16,2,0,0" />
+                <TextBlock x:Name="ClientsSender_label" HorizontalAlignment="Left" Grid.Row="1" Text="Sent Packages:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="132" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToHidden}}" Grid.Column="2" Margin="16,9,0,0" />
+                <TextBlock x:Name="ClientsReceiver_label" HorizontalAlignment="Left" Grid.Row="11" Text="Received Packages:" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" Height="13" Width="146" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToHidden}}" Grid.Column="2" Margin="16,2,0,0" />
 
                 <TextBox x:Name="Client_Phone" Grid.Column="1" Grid.Row="5" Height="Auto" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding client.Phone }" VerticalContentAlignment="Center"   >
                     <TextBox.Resources>
@@ -164,7 +164,7 @@
                 </TextBox>
 
 
-               
+
 
 
                 <Button x:Name="cancel" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}"  Width="125" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="33,6,100,23" Grid.RowSpan="3"  >
