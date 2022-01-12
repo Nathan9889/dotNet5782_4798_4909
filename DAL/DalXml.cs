@@ -43,7 +43,7 @@ namespace DalApi
         {
 
             List<Client> clientList = XMLTools.LoadListFromXMLSerializer<DO.Client>(clientPath);
-            if(clientList.Any(c=>c.ID == client.ID)) throw new Exceptions.IDException("A client ID Not Found", client.ID);
+            if(clientList.Any(c=>c.ID == client.ID)) throw new Exceptions.IDException("Client ID Not Found", client.ID);
 
             clientList.Add(client);
             XMLTools.SaveListToXMLSerializer(clientList, clientPath);
@@ -54,7 +54,7 @@ namespace DalApi
         public void AddDrone(Drone drone)
         {
             List<Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronePath);
-            if (dronesList.Any(c => c.ID == drone.ID)) throw new Exceptions.IDException("A client ID Not Found", drone.ID);
+            if (dronesList.Any(c => c.ID == drone.ID)) throw new Exceptions.IDException("Drone ID Not Found", drone.ID);
 
             dronesList.Add(drone);
             XMLTools.SaveListToXMLSerializer(dronesList, dronePath);
@@ -64,7 +64,7 @@ namespace DalApi
         public int AddPackage(Package package)
         {
             List<Package> PackagesList = XMLTools.LoadListFromXMLSerializer<DO.Package>(packagePath);
-            if (PackagesList.Any(c => c.ID == package.ID)) throw new Exceptions.IDException("A client ID Not Found", package.ID);
+            if (PackagesList.Any(c => c.ID == package.ID)) throw new Exceptions.IDException("Package ID Not Found", package.ID);
 
             package.Created = DateTime.Now;
             package.ID = getPackageID();
@@ -300,11 +300,11 @@ namespace DalApi
             var droneList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronePath);
 
             if (!droneList.Any(d => d.ID == id))
-                throw new Exceptions.IDException("Drine not found", id);
+                throw new Exceptions.IDException("Drone not found", id);
 
             Drone drone = droneList.Find(c => c.ID == id);
             droneList.Remove(drone);
-            XMLTools.SaveListToXMLSerializer(droneList, clientPath);
+            XMLTools.SaveListToXMLSerializer(droneList, dronePath);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

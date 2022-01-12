@@ -148,9 +148,8 @@ namespace PL
             {
                 pL.FinishCharging(Drone.drone.ID);
                 if (Back != null) Back(-1);
-                MessageBox.Show($"Drone have been unplugged, Battery left: {Drone.drone.Battery}%", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Drone.drone = pL.GetDrone(Drone.drone.ID);
-
+                MessageBox.Show($"Drone have been unplugged, Battery left: {Drone.drone.Battery}%", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 var d = Model.Model.drones.First(d => d.ID == Drone.drone.ID);d.Status = BO.DroneStatus.Available; d.Battery = Drone.drone.Battery;
 
             }
@@ -302,7 +301,9 @@ namespace PL
 
         private void Cancellation_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show($"Cancelling Simulator Mode, Please Wait", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             backgroundWorker.CancelAsync();
+            
         }
 
 

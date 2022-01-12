@@ -241,10 +241,10 @@
             <CheckBox x:Name="Mode" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="False"/>
             <CheckBox x:Name="ShipVisibility" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="{Binding drone.Status, Mode=OneWay, Converter={StaticResource TrueifShiping}}"/>
             <CheckBox x:Name="simulator" Visibility="Hidden" Content="CheckBox" Grid.Column="1" />
-            <Button Name="Simulator" Content="Simulator" Grid.Column="1" HorizontalAlignment="Left" Margin="268,0,0,0" Grid.Row="2" VerticalAlignment="Top" Click="Simulator_Click"/>
-            <Button x:Name="Cancellation" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="379,0,0,22" Grid.Row="2" VerticalAlignment="Bottom" Click="Cancellation_Click" Height="23" Width="57"/>
+            <Button Name="Simulator" Content="Automatic" Grid.Column="1" HorizontalAlignment="Right" Margin="0,302,352,0" Grid.Row="1" VerticalAlignment="Top" Click="Simulator_Click" Height="35" Width="123" ToolTip="Click To Activate Simulator" Background="#FF26B8C3" Cursor="Hand"/>
+            <Button x:Name="Cancellation" Content="Manual" Grid.Column="1" HorizontalAlignment="Center" Margin="0,302,0,0" Grid.Row="1" VerticalAlignment="Top" Click="Cancellation_Click" Height="35" Width="123" ToolTip="Click To Cancel Simulator" Background="#FF67C569" SnapsToDevicePixels="True" Cursor="Hand"/>
 
-            <TreeView Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="439,0,10,18"   Visibility="{Binding ElementName=ShipVisibility, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}" MouseDoubleClick="Package_Process_MouseDoubleClick" ToolTip="Double click to open a package page">
+            <TreeView Grid.Column="1" Grid.ColumnSpan="2" Margin="384,28,54,18"   Visibility="Visible" MouseDoubleClick="Package_Process_MouseDoubleClick" ToolTip="Double click to open a package page" Grid.RowSpan="2">
                 <TreeViewItem Header="Package" IsExpanded="True" FontWeight="Bold">
 
                     <TreeViewItem Header="{Binding drone.DronePackageProcess.Id}" FontWeight="Regular"/>
