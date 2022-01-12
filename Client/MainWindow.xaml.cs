@@ -60,8 +60,9 @@ namespace PLClient
 
         private void reternToMain(object sender, RoutedEventArgs e)
         {
+          
             MainGrid.Visibility = Visibility;
-
+            clientPage = new ClientMde();
         }
     }
 }

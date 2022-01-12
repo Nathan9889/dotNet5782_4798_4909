@@ -314,7 +314,6 @@ namespace BL
             if (drone.Status == DroneStatus.Available) //Will ship for loading only if available
             {
                 DO.Station station = NearestStationToDrone(drone.ID);
-                if(station.ChargeSlots == 0) throw new BO.Exceptions.SendingDroneToCharging("There are no available charging stations at the nearest station", drone.ID);
                 double minBattery = batteryConsumption(drone.DroneLocation.Latitude, drone.DroneLocation.Longitude, station.Latitude, station.Longitude, 3); // The amount of battery required for the drone to fly from its location to the station
 
                 if (drone.Battery < minBattery) throw new BO.Exceptions.SendingDroneToCharging("The drone can not reach the station, Not enough battery", drone.ID);
@@ -338,6 +337,7 @@ namespace BL
                 throw new BO.Exceptions.SendingDroneToCharging("Drone status is not Available", drone.ID);
             }
         }
+
 
 
         /// <summary>
@@ -544,7 +544,7 @@ namespace BL
         /// <param name="weight">weight option </param>
         /// <param name="KM"> kilometer </param>
         /// <returns> Battery value </returns>
-        private double BatteryByKM(int weight, double KM)
+        internal double BatteryByKM(int weight, double KM)
         {
             double power;
             if (weight == 0) power = PowerLightDrone;
@@ -555,10 +555,6 @@ namespace BL
             return temp;
         }
 
-        double IBL.BatteryByKM(int weight, double KM)
-        {
-            return BatteryByKM(weight, KM);
-        }
 
         /// <summary>
         /// grouping function to group by status
@@ -578,9 +574,7 @@ namespace BL
         }
 
 
-
-
-        void IBL.UpdateDroneLocation(int id, double lonPlus, double latPlus)
+        internal void UpdateDroneLocation(int id, double lonPlus, double latPlus)
         {
 
             DroneToList droneToList = DroneList.Find(d => d.ID == id);
@@ -589,7 +583,7 @@ namespace BL
             droneToList.DroneLocation.Longitude += lonPlus;
         }
 
-        void IBL.UpdateLessBattery(int id, double LessBattery)
+        internal void UpdateLessBattery(int id, double LessBattery)
         {
 
             DroneToList droneToList = DroneList.Find(d => d.ID == id);

@@ -12,7 +12,7 @@ namespace BL
 {
     class Simulator
     {
-        BlApi.IBL BL;
+        BL BL;
         int droneID;
         Action<string,int> action;
         Func<bool> stop;
@@ -21,7 +21,7 @@ namespace BL
         private int DELAY = 1000;
         private int SPEED = 1;
        
-        public Simulator(BlApi.IBL bl, int id, Action<string,int> action, Func<bool> stop)
+        public Simulator(BL bl, int id, Action<string,int> action, Func<bool> stop)
         {
             BL = bl;
             droneID = id;
@@ -42,6 +42,7 @@ namespace BL
 
                 switch (drone.Status)
                 {
+
                     case DroneStatus.Available:
 
                         try
@@ -63,7 +64,6 @@ namespace BL
                                 {
                                     allPackages = BL.DisplayPackageListWithoutDrone();
                                 }
-
                                 var Packages = (from p in allPackages
                                                 where (int)p.Weight <= (int)drone.MaxWeight
                                                 select p);
@@ -76,9 +76,9 @@ namespace BL
                                         {
                                             BL.ChargeDrone(id);
                                         }
-                                        catch (Exception exe) // אם אין עמדות טעינה פנויות נחכה קצת וננסה שוב
+                                        catch (Exception exe) // אם אין עמדות טעינה פנויות בתחנה הקרובה או שאין בכלל תחנות עם עמדות פנויות נחכה קצת וננסה שוב
                                         {
-                                            if(exe.Message == "There are no available charging stations at the nearest station")
+                                            if(exe.Message == "There are no available charging stations at the nearest station" || ex.Message == "The drone can not reach the station, Not enough battery")
                                             Thread.Sleep(8*DELAY);
                                         }
                                     }
@@ -103,7 +103,12 @@ namespace BL
                         }
                         break;
 
+
+
+
                     case DroneStatus.Maintenance:
+
+
                         lock (BL)
                         {
                             if (drone.Battery == 100)
@@ -130,7 +135,9 @@ namespace BL
                         break;
 
 
+
                     case DroneStatus.Shipping:
+
 
                         double lonPlus, latPlus, lonMinusLon, latMinusLat;
                         Package package = BL.DisplayPackage(drone.DronePackageProcess.Id);

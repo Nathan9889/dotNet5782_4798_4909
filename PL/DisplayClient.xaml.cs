@@ -71,13 +71,15 @@ namespace PL
             InitializeComponent();
             bL = BlApi.BlFactory.GetBL();
             this.pL = new Model.PL();
-            MainGrid.DataContext = Model.Model.Client;
+            Model.Model.Client = new Client();
+            DataContext = Model.Model.Client;
             Sign_up.Visibility = Visibility.Visible;
             Cancel_Sign_up.Visibility = Visibility.Visible;
             Add_Client_Button.Visibility = Visibility.Hidden;
             cancel.Visibility = Visibility.Hidden;
             Mode.IsChecked = true;
-            Model.Model.Client = new Client();
+            
+            
             Model.Model.Client.client = new BO.Client();
             Model.Model.Client.client.ClientLocation = new BO.Location();
 
