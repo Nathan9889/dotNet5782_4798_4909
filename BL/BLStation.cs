@@ -194,31 +194,22 @@ namespace BL
             return StationWithChargingSlots;
         }
 
+        /// <summary>
+        /// Returns a grouped list of stations with free slots
+        /// </summary>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<IGrouping<int, StationToList>> GroupStationByNumSlots()
         {
             return DisplayStationList().GroupBy(s => s.AvailableChargingSlots);
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteStation(int ID)
-        {
-            if (!DisplayStationList().Any(p => p.ID == ID)) throw new Exceptions.CantDelete(ID, "ID To Delete Not Found");
-            try
-            {
-                lock (dal)
-                {
-                    dal.DeleteStation(ID);
-                }
-            }
-            catch (Exception ex)
-            {
 
-                throw new Exceptions.IDException("ID To Delete Not Found", ex, ID);
-            }
-
-        }
-
+        /// <summary>
+        /// Returns the station where the drone is loaded
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public BO.Station GetStationWithDrones(int id)
         {
@@ -226,11 +217,6 @@ namespace BL
             if (station.ChargingDronesList == null) return null;
             return station;
         }
-
-        //void IBL.UpdateDroneLocation(int id, double lonPlus, double latPlus)
-        //{
-
-        //}
 
     }
 }

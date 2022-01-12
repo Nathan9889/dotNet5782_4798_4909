@@ -281,30 +281,12 @@ namespace BL
             if (!nums.Any(x => x == phone)) throw new BO.Exceptions.PhoneExceptional("The cell phone number is incorrect", phone);
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteClient(int ID)
-        {
-            if (!DisplayClientList().Any(p => p.Id == ID)) throw new Exceptions.CantDelete(ID, "ID To Delete Not Found");
-            try
-            {
-                lock (dal)
-                {
-                    dal.DeleteClient(ID);
-                }
-            }
-            catch (Exception ex)
-            {
 
-                throw new Exceptions.IDException("ID To Delete Not Found", ex, ID);
-            }
-
-        }
-
-        void IBL.updateDroneBattery(int id, DateTime? start, int indexDroneToList)
-        {
-            updateDroneBattery(id, start);
-        }
-
+        /// <summary>
+        /// Get ClientToList
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public ClientToList GetClientToList(int id)
         {
