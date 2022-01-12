@@ -32,157 +32,7 @@ namespace PL
         }
 
 
-        /// <summary>
-        /// Opening page for adding a Package 
-        /// </summary>
-        /// <param name="num"></param>
-        private void AddPackagePage(int num) 
-        {
-            var page = new DisplayPackage();
-            this.Frame.Content = page;
-        }
-
-        /// <summary>
-        /// Opening page for adding a Drone 
-        /// </summary>
-        /// <param name="num"></param>
-        private void AddDronePage(int num)
-        {
-            var page = new DisplayDrone();
-            this.Frame.Content = page;
-        }
-
-        /// <summary>
-        /// Opening page for adding a Client
-        /// </summary>
-        /// <param name="num"></param>
-        private void AddClientPage(int num) 
-        {
-            var page = new DisplayClient();
-            this.Frame.Content = page;
-        }
-
-        /// <summary>
-        /// Opening page for adding a Station
-        /// </summary>
-        /// <param name="num"></param>
-        private void AddStationPage(int num) 
-        {
-            var page = new DisplayStation();
-            this.Frame.Content = page;
-        }
-
-        /// <summary>
-        /// Opening page for Updating a Package 
-        /// </summary>
-        /// <param name="id"></param>
-        private void PackageDisplayPage(int id) 
-        {
-            if( Model.Model.drones.Any(d => d.DronePage != null && d.DronePage.backgroundWorker.IsBusy) )
-                MessageBox.Show($"Sorry, could not open package view during simulator", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-            else
-            {
-                var page = new DisplayPackage(id);
-                page.ClientPage += ClientDisplayPageFromPackage;
-                page.DronePage += DroneDisplayPageFromPackage;
-                this.Frame.Content = page;
-            }
-        }
-
-        /// <summary>
-        /// Opening page for Updating a Drone 
-        /// </summary>
-        /// <param name="id"></param>
-        private void DroneDisplayPage(int id) 
-        {
-            if (Model.Model.drones.First(d => d.ID == id).DronePage == null)
-            {
-                var droneDisplayPage = new DisplayDrone(id);
-                droneDisplayPage.PackagePage += PackageDisplayFromDrone;
-                this.Frame.Content = droneDisplayPage;
-                Model.Model.drones.First(d => d.ID == id).DronePage = droneDisplayPage;
-            }
-            else this.Frame.Content = Model.Model.drones.First(d => d.ID == id).DronePage;
-        }
-
-        /// <summary>
-        /// Opening page for Updating a Client 
-        /// </summary>
-        /// <param name="id"></param>
-        private void ClientDisplayPage(int id) 
-        {
-            var page = new DisplayClient(id);
-            page.PackagePage += PackageDisplayFromClient;
-            this.Frame.Content = page;
-        }
-
-        /// <summary>
-        /// Opening page for Updating a Station 
-        /// </summary>
-        /// <param name="id"></param>
-        private void StationDisplayPage(int id) 
-        {
-            var page = new DisplayStation(id);
-            page.DronePage += DroneDiplayFromStation;
-            this.Frame.Content = page;
-        }
-
-        /// <summary>
-        /// Opening a Client page from the package page
-        /// </summary>
-        /// <param name="id"></param>
-        private void ClientDisplayPageFromPackage(int id)
-        {
-            var page = new DisplayClient(id);
-            page.PackagePage += PackageDisplayFromClient;
-            this.Frame.Content = page;
-        }
-
-        /// <summary>
-        ///  Opening a Drone page from the package page
-        /// </summary>
-        /// <param name="id"></param>
-        private void DroneDisplayPageFromPackage(int id)
-        {
-            var page = new DisplayDrone(id);
-            page.PackagePage += PackageDisplayFromDrone;
-            this.Frame.Content = page;
-        }
-
-        /// <summary>
-        ///  Opening a Drone page from the Station page
-        /// </summary>
-        /// <param name="id"></param>
-        private void DroneDiplayFromStation(int id)
-        {
-            var page = new DisplayDrone(id);
-            
-            this.Frame.Content = page;
-        }
-
-        /// <summary>
-        /// Opening a Package page from the Client page
-        /// </summary>
-        /// <param name="id"></param>
-        private void PackageDisplayFromClient(int id)
-        {
-            var page = new DisplayPackage(id);
-            page.DronePage += DroneDisplayPageFromPackage;
-            page.ClientPage += ClientDisplayPageFromPackage;
-            this.Frame.Content = page;
-        }
-
-        /// <summary>
-        /// Opening a Package page from the Drone page
-        /// </summary>
-        /// <param name="id"></param>
-        private void PackageDisplayFromDrone(int id)
-        {
-            var page = new DisplayPackage(id);
-            page.ClientPage += ClientDisplayPageFromPackage;
-            page.DronePage += DroneDisplayPageFromPackage;
-            this.Frame.Content = page;
-        }
+        #region List view buttons
 
         /// <summary>
         /// Opening Client List page with double click
@@ -194,8 +44,8 @@ namespace PL
             try
             {
                 DisplayClientsList page = new DisplayClientsList();
-                page.AddClik += AddClientPage;
-                page.DoubleClik += ClientDisplayPage;
+                page.AddClik += AddClientPage; // Registration for the event Opening a client adding page
+                page.DoubleClik += ClientDisplayPage; // Registration for the event Opening a client display page
                 this.Frame.Content = page;
             }
             catch (Exception ex)
@@ -215,8 +65,8 @@ namespace PL
             {
                 MainWindowDisplay.Visibility = Visibility.Hidden;
                 DisplayPackagesList page = new DisplayPackagesList();
-                page.AddClik += AddPackagePage;
-                page.DoubleClik += PackageDisplayPage;
+                page.AddClik += AddPackagePage; // Registration for the event Opening a package adding page
+                page.DoubleClik += PackageDisplayPage; // Registration for the event Opening a package display page
                 this.Frame.Content = page;
             }
             catch (Exception ex)
@@ -234,8 +84,8 @@ namespace PL
         {
 
             DisplayStationsList page = new DisplayStationsList();
-            page.AddClik += AddStationPage;
-            page.DoubleClik += StationDisplayPage;
+            page.AddClik += AddStationPage; // Registration for the event Opening a station adding page
+            page.DoubleClik += StationDisplayPage; // Registration for the event Opening a station display page
             this.Frame.Content = page;
         }
 
@@ -250,8 +100,8 @@ namespace PL
             {
                 MainWindowDisplay.Visibility = Visibility.Hidden;
                 DisplayDronesList page = new DisplayDronesList();
-                page.AddClik += AddDronePage;
-                page.DoubleClik += DroneDisplayPage;
+                page.AddClik += AddDronePage; // Registration for the event Opening a client drone page
+                page.DoubleClik += DroneDisplayPage; // Registration for the event Opening a drone display page
                 this.Frame.Content = page;
             }
             catch (Exception ex)
@@ -259,6 +109,159 @@ namespace PL
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
+        #endregion 
+
+
+        #region Functions for opening adds pages
+        /// <summary>
+        /// Opening page for adding a Package 
+        /// </summary>
+        /// <param name="num"></param>
+        private void AddPackagePage(int num) 
+        {
+            this.Frame.Content = new DisplayPackage();
+        }
+
+        /// <summary>
+        /// Opening page for adding a Drone 
+        /// </summary>
+        /// <param name="num"></param>
+        private void AddDronePage(int num)
+        {
+            this.Frame.Content = new DisplayDrone();
+        }
+
+        /// <summary>
+        /// Opening page for adding a Client
+        /// </summary>
+        /// <param name="num"></param>
+        private void AddClientPage(int num) 
+        {
+            this.Frame.Content = new DisplayClient();
+        }
+
+        /// <summary>
+        /// Opening page for adding a Station
+        /// </summary>
+        /// <param name="num"></param>
+        private void AddStationPage(int num) 
+        {
+            this.Frame.Content = new DisplayStation();
+        }
+        #endregion
+
+
+        #region Functions for opening display pages
+        /// <summary>
+        /// Opening page for Updating a Package 
+        /// </summary>
+        /// <param name="id"></param>
+        private void PackageDisplayPage(int id) 
+        {
+
+            var page = new DisplayPackage(id);
+            page.ClientPage += ClientDisplayPageFromPackage;
+            page.DronePage += DroneDisplayPageFromPackage;
+            this.Frame.Content = page;
+        }
+
+        /// <summary>
+        /// Opening page for Display a Drone 
+        /// </summary>
+        /// <param name="id"></param>
+        private void DroneDisplayPage(int id) 
+        {
+            if (Model.Model.drones.First(d => d.ID == id).DronePage == null) // If this drone has been opened before, then the old page will open, this is so that it will be possible to stop the background Worker
+            {
+                var droneDisplayPage = new DisplayDrone(id);
+                droneDisplayPage.PackagePage += PackageDisplayFromDrone; // Registration for the event Opening a package page from a drone page
+                this.Frame.Content = droneDisplayPage;
+                Model.Model.drones.First(d => d.ID == id).DronePage = droneDisplayPage;
+            }
+            else this.Frame.Content = Model.Model.drones.First(d => d.ID == id).DronePage;
+        }
+
+        /// <summary>
+        /// Opening page for Display a Client 
+        /// </summary>
+        /// <param name="id"></param>
+        private void ClientDisplayPage(int id) 
+        {
+            var page = new DisplayClient(id);
+            page.PackagePage += PackageDisplayFromClient; // Registration for the event Opening a package page from a client page
+            this.Frame.Content = page;
+        }
+
+        /// <summary>
+        /// Opening page for Display a Station 
+        /// </summary>
+        /// <param name="id"></param>
+        private void StationDisplayPage(int id) 
+        {
+            var page = new DisplayStation(id);
+            page.DronePage += DroneDiplayFromStation; // Registration for the event of opening a drone page from a package page
+            this.Frame.Content = page;
+        }
+        #endregion
+
+
+        #region Functions for opening pages from other pages
+        /// <summary>
+        /// Opening a Client page from the package page
+        /// </summary>
+        /// <param name="id"></param>
+        private void ClientDisplayPageFromPackage(int id)
+        {
+            var page = new DisplayClient(id);
+            page.PackagePage += PackageDisplayFromClient; // Registration for the event Opening a package page from a client page
+            this.Frame.Content = page;
+        }
+
+        /// <summary>
+        ///  Opening a Drone page from the package page
+        /// </summary>
+        /// <param name="id"></param>
+        private void DroneDisplayPageFromPackage(int id)
+        {
+            var page = new DisplayDrone(id);
+            page.PackagePage += PackageDisplayFromDrone; // Registration for the event Opening a package page from a drone page
+            this.Frame.Content = page;
+        }
+
+        /// <summary>
+        ///  Opening a Drone page from the Station page
+        /// </summary>
+        /// <param name="id"></param>
+        private void DroneDiplayFromStation(int id)
+        {
+            this.Frame.Content = new DisplayDrone(id);
+        }
+
+        /// <summary>
+        /// Opening a Package page from the Client page
+        /// </summary>
+        /// <param name="id"></param>
+        private void PackageDisplayFromClient(int id)
+        {
+            var page = new DisplayPackage(id);
+            page.DronePage += DroneDisplayPageFromPackage; // Registration for the event Opening a package page from a drone page
+            page.ClientPage += ClientDisplayPageFromPackage; // Registration for an event Opening a client page from a package page
+            this.Frame.Content = page;
+        }
+
+        /// <summary>
+        /// Opening a Package page from the Drone page
+        /// </summary>
+        /// <param name="id"></param>
+        private void PackageDisplayFromDrone(int id)
+        {
+            var page = new DisplayPackage(id);
+            page.ClientPage += ClientDisplayPageFromPackage; // Registration for an event Opening a client page from a package page
+            page.DronePage += DroneDisplayPageFromPackage;  // Registration for the event Opening a package page from a drone page
+            this.Frame.Content = page;
+        }
+        #endregion
 
 
         private void Manager_login_Click(object sender, RoutedEventArgs e)

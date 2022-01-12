@@ -29,7 +29,6 @@ namespace PL
         private Random random = new Random();
 
         public delegate void Navigation(int id);
-        public event Navigation Back;
         public event Navigation PackagePage;
 
         /// <summary>
@@ -45,6 +44,7 @@ namespace PL
             Mode.IsChecked = true;
 
             Drone.drone = new BO.Drone();           //init object 
+            Drone.drone.Status = BO.DroneStatus.Maintenance;
             Drone.drone.DronePackageProcess = new BO.PackageProcess();
             Drone.drone.DronePackageProcess.Sender = new BO.ClientPackage();
             Drone.drone.DronePackageProcess.Receiver = new BO.ClientPackage();
@@ -75,7 +75,7 @@ namespace PL
             backgroundWorker = new BackgroundWorker();
 
             backgroundWorker.DoWork += Simulator_DoWork;
-
+            backgroundWorker.ProgressChanged += addPackages;
             backgroundWorker.WorkerReportsProgress = true;
             backgroundWorker.WorkerSupportsCancellation = true;
             backgroundWorker.RunWorkerCompleted += Simulator_RunWorkerCompleted;
@@ -91,7 +91,6 @@ namespace PL
             try
             {
                 bl.ChargeDrone(Drone.drone.ID);
-                if (Back != null) Back(-1);
                 MessageBox.Show("Drone sent to charge", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Drone.drone = bl.DisplayDrone(Drone.drone.ID);
 
@@ -123,7 +122,6 @@ namespace PL
                 try
                 {
                     bl.UpdateDroneName(Drone.drone.ID, DroneModel.Text);
-                    if (Back != null) Back(-1);
                     MessageBox.Show("Drone Model have been changed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     Drone.drone = bl.DisplayDrone(Drone.drone.ID);
                 }
@@ -144,7 +142,6 @@ namespace PL
             try
             {
                 bl.FinishCharging(Drone.drone.ID);
-                if (Back != null) Back(-1);
                 Drone.drone = bl.DisplayDrone(Drone.drone.ID);
                 MessageBox.Show($"Drone have been unplugged, Battery left: {Drone.drone.Battery}%", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 var d = Model.Model.drones.First(d => d.ID == Drone.drone.ID);d.Status = BO.DroneStatus.Available; d.Battery = Drone.drone.Battery;
@@ -166,7 +163,6 @@ namespace PL
             try
             {
                 bl.packageToDrone(Drone.drone.ID);
-                if (Back != null) Back(-1);
                 MessageBox.Show("Package have been Associated to drone successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Drone.drone = bl.DisplayDrone(Drone.drone.ID);
 
@@ -197,7 +193,6 @@ namespace PL
         /// <param name="e"></param>
         private void Exit_Button(object sender, RoutedEventArgs e)
         {
-            if (Back != null) Back(-1);
             this.NavigationService.GoBack();
         }
 
@@ -213,7 +208,6 @@ namespace PL
             try
             {
                 bl.AddDrone(Drone.drone, ((BO.StationToList)Stations_List.SelectedItem).ID);
-                if (Back != null) Back(-1);
                 MessageBox.Show($"The Drone was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 BO.Drone drone = bl.DisplayDrone(Drone.drone.ID);
@@ -276,7 +270,6 @@ namespace PL
         /// <param name="e"></param>
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            if (Back != null) Back(-1);
             this.NavigationService.GoBack();
         }
 
@@ -287,7 +280,6 @@ namespace PL
         /// <param name="e"></param>
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
-            if (Back != null) Back(-1);
             this.NavigationService.GoBack();
         }
 
@@ -330,7 +322,7 @@ namespace PL
             switch (update)
             {
                 case "No packages":
-                    addPackages();
+                    backgroundWorker.ReportProgress(0);
                     break;
 
                 case "charging":
@@ -392,7 +384,7 @@ namespace PL
         }
 
 
-        void addPackages()
+        void addPackages(object sender, ProgressChangedEventArgs e)
         {
             IEnumerable<BO.ClientToList> clients = bl.DisplayClientList();
 

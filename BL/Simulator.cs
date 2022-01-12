@@ -37,7 +37,7 @@ namespace BL
             {
                 lock (BL)
                 {
-                    drone = BL.DisplayDrone(id);
+                    drone = BL.DisplayDrone(id); // Re-drone call to update data
                 }
 
                 switch (drone.Status)
@@ -45,17 +45,17 @@ namespace BL
 
                     case DroneStatus.Available:
 
-                        try
+                        try // Assigning a package to a drone. An exception can be thrown
                         {
                             lock (BL)
                             {
-                                BL.packageToDrone(id);
+                                BL.packageToDrone(id); 
                                 drone = BL.DisplayDrone(id);
                             }
                             Thread.Sleep(DELAY);
                             action("Associate",drone.DronePackageProcess.Id);
                         }
-                        catch (Exception ex)
+                        catch (Exception ex) // If an exception is thrown there can be 2 reasons: either there are no packages or there is no battery
                         {
                             if(ex.Message == "There is no package for the Drone")
                             {
@@ -68,7 +68,7 @@ namespace BL
                                                 where (int)p.Weight <= (int)drone.MaxWeight
                                                 select p);
 
-                                if (Packages.Count() > 0) // האם יש חבילות שהוא יכול לקחת ורק יש בעיה בסוללה
+                                if (Packages.Count() > 0) // If there are still packages it can take then there is no battery
                                 {
                                     lock (BL)
                                     {
@@ -76,16 +76,16 @@ namespace BL
                                         {
                                             BL.ChargeDrone(id);
                                         }
-                                        catch (Exception exe) // אם אין עמדות טעינה פנויות בתחנה הקרובה או שאין בכלל תחנות עם עמדות פנויות נחכה קצת וננסה שוב
+                                        catch (Exception exe) // If there are no free charging stations at the nearest station or there are no stations at all with free stations we will wait a bit and try again
                                         {
                                             if(exe.Message == "There are no available charging stations at the nearest station" || ex.Message == "The drone can not reach the station, Not enough battery")
-                                            Thread.Sleep(8*DELAY);
+                                            Thread.Sleep(7*DELAY);
                                         }
                                     }
                                     Thread.Sleep(DELAY);
 
                                     int i = 0;
-                                    foreach (var item in BL.DisplayStationList())
+                                    foreach (var item in BL.DisplayStationList()) // A search of the drone's ID station
                                     {
                                         i = item.ID;
                                         if (BL.GetStationWithDrones(item.ID).ChargingDronesList.Any(d => d.ID == drone.ID) == true) break;
@@ -93,9 +93,8 @@ namespace BL
                                     action("charging", i);
 
                                 }
-                                else        // אין חבילות-  שיתווסף חבילות
+                                else        // Else- no packages, activating the function that will add packages randomly
                                 {
-
                                     action("No packages", 0);
                                     Thread.Sleep(3 * DELAY);
                                 }
@@ -111,7 +110,7 @@ namespace BL
 
                         lock (BL)
                         {
-                            if (drone.Battery == 100)
+                            if (drone.Battery == 100) //If the battery is 100, charging is complete
                             {
                                 int i = 0;
                                 foreach (var item in BL.DisplayStationList())
@@ -126,10 +125,9 @@ namespace BL
                                 Thread.Sleep(DELAY);
                                 break;
                             }
-                            BL.updateDroneBattery(drone.ID, startCharging);
+                            BL.updateDroneBattery(drone.ID, startCharging); // If the battery is not 100, update the battery according to the last time we updated (and not according to charging time)
                         }
-
-                        startCharging = DateTime.Now;  
+                        startCharging = DateTime.Now;  // Last battery update time
                         action("Battery and location",0);
                         Thread.Sleep(DELAY);
                         break;
@@ -146,6 +144,7 @@ namespace BL
                         {
                             case ShipmentStatus.Waiting:
 
+                                // For updating the drone position every second, one should check how much to add on each progression of a second (kilometer)
                                 latMinusLat = drone.DronePackageProcess.CollectLocation.Latitude - drone.DroneLocation.Latitude;
                                 lonMinusLon = drone.DronePackageProcess.CollectLocation.Longitude - drone.DroneLocation.Longitude;
 
@@ -158,7 +157,7 @@ namespace BL
 
                                     lock (BL)
                                     {
-                                        if (drone.DronePackageProcess.Distance > 1)
+                                        if (drone.DronePackageProcess.Distance > 1) // If the distance to the current destination is greater than 1 then there will be a location and battery update
                                         {
                                             BL.UpdateDroneLocation(drone.ID, lonPlus, latPlus);
                                             BL.UpdateLessBattery(drone.ID, BL.BatteryByKM(-1, 1 * SPEED));
@@ -172,7 +171,7 @@ namespace BL
 
                                 lock (BL)
                                 {
-                                    BL.PickedUpByDrone(drone.ID);
+                                    BL.PickedUpByDrone(drone.ID); // After the loop there will be a collection
                                 }
                                 action("PickedUp",drone.DronePackageProcess.Id);
                                 break;
@@ -180,6 +179,7 @@ namespace BL
 
                             case ShipmentStatus.OnGoing:
 
+                                // For updating the drone position every second, one should check how much to add on each progression of a second (kilometer)
                                 latMinusLat = drone.DronePackageProcess.DestinationLocation.Latitude - drone.DronePackageProcess.CollectLocation.Latitude;
                                 lonMinusLon = drone.DronePackageProcess.DestinationLocation.Longitude - drone.DronePackageProcess.CollectLocation.Longitude;
 
@@ -192,7 +192,7 @@ namespace BL
 
                                     lock (BL)
                                     {
-                                        if (drone.DronePackageProcess.Distance > 1)
+                                        if (drone.DronePackageProcess.Distance > 1) // If the distance to the current destination is greater than 1 then there will be a location and battery update
                                         {
                                             BL.UpdateDroneLocation(drone.ID, lonPlus, latPlus);
                                             BL.UpdateLessBattery(drone.ID, BL.BatteryByKM((int)drone.DronePackageProcess.Weight, 1 * SPEED));
@@ -206,7 +206,7 @@ namespace BL
 
                                 lock (BL)
                                 {
-                                    BL.DeliveredToClient(drone.ID);
+                                    BL.DeliveredToClient(drone.ID); // After the loop will be delivery
                                 }
                                 action("Delivered", drone.DronePackageProcess.Id);
                                 Thread.Sleep(DELAY);
