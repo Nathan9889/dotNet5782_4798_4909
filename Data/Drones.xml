@@ -6,11 +6,6 @@
     <MaxWeight>Heavy</MaxWeight>
   </Drone>
   <Drone>
-    <ID>7979871</ID>
-    <Model>Dji_Mavic_2_Pro</Model>
-    <MaxWeight>Heavy</MaxWeight>
-  </Drone>
-  <Drone>
     <ID>1248139</ID>
     <Model>Dji_Mavic_2_Pro</Model>
     <MaxWeight>Heavy</MaxWeight>
@@ -48,6 +43,21 @@
   <Drone>
     <ID>7402121</ID>
     <Model>Dji_Mavic_2_Pro</Model>
+    <MaxWeight>Heavy</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>123456789</ID>
+    <Model>nathan</Model>
+    <MaxWeight>Light</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>1235678</ID>
+    <Model>022</Model>
+    <MaxWeight>Medium</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>7979871</ID>
+    <Model>88</Model>
     <MaxWeight>Heavy</MaxWeight>
   </Drone>
 </ArrayOfDrone>

@@ -127,7 +127,7 @@ namespace PL
                 {
                     pL.UpdateDroneName(Drone.drone.ID, DroneModel.Text);
                     if (Back != null) Back(-1);
-                    MessageBox.Show("Name have been changed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Drone Model have been changed successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     Drone.drone = pL.GetDrone(Drone.drone.ID);
                 }
                 catch (Exception ex)
