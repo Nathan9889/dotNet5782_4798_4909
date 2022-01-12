@@ -23,7 +23,6 @@ namespace PL
     public partial class DisplayClientsList : Page
     {
         BlApi.IBL BL;
-        Model.PL PL;
 
         public delegate void ClientPage(int id);
         public event ClientPage AddClik;
@@ -37,7 +36,6 @@ namespace PL
         {
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
-            this.PL = new Model.PL();
             ClientListView.DataContext = Model.Model.clients;
         }
 
