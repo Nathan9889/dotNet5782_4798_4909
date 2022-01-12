@@ -167,19 +167,29 @@
 
 
 
-                <Button x:Name="cancel" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}"  Width="125" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="33,6,100,23" Grid.RowSpan="3"  >
+                <Button x:Name="cancel" Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}"  Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="8,0,129,0" Grid.RowSpan="2" Height="29" VerticalAlignment="Top"  >
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="Red" Offset="0.2"/>
                         </RadialGradientBrush>
                     </Button.Background>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </Button.Resources>
                 </Button>
-                <Button x:Name="Add_Client_Button"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}"  Content="Add Client" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Client_Button_Click" Grid.Column="1" Margin="111,6,131,0" Grid.RowSpan="3" Height="33" VerticalAlignment="Top">
+                <Button x:Name="Add_Client_Button"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}"  Content="Add Client" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="13"  Grid.ColumnSpan="2"  Click="Add_Client_Button_Click" Grid.Column="1" Margin="51,23,197,0" Grid.RowSpan="3" Height="30" VerticalAlignment="Top">
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="#FF9DFF00" Offset="0.1"/>
                         </RadialGradientBrush>
                     </Button.Background>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </Button.Resources>
                 </Button>
 
 

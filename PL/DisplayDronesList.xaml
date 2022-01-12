@@ -81,13 +81,14 @@
 
                 <RadioButton x:Name="Show_Status" GroupName="grouping" Content="Group by Status" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="13" Checked="Show_Drones" Height="14" Width="141" Margin="10,26,0,0" />
                 <RadioButton x:Name="Show_Normally" GroupName="grouping" Content="Group by Default" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="13"   Checked="Show_Drones"  Height="14" Width="141" IsChecked="True" Margin="10,9,0,0"  />
-                <TextBlock Grid.Column="0" VerticalAlignment="Top" Text="Weight " TextWrapping="Wrap" Height="22" FontFamily="Arial Rounded MT Bold" TextAlignment="Center" SnapsToDevicePixels="True" FontSize="13" Margin="0,6,0,0" />
-                <TextBlock Grid.Column="1" VerticalAlignment="Top" Text="Status" TextWrapping="Wrap" Height="22" FontSize="13" FontFamily="Arial Rounded MT Bold" TextAlignment="Center" Margin="0,6,0,0" />
+                <TextBlock Grid.Column="0" VerticalAlignment="Top" Text="Weight " TextWrapping="Wrap" Height="22" FontFamily="Arial Rounded MT Bold" TextAlignment="Center" SnapsToDevicePixels="True" FontSize="13" Margin="0,4,0,0" />
+                <TextBlock VerticalAlignment="Top" Text="Status" TextWrapping="Wrap" Height="22" FontSize="13" FontFamily="Arial Rounded MT Bold" TextAlignment="Center" Margin="146,5,54,0" Grid.ColumnSpan="2" />
 
-                <ComboBox Name="WeightSelector"  Grid.Column="0"  VerticalAlignment="Bottom" Width="100"  SelectedItem="{Binding ElementName=reset, Path =IsPressed, Mode=OneWay, Converter={StaticResource retern_null}}" SelectionChanged="WeightSelector_SelectionChanged"/>
-                
+                <ComboBox Name="WeightSelector"  Grid.Column="0"  VerticalAlignment="Top"  SelectedItem="{Binding ElementName=reset, Path =IsPressed, Mode=OneWay, Converter={StaticResource retern_null}}" SelectionChanged="WeightSelector_SelectionChanged" Margin="43,22,43,0"/>
 
-                <ComboBox Name="StatusSelector" Grid.Column="1"  VerticalAlignment="Bottom" Width="100" Height="22"  SelectedItem="{Binding ElementName=reset, Path =IsPressed, Mode=OneWay, Converter={StaticResource retern_null}}" SelectionChanged="StatusSelector_SelectionChanged"  /> <!--SelectionChanged="FilterdList"-->
+
+                <ComboBox Name="StatusSelector"  VerticalAlignment="Bottom" Height="24"  SelectedItem="{Binding ElementName=reset, Path =IsPressed, Mode=OneWay, Converter={StaticResource retern_null}}" SelectionChanged="StatusSelector_SelectionChanged" Grid.ColumnSpan="2" Margin="184,0,93,-1"  />
+                <!--SelectionChanged="FilterdList"-->
             </Grid>
 
         </Grid>
@@ -114,11 +115,11 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <Button Name="Add_Drone" Content="Add New Drone" Grid.Column="0" Click="Add_New_Drone" Margin="10,0,0,10" Background="#FF11D86F"/>
+            <Button Name="Add_Drone" Content="Add New Drone" Grid.Column="0" Click="Add_New_Drone" Margin="5,5,5,5" Background="#FF11D86F"/>
 
-          
+
         </Grid>
-        <Button Name="reset" Content="Filter Reset" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="71" Height="21" Click="Reset_Button_Click" Grid.Row="1" Margin="0,10,697,0" />
+        <Button Name="reset" Content="Reset Filter" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="71" Height="21" Click="Reset_Button_Click" Grid.Row="1" Margin="0,10,697,0" />
 
 
 

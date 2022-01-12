@@ -141,56 +141,33 @@
 
 
 
-                <Button x:Name="cancel" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToVisible}}" Width="125" Content="Cancel" Click="Cancel"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="15" Grid.ColumnSpan="2" Margin="35,0,98,0"  >
+                <Button x:Name="cancel" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToVisible}}" Width="124" Content="Cancel" Click="Cancel"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="15" Grid.ColumnSpan="2" Margin="32,0,0,0" HorizontalAlignment="Left" Cursor="Hand"  >
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="Red" Offset="0.2"/>
                         </RadialGradientBrush>
                     </Button.Background>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </Button.Resources>
+
                 </Button>
-                <Button x:Name="Add_Package_Button" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Add Package" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Package_Button_Click" Grid.Column="1" Margin="112,19,130,0" Grid.RowSpan="2" Height="33" VerticalAlignment="Top">
+                <Button x:Name="Add_Package_Button" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Add Package" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Package_Button_Click" Grid.Column="1" Margin="108,21,134,-2" Grid.RowSpan="2" Cursor="Hand">
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="#FF9DFF00" Offset="0.1"/>
                         </RadialGradientBrush>
                     </Button.Background>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </Button.Resources>
                 </Button>
-                <GroupBox  Padding="10" Grid.Column="2" Margin="67,6,-21,8" Background="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}" Grid.Row="3" Grid.RowSpan="6">
 
-
-                    <GroupBox.ToolTip>
-                        <ToolTip 
-                            Content="Right Click To Open Client Info" FontSize="15">
-
-                        </ToolTip>
-                    </GroupBox.ToolTip>
-
-                    <GroupBox.ContextMenu>
-                        <ContextMenu  Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToHidden}}">
-                            <MenuItem Header="Open Client Page" Click="Sender_Page_Click" />
-                        </ContextMenu>
-                    </GroupBox.ContextMenu>
-
-                    <GroupBox.Header>
-                        <StackPanel Orientation="Horizontal">
-
-                            <TextBlock FontWeight="Bold" FontSize="13" FontFamily="Aharoni"><Run Text="Sender"/></TextBlock>
-                        </StackPanel>
-                    </GroupBox.Header>
-                    <Grid>
-                        <StackPanel Height="115"   Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToHidden}}">
-
-                            <TextBlock FontFamily="Arial Rounded MT Bold"><Run Text="ID:"/></TextBlock>
-                            <TextBox x:Name="idSender"  Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" DataContext="{Binding package.SenderClient}" Text="{Binding ID}" IsReadOnly="True" />
-                            <TextBlock FontFamily="Arial Rounded MT Bold"><Run Text="Name:"/></TextBlock>
-                            <TextBox Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" IsReadOnly="True" Text="{Binding package.SenderClient.Name }"/>
-
-                        </StackPanel>
-                        <ComboBox x:Name="ClientsList2" Height="26" Width="140"  Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToVisible}}"   SelectedItem="{Binding package.SenderClient,Mode=TwoWay, Converter={StaticResource ClientListToClientPackage}}" Style="{Binding ElementName=ClientsList2, Path=SelectedItem, Converter={StaticResource StyleForConboBox}}" />
-                    </Grid>
-                </GroupBox>
-
-                <GroupBox  Padding="10" Grid.Column="2" Grid.Row="9" Background="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}" Grid.RowSpan="6" Margin="67,8,-21,11">
+                <GroupBox  Padding="10" Grid.Column="2" Grid.Row="5" Background="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}" Grid.RowSpan="7" Margin="36,24,10,10">
 
                     <GroupBox.ToolTip>
                         <ToolTip 
@@ -209,7 +186,7 @@
                     <GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
 
-                            <TextBlock FontWeight="Bold" FontSize="13" FontFamily="Aharoni"><Run Text="Reciver"/></TextBlock>
+                            <TextBlock FontWeight="Bold" FontSize="13" FontFamily="Aharoni"><Run Foreground="#FF451EBF" Text="Rec"/><Run Foreground="#FF451EBF" Language="fr-fr" Text="e"/><Run Foreground="#FF451EBF" Text="iver"/></TextBlock>
                         </StackPanel>
                     </GroupBox.Header>
 
@@ -226,28 +203,28 @@
                     </Grid>
 
                 </GroupBox>
-                <GroupBox Grid.Row="14" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToHidden}}" RenderTransformOrigin="0.5,0.5" Margin="-13,5,0,-44" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.ColumnSpan="2" Grid.RowSpan="2">
-                    
+                <GroupBox Grid.Row="12" Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToHidden}}" RenderTransformOrigin="0.5,0.5" Margin="30,19,-84,-8" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.RowSpan="4" Grid.Column="2">
+
                     <GroupBox.ToolTip>
                         <ToolTip 
                             Content="Right Click To Open Drone Info" FontSize="15">
-                            
+
                         </ToolTip>
-                    </GroupBox.ToolTip>   
-                    
-                    
+                    </GroupBox.ToolTip>
+
+
                     <GroupBox.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Open Drone Page" Click="Drone_Page_Click" />
-                            
+
                         </ContextMenu>
                     </GroupBox.ContextMenu>
 
                     <GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
 
-                            <TextBlock FontWeight="Bold" FontSize="13" FontFamily="Aharoni"><Run Text="Drone"/></TextBlock>
-                            
+                            <TextBlock FontWeight="Bold" FontSize="13" FontFamily="Aharoni" Foreground="#FF41B04A"><Run Text="Drone"/></TextBlock>
+
                         </StackPanel>
                     </GroupBox.Header>
                     <Grid Height="81">
@@ -292,7 +269,7 @@
                     <RowDefinition Height ="2*"></RowDefinition>
                     <RowDefinition Height ="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Button Content="Delete Package" x:Name="Delete_Package"    Grid.Row="2" IsEnabled="{Binding package.Associated, Converter={StaticResource NullToTrue}, Mode=OneWay}" Click="Delete_Package_Click" >
+                <Button Content="Delete Package" x:Name="Delete_Package"    Grid.Row="2" IsEnabled="{Binding package.Associated, Converter={StaticResource NullToTrue}, Mode=OneWay}" Click="Delete_Package_Click" Cursor="Hand" >
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -302,14 +279,14 @@
 
 
 
-                <Button Content="Pick Up Package" x:Name="PickUpButton" Grid.Row="4"  IsEnabled="{Binding package, Converter={StaticResource TrueIfNotPickUp }, Mode=OneWay}" Click="PickUpButton_Click">
+                <Button Content="Pick Up Package" x:Name="PickUpButton" Grid.Row="4"  IsEnabled="{Binding package, Converter={StaticResource TrueIfNotPickUp }, Mode=OneWay}" Click="PickUpButton_Click" Cursor="Hand">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button Content="Deliver Package"  x:Name="DeliverButton" Grid.Row="6"  IsEnabled="{Binding package, Converter={StaticResource TrueIfNotDelivery }, Mode=OneWay}" Click="DeliverButton_Click">
+                <Button Content="Deliver Package"  x:Name="DeliverButton" Grid.Row="6"  IsEnabled="{Binding package, Converter={StaticResource TrueIfNotDelivery }, Mode=OneWay}" Click="DeliverButton_Click" Cursor="Hand">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -317,7 +294,39 @@
                     </Button.Resources>
                 </Button>
             </Grid>
-            <Button Content="Back" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="20" Width="95"  FontSize="15" FontFamily="Calisto MT" Background="#FFEF8C8C"  Click="Back_Click" Margin="0,0,45,15"/>
+            <Button Content="Back" HorizontalAlignment="Right"  VerticalAlignment="Bottom"  Height="20" Width="95"  FontSize="15" FontFamily="Calisto MT" Background="#FFEF8C8C"  Click="Back_Click" Margin="0,0,45,15"  Visibility="{Binding package.DroneOfPackage, Mode=OneWay, Converter={StaticResource NullToHidden}}"/>
+            <GroupBox  Padding="10" Grid.Column="1" Margin="360,20,110,259" Background="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}" Grid.RowSpan="2" Grid.ColumnSpan="2">
+
+
+                <GroupBox.ToolTip>
+                    <ToolTip 
+                            Content="Right Click To Open Client Info" FontSize="15"/>
+                </GroupBox.ToolTip>
+
+                <GroupBox.ContextMenu>
+                    <ContextMenu  Visibility="{Binding package.DroneOfPackage, Converter={StaticResource NullToHidden}, Mode=OneWay}">
+                        <MenuItem Header="Open Client Page" Click="Sender_Page_Click" />
+                    </ContextMenu>
+                </GroupBox.ContextMenu>
+
+                <GroupBox.Header>
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock FontWeight="Bold" FontSize="13" FontFamily="Aharoni" Foreground="#FF451EBF"><Run Text="Sender"/></TextBlock>
+                    </StackPanel>
+                </GroupBox.Header>
+                <Grid>
+                    <StackPanel Height="115"   Visibility="{Binding package.DroneOfPackage, Converter={StaticResource NullToHidden}, Mode=OneWay}">
+
+                        <TextBlock FontFamily="Arial Rounded MT Bold"><Run Text="ID:"/></TextBlock>
+                        <TextBox x:Name="idSender"  Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" DataContext="{Binding package.SenderClient}" Text="{Binding ID}" IsReadOnly="True" />
+                        <TextBlock FontFamily="Arial Rounded MT Bold"><Run Text="Name:"/></TextBlock>
+                        <TextBox Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" IsReadOnly="True" Text="{Binding package.SenderClient.Name}"/>
+
+                    </StackPanel>
+                    <ComboBox x:Name="ClientsList2" Height="26" Width="140"  Visibility="{Binding package.DroneOfPackage, Converter={StaticResource NullToVisible}, Mode=OneWay}"   SelectedItem="{Binding package.SenderClient, Converter={StaticResource ClientListToClientPackage}, Mode=TwoWay}" Style="{Binding SelectedItem, Converter={StaticResource StyleForConboBox}, ElementName=ClientsList2}" />
+                </Grid>
+            </GroupBox>
 
         </Grid>
 

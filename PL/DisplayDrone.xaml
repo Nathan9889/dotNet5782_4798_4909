@@ -119,19 +119,29 @@
 
                 <TextBlock HorizontalAlignment="Left" Grid.Row="3" Text="Model:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" Height="13" Width="48" />
 
-                <Button x:Name="cancel"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="6,16,132,3" Grid.RowSpan="2"  >
+                <Button x:Name="cancel"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Cursor="Hand" Grid.Row="14" Grid.ColumnSpan="2" Margin="6,16,132,3" Grid.RowSpan="2"  >
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="Red" Offset="0.2"/>
                         </RadialGradientBrush>
                     </Button.Background>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </Button.Resources>
                 </Button>
-                <Button x:Name="Add_Drone_Button"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}" Content="Add Drone" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Drone_Button_Click" Grid.Column="1" Margin="67,16,175,3" Grid.RowSpan="2">
+                <Button x:Name="Add_Drone_Button"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource  TrueToVisible}}" Content="Add Drone" Width="125" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Cursor="Hand" Grid.ColumnSpan="2"  Click="Add_Drone_Button_Click" Grid.Column="1" Margin="67,16,175,3" Grid.RowSpan="2">
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="#FF9DFF00" Offset="0.1"/>
                         </RadialGradientBrush>
                     </Button.Background>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </Button.Resources>
                 </Button>
 
                 <TextBox x:Name="DroneModel" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"   SelectionBrush="#FFD76200" ToolTip="" FontFamily="Arial" FontWeight="Bold" Background="#FFF0F0F0" Text="{Binding drone.Model}" VerticalContentAlignment="Center" Margin="0,22,0,0" Grid.RowSpan="2" >
@@ -209,7 +219,7 @@
 
 
 
-                <Button Content="Charge Drone" x:Name="ChargeDrone" Grid.Row="4"  Click="ChargeButton_Click"  IsEnabled="{Binding drone.Status, Converter={StaticResource TrueifAvailable}, Mode=OneWay}" >
+                <Button Content="Charge Drone" x:Name="ChargeDrone" Grid.Row="4"  Click="ChargeButton_Click"  IsEnabled="{Binding drone.Status, Converter={StaticResource TrueifAvailable}, Mode=OneWay}"  Cursor="Hand">
 
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -218,7 +228,7 @@
                     </Button.Resources>
                 </Button>
 
-                <Button  Content="Release Drone" x:Name="ReleaseButton"  Click="ReleaseButton_Click" Grid.Row="6"  IsEnabled="{Binding drone.Status, Converter={StaticResource TrueifMaintenance}, Mode=OneWay}"  >
+                <Button  Content="Release Drone" x:Name="ReleaseButton"  Click="ReleaseButton_Click" Grid.Row="6"  IsEnabled="{Binding drone.Status, Converter={StaticResource TrueifMaintenance}, Mode=OneWay}"  Cursor="Hand"  >
 
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -227,7 +237,7 @@
                     </Button.Resources>
                 </Button>
 
-                <Button Content="Associate Package" x:Name="AssociateButton" Click="AssociateButton_Click" Grid.Row="8"  IsEnabled="{Binding drone.Status, Converter={StaticResource TrueifAvailable}, Mode=OneWay}">
+                <Button Content="Associate Package" x:Name="AssociateButton" Click="AssociateButton_Click" Grid.Row="8"  IsEnabled="{Binding drone.Status, Converter={StaticResource TrueifAvailable}, Mode=OneWay}" Cursor="Hand">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
@@ -241,8 +251,20 @@
             <CheckBox x:Name="Mode" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="False"/>
             <CheckBox x:Name="ShipVisibility" Visibility="Hidden" Content="CheckBox" Grid.Column="1" HorizontalAlignment="Left" Margin="56,214,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="{Binding drone.Status, Mode=OneWay, Converter={StaticResource TrueifShiping}}"/>
             <CheckBox x:Name="simulator" Visibility="Hidden" Content="CheckBox" Grid.Column="1" />
-            <Button Name="Simulator" Content="Automatic" Grid.Column="1" HorizontalAlignment="Right" Margin="0,302,352,0" Grid.Row="1" VerticalAlignment="Top" Click="Simulator_Click" Height="35" Width="123" ToolTip="Click To Activate Simulator" Background="#FF26B8C3"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToHidden}}"/>
-            <Button x:Name="Cancellation" Content="Manual" Grid.Column="1" HorizontalAlignment="Center" Margin="0,302,0,0" Grid.Row="1" VerticalAlignment="Top" Click="Cancellation_Click" Height="35" Width="123" ToolTip="Click To Cancel Simulator" Background="#FF67C569"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToHidden}}"/>
+            <Button Name="Simulator" Content="Automatic" Grid.Column="1" HorizontalAlignment="Right" Margin="0,302,352,0" Grid.Row="1" VerticalAlignment="Top" Click="Simulator_Click" Height="35" Width="123" ToolTip="Click To Activate Simulator" Background="#FF26B8C3"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToHidden}}" Cursor="Hand">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="15" />
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="Cancellation" Content="Manual" Grid.Column="1" HorizontalAlignment="Center" Margin="0,302,0,0" Grid.Row="1" VerticalAlignment="Top" Click="Cancellation_Click" Height="35" Width="123" ToolTip="Click To Cancel Simulator" Background="#FF67C569"  Visibility="{Binding ElementName=Mode, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToHidden}}" Cursor="Hand">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="15" />
+                    </Style>
+                </Button.Resources>
+            </Button>
 
 
             <TreeView Grid.Column="1" Grid.ColumnSpan="2" Margin="384,28,54,18"  Visibility="{Binding ElementName=ShipVisibility, Mode=OneWay, Path=IsChecked, Converter={StaticResource TrueToVisible}}" MouseDoubleClick="Package_Process_MouseDoubleClick" ToolTip="Double click to open a package page" Grid.RowSpan="2">

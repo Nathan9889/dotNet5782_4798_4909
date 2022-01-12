@@ -75,8 +75,8 @@
                     <ColumnDefinition Width="135"/>
                 </Grid.ColumnDefinitions >
 
-                <RadioButton x:Name="Show_Open" GroupName="grouping" Content="Available Slot" Grid.Column="7" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial Rounded MT Bold" FontSize="13" Margin="0,1,0,0" Checked="Show_Stations" Height="14"  />
-                <RadioButton x:Name="Show_Normally" GroupName="grouping" Content="Default" Grid.Column="7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="13"   Checked="Show_Stations"  Height="14" Width="114" IsChecked="True"  />
+                <RadioButton x:Name="Show_Open" GroupName="grouping" Content="Group By Available Slot" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial Rounded MT Bold" FontSize="13" Margin="594,0,0,0" Checked="Show_Stations" Height="14" Grid.ColumnSpan="2"  />
+                <RadioButton x:Name="Show_Normally" GroupName="grouping" Content="Group By Default" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="13"   Checked="Show_Stations"  Height="14" Width="132" IsChecked="True" Grid.ColumnSpan="2" Margin="594,0,0,0"  />
 
             </Grid>
 
@@ -88,8 +88,9 @@
                 <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="information">
                     <GridViewColumn DisplayMemberBinding="{Binding ID}" x:Name="ID" Header="ID" Width="70"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" x:Name="Name" Header="Name" Width="130"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding BusyChargingSlots}" x:Name="BusyChargingSlots" Header="BusyChargingSlots" Width="130"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding AvailableChargingSlots}" x:Name="AvailableChargingSlots" Header="AvailableChargingSlots" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding AvailableChargingSlots}" x:Name="AvailableChargingSlots" Header="Available ChargingSlots" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding BusyChargingSlots}" x:Name="BusyChargingSlots" Header="Taken ChargingSlots" Width="130"/>
+
                 </GridView>
             </ListView.View>
         </ListView>
@@ -102,21 +103,15 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <Button Content="Add New Station" Grid.Column="0" Click="Add_New_Station" Margin="10,0,0,10" Background="#FF11D86F"/>
+            <Button Content="Add New Station" Grid.Column="0" Click="Add_New_Station" Margin="5,5,5,5" Background="#FF11D86F" Cursor="Hand"/>
 
         </Grid>
-        <Button Name="reset" Content="Filter Reset" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="71" Height="21" Click="Reset_Button_Click" Grid.Row="1" Margin="0,10,697,0" />
-        
+        <Button Name="reset" Content="Reset Filter" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="71" Height="21" Click="Reset_Button_Click" Grid.Row="1" Margin="0,10,697,0" />
+
 
 
     </Grid>
 </Page>
 
-    
-    
-    
-    
-    
-    
     
     

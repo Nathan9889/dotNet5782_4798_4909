@@ -127,22 +127,32 @@
                 <TextBlock x:Name="StationChargeSlot" HorizontalAlignment="Left" Grid.Row="5" Text="ChargeSlots:" TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" FontWeight="Normal" />
                 <TextBlock x:Name="StationName" HorizontalAlignment="Left" Grid.Row="3" Text="Name:" VerticalAlignment="Center" FontFamily="Aharoni" FontSize="13" />
 
-                <Button x:Name="cancel" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="-5,15,134,2" Grid.RowSpan="2"  >
+                <Button x:Name="cancel" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Cancel" Click="cancel_Click"  IsCancel="True" FontFamily="Arial Black" FontSize="15" Grid.Column="0"  Grid.Row="14" Grid.ColumnSpan="2" Margin="-5,15,134,2" Grid.RowSpan="2" Cursor="Hand"  >
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="Red" Offset="0.2"/>
                         </RadialGradientBrush>
                     </Button.Background>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </Button.Resources>
                 </Button>
-                <Button x:Name="Add_Station_Button" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Add Station" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Station_Button_Click" Grid.Column="1" Margin="75,15,165,2" Grid.RowSpan="2">
+                <Button x:Name="Add_Station_Button" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToVisible}}" Content="Add Station" IsDefault="True" FontFamily="Arial Black" FontSize="15" Grid.Row="14"  Grid.ColumnSpan="2"  Click="Add_Station_Button_Click" Grid.Column="1" Margin="75,15,165,2" Grid.RowSpan="2" Cursor="Hand">
                     <Button.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="#FF9DFF00" Offset="0.1"/>
                         </RadialGradientBrush>
                     </Button.Background>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </Button.Resources>
                 </Button>
 
-                <TextBlock x:Name="ChargingDrone_Labl" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToHidden}}" HorizontalAlignment="Center"  Grid.Row="3" Text="Charging drone:" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="42" FontSize="14" FontWeight="Bold" Margin="0,2,0,0" Grid.RowSpan="2" Grid.Column="2"/>
+                <TextBlock x:Name="ChargingDrone_Labl" Visibility="{Binding station.ChargingDronesList, Converter={StaticResource NullToHidden}, Mode=OneWay}" HorizontalAlignment="Left"  Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="42" FontSize="14" FontWeight="Bold" Margin="27,7,0,0" Grid.RowSpan="2" Grid.Column="2"><Run Text="Charging drone"/><Run Language="fr-fr" Text="s"/><Run Text=":"/></TextBlock>
                 <ListBox  x:Name ="ChargingDroneList" Grid.Column="2" Grid.Row="4" Visibility="{Binding station.ChargingDronesList, Mode=OneWay, Converter={StaticResource NullToHidden}}"  ItemsSource="{Binding}"   Margin="24,10,-54,10" Grid.RowSpan="9" MouseDoubleClick="ChargingDroneList_DoubleClick"  />
 
             </Grid>
@@ -170,14 +180,14 @@
                     <RowDefinition Height ="*"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Button Content="Change Name"  x:Name="Change_Name"  Grid.Row="2" IsEnabled="True" Click="Change_Station_Name_Click" >
+                <Button Content="Change Name"  x:Name="Change_Name"  Grid.Row="2" IsEnabled="True" Click="Change_Station_Name_Click" Cursor="Hand">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5" />
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button  Content="Change ChargeSlot" x:Name="Change_Slot"  Grid.Row="4" IsEnabled="True" Click="Change_Slot_Click"  >
+                <Button  Content="Change ChargeSlot" x:Name="Change_Slot"  Grid.Row="4" IsEnabled="True" Click="Change_Slot_Click"  Cursor="Hand">
 
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">

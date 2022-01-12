@@ -219,8 +219,8 @@ namespace PL
                 BO.Drone drone = bl.DisplayDrone(Drone.drone.ID);
                 Model.Model.drones.Add(new PO.DroneToList(){ ID = drone.ID, Battery= drone.Battery, DroneLocation = drone.DroneLocation, MaxWeight = drone.MaxWeight, Model = drone.Model, Status = drone.Status });
 
-                Model.Model.stations.First(s => s.ID == Model.Model.Station.station.ID).AvailableChargingSlots--;
-                Model.Model.stations.First(s => s.ID == Model.Model.Station.station.ID).BusyChargingSlots++;
+                Model.Model.stations.First(s => s.ID == ((BO.StationToList)Stations_List.SelectedItem).ID).AvailableChargingSlots--;
+                Model.Model.stations.First(s => s.ID == ((BO.StationToList)Stations_List.SelectedItem).ID).BusyChargingSlots++;
 
                 this.NavigationService.GoBack();
             }

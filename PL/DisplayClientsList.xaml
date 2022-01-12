@@ -75,10 +75,10 @@
                     <GridViewColumn DisplayMemberBinding="{Binding Id }" x:Name="Id" Header="ID" Width="Auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" x:Name="Name" Header="Name" Width="Auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Phone}" x:Name="Phone" Header="Phone" Width="Auto"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding sentAndDeliveredPackage}" x:Name="sentAndDeliveredPackage" Header="S-Delivered" Width="Auto"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding sentAndUndeliveredPackage}" x:Name="sentAndUndeliveredPackage" Header="S-Undelivered" Width="Auto"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndDeliveredPackage}" x:Name="ReceivedAndDeliveredPackage" Header="R-Delivered" Width="Auto"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndUnDeliveredPackage}" x:Name="ReceivedAndUnDeliveredPackage" Header="R-Undelivered" Width="Auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding sentAndDeliveredPackage}" x:Name="sentAndDeliveredPackage" Header="Sent-Delivered" Width="Auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding sentAndUndeliveredPackage}" x:Name="sentAndUndeliveredPackage" Header="Sent-Undelivered" Width="Auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndDeliveredPackage}" x:Name="ReceivedAndDeliveredPackage" Header="Received-Delivered" Width="Auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding ReceivedAndUnDeliveredPackage}" x:Name="ReceivedAndUnDeliveredPackage" Header="Received-Undelivered" Width="Auto"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -91,7 +91,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
 
-            <Button Content="Add New Client" Grid.Column="0" Click="Add_New_Client" Margin="10,0,0,10" Background="#FF11D86F"/>
+            <Button Content="Add New Client" Grid.Column="0" Click="Add_New_Client" Margin="5,5,5,5" Background="#FF11D86F"/>
 
         </Grid>
         
