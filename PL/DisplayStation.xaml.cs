@@ -146,6 +146,11 @@ namespace PL
             this.NavigationService.GoBack();
         }
 
+        /// <summary>
+        /// Button to cancel addition
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.GoBack();

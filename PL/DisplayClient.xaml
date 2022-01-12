@@ -220,7 +220,7 @@
 
 
 
-                <Button Content="Update Name" x:Name="Update_Name" Grid.Row="2" Click="UpdateName_Button"  Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}"  >
+                <Button Content="Update Name" x:Name="Update_Name" Grid.Row="2" Click="UpdateName_Button"  Visibility="{Binding client, Mode=OneWay, Converter={StaticResource NullToHidden}}" Cursor="Hand"  >
 
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
@@ -231,7 +231,7 @@
 
 
 
-                <Button Content="Update Phone" x:Name="Update_Phone" Grid.Row="4" Click="UpdatePhone_Button">
+                <Button Content="Update Phone" x:Name="Update_Phone" Grid.Row="4" Click="UpdatePhone_Button" Cursor="Hand">
 
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">

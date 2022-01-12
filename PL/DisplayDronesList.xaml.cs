@@ -24,8 +24,6 @@ namespace PL
     {
         BlApi.IBL BL;
 
-        //private ObservableCollection<BO.DroneToList> drones = new ObservableCollection<BO.DroneToList>();
-
         public delegate void DronePage(int id);
         public event DronePage AddClik;
         public event DronePage DoubleClik;
@@ -39,22 +37,12 @@ namespace PL
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
             DronesListView.DataContext = global::Model.Model.drones;
-            //InitializeList();
-
+           
             StatusSelector.ItemsSource = Enum.GetValues(typeof(BO.DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
         }
 
-        /// <summary>
-        /// initialize observable list
-        /// </summary>
-        //private void InitializeList()
-        //{
-        //    foreach (var Drone in PL.GetDroneList())
-        //    {
-        //        drones.Add(Drone);
-        //    }
-        //}
+        
 
         /// <summary>
         /// open drone page of drone selected from the Drone list 
@@ -94,7 +82,6 @@ namespace PL
                 d.DroneLocation = item.DroneLocation;
                 global::Model.Model.drones.Add(d);
             }
-            //InitializeList();
             Show_Drones(this, new RoutedEventArgs()); //after filter
 
         }
@@ -263,36 +250,6 @@ namespace PL
         }
 
        
-
- 
-
-        /// <summary>
-        /// func that refresh the list 
-        /// </summary>
-        /// <param name="t"></param>
-        //public void RefreshList(int t)
-        //{
-        //    var d = PL.GetDroneList();
-        //    drones.Clear();
-        //    foreach (var drone in d) drones.Add(drone);
-        //    Show_Drones(this, new RoutedEventArgs());
-        //    RefreshListView(this, EventArgs.Empty);
-        //}
-
-
-
-        ///// <summary>
-        ///// Closes the drone list window
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void ExitButton(object sender, RoutedEventArgs e)
-        //{
-        //    this.NavigationService.GoBack();
-
-        //    ////////********************************************************
-
-        //}
 
 
     }
