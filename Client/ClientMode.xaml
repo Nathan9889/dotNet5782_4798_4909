@@ -149,7 +149,7 @@
                     <Binding Converter="{StaticResource TrueIfStatusPickedUp}" ElementName="Client_Packages_receive" Mode="OneWay" Path="SelectedItem"/>
                 </Button.IsEnabled>
             </Button>
-            <Label Content="Hello" HorizontalAlignment="Left" Margin="179,0,0,0" VerticalAlignment="Center" Width="83" Foreground="#FF2E6DC7" FontFamily="Algerian" FontSize="24" FontWeight="Normal" RenderTransformOrigin="0.867,0.504"/>
+            <Label Content="Hello" HorizontalAlignment="Left" Margin="179,0,0,0" VerticalAlignment="Center" Width="83" Foreground="#FF2E6DC7" FontFamily="Georgia" FontSize="24" FontWeight="Normal" RenderTransformOrigin="0.867,0.504"/>
             <Label Name="ClientName" HorizontalAlignment="Left" VerticalAlignment="Center" Width="236" Foreground="#FF2E6DC7" FontFamily="Algerian" FontSize="24" FontWeight="Normal" Height="41" Grid.Column="1"/>
             <Button x:Name="Exit"  HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="66" FontSize="13" Height="41" RenderTransformOrigin="0.5,0.5">
                 <Button.Resources>

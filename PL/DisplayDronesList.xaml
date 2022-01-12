@@ -119,7 +119,13 @@
 
 
         </Grid>
-        <Button Name="reset" Content="Reset Filter" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="71" Height="21" Click="Reset_Button_Click" Grid.Row="1" Margin="0,10,697,0" />
+        <Button Name="reset" Content="Reset Filter" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="73" Height="22" Click="Reset_Button_Click" Grid.Row="1" Margin="0,5,697,0">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="5" />
+                </Style>
+            </Button.Resources>
+        </Button>
 
 
 
