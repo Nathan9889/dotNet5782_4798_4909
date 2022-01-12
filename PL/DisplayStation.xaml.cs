@@ -22,10 +22,7 @@ namespace PL
     /// </summary>
     public partial class DisplayStation : Page
     {
-
-        private Model.PL pL;
-
-        //Station Station = new Station();
+        private BlApi.IBL bL;
 
         public delegate void Navigation(int id);
         public event Navigation DronePage;
@@ -37,15 +34,14 @@ namespace PL
         public DisplayStation()
         {
             InitializeComponent();
-            this.pL = new Model.PL();
+            bL = BlApi.BlFactory.GetBL();
             Model.Model.Station = new Station();
             Model.Model.Station.station = new BO.Station();
             Model.Model.Station.station.StationLocation = new BO.Location();
 
-            MainGrid.DataContext = Model.Model.Station; 
+            MainGrid.DataContext = Model.Model.Station;
 
-            //Station.station = new BO.Station();
-            //Station.station.StationLocation = new BO.Location();
+            Model.Model.Station.station.StationLocation = new BO.Location();
             Mode.IsChecked = true;   //for visibility of some buttons
 
         }
@@ -56,8 +52,8 @@ namespace PL
         /// <param name="id"></param>
         public DisplayStation(int id)
         {
-            this.pL = new Model.PL();
-            Model.Model.Station.station = pL.GetStation(id);
+            bL = BlApi.BlFactory.GetBL();
+            Model.Model.Station.station = bL.DisplayStation(id);
             InitializeComponent();
 
             MainGrid.DataContext = Model.Model.Station;
@@ -74,9 +70,9 @@ namespace PL
         {
             try
             {
-                pL.UpdateStationName(Model.Model.Station.station.ID, NameInput.Text);
+                bL.UpdateStationName(Model.Model.Station.station.ID, NameInput.Text);
                 MessageBox.Show($"Name have been changed to {NameInput.Text} !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Model.Model.Station.station = pL.GetStation(Model.Model.Station.station.ID); //update the list
+                Model.Model.Station.station = bL.DisplayStation(Model.Model.Station.station.ID); //update the list
                 Model.Model.stations.First(s => s.ID == Model.Model.Station.station.ID).Name = NameInput.Text;
             }
             catch (Exception ex)
@@ -95,9 +91,9 @@ namespace PL
             try
             {
                 int result = Int32.Parse(Charge_slot_input.Text);
-                pL.UpdateSlotNumber(Model.Model.Station.station.ID, result);
+                bL.UpdateStationNumCharge(Model.Model.Station.station.ID, result);
                 MessageBox.Show($" Number of Charge slot have been updated !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Model.Model.Station.station = pL.GetStation(Model.Model.Station.station.ID);  //update the list
+                Model.Model.Station.station = bL.DisplayStation(Model.Model.Station.station.ID);  //update the list
                 Model.Model.stations.First(s => s.ID == Model.Model.Station.station.ID).AvailableChargingSlots = result - Model.Model.stations.First(s => s.ID == Model.Model.Station.station.ID).BusyChargingSlots;
             }
             catch (Exception ex)
@@ -116,8 +112,7 @@ namespace PL
         {
             try
             {
-                pL.AddStation(Model.Model.Station.station);
-                //if (Back != null) Back(-1);
+                bL.AddStation(Model.Model.Station.station);
                 MessageBox.Show($"The station was successfully added", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.NavigationService.GoBack();
 

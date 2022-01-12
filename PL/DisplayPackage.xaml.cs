@@ -23,12 +23,9 @@ namespace PL
     public partial class DisplayPackage : Page
     {
 
-        private Model.PL pL;
         private BlApi.IBL bL;
-        //Package Package = new Package();
 
         public delegate void Navigation(int id);
-        //public event Navigation Back; //Event Back to Previous Page (For List Refresh)
         public event Navigation ClientPage; //New page opening event from the current page
         public event Navigation DronePage; //New page opening event from the current page
 
@@ -36,13 +33,12 @@ namespace PL
         {
             InitializeComponent();
             bL = BlApi.BlFactory.GetBL();
-            this.pL = new Model.PL();
             Model.Model.Package = new Package();
             MainGrid.DataContext = Model.Model.Package;
             Package_Priority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
             Package_Weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
-            ClientsList.ItemsSource = pL.getClientList();
-            ClientsList2.ItemsSource = pL.getClientList();
+            ClientsList.ItemsSource = bL.DisplayClientList();
+            ClientsList2.ItemsSource = bL.DisplayClientList();
 
             Model.Model.Package.package = new BO.Package();
 
@@ -54,8 +50,8 @@ namespace PL
         /// <param name="id">ID of package</param>
         public DisplayPackage(int id)
         {
-            this.pL = new Model.PL();
-            Model.Model.Package.package = pL.GetPackage(id);
+            bL = BlApi.BlFactory.GetBL();
+            Model.Model.Package.package = bL.DisplayPackage(id);
             InitializeComponent();
 
             if (Model.Model.Package.package.Associated == null) Model.Model.Package.package.DroneOfPackage = new BO.DroneOfPackage();
@@ -74,7 +70,7 @@ namespace PL
         {
             try
             {
-                pL.DeletePackage(Model.Model.Package.package.ID);
+                bL.DeletePackage(Model.Model.Package.package.ID);
                 //if (Back != null) Back(-1);
                 MessageBox.Show($"The package has been deleted !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Model.Model.packages.Remove(Model.Model.packages.First(p => p.Id == Model.Model.Package.package.ID));
@@ -128,9 +124,9 @@ namespace PL
         {
             try
             {
-                pL.PickUpPackage(Model.Model.Package.package.DroneOfPackage.Id);
+                bL.PickedUpByDrone(Model.Model.Package.package.DroneOfPackage.Id);
                 MessageBox.Show($"The package has been collected !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Model.Model.Package.package = pL.GetPackage(Model.Model.Package.package.ID);
+                Model.Model.Package.package = bL.DisplayPackage(Model.Model.Package.package.ID);
 
                 Model.Model.packages.First(p => p.Id == Model.Model.Package.package.ID).Status = BO.PackageStatus.PickedUp;
             }
@@ -150,9 +146,9 @@ namespace PL
         {
             try
             {
-                pL.DeliveredToClient(Model.Model.Package.package.DroneOfPackage.Id);
+                bL.DeliveredToClient(Model.Model.Package.package.DroneOfPackage.Id);
                 MessageBox.Show($"The package was delivered to the Client !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Model.Model.Package.package = pL.GetPackage(Model.Model.Package.package.ID);
+                Model.Model.Package.package = bL.DisplayPackage(Model.Model.Package.package.ID);
 
                 Model.Model.packages.First(p => p.Id == Model.Model.Package.package.ID).Status = BO.PackageStatus.Delivered;
             }
