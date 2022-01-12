@@ -9,57 +9,6 @@ using System.Timers;
 
 namespace Model
 {
-    public partial class PL
-    {
-        BlApi.IBL BL;
-
-       
-
-        public PL()
-        {
-            this.BL = BlApi.BlFactory.GetBL();
-            
-            //stations = BL.DisplayStationList();
-            //clients = BL.DisplayClientList();
-        }
-
-        public IEnumerable<BO.PackageToList> getPackageList()
-        {
-            return BL.DisplayPackageList();
-        }
-
-        public BO.Package GetPackage(int id)
-        {
-            
-            return BL.DisplayPackage(id);
-           
-        }
-
-        public void DeletePackage(int id)
-        {
-            BL.DeletePackage(id);
-        }
-
-        public void PickUpPackage(int id)
-        {
-            BL.PickedUpByDrone(id);
-        }
-
-        public void DeliveredToClient(int id)
-        {
-            BL.DeliveredToClient(id);
-        }
-
-        public void AddPackage(BO.Package package)
-        {
-            BL.AddPackage(package);
-           
-        }
-
-
-
-    }
-
 
     public static class CopyProperties
     {

@@ -72,7 +72,7 @@ namespace PL
             {
                 bL.UpdateStationName(Model.Model.Station.station.ID, NameInput.Text);
                 MessageBox.Show($"Name have been changed to {NameInput.Text} !", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                Model.Model.Station.station = bL.DisplayStation(Model.Model.Station.station.ID); //update the list
+                Model.Model.Station.station = bL.DisplayStation(Model.Model.Station.station.ID); 
                 Model.Model.stations.First(s => s.ID == Model.Model.Station.station.ID).Name = NameInput.Text;
             }
             catch (Exception ex)

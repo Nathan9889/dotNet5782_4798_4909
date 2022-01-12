@@ -186,11 +186,17 @@ namespace PL
         /// <param name="e"></param>
         private void ClientsListButton_Click(object sender, RoutedEventArgs e)
         {
-
-            DisplayClientsList page = new DisplayClientsList();
-            page.AddClik += AddClientPage;
-            page.DoubleClik += ClientDisplayPage;
-            this.Frame.Content = page;
+            try
+            {
+                DisplayClientsList page = new DisplayClientsList();
+                page.AddClik += AddClientPage;
+                page.DoubleClik += ClientDisplayPage;
+                this.Frame.Content = page;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         /// <summary>
@@ -200,11 +206,18 @@ namespace PL
         /// <param name="e"></param>
         private void PackageListButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindowDisplay.Visibility = Visibility.Hidden;
-            DisplayPackagesList page = new DisplayPackagesList();
-            page.AddClik += AddPackagePage;
-            page.DoubleClik += PackageDisplayPage;
-            this.Frame.Content = page;
+            try
+            {
+                MainWindowDisplay.Visibility = Visibility.Hidden;
+                DisplayPackagesList page = new DisplayPackagesList();
+                page.AddClik += AddPackagePage;
+                page.DoubleClik += PackageDisplayPage;
+                this.Frame.Content = page;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         /// <summary>
@@ -228,11 +241,18 @@ namespace PL
         /// <param name="e"></param>
         private void Drones_List_Click(object sender, RoutedEventArgs e)
         {
-            MainWindowDisplay.Visibility = Visibility.Hidden;
-            DisplayDronesList page = new DisplayDronesList();
-            page.AddClik += AddDronePage;
-            page.DoubleClik += DroneDisplayPage;
-            this.Frame.Content = page;
+            try
+            {
+                MainWindowDisplay.Visibility = Visibility.Hidden;
+                DisplayDronesList page = new DisplayDronesList();
+                page.AddClik += AddDronePage;
+                page.DoubleClik += DroneDisplayPage;
+                this.Frame.Content = page;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
 

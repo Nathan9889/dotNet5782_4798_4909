@@ -23,9 +23,7 @@ namespace PL
     public partial class DisplayStationsList : Page
     {
         BlApi.IBL BL;
-        Model.PL PL;
         
-        //private ObservableCollection<BO.StationToList> stations = new ObservableCollection<BO.StationToList>();
         public delegate void StationPage(int id);
         public event StationPage AddClik;
         public event StationPage DoubleClik;
@@ -38,23 +36,11 @@ namespace PL
         {
             InitializeComponent();
             this.BL = BlApi.BlFactory.GetBL();
-            this.PL = new Model.PL();
             StationsListView.DataContext = Model.Model.stations;
 
-
-           // InitializeList();
         }
 
-        ///// <summary>
-        ///// func that initialize observable  list
-        ///// </summary>
-        //void InitializeList()
-        //{
-        //    foreach (var station in PL.GetStationList())
-        //    {
-        //        stations.Add(station);
-        //    }
-        //}
+
 
         /// <summary>
         /// open station page of selected station
@@ -139,16 +125,5 @@ namespace PL
 
         }
 
-        /// <summary>
-        /// Refresh the list of stations from changes
-        /// </summary>
-        /// <param name="x"></param>
-        //public void RefreshList(int x)
-        //{
-        //    var p = PL.GetStationList();
-        //    stations.Clear();
-        //    foreach (var station in p) stations.Add(station);
-        //    Show_Stations(this, new RoutedEventArgs());
-        //}
     }
 }
