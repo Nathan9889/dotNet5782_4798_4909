@@ -43,7 +43,7 @@ namespace DalObject
             internal static double PowerLightDrone = 2;
             internal static double PowerMediumDrone = 3;
             internal static double PowerHeavyDrone = 4;
-            public static double ChargeRate = 100;
+            public static double ChargeRate = 5;
 
         }
 
