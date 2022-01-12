@@ -280,6 +280,10 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// Delete Package
+        /// </summary>
+        /// <param name="ID"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeletePackage(int ID)
         {
@@ -346,6 +350,11 @@ namespace BL
             return packagesWithoutDrone;
         }
 
+        /// <summary>
+        /// List of packages grouped by receiving customer
+        /// </summary>
+        /// <param name="ClientId"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<PackageToList> GetPackagesSentToSpecificClient(int ClientId)
         {
@@ -355,6 +364,11 @@ namespace BL
             return PackagesSent;
         }
 
+        /// <summary>
+        /// List of packages grouped by sending customer
+        /// </summary>
+        /// <param name="ClientId"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<PackageToList> GetPackagesSentBySpecificClient(int ClientId)
         {
@@ -364,6 +378,12 @@ namespace BL
             return PackagesSent;
         }
 
+        /// <summary>
+        /// List of packages grouped by date
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<PackageToList> GetPackageFilterByDate(DateTime from, DateTime to)
         {
@@ -393,12 +413,20 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// A function that returns a grouped list of packages of a sender customer
+        /// </summary>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<IGrouping<string,PackageToList>> PackagesGroupingSender()
         {
             return DisplayPackageList().GroupBy(p => p.Sender);
         }
 
+        /// <summary>
+        /// A function that returns a grouped list of packages of a receiving customer
+        /// </summary>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<IGrouping<string, PackageToList>> PackagesGroupingReceiver()
         {

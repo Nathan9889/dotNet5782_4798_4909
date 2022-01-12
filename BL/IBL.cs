@@ -64,8 +64,6 @@ namespace BlApi
 
 
 
-
-
         /// <summary>
         /// The function gets the drone number and the time it was charging and takes the drone out of charge
         /// </summary>
@@ -201,29 +199,103 @@ namespace BlApi
         /// <returns> Client List </returns>
         IEnumerable<ClientToList> DisplayClientList();
 
+        /// <summary>
+        /// List of packages grouped by date
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
         IEnumerable<PackageToList> GetPackageFilterByDate(DateTime from, DateTime to);
 
+        /// <summary>
+        /// Returns a filtered list of drones
+        /// </summary>
+        /// <param name="match"></param>
+        /// <returns></returns>
         IEnumerable<DroneToList> DisplayDroneListFilter(Predicate<DroneToList> match);
 
+
+        /// <summary>
+        /// A function that returns a grouped list of packages of a receiving customer
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<IGrouping<string, PackageToList>> PackagesGroupingReceiver();
+
+
+        /// <summary>
+        /// A function that returns a grouped list of packages of a sender customer
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<IGrouping<string, PackageToList>> PackagesGroupingSender();
+
+        /// <summary>
+        /// Returns a grouped list of stations with free slots
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<IGrouping<int, StationToList>> GroupStationByNumSlots();
+
+        /// <summary>
+        /// grouping function to group by status
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<IGrouping<DroneStatus, DroneToList>> DroneGroupbyStatus();
 
-        IEnumerable<PackageToList> GetPackagesSentBySpecificClient(int ClientId);
-        IEnumerable<PackageToList> GetPackagesSentToSpecificClient(int ClientId);
-        void DeleteDrone(int id);
-        void DeletePackage(int ID);
-        void DeleteStation(int ID);
-        void DeleteClient(int ID);
 
+        /// <summary>
+        /// List of packages grouped by sending customer
+        /// </summary>
+        /// <param name="ClientId"></param>
+        /// <returns></returns>
+        IEnumerable<PackageToList> GetPackagesSentBySpecificClient(int ClientId);
+
+
+        /// <summary>
+        /// List of packages grouped by receiving customer
+        /// </summary>
+        /// <param name="ClientId"></param>
+        /// <returns></returns>
+        IEnumerable<PackageToList> GetPackagesSentToSpecificClient(int ClientId);
+
+
+        /// <summary>
+        /// Delete Package
+        /// </summary>
+        /// <param name="ID"></param>
+        void DeletePackage(int ID);
+
+        /// <summary>
+        /// Simulator operation function
+        /// </summary>
+        /// <param name="id">id of drone</param>
+        /// <param name="action"></param>
+        /// <param name="stop"></param>
         void StartSimulator(int id, Action<string,int> action, Func<bool> stop);
-        void updateDroneBattery(int id, DateTime? start, int indexDroneToList = -1);
-    
+
+
+        /// <summary>
+        /// Get PackageToList
+        /// </summary>
+        /// <param name="id">id of package</param>
+        /// <returns></returns>
         PackageToList GetPackageToList(int id);
+
+
+        /// <summary>
+        /// Get ClientToList
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         ClientToList GetClientToList(int id);
+
+
+        /// <summary>
+        /// Returns the station where the drone is loaded
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         BO.Station GetStationWithDrones(int id);
-        //Exit
+
+       
 
 
 

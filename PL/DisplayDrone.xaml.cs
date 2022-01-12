@@ -25,7 +25,7 @@ namespace PL
     {
         private BlApi.IBL bl;
         Drone Drone = new Drone();
-        internal BackgroundWorker backgroundWorker;
+        BackgroundWorker backgroundWorker;
         private Random random = new Random();
 
         public delegate void Navigation(int id);
@@ -283,6 +283,11 @@ namespace PL
             this.NavigationService.GoBack();
         }
 
+        /// <summary>
+        /// Running the simulator
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Simulator_Click(object sender, RoutedEventArgs e)
         {
             if (backgroundWorker.IsBusy != true)
@@ -292,19 +297,35 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Simulator stop button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Cancellation_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show($"Cancelling Simulator Mode, Please Wait", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            backgroundWorker.CancelAsync();
-            
+            if(backgroundWorker.IsBusy)
+            {
+                MessageBox.Show($"Cancelling Simulator Mode, Please Wait", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                backgroundWorker.CancelAsync();
+            }
         }
 
-
+        /// <summary>
+        /// Check function to see if the simulator has stopped
+        /// </summary>
+        /// <returns></returns>
         bool stop()
         {
             return backgroundWorker.CancellationPending;
         }
 
+
+        /// <summary>
+        /// The update function of the display by the simulator
+        /// </summary>
+        /// <param name="update"></param>
+        /// <param name="id"></param>
         void update(string update, int id)
         {
             Drone.drone = bl.DisplayDrone(Drone.drone.ID);
@@ -373,17 +394,35 @@ namespace PL
             
         }
 
+        /// <summary>
+        /// The operation function of the simulator
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Simulator_DoWork(object sender, DoWorkEventArgs e)
         {
             bl.StartSimulator(Drone.drone.ID, update, stop);
         }
 
+        /// <summary>
+        /// Function registered for the simulation event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Simulator_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             simulator.IsChecked = false;
         }
 
 
+
+
+
+        /// <summary>
+        /// A function that adds packages randomly. The function is called if the packages ran out during the simulator
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void addPackages(object sender, ProgressChangedEventArgs e)
         {
             IEnumerable<BO.ClientToList> clients = bl.DisplayClientList();

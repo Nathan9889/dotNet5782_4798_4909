@@ -185,7 +185,12 @@ namespace BL
         }
 
 
-
+        /// <summary>
+        /// Function for updating the battery when the drone is charging - for simulator 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="start"></param>
+        /// <param name="indexDroneToList"></param>
         internal void updateDroneBattery(int id, DateTime? start ,int indexDroneToList = -1)
         {
             if (start == null) start = dal.droneChargesList().First(x => x.DroneId == id).ChargingStartTime;
@@ -244,26 +249,6 @@ namespace BL
             }
         }
 
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteDrone(int ID)
-        {
-            if (!DisplayDroneList().Any(p => p.ID == ID)) throw new Exceptions.CantDelete(ID, "ID To Delete Not Found");
-           
-            try
-            {
-                lock (dal)
-                {
-                    dal.DeleteDrone(ID);
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exceptions.IDException("ID To Delete Not Found", ex, ID);
-            }
-
-        }
 
 
         /// <summary>
@@ -447,21 +432,6 @@ namespace BL
             return drone;
         }
 
-        ///// <summary>
-        ///// function calculate Location of a drone after 1 second of flying (speed is 1Km per second)
-        ///// </summary>
-        //internal void UpdateDroneLocation(int id, double lonPlus, double latPlus)
-        //{
-
-        //    DroneToList droneToList = DroneList.Find(d => d.ID == id);
-
-        //    droneToList.DroneLocation.Latitude += latPlus;
-        //    droneToList.DroneLocation.Longitude += lonPlus;
-
-
-        //}
-
-
 
 
         /// <summary>
@@ -475,6 +445,11 @@ namespace BL
             return drones;
         }
 
+        /// <summary>
+        /// Returns a filtered list of drones
+        /// </summary>
+        /// <param name="match"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> DisplayDroneListFilter(Predicate<DroneToList> match)
         {
@@ -482,6 +457,11 @@ namespace BL
             return drones;
         }
 
+        /// <summary>
+        /// Get PackageToList
+        /// </summary>
+        /// <param name="id">id of package</param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public PackageToList GetPackageToList(int id)
         {
@@ -567,13 +547,24 @@ namespace BL
         }
 
 
-
+        /// <summary>
+        /// Simulator operation function
+        /// </summary>
+        /// <param name="id">id of drone</param>
+        /// <param name="action"></param>
+        /// <param name="stop"></param>
         public void StartSimulator(int id, Action<string,int> action, Func<bool> stop)
         {
             Simulator simulator = new Simulator(this, id, action, stop);
         }
 
 
+        /// <summary>
+        /// Function for updating location from the drone - for the simulator
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="lonPlus"></param>
+        /// <param name="latPlus"></param>
         internal void UpdateDroneLocation(int id, double lonPlus, double latPlus)
         {
 
@@ -583,6 +574,11 @@ namespace BL
             droneToList.DroneLocation.Longitude += lonPlus;
         }
 
+        /// <summary>
+        /// Function for reducing the battery from the drone - for the simulator
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="LessBattery"></param>
         internal void UpdateLessBattery(int id, double LessBattery)
         {
 

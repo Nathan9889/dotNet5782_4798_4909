@@ -224,9 +224,14 @@ namespace PL
         /// <param name="id"></param>
         private void DroneDisplayPageFromPackage(int id)
         {
-            var page = new DisplayDrone(id);
-            page.PackagePage += PackageDisplayFromDrone; // Registration for the event Opening a package page from a drone page
-            this.Frame.Content = page;
+            if (Model.Model.drones.First(d => d.ID == id).DronePage == null) // If this drone has been opened before, then the old page will open, this is so that it will be possible to stop the background Worker
+            {
+                var page = new DisplayDrone(id);
+                page.PackagePage += PackageDisplayFromDrone; // Registration for the event Opening a package page from a drone page
+                this.Frame.Content = page;
+                Model.Model.drones.First(d => d.ID == id).DronePage = page;
+            }
+            else this.Frame.Content = Model.Model.drones.First(d => d.ID == id).DronePage;
         }
 
         /// <summary>
@@ -235,7 +240,13 @@ namespace PL
         /// <param name="id"></param>
         private void DroneDiplayFromStation(int id)
         {
-            this.Frame.Content = new DisplayDrone(id);
+            if (Model.Model.drones.First(d => d.ID == id).DronePage == null) // If this drone has been opened before, then the old page will open, this is so that it will be possible to stop the background Worker
+            {
+                var droneDisplayPage = new DisplayDrone(id);
+                this.Frame.Content = droneDisplayPage;
+                Model.Model.drones.First(d => d.ID == id).DronePage = droneDisplayPage;
+            }
+            else this.Frame.Content = Model.Model.drones.First(d => d.ID == id).DronePage;
         }
 
         /// <summary>
