@@ -127,7 +127,11 @@ namespace PL
         }
 
 
-
+        /// <summary>
+        /// output filtered list 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FilterdList(object sender, SelectionChangedEventArgs e = null) // Updates the list according to the requested filter
         {
             IEnumerable<BO.PackageToList> filtered ;

@@ -91,7 +91,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
 
-            <Button Content="Add New Client" Grid.Column="0" Click="Add_New_Client" Margin="5,5,5,5" Background="#FF11D86F"/>
+            <Button Content="Add New Client" Grid.Column="0" Click="Add_New_Client" Margin="5,5,5,5" Background="#FF11D86F" Cursor="Hand"/>
 
         </Grid>
         
