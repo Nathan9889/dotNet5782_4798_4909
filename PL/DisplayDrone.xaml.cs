@@ -26,7 +26,7 @@ namespace PL
         private Model.PL pL;
         private BlApi.IBL bl;
         Drone Drone = new Drone();
-        BackgroundWorker backgroundWorker;
+        internal BackgroundWorker backgroundWorker;
         private Random random = new Random();
 
         public delegate void Navigation(int id);
