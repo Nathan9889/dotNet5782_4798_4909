@@ -81,7 +81,7 @@ namespace PL
                 }
                 else if (Show_Open.IsChecked == true)
                 {
-                    var s = BL.GroupStationByNumSlots();  // לרשימה כדי שיהיה העתק . לפי הסדר כדי יחזור למקורי ואז ימיין
+                    var s = BL.GroupStationByNumSlots();  
                     var temp = new ObservableCollection<PO.StationToList>(Model.Model.stations);
                     Model.Model.stations.Clear();
 
@@ -120,10 +120,7 @@ namespace PL
             {
                 Model.Model.stations.Add((PO.StationToList)item.CopyPropertiesToNew(typeof(PO.StationToList)));
             }
-            //InitializeList();
             Show_Stations(this, new RoutedEventArgs()); 
-
         }
-
     }
 }

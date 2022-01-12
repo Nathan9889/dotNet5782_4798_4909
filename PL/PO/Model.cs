@@ -10,7 +10,7 @@ using BlApi;
 
 namespace Model
 {
-    public class Model
+    public class Model  //class used to use observable collection type for the list of object
     {
         BlApi.IBL bl;
 
@@ -36,7 +36,7 @@ namespace Model
             Package = new Package();
             Client = new Client();
 
-            foreach (var item in bl.DisplayStationList())
+            foreach (var item in bl.DisplayStationList())  //getting the list to the observable
             {
                 PO.StationToList s = (PO.StationToList)item.CopyPropertiesToNew(typeof(PO.StationToList));
                 stations.Add(s);

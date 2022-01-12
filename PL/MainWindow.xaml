@@ -9,46 +9,54 @@
     <Window.Resources>
         <local:ClickModeToVisible x:Key="ClickModeToVisible"></local:ClickModeToVisible>
     </Window.Resources>
-    
+
     <Grid >
         <Grid x:Name="MainWindowDisplay">
             <Grid.Background>
                 <ImageBrush/>
             </Grid.Background>
 
-            <Label Content="Welcome" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="200" FontSize="36" FontFamily="Lucida Calligraphy" Foreground="#FF08B7B3" Margin="0,98,0,0"/>
-            <Button x:Name="Manager_login" Content="Manager login" HorizontalAlignment="Center" Margin="0,194,0,0" VerticalAlignment="Top" Height="45" Width="247" Click="Manager_login_Click"  />
+            <Label Content="Welcome " HorizontalAlignment="Center"  VerticalAlignment="Top" Width="152" FontSize="30" FontFamily="Lucida Calligraphy" Foreground="#FF08B7B3" Margin="0,49,0,0"/>
+            <Button x:Name="Manager_login" Content=" Login" HorizontalAlignment="Center" VerticalAlignment="Top" Height="45" Width="204" Click="Manager_login_Click" Margin="0,309,0,0" Background="#FF1DE058">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="15" />
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Label Content="To Our" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="114" FontSize="24" FontFamily="Lucida Calligraphy" Foreground="#FF08B7B3" Margin="0,100,0,0"/>
+            <Label Content="Drone Shipping System" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="396" FontSize="30" FontFamily="Lucida Calligraphy" Foreground="#FF08B7B3" Margin="0,141,0,0"/>
         </Grid>
 
-        <Grid x:Name="Buttons_For_Lists" Height="60" VerticalAlignment="Top"  Visibility="{Binding ElementName=Manager_login, Path=ClickMode, Converter={StaticResource ClickModeToVisible}}" >
+        <Grid x:Name="Buttons_For_Lists" Height="60" VerticalAlignment="Top" Visibility="{Binding ElementName=Manager_login, Path=ClickMode, Converter={StaticResource ClickModeToVisible}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width ="*"></ColumnDefinition>
                 <ColumnDefinition Width ="*"></ColumnDefinition>
                 <ColumnDefinition Width ="*"></ColumnDefinition>
                 <ColumnDefinition Width ="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Content="Package List" Grid.Column="3" FontFamily="Aharoni" Click="PackageListButton_Click" Margin="0,0,0,30" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+            <Button Content="Package List" Grid.Column="3" FontFamily="Aharoni" Click="PackageListButton_Click" Margin="0,0,0,30" Background="#FFDA3659">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="20" />
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button Content="Drones List" FontFamily="Aharoni" Click=" Drones_List_Click" Height="30" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" >
+            <Button Content="Drones List" FontFamily="Aharoni" Click=" Drones_List_Click" Height="30" VerticalAlignment="Top" Background="#FF1CEBD8" >
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="20" />
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button Content="Clients List" Grid.Column="1" FontFamily="Aharoni" Click="ClientsListButton_Click" Margin="0,0,0,30" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+            <Button Content="Clients List" Grid.Column="1" FontFamily="Aharoni" Click="ClientsListButton_Click" Margin="0,0,0,30" Background="#FF65ED3A">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="20" />
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button x:Name="Stations" Content="StationsList" Grid.Column="2" FontFamily="Aharoni" Click="Stations_Click" Margin="0,0,0,30" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+            <Button x:Name="Stations" Content="StationsList" Grid.Column="2" FontFamily="Aharoni" Click="Stations_Click" Margin="0,0,0,30" Background="#FFF68727">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="20" />
