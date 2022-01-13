@@ -80,6 +80,7 @@ namespace BL
                                         {
                                             if(exe.Message == "There are no available charging stations at the nearest station" || ex.Message == "The drone can not reach the station, Not enough battery")
                                             Thread.Sleep(7*DELAY);
+                                            break;
                                         }
                                     }
                                     Thread.Sleep(DELAY);
